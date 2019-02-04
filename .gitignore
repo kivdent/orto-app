@@ -1,0 +1,6 @@
+puphpet/config-custom.yaml
+/puphpet/
+/phpmyadmin/
+/Vagrantfile
+/.vagrant/
+/pma/

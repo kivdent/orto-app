@@ -1,0 +1,5 @@
+Изменено:
+Files: 	pat_tooday_work.php
+	print.php
+Tables:	klinikpat(skidka)
+	Skidki(New id 0)	
