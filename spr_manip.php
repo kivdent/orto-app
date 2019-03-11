@@ -115,7 +115,7 @@ echo "
 			break;
 			case "2":
 				$query = "INSERT INTO manip (`id`, `manip`, `preysk`, `zapis`, `price`,`cat`, `UpId`,`koef`)
-							VALUES (NULL,'".$_GET['manip']."','".$_GET['preysk']."','".$_GET['zapis']."','".$_GET['price']."','0','".$_GET['UpId']."',,'".$_GET['koef']."')";
+							VALUES (NULL,'".$_GET['manip']."','".$_GET['preysk']."','".$_GET['zapis']."','".$_GET['price']."','0','".$_GET['UpId']."','".$_GET['koef']."')";
 				//echo $query."<br />";
 				$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 				msg('Манпуляция добавлена');

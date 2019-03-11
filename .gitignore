@@ -5,3 +5,6 @@ puphpet/config-custom.yaml
 /.vagrant/
 /pma/
 /nbproject/
+composer-setup.php
+composer.json
+/vendor/
