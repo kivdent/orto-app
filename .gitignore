@@ -4,3 +4,7 @@ puphpet/config-custom.yaml
 /Vagrantfile
 /.vagrant/
 /pma/
+composer-setup.php
+composer.json
+/vendor/
+
