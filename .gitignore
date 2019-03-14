@@ -6,4 +6,5 @@ puphpet/config-custom.yaml
 /pma/
 composer-setup.php
 /vendor/
+/nbproject/
 
