@@ -5,6 +5,5 @@ puphpet/config-custom.yaml
 /.vagrant/
 /pma/
 composer-setup.php
-composer.json
 /vendor/
 
