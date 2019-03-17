@@ -1,0 +1,5 @@
+1-dnev-1			manip_pr 		dnev	manip		kolvo
+2-zaknar-2		manip_zn	 		ZN		manip		kolvo
+3-schet_orto-3	manip_sh_orto 	SO		manip		kolvo
+4-SCH-orto
+5-schet_hyg

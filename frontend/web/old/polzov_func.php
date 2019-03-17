@@ -1,0 +1,183 @@
+<?php 
+function PolzForm()
+{
+echo "<form method='post' action='polz.php'>";
+echo "  <table width='600' border='1'>";
+echo "    <tr>";
+echo "      <td width='67'>&nbsp;</td>";
+echo "      <td width='100'>&nbsp;</td>";
+echo "      <td width='304'>&nbsp;</td>";
+echo "      <td width='101'>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>surname</strong></td>";
+echo "      <td>Фамилия</td>";
+echo "      <td><label>";
+echo "        <input type='text' name='surname' />";
+echo "      </label></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>name</strong></td>";
+echo "      <td>Имя</td>";
+echo "      <td><input type='text' name='name' /></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>otch</strong></td>";
+echo "      <td>Отчество</td>";
+echo "      <td><input type='text' name='otch' /></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>dr</strong></td>";
+echo "      <td>Дата рождения </td>";
+echo "      <td>День";
+echo "        <select name='drd'>";
+echo "          <option value='01' selected='selected'>1</option>";
+echo "          <option value='02'>2</option>";
+echo "          <option value='03'>3</option>";
+echo "          <option value='04'>4</option>";
+echo "          <option value='05'>5</option>";
+echo "          <option value='06'>6</option>";
+echo "          <option value='07'>7</option>";
+echo "          <option value='08'>8</option>";
+echo "          <option value='09'>9</option>";
+echo "          <option value='10'>10</option>";
+echo "          <option value='11'>11</option>";
+echo "          <option value='12'>12</option>";
+echo "          <option value='13'>13</option>";
+echo "          <option value='14'>14</option>";
+echo "          <option value='15'>15</option>";
+echo "          <option value='16'>16</option>";
+echo "          <option value='17'>17</option>";
+echo "          <option value='18'>18</option>";
+echo "          <option value='19'>19</option>";
+echo "          <option value='20'>20</option>";
+echo "          <option value='21'>21</option>";
+echo "          <option value='22'>22</option>";
+echo "          <option value='23'>23</option>";
+echo "          <option value='24'>24</option>";
+echo "          <option value='25'>25</option>";
+echo "          <option value='26'>26</option>";
+echo "          <option value='27'>27</option>";
+echo "          <option value='28'>28</option>";
+echo "          <option value='29'>29</option>";
+echo "          <option value='30'>30</option>";
+echo "          <option value='31'>31</option>";
+echo "                                        </select>";
+echo "       Месяц  ";
+echo "       <label>";
+echo "        <select name='drm' size='1'>";
+echo "          <option value='01'>Январь</option>";
+echo "          <option value='02'>Февраль</option>";
+echo "          <option value='03'>Март</option>";
+echo "          <option value='04'>Апрель</option>";
+echo "          <option value='05'>Май</option>";
+echo "          <option value='06'>Июнь</option>";
+echo "          <option value='07'>Июль</option>";
+echo "          <option value='08'>Август</option>";
+echo "          <option value='09'>Сентябрь</option>";
+echo "          <option value='10'>Октябрь</option>";
+echo "          <option value='11'>Ноябрь</option>";
+echo "          <option value='12'>Декабрь</option>";
+echo "        </select>";
+echo "      Год";
+echo "      <select name='dry'>";
+for ($i=1910; $i <2008; $i++)
+{
+echo "        <option value='".$i."'>".$i."</option>";
+}
+echo "      </select>";
+echo "      </label></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>sex</strong></td>";
+echo "      <td>Пол</td>";
+echo "      <td>";
+echo "        <select name='sex'>";
+echo "          <option value='Муж'>Муж</option>";
+echo "          <option value='Жен'>Жен</option>";
+echo "        </select></td>";
+
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>adres</strong></td>";
+echo "      <td>Адрес</td>";
+echo "      <td>";
+echo "        <textarea name='adres' cols='60' rows='4'></textarea></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>email</strong></td>";
+echo "      <td>E-mail</td>";
+echo "      <td><input type='text' name='email' /></td>";
+echo "     <td>&nbsp;</td>";
+echo "   </tr>";
+echo "    <tr>";
+echo "      <td><strong>DTel</strong></td>";
+echo "      <td>Дом телефон </td>";
+echo "      <td><input type='text' name='DTel' /></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "    <tr>";
+echo "      <td><strong>MTel</strong></td>";
+echo "      <td>Мобильный телефон </td>";
+echo "      <td><input type='text' name='MTel' /></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>Prim</strong></td>";
+echo "      <td>Должность</td>";
+echo "      <td><textarea name='Dolzh' cols='60' rows='4'></textarea></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "    <tr>";
+echo "      <td><strong>Prim</strong></td>";
+echo "      <td>Примечание</td>";
+echo "      <td><textarea name='Prim' cols='60' rows='4'></textarea></td>";
+echo "      <td>&nbsp;</td>";
+echo "    </tr>";
+echo "  </table>";
+echo "<input name='Save' type='submit' value='Сохранить' />";
+echo "<input type='submit' name='Cancel' value='Отменить' />";
+echo "<input value='Очистить'  type='reset'/>";
+echo "</form>";
+}
+//
+//
+//Отображение всех пациентов клиники
+function PolzShow()
+{
+$query = 'select id,surname,name,otch,dolzh from klinikpat';
+$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
+echo "<h3 align=center><strong>Пациенты клиники</strong></h3>";
+echo "<form action='PatWork.php' method=post name='patel'>";
+echo "<table width=100% border=1 cellspacing=1>";
+echo "<tr>";
+echo    "<td width=10%>&nbsp;</td>";
+echo    "<td width=30%>Фамилия</td>";
+echo    "<td wIDTH=25%>Имя</td>";
+echo    "<td wIDTH=25%>Отчество</td>";
+echo    "<td width=10%>Должность</td>";
+echo  "</tr>";
+for ($i=0; $i <$count; $i++)
+{
+$row = mysqli_fetch_array($result);
+echo "<tr>";
+echo    "<td width=10%><input value='".$row['id']."' name=\"element\" type=\"radio\">".$row['id']."</td>";
+echo    "<td width=28%>".$row['surname']."</td>";
+echo    "<td wIDTH=22%>".$row['name']."</td>";
+echo    "<td wIDTH=17%>".$row['otch']."</td>";
+echo    "<td width=8%>".$row['dolzh']."</td>";
+echo  "</tr>";
+}
+echo "</table>";
+echo "<input name=add type=submit value=Добавить сотрудника>";
+echo "<input name=del type=submit value=Удалить сотрудника>";
+echo "<input name=redact type=submit value=Изменить >";
+echo "</form>";
+}?>

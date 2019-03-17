@@ -1,0 +1,23 @@
+<?php
+$ThisVU="all";
+$ModName="Диагноз";
+$js="insert";
+include("header2.php");
+echo "<div class='head2'>Жалобы</div><textarea name='zh_1' id='zh'  cols='40'  rows='2'  dir='ltr' onfocus='selectContent( this, sql_box_locked, true)'></textarea>
+<div class='head2'>Варианты</div>";
+			$query = "SELECT `zh`.`zh`, `zh`.`id`
+FROM zh
+ORDER BY `zh`.`zh` ASC";
+include("query.php");
+		if ($count>25) echo "<select id='tablefields' name='var_zh' size='1' multiple='multiple' ondblclick='insertValueQuery()' onMouseOver='document.card.var_zh.size=25' onmouseout='document.card.var_zh.size=1'>";
+      else echo "<select id='tablefields' name='var_zh' size='1' multiple='multiple' ondblclick= 'insertValueQuery()' onMouseOver='document.card.var_zh.size=".$count."' onmouseout='document.card.var_zh.size=1'>";
+		for ($i=0;$i<$count;$i++)
+		{
+			$row = mysql_fetch_array($result);
+			echo "<option value='".$row[zh]."'>".$row[zh]."</option>";
+		}
+ 
+		  echo "</select><br />
+<input type='button' name='insertzh' value='&lt;&lt;' onclick='insertValueQuery()' title='Вставить' />";
+include("footer2.php");
+?>
