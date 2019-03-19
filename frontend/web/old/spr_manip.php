@@ -2,7 +2,7 @@
 session_start();
 //Необходима Установка Cpmposer https://getcomposer.org/
 //Необходима установка PHP Spreadsheet https://phpspreadsheet.readthedocs.io/en/latest/
-require 'vendor/autoload.php';
+require '/var/www/orto/vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
