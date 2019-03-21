@@ -8,17 +8,18 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use backend\modules\user\models\CreateUserForm;
+use yii\helpers\ArrayHelper;
 
 /**
  * ManageController implements the CRUD actions for User model.
  */
-class ManageController extends Controller
-{
+class ManageController extends Controller {
+
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -30,17 +31,35 @@ class ManageController extends Controller
     }
 
     /**
+     * Updates password for User with $user->id=$id 
+     *  @return mixed
+     */
+    public function actionChangePassword($id) {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save(true, ['password_hash'])) {
+            Yii::$app->session->setFlash('success', 'Пароль изменён');
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            Yii::$app->session->setFlash('danger', 'Ошибка сервера');
+        }
+
+        return $this->render('update', [
+                    'model' => $model,
+        ]);
+    }
+
+    /**
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $dataProvider = new ActiveDataProvider([
             'query' => User::find(),
         ]);
 
         return $this->render('index', [
-            'dataProvider' => $dataProvider,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -50,10 +69,9 @@ class ManageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -62,16 +80,17 @@ class ManageController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
-        $model = new User();
-
+    public function actionCreate() {
+        $model = new CreateUserForm();
+        $roles = self::getRoles();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', 'Пользователь создан');
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [
-            'model' => $model,
+                    'model' => $model,
+                    'roles' => $roles,
         ]);
     }
 
@@ -82,16 +101,15 @@ class ManageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->updateUser()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+                    'model' => $model,
         ]);
     }
 
@@ -102,9 +120,32 @@ class ManageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+    /**
+     *  Inactivated an existing User model.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionInactivate($id) {
+        $this->findModel($id)->inactivate();
+
+        return $this->redirect(['index']);
+    }
+    /**
+     *  Inactivated an existing User model.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionActivate($id) {
+        $this->findModel($id)->activate();
 
         return $this->redirect(['index']);
     }
@@ -116,12 +157,16 @@ class ManageController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public static function getRoles() {
+        return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
+    }
+
 }

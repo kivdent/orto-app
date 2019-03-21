@@ -11,6 +11,9 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
+        'employe' => [
+            'class' => 'backend\modules\employe\Module',
+        ],
         'old_app' => [
             'class' => 'backend\modules\old_app\Module',
         ],
