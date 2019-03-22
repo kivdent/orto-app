@@ -82,6 +82,7 @@ class ManageController extends Controller {
      */
     public function actionCreate() {
         $model = new CreateUserForm();
+        $model->scenario= CreateUserForm::SCENARIO_CREATE;
         $roles = self::getRoles();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Пользователь создан');
@@ -102,14 +103,20 @@ class ManageController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id) {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->updateUser()) {
+        $user = $this->findModel($id);
+        $model=new CreateUserForm();
+         $model->scenario= CreateUserForm::SCENARIO_UPDATE;
+        
+        $model->attributes=$user->attributes;
+        $model->roles= ArrayHelper::getColumn($user->getRoles(), 'name');
+        $roles = self::getRoles();
+        if ($model->load(Yii::$app->request->post()) && $model->update()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
                     'model' => $model,
+                    'roles' => $roles,
         ]);
     }
 
@@ -134,7 +141,7 @@ class ManageController extends Controller {
      */
     public function actionInactivate($id) {
         $this->findModel($id)->inactivate();
-
+      
         return $this->redirect(['index']);
     }
     /**

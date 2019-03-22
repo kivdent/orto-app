@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
+use backend\models\User;
+
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
@@ -16,16 +18,21 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Обновить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?=
         Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Вы уверены што хотите удалить пользователя?',
+                'confirm' => 'Вы уверены, что хотите удалить пользователя?',
                 'method' => 'post',
             ],
         ])
         ?>
+        <?php if($model->status===User::STATUS_DELETED):?>
+        <?= Html::a('Активировать', ['activate', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php        else :?>
+         <?= Html::a('Заблокировать', ['inactivate', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php        endif;?>
     </p>
 
     <?=
@@ -34,14 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            
-            [
-                'attribute' => 'roles',
-                'format' => 'raw',
-                'value' => function($model) {
-                    return implode(ArrayHelper::getColumn($model->roles, 'description'));
-                }
-            ],
             [
                 'attribute' => 'employe_id',
                 'format' => 'raw',
@@ -49,7 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $user->employe_id ? $user->employe->getFullName() : 'Не указан';
                 }
             ],
-            'email:email',
+            [
+                'attribute' => 'roles',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return implode(ArrayHelper::getColumn($model->roles, 'description'));
+                }
+            ],
             [
                 'attribute' => 'status',
                 'format' => 'raw',

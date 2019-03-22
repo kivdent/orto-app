@@ -120,9 +120,12 @@ class User extends \yii\db\ActiveRecord {
         $this->status=self::STATUS_ACTIVE;
         return $this->save(false, ['status']);
     }
-    public function updateUser() {
-        $this->password_hash=$this->newPassword ? $this->setPassword($this->newPassword) : $this->password_hash;
-        
-        return $this->save(true,['username','email','password_hash','employe_id']);
+    /**
+     * Find user by id
+     * @return backend\models\User object
+     */
+    public static function getUserById($id) {
+        $user=self::findOne($id);
+        return $user ? $user : false;
     }
 }

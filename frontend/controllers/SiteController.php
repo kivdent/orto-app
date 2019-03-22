@@ -12,6 +12,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use frontend\modules\userInterface\models\Router;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -71,8 +73,12 @@ class SiteController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
-        return $this->render('index');
+    {   
+        
+       $route=Router::getDefaultRoute(Yii::$app->user->id);
+       print_r($route);
+      
+        return $this->redirect(Url::to($route));
     }
 
     /**

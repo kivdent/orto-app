@@ -3,7 +3,8 @@
 namespace frontend\modules\old_app;
 
 /**
- * old_app module definition class
+ * old_app 
+ * Модуль для интеграции старых фнкций
  */
 class Module extends \yii\base\Module
 {
