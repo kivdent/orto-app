@@ -1,0 +1,272 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of Salary
+ *
+ * @author kivde
+ */
+require_once 'SalaryCard.php';
+require_once 'PriceListTables.php';
+require_once 'PriceList.php';
+
+class Salary {
+    /*
+     * Получение таблицы данных с процентами
+     */
+
+    public static function getSalaryTableByPercent($reportingPeriod) {
+        $salaryCardsList = Salary::getSalaryCardsListWithSumms($reportingPeriod); //Получение карточек с Суммами
+        $salaryTable[0]['doctor'] = "Врач";
+        $salaryTable[0]['ortodontics'] = "Оплаты по схемам ортодонтии";
+        $priceLists = PriceList::getListOfPriceLists('all');
+        
+        $i = 1;
+        foreach ($salaryCardsList as $key => $salaryCard) {
+            
+            $salaryTable[$i]['doctor'] = $salaryCard->surname . " " . $salaryCard->name . " " . $salaryCard->patronymic;
+            $salaryTable[$i]['ortodontics'] = $salaryCard->sumFromPricelists['ortodontics'];
+            foreach ($priceLists as $priceListId => $priceList) {
+                if (isset($salaryCard->sumFromPricelists[$priceListId])) {
+                    $salaryTable[$i][$priceListId] = ($salaryCard->sumFromPricelists[$priceListId]*$reportingPeriod->uet)." (".$salaryCard->sumFromPricelists[$priceListId].")";
+                    $salaryTable[0][$priceListId] = $priceList->name;
+                }
+            }
+            $i++;
+        }
+       return $salaryTable;
+    }
+
+    public static function getSalaryCardsListWithSumms($reportingPeriod) {
+        $mysqlTablesPriceList = PriceListTables::getTableOfPriclists(); //MySql Таблицы прайлистов , считая архивные
+
+        $salaryCardsList = SalaryCard::getSalaryCardList();
+
+        $sqTables = include 'components/tables.php';
+
+        foreach ($mysqlTablesPriceList as $priceList) {//Цикл по таблицам всех манипуляций 
+            foreach ($salaryCardsList as &$salaryCard) {//Цикл по зарплатным картам
+                foreach ($sqTables as $table => $value) {//цикл по таблицам различных чеков
+                    $manip = 'manip' . $priceList['addition'];
+
+
+
+                    $query = "SELECT
+                        `" . $manip . "`.`preysk`,
+                         ROUND(sum(`" . $manip . "`.`koef`* manip_in_month.manip_count),2) as summ
+                    FROM
+                        `" . $manip . "`
+                    INNER JOIN(
+                        SELECT `" . $value['invoiceItems'] . "`.`kolvo` AS manip_count, `" . $value['invoiceItems'] . "`.`manip` as manip_id
+                        FROM
+                            `" . $value['invoiceItems'] . "`
+                        INNER JOIN(
+                            SELECT
+                                `" . $table . "`.`id` AS dnev_id
+                            FROM
+                                `" . $table . "`
+                            INNER JOIN(
+                                SELECT
+                                    `dnev`
+                                FROM
+                                    `oplata`
+                                WHERE
+                                    (
+                                        (`oplata`.`date` >='" . $reportingPeriod->start->format('Y-m-d') . "') AND(`oplata`.`date` <='" . $reportingPeriod->end->format('Y-m-d') . "')AND(`oplata`.`type`=" . $value['paymentType'] . ") 
+                                    )
+                                GROUP BY
+                                    `dnev`
+                            ) AS oplata_in_month
+                        ON
+                            `" . $table . "`.`id` = oplata_in_month.`dnev`
+                        WHERE
+                            (
+                                (`" . $table . "`.`vrach` = " . $salaryCard->id . ") "
+                            . "AND(`" . $table . "`.`date` >= '" . $priceList['start']->format('Y-m-d') . "') "
+                            . "AND(`" . $table . "`.`date` <='" . $priceList['end']->format('Y-m-d') . "') 
+                                AND(`" . $table . "`.`summ_k_opl` = `" . $table . "`.`summ_vnes`
+                                )
+                            )
+                        ) AS dnev_in_month
+                    ON
+                        `" . $value['invoiceItems'] . "`.`" . $value['compl'] . "` = dnev_in_month.dnev_id
+                    ) AS manip_in_month
+                    ON
+                        `" . $manip . "`.`id` = manip_in_month.manip_id
+                    GROUP BY `" . $manip . "`.`preysk`";
+                    
+                    
+                    $query = "SELECT
+                                     manip_table.`preysk`,
+                                    ROUND(SUM(manip_table.`koef` * count_manip),2) AS summ
+                                FROM
+                                     `" . $manip . "` AS manip_table
+                                INNER JOIN(
+                                    SELECT
+                                        manip_in_invoice_table.`kolvo` AS count_manip,
+                                        manip_in_invoice_table.`manip`,
+                                        worker_id,
+                                        worker_name,
+                                        invoice_id,
+                                        invoce_date,
+                                        patient_id,
+                                        patient_name,
+                                        last_payment_date,
+                                        payment_type_name
+                                    FROM
+                                         `" . $value['invoiceItems'] . "` AS manip_in_invoice_table
+                                    INNER JOIN(
+                                        SELECT
+                                            MAX(payment_table.`date`) AS last_payment_date,
+                                            payment_type.`vid` AS payment_type_name,
+                                            payment_table.`dnev` AS invoice_for_payment,
+                                            worker_id,
+                                            worker_name,
+                                            invoice_id,
+                                            invoce_date,
+                                            patient_id,
+                                            patient_name
+                                        FROM
+                                            `oplata` AS payment_table
+                                        INNER JOIN `opl_vid` AS payment_type
+                                        ON
+                                            payment_type.`id` = payment_table.`VidOpl`
+                                        INNER JOIN(
+                                            SELECT
+                                                invoice_table.`vrach` AS worker_id,
+                                                CONCAT_WS(
+                                                    ' ',
+                                                    `sotr`.`surname`,
+                                                    `sotr`.`name`,
+                                                    `sotr`.`otch`
+                                                ) AS worker_name,
+                                                invoice_table.`id` AS invoice_id,
+                                                invoice_table.`date` AS invoce_date,
+                                                invoice_table.`pat` AS patient_id,
+                                                CONCAT_WS(
+                                                    ' ',
+                                                    `klinikpat`.`surname`,
+                                                    `klinikpat`.`name`,
+                                                    `klinikpat`.`otch`
+                                                ) AS patient_name
+                                            FROM
+                                                `" . $table . "` AS invoice_table,
+                                                `sotr`,
+                                                `klinikpat`
+                                            WHERE(";
+                                                if (!empty($value['addition']))   {
+                                                    $query.="(invoice_table.".$value['addition'];
+                                                            
+                                                }
+                                                   $query.= "(invoice_table.`vrach` = " .$salaryCard->id . ") "
+                        . "AND(invoice_table.`date` >= '" . $priceList['start']->format('Y-m-d') . "') "
+                        . "AND(invoice_table.`date` <='" . $priceList['end']->format('Y-m-d') . "')  AND(
+                                                        invoice_table.`summ_k_opl` = invoice_table.`summ_vnes`
+                                                    ) AND(`sotr`.`id` = invoice_table.`vrach`) AND(
+                                                        `klinikpat`.`id` = invoice_table.`pat`
+                                                    )
+                                                )
+                                        ) AS invoice
+                                    ON
+                                        invoice.invoice_id = payment_table.`dnev`
+                                    WHERE
+                                        (
+                                            (
+                                                payment_table.`date` >= '" .  $reportingPeriod->start->format('Y-m-d') . "'
+                                            ) AND(
+                                                payment_table.`date` <=  '" .  $reportingPeriod->end->format('Y-m-d') . "'
+                                            )
+                                        )
+                                    GROUP BY
+                                        payment_table.`dnev`,
+                                        payment_type.`vid`
+                                    ) AS payment
+                                ON
+                                    payment.invoice_for_payment = manip_in_invoice_table.`" . $value['compl'] . "`
+                                ) AS manip_in_invoice
+                                ON
+                                    manip_table.`id` = manip_in_invoice.`manip`
+                                GROUP BY
+                                    manip_table.`preysk`";
+
+                    $result = Db::sqlQuery($query);
+                    while ($row = $result->fetch()) {
+                        if (isset($salaryCard->sumFromPricelists[$row['preysk']])) {
+                            $salaryCard->sumFromPricelists[$row['preysk']] += $row['summ'];
+                        } else {
+                            $salaryCard->sumFromPricelists[$row['preysk']] = $row['summ'];
+                            $salaryTable[0][$row['preysk']] = $priceLists[$row['preysk']]->name;
+                        }
+                    }
+                }
+            }
+        }
+        //Внесение сумм оплат за ортодонтию по схемам
+
+        foreach ($salaryCardsList as &$salaryCard) {//Цикл по зарплатным картам
+            $query = "SELECT
+                            SUM(`oplata`.`vnes`) AS summ
+                        FROM
+                            oplata,
+                            schet_orto
+                        WHERE
+                            (
+                                (`schet_orto`.`vrach` = " . $salaryCard->id . ") 
+                                AND(`oplata`.`date` >='" . $reportingPeriod->start->format('Y-m-d') . "') AND(`oplata`.`date` <='" . $reportingPeriod->end->format('Y-m-d') . "')
+                                AND(`oplata`.`dnev` = `schet_orto`.`id`) 
+                                AND(`schet_orto`.`sh_id` <> 0) AND(`oplata`.`type` = 3) 
+                                AND(`schet_orto`.`summ_k_opl` = `schet_orto`.`summ_vnes`)
+                            )";
+            $result = Db::sqlQuery($query);
+            while ($row = $result->fetch()) {
+                if (isset($salaryCard->sumFromPricelists['ortodontics'])) {
+                    $salaryCard->sumFromPricelists['ortodontics'] += $row['summ'];
+                } else {
+                    $salaryCard->sumFromPricelists['ortodontics'] = $row['summ'];
+                }
+            }
+
+            //Формирование таблицы выдчи
+        }
+
+        return $salaryCardsList;
+    }
+    public static function getSalarySummFromPaymentsByWorkerId($WorkerId,$reportingPeriod){
+       
+      
+        $sqTables = include 'components/tables.php';
+
+               $summ=0;
+                foreach ($sqTables as $table => $value) {//цикл по таблицам различных чеков
+                    $manip = 'manip' . $priceList['addition'];
+
+
+                  
+                    $query="SELECT
+                                    sum(`oplata`.`vnes`) as summ
+                                FROM
+                                    `oplata`,
+                                   `" . $table . "` AS invoice
+                                WHERE
+                                    (
+                                        (`oplata`.`date` >=  '" .  $reportingPeriod->start->format('Y-m-d') . "') "
+                            . "AND(`oplata`.`date` <='" .  $reportingPeriod->end->format('Y-m-d') . "') "
+                            . "AND (invoice.`id` = `oplata`.`dnev`) AND (invoice.`vrach` = '".$WorkerId."')
+                                    )";
+
+                    $result = Db::sqlQuery($query);
+                    $row=$result->fetch();
+                    $summ+=$row['summ'];
+                    
+                }
+         return $summ;
+        
+        
+    }
+
+}

@@ -74,11 +74,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {   
-        
+        if (Yii::$app->user->isGuest)
+        {
+             return $this->redirect(Url::to('/site/login'));
+        }
        $route=Router::getDefaultRoute(Yii::$app->user->id);
-       print_r($route);
-      
-        return $this->redirect(Url::to($route));
+       return $this->redirect(Url::to($route));
     }
 
     /**

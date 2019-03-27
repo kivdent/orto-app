@@ -1,10 +1,11 @@
 <?php
 
 namespace frontend\modules\old_app;
+use Yii;
 
 /**
  * old_app 
- * Модуль для интеграции старых фнкций
+ * Модуль для интеграции старых функций
  */
 class Module extends \yii\base\Module
 {
@@ -20,6 +21,6 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
+          Yii::configure($this, require __DIR__ . '/menu.php');
     }
 }

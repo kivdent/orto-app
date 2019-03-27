@@ -35,7 +35,8 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-
+           
+            $menuItems[] = '<li>'.Html::a('Основное приложение', 'http://orto.local',['class'=>'btn btn-link']).'</li>';
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
             } else {

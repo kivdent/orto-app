@@ -1,12 +1,8 @@
-<div class="old_app-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
+<?php 
+/*@var $file string*/
+/* @var $this yii\web\View */
+use frontend\modules\old_app\assets\OldAppAsset;
+error_reporting(0);//отключение показа всех ошибок
+OldAppAsset::register($this);
+
+require_once (Yii::getAlias('@frontend/modules/old_app/files/'.$file));

@@ -7,14 +7,18 @@
  */
 
 namespace frontend\controllers;
+
 use yii\web\Controller;
+
 /**
  * Description of OldController
  *
  * @author kivde
  */
 class OldController extends Controller {
+
     public function actionIndex($file) {
-        require_once '@frontend/web/old/'.$file;
+        require_once '@frontend/web/old/' . $file;
     }
+
 }
