@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Работа с расписанием"; 
-include("header.php");
+$this->title="Работа с расписанием"; 
+//include("header.php");
 echo "<div class='head1'>Полное расписание</div>";
 echo "<center><a href='naznach_pat.php' class='menu2'>Свободные часы</a></center>";
 echo "<hr width='100%' noshade='noshade' size='1'/>";
@@ -245,5 +245,5 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				echo " </tr></table>";
 				echo "<hr width='100%' noshade='noshade' size='1'/>";	
 			}		
-include("footer.php");
+//include("footer.php");
 ?>

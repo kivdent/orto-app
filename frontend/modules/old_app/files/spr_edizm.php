@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Еденицы измерения"; 
-include("header.php");
+$this->title="Еденицы измерения"; 
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -40,5 +40,5 @@ echo "<form action='spr_edizm.php' method='get' name='edizmf' id='edizmf'>
 					echo "</select>		     <br />
 <input name='del' type='submit'  value='Удалить' onclick=\"document.edizmf.action.value='del'\"/></center>
 		</form>";
-include("footer.php");
+//include("footer.php");
 ?>

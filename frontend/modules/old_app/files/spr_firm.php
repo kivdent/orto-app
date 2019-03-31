@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Реквизиты фирм";
-include("header.php");
+$this->title="Реквизиты фирм";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -116,7 +116,7 @@ switch ($_GET['action'])
 					<input name='action' type='hidden' value='add' />
 					<input name='step' type='hidden' value='2' />
 				</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -250,7 +250,7 @@ switch ($_GET['action'])
 					<input name='step' type='hidden' value='2' />
 				<input name='ok' type='submit'  value='Изменить'/>
 			</form>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		break;
 		case "2":
@@ -323,5 +323,5 @@ echo "</table>
 <input name='change' type='submit'  value='Изменить' onclick='document.firmf.action.value=\"change\"'/>
 <input name='del' type='submit'  value='Удалить' onclick='document.firmf.action.value=\"del\"'/>
 		</form>";
-include("footer.php");
+//include("footer.php");
 ?>

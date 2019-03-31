@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Назначение прав пользователей";
-include("header.php");
+$this->title="Назначение прав пользователей";
+//include("header.php");
 //                                           Добавление новой записи Действие
 if (isset($_POST['addOK']))
 {
@@ -53,5 +53,5 @@ echo "<br>";
 echo "<input name='add' type='submit' value='Добавить'/>";
 echo "<input name='del' type='submit' value='Удалить'/><br>";
 echo "</form>";
-include("footer.php");
+//include("footer.php");
 ?>

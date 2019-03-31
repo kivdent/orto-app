@@ -1,9 +1,9 @@
 <?php
 
 $ThisVU="administrator";
-$ModName="Справочник манипуляций";
+$this->title="Справочник манипуляций";
 $js="manip"; 
-include("header.php");
+//include("header.php");
 if (!($_GET['preysk']))
 {
 	$query = "SELECT `id` FROM `preysk`";
@@ -65,7 +65,7 @@ switch ($_GET['action'])
 			Запись в карте:
              <input type='text' name='zapis' id='zapis' value='".$rowA['zapis']."'/>              
              <input type='submit' name='ok' value='Изменить' />";
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	}
 	break;
@@ -137,5 +137,5 @@ $cm=0;
 		}
 		
 	}
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="buhg";
-$ModName="Начисление заработной платы";  
-include("header.php");
+$this->title="Начисление заработной платы";  
+//include("header.php");
 include("tables.php");
 $query = "SELECT `id`
 FROM `preysk`";
@@ -557,5 +557,5 @@ for ($i=0; $i<$count; $i++)
 	echo "</td></tr>";
 }
 echo "</table><br />";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,8 +1,8 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа спациентом";
+$this->title="Работа спациентом";
 $js="insert";
 include("header2.php");
 if (!(isset($_SESSION['proc_sk']))) $_SESSION['proc_sk']=0;
@@ -272,7 +272,7 @@ unset($_SESSION['proc_sk']);
 	unset($_SESSION['OsmID']);
 	unset($_SESSION['summ']);	
 
-					include("footer.php");
+					//include("footer.php");
 			exit;
 				}
 				else
@@ -615,7 +615,7 @@ echo "<a href='pr_opl_orto.php?type=vrach&step=4&id_shema=".$sh_id."&n=13&summ="
 					}
 		}
 					echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 
 		break;
@@ -976,7 +976,7 @@ unset($_SESSION['proc_sk']);
 	unset($_SESSION['OsmID']);
 	unset($_SESSION['summ']);	
 		unset($_SESSION['proc_sk']);
-					include("footer.php");
+					//include("footer.php");
 			exit;
 				}
 				else
@@ -1335,7 +1335,7 @@ if (!isset($_GET['skidka']))
 					}
 		
 					echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		break;
 
@@ -2078,7 +2078,7 @@ echo "                </table></td>
 ".stripslashes($row['text'])."</div><hr width='100%' noshade='noshade' size='1'/>";
 				}
 				echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			}
 		}
@@ -2393,7 +2393,7 @@ $result=sql_query($query,'orto',0);   $count=mysqli_num_rows($result);
 				echo "<input name='count' type='hidden' value='".($_GET['count']+1)."' />";
 			}
             echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 	exit;
 		}
 		else
@@ -2656,7 +2656,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 			}
 
 			echo "</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	break;
 	case "5":
@@ -2926,7 +2926,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='".$_SESSION
 include("footer2.php");
 ?> <?php
 $ThisVU="all";
-$ModName="Работа спациентом";
+$this->title="Работа спациентом";
 $js="insert";
 include("header2.php");
 	 switch ($_GET['action'])
@@ -3088,7 +3088,7 @@ include("header2.php");
 						echo "<input name='step' type='hidden' value='5' />";
 						echo "<input name='count' type='hidden' value='".($_GET['count'])."' />";
 					echo "</form>";
-					include("footer.php");
+					//include("footer.php");
 			exit;
 				}
 				else
@@ -3347,7 +3347,7 @@ include("header2.php");
 					}
 		
 					echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		break;
 		case "Sozd_SH":
@@ -3977,7 +3977,7 @@ echo "                </table></td>
 ".stripslashes($row['text'])."</div><hr width='100%' noshade='noshade' size='1'/>";
 				}
 				echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			}
 		}
@@ -4292,7 +4292,7 @@ $result=sql_query($query,'orto',0);   $count=mysqli_num_rows($result);
 				echo "<input name='count' type='hidden' value='".($_GET['count']+1)."' />";
 			}
             echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 	exit;
 		}
 		else
@@ -4535,7 +4535,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 			}
 
 			echo "</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	break;
 	case "5":

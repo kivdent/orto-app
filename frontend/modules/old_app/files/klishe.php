@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Клише для заполнения пункта объективно"; 
+$this->title="Клише для заполнения пункта объективно"; 
 
-include("header.php");switch ($_POST['action'])
+//include("header.php");switch ($_POST['action'])
 {
 	case "add":
 		$query = "INSERT INTO `klishe_obk` 
@@ -203,7 +203,7 @@ switch ($_GET['mod'])
 							<input name='nazv' type='text' id='nazv' size='25'><br>
 							<input name='' type='submit' value='Дальше>>'>
 						</form>";
-						include("footer.php");
+						//include("footer.php");
 						exit;
 					break;	
 					case "2":
@@ -237,7 +237,7 @@ switch ($_GET['mod'])
 							<input name='nazv' type='text' id='nazv'><br>
 							<input name='' type='submit' value='Дальше>>'>
 						</form>";
-						include("footer.php");
+						//include("footer.php");
 						exit;
 					break;
 					case "2":
@@ -286,7 +286,7 @@ VALUES (NULL, '".$_GET['nazv']."', '".$_GET['upID']."', '".$_GET['klass']."', '"
 							<input name='nazv' type='text' id='nazv' value='".$row['Nazv']."'><br>
 							<input name='' type='submit' value='Дальше>>'>
 						</form>";
-						include("footer.php");
+						//include("footer.php");
 						exit;
 					break;
 					case "2":
@@ -307,5 +307,5 @@ if ((!isset($_GET['klass'])) or ($_GET['action']=="ShowKlass") or ($_GET['mod']=
 {
 	ShowKlass();
 }			
-include("footer.php");
+//include("footer.php");
 ?>

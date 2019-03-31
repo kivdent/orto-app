@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Диспансеризация"; 
-include("header.php");
+$this->title="Диспансеризация"; 
+//include("header.php");
 $sotr=$_SESSION['UserID'];
 $month_name=array(1=>"Январь",
                                 2=>"Февраль",
@@ -165,5 +165,5 @@ WHERE
      echo "<span class='head2'>Ничего не найдено</span>";
          
  }
-include("footer.php");
+//include("footer.php");
 ?>

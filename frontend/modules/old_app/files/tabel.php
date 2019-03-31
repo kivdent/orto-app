@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Заполнение табеля";
-include("header.php");
+$this->title="Заполнение табеля";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "set_time":
@@ -14,7 +14,7 @@ switch ($_GET['action'])
 						location.href=url;
 						</script>
 					";
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 			case "2":
@@ -23,7 +23,7 @@ switch ($_GET['action'])
 				////echo $query;
 				$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				ret('tabel.php');
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 		}
@@ -38,7 +38,7 @@ switch ($_GET['action'])
 						location.href=url;
 						</script>
 					";
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 			case "2":
@@ -56,7 +56,7 @@ switch ($_GET['action'])
 				echo $query;
 				$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				ret('tabel.php');
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 		}
@@ -199,5 +199,5 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 		
 }
 echo "</table>";
-include("footer.php");		
+//include("footer.php");		
 ?>

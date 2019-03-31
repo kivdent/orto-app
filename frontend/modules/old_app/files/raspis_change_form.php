@@ -1,7 +1,7 @@
 <?php 
 $ThisVU="all";
-$ModName="Расписание на неделю";
-include("header.php"); 
+$this->title="Расписание на неделю";
+//include("header.php"); 
 $dn=array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
 $mn=array("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь","Октябрь","Ноябрь","Декабрь");
 if (date("w")==0) $day=7;
@@ -220,7 +220,7 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 					echo "<br />  
 						<input name='next' type='submit' value='назад'>
 						</form>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 				}
 				//Проверка на расписания
@@ -252,7 +252,7 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 						echo "<br />  
 							<input name='next' type='submit' value='назад'>
 							</form>";
-						include("footer.php");
+						//include("footer.php");
 						exit;
 				}
 				$query = "INSERT INTO `daypr` ( `id` , `vih` , `vrachID` , `date` ,`rabmestoID`,  `Nach` , `Okonch` , `TimePat` ) 
@@ -270,7 +270,7 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 				echo "<form action='raspis.php' method='post'>
 				<input name='' type='submit' value='OK' size=7/>
 				</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			}
 			//Основная форма передачи смены
@@ -369,7 +369,7 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 					echo "<form action='raspis.php' method='post'>
 					<input name='' type='submit' value='OK' size=7/>
 					</form>";
-					include("footer.php");
+					//include("footer.php");
 					exit;				
 				}
 				else
@@ -383,7 +383,7 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 					echo "<form action='raspis.php' method='post'>
 					<input name='' type='submit' value='OK' size=7/>
 					</form>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 				}
 			}
@@ -425,5 +425,5 @@ WHERE ((`raspis_pack`.`vrachID`='".$_GET['vrach']."') AND (`raspis_pack`.`DateD`
 	}
 	exit;
 }
-include("footer.php");
+//include("footer.php");
 ?>

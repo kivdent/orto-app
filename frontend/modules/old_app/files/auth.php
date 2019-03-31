@@ -20,8 +20,8 @@ if ($count > 0) {
     $_SESSION['user_prava'] = $row['UsarPrava'];
 }
 $ThisVU = "all";
-$ModName = "Вход в систему";
+$this->title = "Вход в систему";
 //ECHO $_SESSION['valid_user']." ".$ThisVU." ".$_SESSION['UserName'];
-include("header.php");
-include("footer.php");
+//include("header.php");
+//include("footer.php");
 ?>

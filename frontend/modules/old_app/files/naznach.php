@@ -1,11 +1,11 @@
 <?php 
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа с рсписанием";
+$this->title="Работа с рсписанием";
 $js="ShowPat"; 
 
-include("header.php");
+//include("header.php");
 
 //Отмена
 //if (($_SESSION['action']='naznezh') and (!(isset($_GET['IDN'])))) unset($_SESSION['action']);
@@ -618,5 +618,5 @@ WHERE ((`daypr`.`date` ='".date('Y-m-d',$_GET['nach'])."') AND (`daypr`.`vrachID
 	break;
 }
 
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Скидки"; 
-include("header.php");
+$this->title="Скидки"; 
+//include("header.php");
 ///$query = "SELECT `id`,`nach` , `okonch` 
 //FROM `fin-per` 
 //ORDER BY `id` DESC" ;
@@ -167,7 +167,7 @@ for ($i=0;$i<$dt_count;$i++)
  		 }
 		}
 echo "</table><br />";
-include("footer.php");
+//include("footer.php");
 exit;
 break;
 
@@ -225,7 +225,7 @@ switch ($_GET['action'])
 				echo "
 				Выдана карта №  ".$_GET['num']."
 				<br>Пациент ".$row[0]." ".$row[1]." ".$row[2];
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 		}
@@ -372,7 +372,7 @@ for ($i=0;$i<$dt_count;$i++)
  		 }
 		}
 echo "</table><br />";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 break;
 
@@ -404,12 +404,12 @@ ORDER BY `disc_cards`.`id`";
   </tr>"; 
 	}
 	echo "</table><br />";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 break;
 case "types":
 	
-	include("footer.php");
+	//include("footer.php");
 	exit;
 break;
 }

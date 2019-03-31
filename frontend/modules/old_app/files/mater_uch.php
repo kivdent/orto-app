@@ -1,9 +1,9 @@
 <?php
 
-$ModName="Материалы"; 
+$this->title="Материалы"; 
 $ThisVU="stms";
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "addmat":
@@ -61,7 +61,7 @@ ORDER BY `uch_mat_sootv`.`mater`";
 				{
 					echo "<div class=\"head1\">Нет материалов для контроля</div>
 					<input name=''type='button' value='Добавить материал в список' onclick='location.href=\"mater_uch.php?action=addmat&step=1\"'/>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 					
 				}
@@ -122,7 +122,7 @@ ORDER BY `uch_mat_sootv`.`mater`";
 				
 
 				echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "1":
@@ -178,7 +178,7 @@ ORDER BY `uch_mat_sootv`.`mater`";
 				}
 			 
 			echo "</TABLE>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -380,7 +380,7 @@ echo "</select><br />
 
 			echo "</TABLE>";
 			}
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 		}
@@ -521,7 +521,7 @@ echo "</select><br />
 <input name='action' type='hidden'  value='newuch'/>
 <input name='step' type='hidden'  value='2'/>
 <input name='' type='submit' /value='Сохранить'></form> ";
-include("footer.php");
+//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -678,7 +678,7 @@ echo "</select><br />
 <input name='save' type='submit' /value='Сохранить'>
 <input name='id' type='hidden' /value='".$_GET['id']."'>
 <input name='del' type='submit' /value='Удалить'></form> ";
-include("footer.php");
+//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -828,5 +828,5 @@ for ($i=0;$i<$count;$i++)
           echo "</table>
           <br />
 		</form>
-";include("footer.php");
+";//include("footer.php");
 ?>

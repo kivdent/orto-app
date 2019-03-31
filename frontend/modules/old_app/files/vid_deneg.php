@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="registrator";
-$ModName="Касса";  
-include("header.php");
+$this->title="Касса";  
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 //echo $query."<br />";
 $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
@@ -197,5 +197,5 @@ VALUES (NULL,'".$_GET['id']."','-1','".$_GET['sn']."','".$_GET['cel']."','".$_GE
 			ret("pr_opl.php");
 		break;
 	}
-include("footer.php");
+//include("footer.php");
 ?>

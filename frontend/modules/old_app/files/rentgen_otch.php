@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Рентгенология";
-include("header.php");
+$this->title="Рентгенология";
+//include("header.php");
 //switch ($_GET['action'])
 //{
 //	case "setAssist":
@@ -10,7 +10,7 @@ include("header.php");
 //		//////echo $query."<br>";
 //		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 //		ret("rentgen.php?type=".$_GET['type']);
-//		include("footer.php");
+//		//include("footer.php");
 //		exit;
 //	break;
 //	case "chAssist":
@@ -20,7 +20,7 @@ include("header.php");
 //		//////echo $query."<br>";
 //		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 //		ret("rentgen.php?type=".$_GET['type']);
-//		include("footer.php");
+//		//include("footer.php");
 //		exit;
 //	break;
 //}
@@ -185,7 +185,7 @@ $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 if ($c==0)
 {
 	echo "<div class=\"head1\">Снимков нет</div>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 }
 //for ($i=0;$i<$count;$i++)
@@ -215,5 +215,5 @@ for ($i=1;$i<=$c;$i++)
 echo "</table>";
 echo "<div class='menutext2'>Всего снимков:".$cs."<br />
 Сумма:".$summ."</div>";
-include("footer.php");
+//include("footer.php");
 ?>

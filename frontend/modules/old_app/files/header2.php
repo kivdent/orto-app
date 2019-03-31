@@ -1,4 +1,4 @@
-<?php session_start(); include("function.php"); ?>
+<?php  include("function.php"); ?>
 <?php 
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,13 +39,13 @@ if (((!($_SESSION['valid_user']==$ThisVU)) and (!($ThisVU=="all"))) or (!isset($
     <td><table width='100%' border='0' cellspacing='0' cellpadding='2' bgcolor='#FFFFFF'>
       <tr>
         <td>";
-include("footer.php"); 
+//include("footer.php"); 
 exit;
 }
 else
 {
 	if ($js!="") echo "<script type='text/javascript' src='js/".$js.".js'></script>";
-	echo "<title>Орто-премьер. ".$ModName." - ".$_SESSION['UserName']."</title>
+	echo "<title>Орто-премьер. ".$this->title." - ".$_SESSION['UserName']."</title>
 	</head>
 	<body>";
 }

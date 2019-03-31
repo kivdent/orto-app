@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за день (оплаты)"; 
-include("header.php");
+$this->title="Финансовый отчёт за день (оплаты)"; 
+//include("header.php");
 $qsm=1;
 
 echo "<form action='dir_den.php' method='get' >
@@ -59,5 +59,5 @@ echo "<form action='dir_den.php' method='get' >
 	echo "<p><span class='head3'>Итого долгов ".$c."</span><br />
 				<span class='head2'>Сумма долгов: ".($summ[0]+$summ[1]+$summ[2])."</span><br />";
 
-include("footer.php");
+//include("footer.php");
 ?>

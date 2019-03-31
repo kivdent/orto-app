@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 function ShowPolz()
 {
@@ -101,9 +101,9 @@ for ($i=0;$i<$count;$i++)
 </form>";
 }
 $ThisVU="administrator";
-$ModName="&laquo;Пользователи&raquo;";
+$this->title="&laquo;Пользователи&raquo;";
 $js="pass"; 
-include("header.php");
+//include("header.php");
 // Добавление пациента
 if (isset($_POST['add']) or isset($_POST['add2']))
 {
@@ -111,7 +111,7 @@ if (isset($_POST['add']) or isset($_POST['add2']))
 	{
 		$sm="add2";
 		ShowAdd($sm,"0");
-		include("footer.php");
+		//include("footer.php");
 		exit;		
 	}
 	else
@@ -158,7 +158,7 @@ if ((isset($_POST['change'])) || (isset($_POST['change2'])))
 		{
 			$sm="change2";
 			ShowAdd($sm,$_POST['login']);
-			include("footer.php");
+			//include("footer.php");
 			exit;	
 		}	
 	}
@@ -182,5 +182,5 @@ if ((isset($_POST['change'])) || (isset($_POST['change2'])))
 
 if (!(isset($_POST['add']))) 
 ShowPolz();
-include("footer.php");
+//include("footer.php");
 ?>

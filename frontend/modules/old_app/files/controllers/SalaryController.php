@@ -11,9 +11,9 @@
  *
  * @author kivde
  */
-require_once 'models/ReportingPeriod.php';
-require_once 'models/Salary.php';
-require_once 'models/PriceList.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/ReportingPeriod.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/Salary.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/PriceList.php';
 
 class SalaryController {
     /*
@@ -53,7 +53,7 @@ class SalaryController {
     public function showSalaryByPercent() {
         $salaryTable= Salary::getSalaryTableByPercent($this->reportingPeriod);
         
-        require_once 'views/'.$this->viewPath.'SalaryByPercent.php';
+        require_once Yii::$app->params['old_app_mvc_path'].'views/'.$this->viewPath.'SalaryByPercent.php';
     }
     
     

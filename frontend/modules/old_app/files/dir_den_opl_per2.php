@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Финансовый отчёт за период"; 
-include("header.php");
+$this->title="Финансовый отчёт за период"; 
+//include("header.php");
 $query = "SELECT `id`,`nach` , `okonch` 
 FROM `fin-per` 
 ORDER BY `id` DESC" ;
@@ -143,5 +143,5 @@ echo "
     <td><b>".$summ['opl']."</b></td>
   </tr>";
 echo "</table><br />";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,8 +1,8 @@
 <?php
 $ThisVU="administrator";
-$ModName="Справочник манипуляций";
+$this->title="Справочник манипуляций";
 $js="manip"; 
-include("header.php");
+//include("header.php");
 
 switch ($_POST['action'])
 {		
@@ -69,7 +69,7 @@ switch ($_GET['action'])
 				<br />
 		<input name='save' type='submit'  value='Сохранить'/>
 				</form> "; 
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -98,7 +98,7 @@ echo "
 			Запись в карте:<textarea name='zapis' cols='50' rows='3'></textarea>            
              <input type='submit' name='add' value='Добавить' />
 			 </form>";
-			 include("footer.php");
+			 //include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -163,7 +163,7 @@ echo "
 			<textarea name='zapis' cols='50' rows='3'>".$rowA['zapis']."</textarea> <br />
           
              <input type='submit' name='ok' value='Изменить' /><input type='submit' name='del' value='Удалить' />";
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	}
 	break;
@@ -260,7 +260,7 @@ echo "</TABLE>";
 
 
 }
-include("footer.php");
+//include("footer.php");
 exit;
 	break;
 }
@@ -369,5 +369,5 @@ echo "</TABLE>";
 
 echo "</form>";
 
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Учёт рабочего времени сотрудников";
-include("header.php");
+$this->title="Учёт рабочего времени сотрудников";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "set_time_in":
@@ -15,7 +15,7 @@ switch ($_GET['action'])
 				//echo $query;
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 
@@ -31,7 +31,7 @@ switch ($_GET['action'])
 				//echo $query;
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 		}
@@ -46,7 +46,7 @@ switch ($_GET['action'])
 				//echo $query;
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
-				include("footer.php");	
+				//include("footer.php");	
 				exit;
 			break;
 		}
@@ -245,7 +245,7 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 		
 }
 echo "</table>";	
-include("footer.php");
+//include("footer.php");
 exit;
 
 break;
@@ -409,7 +409,7 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 		
 }
 echo "</table>";	
-include("footer.php");
+//include("footer.php");
 exit;
 break;
 
@@ -642,8 +642,7 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 		
 }
 echo "</table>";	
-include("footer.php");
-exit;
-break;
+//include("footer.php");
+
 }
 ?>

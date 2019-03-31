@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за день (оплаты)"; 
-include("header.php");
+$this->title="Финансовый отчёт за день (оплаты)"; 
+//include("header.php");
 include("tables.php");
 $qsm=1;
 			echo "<span class='head2'>Оплаты за лечение ".date('d.m.Y')." :</span>";
@@ -348,5 +348,5 @@ $qsm=1;
 		echo "</table>";
                 }
                 if ( $summ_orto>0) echo "<p align=right>Сумма за ортодонтию: ". $summ_orto." руб.</p>";
-        include("footer.php");
+        //include("footer.php");
 ?>

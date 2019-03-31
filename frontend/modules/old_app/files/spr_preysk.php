@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Прейскуранты"; 
-include("header.php");
+$this->title="Прейскуранты"; 
+//include("header.php");
 
  switch ($_GET['action'])
 {
@@ -43,7 +43,7 @@ include("header.php");
 		Новый:<input type='text' name='New_preysk' value='".$row['preysk']."'/>
         <input type='submit' name='ok' value='Изменить' />
         </form>";
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	}
 	break;
@@ -75,5 +75,5 @@ for ($i=0;$i<$count;$i++)
             </tr>
           </table>
           </form>";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Финансовый отчёт за день по чекам"; 
-include("header.php");
+$this->title="Финансовый отчёт за день по чекам"; 
+//include("header.php");
 
 $qsm=1;
 
@@ -274,5 +274,5 @@ $query = "SELECT
 
 			</form>";
 
-include("footer.php");
+//include("footer.php");
 ?>

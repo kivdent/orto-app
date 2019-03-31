@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use Yii;
+use frontend\models\Employe;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user".
@@ -15,50 +17,115 @@ use Yii;
  * @property string $email
  * @property int $status
  * @property int $created_at
- * @property int $updated_at
+ * @property int $updated_at 
  * @property int $employe_id
+ * 
  */
-class User extends \yii\db\ActiveRecord
-{
+class User extends \yii\db\ActiveRecord {
+
+    const STATUS_DELETED = 0;
+    const STATUS_ACTIVE = 10;
+    public $newPassword;
+
+
     /**
      * {@inheritdoc}
      */
-    public static function tableName()
-    {
+    public static function tableName() {
         return 'user';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at', 'employe_id'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['password_reset_token'], 'unique'],
+    public function behaviors() {
+       return [
+            [
+                'class' => TimestampBehavior::className(),
+            ]
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
-    {
+    public function rules() {
+        return [
+            [['username', 'auth_key', 'password_hash'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'safe'],
+            [['newPassword'],'safe'],
+
+            [['password_reset_token'], 'unique'],
+            [['employe_id'],'integer'],
+            
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels() {
         return [
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Имя пользователя',
             'auth_key' => 'Auth Key',
-            'password_hash' => 'Password Hash',
+            'password_hash' => 'Пароль',
             'password_reset_token' => 'Password Reset Token',
-            'email' => 'Email',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'employe_id' => 'Employe ID',
+            'email' => 'Электронная почта',
+            'status' => 'Статус',
+            'created_at' => 'Создан',
+            'updated_at' => 'Изменён',
+            'employe_id'=>'Cотрудник',
+            'newPassword'=>'Новый пароль'
         ];
+    }
+
+    public function getEmploye() {
+        return $this->hasOne(Employe::className(), ['id' => 'employe_id']);
+    }
+    public function getRoles() {
+         return Yii::$app->authManager->getRolesByUser($this->id);
+    }
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Yii::$app->security->generateRandomString();
+    }
+     /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        return $this->password_hash;
+    }
+    /**
+     * inactivate current user
+     * @return boolean
+     */
+    public function inactivate() {
+        $this->status=self::STATUS_DELETED;
+        return $this->save(false, ['status']);
+    }
+    /**
+     * Activate current user
+     * @return boolean
+     */
+    public function activate() {
+        $this->status=self::STATUS_ACTIVE;
+        return $this->save(false, ['status']);
+    }
+    /**
+     * Find user by id
+     * @return backend\models\User object
+     */
+    public static function getUserById($id) {
+        $user=self::findOne($id);
+        return $user ? $user : false;
     }
 }

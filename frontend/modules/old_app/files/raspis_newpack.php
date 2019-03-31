@@ -1,9 +1,9 @@
 <?php 
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Создание нового пакета рсписаний"; 
-include("header.php");
+$this->title="Создание нового пакета рсписаний"; 
+//include("header.php");
 include("raspis_funct.php");
 //                                Пошаговое создание расписаний
 if (isset($_POST['next']))
@@ -42,7 +42,7 @@ if ($day==0)
 				echo "<br />  
 				<input name='next' type='submit' value='Назад'>
 				</form>";
-                 include("footer.php");
+                 //include("footer.php");
 				exit;
 			}
 		}
@@ -248,5 +248,5 @@ $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 echo "<h4>Введите необходимые данные</h4>";
 echo "<hr />";
 ShowForm2();
-include("footer.php");
+//include("footer.php");
 ?>

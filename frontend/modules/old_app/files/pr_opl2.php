@@ -1,8 +1,8 @@
 <?php
 $ThisVU="registrator";
-$ModName="Приём платежей";
+$this->title="Приём платежей";
 
-include("header.php");
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 //////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -95,7 +95,7 @@ switch ($_GET['action'])
 				if (isset($firm)) echo "<input name='firm' type='hidden' value='".$firm."'>";
 				echo "<input name='ok' type='submit'  value='Дальше>>>'/>
 				</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -112,7 +112,7 @@ switch ($_GET['action'])
 							Сумма к оплате:<input type='text' name='summ' value='".$_SESSION['dolg']."'/>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>	";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 					case "2":
@@ -142,7 +142,7 @@ switch ($_GET['action'])
 							Сумма к оплате:<input type='text' name='summ' value='".$_SESSION['dolg']."'/>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 					case "3":
@@ -160,7 +160,7 @@ switch ($_GET['action'])
 							else echo " Сумма к оплате:<input type='text' name='summ' value='".$_GET['av']."'/>		руб.<br />";
 							echo "<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 				}
@@ -301,5 +301,5 @@ echo " </table>
 echo " <script language=\"JavaScript\" type=\"text/javascript\">
 						setTimeout(\"javascript:location.href='pr_opl.php'\", 60000);
 						</script>";	
-include("footer.php");
+//include("footer.php");
 ?>

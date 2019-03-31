@@ -11,7 +11,7 @@
  *
  * @author kivdent
  */
-require_once 'Workers.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/Workers.php';
 class SalaryCard extends Workers {
 
     public $stavka; //       `zarp_card`.`stavka`,

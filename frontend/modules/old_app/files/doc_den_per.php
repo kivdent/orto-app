@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 $qsm=1;
 //$month=date('n');
 //$m= array("Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь");
@@ -264,5 +264,5 @@ $query = "SELECT
 
 			</form>";
 
-include("footer.php");
+//include("footer.php");
 ?>

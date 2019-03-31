@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="registrator";
-$ModName="Продажа гигиены";
+$this->title="Продажа гигиены";
 $js="insert";
-include("header.php");
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 
 $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
@@ -153,7 +153,7 @@ exit;
 			 	echo "<input name='step' type='hidden' value='5' />";
 				echo "<input name='count' type='hidden' value='".($_GET['count'])."' />";
             echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 	exit;
 
 		
@@ -300,7 +300,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from `manip` WHERE( (`pre
 
 }
 			echo "</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	case "5":
                                    echo $_SESSION['countm'][$_GET['count']]."".$_SESSION['summ'][$_GET['count']];
@@ -369,5 +369,5 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from `manip` WHERE( (`pre
 }
 ////////////Лечение зуба
 
-include("footer.php");
+//include("footer.php");
 ?>

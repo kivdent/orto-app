@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Пациенты на сегодня";
-include("header.php");
+$this->title="Пациенты на сегодня";
+//include("header.php");
 if (isset($_SESSION['pat'])) unset($_SESSION['pat']);
 if (isset($_SESSION['OsmID'])) unset($_SESSION['OsmID']);
 if ($_GET['action']=='del')
@@ -83,5 +83,5 @@ echo "<a href='pat_tooday_work_mat.php?step=4&pat=".$rowB['13']."&count=1&Nid=".
 echo " <script language=\"JavaScript\" type=\"text/javascript\">
 						setTimeout(\"javascript:location.href='pat_tooday_orto.php'\", 60000);
 						</script>";	
-include("footer.php");
+//include("footer.php");
 ?>

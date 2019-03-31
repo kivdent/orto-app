@@ -1,7 +1,7 @@
 <?php
 $ThisVU="gigienist";
-$ModName="Внести гигиенические индексы";
-include("header.php");
+$this->title="Внести гигиенические индексы";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "saveOsm":
@@ -551,5 +551,5 @@ else
 		  <input name=\"pat\" type=\"hidden\" value=\"".$_GET['pat']."\" />
 		  <input name='' type='submit'  value='Сохранить изменения'/></center></form>";
 }
-include("footer.php");
+//include("footer.php");
 ?>

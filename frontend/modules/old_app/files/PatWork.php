@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа с пациентами"; 
+$this->title="Работа с пациентами"; 
 $js="ShowPat";
-include("header.php");
+//include("header.php");
 include("PatFunct.php");
 //Изменение
 if (isset($_POST['showcard']))
@@ -340,5 +340,5 @@ if (isset($_POST['add']) or isset($_GET['add']))
 {
 PatForm();
 }
-include("footer.php");
+//include("footer.php");
 ?>

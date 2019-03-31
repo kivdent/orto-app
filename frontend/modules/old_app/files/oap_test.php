@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Работа с расписанием"; 
-include("header.php");
+$this->title="Работа с расписанием"; 
+//include("header.php");
 include("function_oap.php");
 function getBody($uid, $imap) {
     $body = get_part($imap, $uid, "TEXT/HTML");
@@ -72,5 +72,5 @@ if (count($from_stom_su)!=0)
         echo $rbody;
     }
 }
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,6 +1,6 @@
 <?php
 $ThisVU="administrator";
-$ModName="Администрирование";
-include("header.php");
-include("footer.php");
+$this->title="Администрирование";
+//include("header.php");
+//include("footer.php");
 ?>

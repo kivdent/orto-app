@@ -1,7 +1,7 @@
 <?php
 $ThisVU="buhg";
-$ModName="Начисление заработной платы";  
-include("header.php");
+$this->title="Начисление заработной платы";  
+//include("header.php");
 //	$query = "SELECT 'id' FROM `sotr` WHERE `dolzh` IN (1,2,3)";
 //	////echo $query."<br />";
 //	$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -610,5 +610,5 @@ for ($i=0; $i<$count; $i++)
 	echo "</td></tr>";
 }
 echo "</table><br />";
-include("footer.php");
+//include("footer.php");
 ?>

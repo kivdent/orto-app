@@ -1,8 +1,8 @@
 
 <?php
 $ThisVU="all";
-$ModName="Работа с расписанием"; 
-include("header.php");
+$this->title="Работа с расписанием"; 
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "change":
@@ -125,7 +125,7 @@ echo "<input name='action' type='hidden' value='change' />";
 echo "<br />  
 	<input name='next' type='submit' value='Дальше>>'>
 	</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 		}
@@ -365,5 +365,5 @@ $row = mysqli_fetch_array($result);
 				///Окончание таблицы
 				echo " </tr></table></br>";	
 			}		
-include("footer.php");
+//include("footer.php");
 ?>

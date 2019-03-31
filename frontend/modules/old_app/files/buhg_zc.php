@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="buhg";
-$ModName="Зарплатная карта";   
-include("header.php");
+$this->title="Зарплатная карта";   
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -41,7 +41,7 @@ switch ($_GET['action'])
 					<input name='stavka' type='text' /></div>
 					<input name='' type='submit'  value='Дальше>>'/>
 					</form>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 			break;
 			case "2":
@@ -78,7 +78,7 @@ switch ($_GET['action'])
 					echo "</select></div>
 					<input name='' type='submit'  value='Дальше>>'/>
 					</form>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 				break;
 				case "2":
@@ -112,7 +112,7 @@ switch ($_GET['action'])
 					<input name='type' type='hidden' value='3' />
 					<div class='head2'>Ставка в час<input name='proc_sh' type='text' /></div>
 					<input name='' type='submit'  value='Дальше>>'/>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 				break;
 				}
@@ -136,7 +136,7 @@ switch ($_GET['action'])
 					}
 					echo "<input name='' type='submit'  value='Дальше>>'/>
 					</form></div>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 					
 			break;
@@ -193,7 +193,7 @@ switch ($_GET['action'])
 						echo $query."<br>";
 						$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 					}
-					include("footer.php");
+					//include("footer.php");
 					ret('buhg_zc.php');
 					exit;
 			break;
@@ -227,5 +227,5 @@ for ($i=0;$i<$count;$i++)
 
 echo "</table>
 <a href='buhg_zc.php?action=add&step=1' class='menu'>Добавить</a>";
-include("footer.php");
+//include("footer.php");
 ?>

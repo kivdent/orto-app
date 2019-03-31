@@ -1,8 +1,8 @@
 <?php
 $ThisVU="all";
-$ModName="Работа с ортодонтическими картами"; 
+$this->title="Работа с ортодонтическими картами"; 
 $js="ShowPat";
-include("header.php");
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "new":
@@ -200,7 +200,7 @@ echo "<option value='".$row['id']."'>".$row['surname']." ".$row['name']." ".$row
 						echo "<input name='action' type='hidden' value='new' />
 							<input name='step' type='hidden' value='2' />";
 						echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -211,7 +211,7 @@ echo "<option value='".$row['id']."'>".$row['surname']." ".$row['name']." ".$row
 				ret("pat_card_orto.php");
 				unset($_SESSION['pat']);
 				unset($_SESSION['pat_name']);
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 		}
@@ -250,7 +250,7 @@ echo "<option value='".$row['id']."'>".$row['surname']." ".$row['name']." ".$row
 					unset($_SESSION['pat']);
 					unset($_SESSION['pat_name']);
 					ret("pat_card_orto.php");
-					include("footer.php");
+					//include("footer.php");
 					exit;
 				}
 				$query = "SELECT `surname`,`name`, `otch` FROM `klinikpat` WHERE `id`=".$_GET['element'];
@@ -435,7 +435,7 @@ echo "Срок лечения: <select name='Srok' id='Srok' onChange='rassch()'
 						echo "<input name='action' type='hidden' value='ch' />
 							<input name='step' type='hidden' value='2' />";
 						echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -462,7 +462,7 @@ echo "Срок лечения: <select name='Srok' id='Srok' onChange='rassch()'
 					unset($_SESSION['last_pay_month']);
 				unset($_SESSION['pat']);
 				unset($_SESSION['pat_name']);
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 		}
@@ -545,5 +545,5 @@ else
 <input name='' type='submit' Value='Дальше'/>
            </form>
 		</center>";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Пациенты на сегодня";
-include("header.php");
+$this->title="Пациенты на сегодня";
+//include("header.php");
 if (isset($_SESSION['pat'])) unset($_SESSION['pat']);
 if (isset($_SESSION['OsmID'])) unset($_SESSION['OsmID']);
 if ($_GET['action']=='del')
@@ -65,5 +65,5 @@ echo "<a href='gig_index.php?pat=".$rowB['11']."' class='menu2'>Внести и�
 echo " <script language=\"JavaScript\" type=\"text/javascript\">
 						setTimeout(\"javascript:location.href='pat_tooday_gig.php'\", 60000);
 						</script>";	
-include("footer.php");
+//include("footer.php");
 ?>

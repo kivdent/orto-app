@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="registrator";
-$ModName="Приём платежей";
-include("header.php");
+$this->title="Приём платежей";
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 //echo $query."<br />";
 $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
@@ -208,7 +208,7 @@ ret('pr_opl.php?'.$_GET['str']);
 			echo "<input  type='hidden' name='v_opl' value='4'>";
 				echo "<input name='OK' type='submit'  value='Бесплатная гигиена'/>";
 				echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				echo "</form>";
 				}
 				
@@ -228,7 +228,7 @@ ret('pr_opl.php?'.$_GET['str']);
 							Сумма к оплате:<input type='text' name='summ' value='".$_SESSION['dolg']."'/>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>	";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 					case "2":
@@ -258,7 +258,7 @@ ret('pr_opl.php?'.$_GET['str']);
 							Сумма к оплате:<input type='text' name='summ' value='".$_SESSION['dolg']."'/>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 					case "3":
@@ -275,7 +275,7 @@ ret('pr_opl.php?'.$_GET['str']);
 							else echo " Сумма к оплате:<input type='text' name='summ' value='".$_GET['av']."'/>		руб.<br />";
 							echo "<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 					case "5":
@@ -288,7 +288,7 @@ ret('pr_opl.php?'.$_GET['str']);
 							Сумма к оплате:<input type='text' name='summ' value='".$_SESSION['dolg']."'/>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>	";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
                                                                                         case "4004":
@@ -337,7 +337,7 @@ ret('pr_opl.php?'.$_GET['str']);
 							Сумма к оплате:<input type='text' id='summ' name='summ'  value='". $max_summ."'/ onkeyup='chek()'>		руб.<br />
 							<input name='ok' type='submit'  value='Дальше>>>'>
 							</form>	";
-							include("footer.php");
+							//include("footer.php");
 							exit;
 					break;
 				}
@@ -841,5 +841,5 @@ echo " </table>";
 echo " <script language=\"JavaScript\" type=\"text/javascript\">
 						setTimeout(\"javascript:location.href='pr_opl.php'\", 60000);
 						</script>";	
-include("footer.php");
+//include("footer.php");
 ?>

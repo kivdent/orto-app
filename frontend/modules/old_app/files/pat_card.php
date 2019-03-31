@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 
 $ThisVU="all";
-$ModName="Карта пациента"; 
+$this->title="Карта пациента"; 
 $js="ShowPat";
 include("header2.php");
 if ($ro==1) $disabled="disabled='disabled'";
@@ -364,7 +364,7 @@ $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 					//echo "<div class='head1'>Этому пациенту не было произведено ни одного осмотра.</div>
 					//<a href='pat_tooday_work.php?action=osm&step=1&pat=$_SESSION['pat']&perv=0' class='mmenu'>Провести осмотр</a>";
 					$_SESSION['OsmID']=0;
-					//include("footer.php");
+					////include("footer.php");
 					//exit;
 				}
 	

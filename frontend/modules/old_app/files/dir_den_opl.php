@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d',$DayPr)."') and (`timeO`='00:00:00')";
 //echo $query."<br />";
@@ -397,5 +397,5 @@ WHERE (
 	}
 	echo "<hr width='100%' noshade='noshade' size='1'/>";
 	}
-include("footer.php");
+//include("footer.php");
 ?>

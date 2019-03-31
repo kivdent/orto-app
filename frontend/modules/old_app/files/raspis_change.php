@@ -1,7 +1,7 @@
 <?php 
 $ThisVU="all";
-$ModName="Выбирите врача"; 
-include("header.php");
+$this->title="Выбирите врача"; 
+//include("header.php");
 echo "<form action='raspis_change_form.php' method='post'>
 Врач 
 <select name='vrach'>";
@@ -16,5 +16,5 @@ echo "</select>
 <br>
 <input name='ok' type='submit' value='Дальше>>'/>
 </form>";
-include("footer.php");
+//include("footer.php");
 ?>

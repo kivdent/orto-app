@@ -16,7 +16,7 @@ class Db {
 
     public static function getConnection() {
 
-        $paramsPath = 'config/db_params.php';
+        $paramsPath = Yii::$app->params['old_app_mvc_path'].'config/db_params.php';
         $params = include $paramsPath;
         $dsn = 'mysql:host=' . $params['host'] . ';dbname=' . $params['dbname'].';charset=utf8';
         try {

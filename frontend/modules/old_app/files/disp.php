@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Диспансеризация пациентов"; 
-include("header.php");
+$this->title="Диспансеризация пациентов"; 
+//include("header.php");
 $query = "SELECT * FROM `rezobzv` ORDER BY `id` desc";
 $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 $rocount=$count;
@@ -430,5 +430,5 @@ echo "</table>";
 	break;
 }
 
-include("footer.php");
+//include("footer.php");
 ?>

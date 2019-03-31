@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Первичные по месяцам";
-include("header.php");
+$this->title="Первичные по месяцам";
+//include("header.php");
 $query = "SELECT `id`,`nach` , `okonch` 
 FROM `fin-per` 
 ORDER BY `id` DESC" ;
@@ -54,5 +54,5 @@ for ($i=0;$i<$count;$i++)
 	  </tr>";
 	  }
 	  echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

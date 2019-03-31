@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 $dt="2007-12-12";
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".$dt."') and (`timeO`='00:00:00')";
 //echo $query."<br />";
@@ -308,5 +308,5 @@ WHERE (
 	}
 	echo "<hr width='100%' noshade='noshade' size='1'/>";
 	}
-include("footer.php");
+//include("footer.php");
 ?>

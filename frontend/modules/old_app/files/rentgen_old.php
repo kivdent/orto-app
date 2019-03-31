@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Рентгенология";
-include("header.php");
+$this->title="Рентгенология";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "setAssist":
@@ -10,7 +10,7 @@ VALUES (NULL, '".$_GET['asstID']."', '".$_GET['ManipPr']."', '".$_GET['type1']."
 		//echo $query."<br>";
 		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 		ret("rentgen.php?type=".$_GET['type']);
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "chAssist":
@@ -20,7 +20,7 @@ VALUES (NULL, '".$_GET['asstID']."', '".$_GET['ManipPr']."', '".$_GET['type1']."
 		//echo $query."<br>";
 		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 		ret("rentgen.php?type=".$_GET['type']);
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 }
@@ -196,5 +196,5 @@ function MM_jumpMenu(targ,selObj,restore){
   </tr>";
  }
 echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

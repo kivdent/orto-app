@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
 $js="spisok";
-$ModName="Отчёт по материалам для автосписания"; 
-include("header.php");
+$this->title="Отчёт по материалам для автосписания"; 
+//include("header.php");
 echo "<form action='mater_sootv_otch.php' method='get' name='ShowAuto' id='ShowAuto'>";
 
 echo "<table width='100%' border='1' cellspacing='0' cellpadding='0'>
@@ -278,5 +278,5 @@ for ($i=0;$i<$count;$i++)
 		 <div class=\"head3\"> Всего за период: ".$summ."</div>
 		  <a href=\"print.php?type=mater_sootv_otch&mater=".$mater."\" class='menu2'>Печать отчёта</a>
 		</form>	";
-include("footer.php");
+//include("footer.php");
 ?>

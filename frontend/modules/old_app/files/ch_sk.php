@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Приём платежей";
-include("header.php");
+$this->title="Приём платежей";
+//include("header.php");
 	$query = "SELECT `skidka`.`proc`, `skidka`.`id`
 		FROM skidka" ;
 		echo $query."<br>";
@@ -23,5 +23,5 @@ WHERE `Skidka`=".$sk['$i][id'];
 echo $query."<br>";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 }				
-include("footer.php");
+//include("footer.php");
 ?>

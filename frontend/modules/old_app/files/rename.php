@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName=""; 
-include("header.php");
+$this->title=""; 
+//include("header.php");
 $query = "SELECT `id`,`price`,`manip` FROM `manip` WHERE `cat`=0 ORDER BY `preysk`";
 echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -35,5 +35,5 @@ $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 //	$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 }
 echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

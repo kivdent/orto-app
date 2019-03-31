@@ -11,8 +11,8 @@
  *
  * @author kivde
  */
-require_once 'PriceListTables.php';
-require_once 'PriceList.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/PriceListTables.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/PriceList.php';
 
 class FinancialReport {
 
@@ -48,7 +48,7 @@ class FinancialReport {
     public function getclosedInvoice() {  //   *          closedInvoice Закрытые чеки за период;
         $mysqlTablesPriceList = PriceListTables::getTableOfPriclists(); //MySql Таблицы прайлистов , считая архивные
 
-        $sqTables = include 'components/tables.php';
+        $sqTables = include Yii::$app->params['old_app_mvc_path'].'components/tables.php';
         $i = 1;
         foreach ($mysqlTablesPriceList as $priceList) {//Цикл по таблицам всех манипуляций 
             foreach ($sqTables as $table => $value) {//цикл по таблицам различных чеков

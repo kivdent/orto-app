@@ -1,6 +1,6 @@
 <?php
 $ThisVU="all";
-$ModName=""; 
+$this->title=""; 
 include("header2.php");
 switch ($_GET['podr'])
 	{

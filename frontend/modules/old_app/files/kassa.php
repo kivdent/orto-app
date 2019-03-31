@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="registrator";
-$ModName="Касса"; 
-include("header.php");
+$this->title="Касса"; 
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "nach":
@@ -197,11 +197,11 @@ VALUES (NULL,'".$_GET['id']."','-1','".$sn[2]."',0,2)";
 			//echo $query."<br />";
 			$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 			ret('reg_den_opl.php');
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		break;
 	}
 	break;
 }
-include("footer.php");
+//include("footer.php");
 ?>

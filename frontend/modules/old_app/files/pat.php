@@ -1,10 +1,10 @@
 <?php
 $ThisVU="all";
-$ModName="Работа с пациентами"; 
+$this->title="Работа с пациентами"; 
 $js="ShowPat";
-include("header.php");
+//include("header.php");
 include("PatFunct.php");
 ShowPat();
-include("footer.php");
+//include("footer.php");
 ?>
 

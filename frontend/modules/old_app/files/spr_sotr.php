@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
 include('mysql_fuction.php');
 function ShowAdd($sm,$id)
 {			
@@ -175,8 +175,8 @@ function ShowSotr()
 	</form>";
 }
 $ThisVU="all";
-$ModName="&laquo;Сотрудники&raquo;"; 
-include("header.php");
+$this->title="&laquo;Сотрудники&raquo;"; 
+//include("header.php");
 // Добавление пациента
 if (isset($_POST['add']) or isset($_POST['add2']))
 {
@@ -184,7 +184,7 @@ if (isset($_POST['add']) or isset($_POST['add2']))
 	{
 		$sm="add2";
 		ShowAdd($sm,"0");
-		include("footer.php");
+		//include("footer.php");
 		exit;		
 	}
 	else
@@ -223,7 +223,7 @@ if (isset($_POST['change']) or (isset($_POST['change2'])) )
 			//$_SESSION['id']=$_POST['id'];
 			$sm="change2";
 			ShowAdd($sm,$_POST['id']);
-			include("footer.php");
+			//include("footer.php");
 			exit;	
 		}	
 	}
@@ -248,5 +248,5 @@ if (isset($_POST['change']) or (isset($_POST['change2'])) )
 
 if (!(isset($_POST['add']))) 
 ShowSotr();
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Список техники"; 
+$this->title="Список техники"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -104,7 +104,7 @@ echo "    </select>";
 
 echo " <br /><input name'' type='submit' value='Сохранить'> 
 			</form>  ";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -130,7 +130,7 @@ echo " <br /><input name'' type='submit' value='Сохранить'>
 			//////////echo $query."<br />";
 			$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 			ret('tech_sp.php');
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		}
 		if (isset($_GET['del']))
@@ -140,7 +140,7 @@ echo " <br /><input name'' type='submit' value='Сохранить'>
 			//////////echo $query."<br />";
 			$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 			ret('tech_sp.php');
-			include("footer.php");
+			//include("footer.php");
 			exit;
 		}	
 		$query = "SELECT `nazv`, `stoim`, `date`, `cab` FROM `tech` WHERE `id`=".$_GET['id'];
@@ -242,7 +242,7 @@ echo " <br /><input name'' type='submit' value='Сохранить'>
 		echo " <br /><input name='save' type='submit' value='Сохранить'> 
 		<input name='del' type='submit' value='Удалить'> 
 			</form>  ";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 	break;
 }
@@ -326,5 +326,5 @@ for ($w=0;$w<$count;$w++)
 	
 }
 echo "</TABLE>";
-include("footer.php");
+//include("footer.php");
 ?>

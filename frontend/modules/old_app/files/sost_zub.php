@@ -1,6 +1,6 @@
 <?php
 $ThisVU="all";
-$ModName="Состояние зуба";
+$this->title="Состояние зуба";
 $js="insert";
 include("header2.php");
 if (!(isset($_GET['kol_kan'])))

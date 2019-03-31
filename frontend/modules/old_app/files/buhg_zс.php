@@ -1,7 +1,7 @@
 <?php
 $ThisVU="buhg";
-$ModName="Зарплатная карта";   
-include("header.php");
+$this->title="Зарплатная карта";   
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -61,5 +61,5 @@ switch ($_GET['action'])
   </tr>
 </table>
 <a href='buhg_zс.php?action=add&step=1' class='menu'>Добавить</a>";
-include("footer.php");
+//include("footer.php");
 ?>

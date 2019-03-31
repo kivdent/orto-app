@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Приходы материала"; 
+$this->title="Приходы материала"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 echo "<script language=\"JavaScript\" type=\"text/javascript\">
 function AddEl(id,qp,v)
 {
@@ -97,7 +97,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 		}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "del":
@@ -158,7 +158,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 			}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "save":
@@ -235,7 +235,7 @@ VALUES
 		////////echo $query."<br />";
 		if ($query!="") $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 		echo "<a href='print.php?type=prih'>Печать накладной</a>";
-		include("footer.php");
+		//include("footer.php");
 		unset($_SESSION['Prih']);
 		unset($_SESSION['QEl']);
 		unset($_SESSION['cc']);
@@ -365,5 +365,5 @@ $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				} 
 				echo "</table></div>";
 			}
-include("footer.php");
+//include("footer.php");
 ?>

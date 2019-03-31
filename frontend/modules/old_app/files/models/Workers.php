@@ -11,7 +11,7 @@
  *
  * @author kivde
  */
-require 'models/Peoples.php';
+require Yii::$app->params['old_app_mvc_path'].'models/Peoples.php';
 class Workers extends Peoples {
     public $position;//Должность
     public function addToDb() {

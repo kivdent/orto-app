@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Место хранения"; 
+$this->title="Место хранения"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 $query = "SELECT `mater`.`id`, 
 					`mater`.`naim`, 
 					`mater`.`Price`, 
@@ -134,5 +134,5 @@ for($i=1;$i<=$_SESSION['cc'];$i++)
 	}
  
 echo "</TABLE>";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 echo "<span class='head2'>Оплата за лечение</span>";
 	$query = "SELECT 
 	`klinikpat`.`surname`, 
@@ -115,5 +115,5 @@ echo "<span class='head2'>Оплата за лечение</span>";
 	echo "</table>";
 	echo "<span class='head3'>Выписано чеков: ".$c."</span><br />";
 	echo "<span class='head3'>Сумма: ".$summ."</span>";
-include("footer.php");
+//include("footer.php");
 ?>

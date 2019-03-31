@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Ежедневник"; 
+$this->title="Ежедневник"; 
 $js="ShowPat"; 
-include("header.php");
+//include("header.php");
 echo "<div class='head1'>Ежедневник</div>";
 echo "<hr width='100%' noshade='noshade' size='1'/>";
 			$StartD=mktime(0,0,0,date('m'),date('d'),date('Y'));
@@ -251,5 +251,5 @@ echo "<center><strong>".date('d.m.y',$DayPr).",<br />".$dn[($day-1)]."</strong><
 				echo " </tr></table>";
 				echo "<hr width='100%' noshade='noshade' size='1'/>";	
 			}		
-include("footer.php");
+//include("footer.php");
 ?>

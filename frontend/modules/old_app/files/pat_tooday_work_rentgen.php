@@ -1,8 +1,8 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа спациентом";
+$this->title="Работа спациентом";
 $js="insert";
 include("header2.php");
 	switch ($_GET['step'])
@@ -163,7 +163,7 @@ case "4":
 			 	echo "<input name='step' type='hidden' value='5' />";
 				echo "<input name='count' type='hidden' value='".($_GET['count'])."' />";
             echo "</form>";
-			include("footer.php");
+			//include("footer.php");
 	exit;
 		}
 		else
@@ -488,7 +488,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE( (preysk
 
 }
 			echo "</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	case "5":
 		$_SESSION['lech'][$_GET['count']]=$_GET['lech'];

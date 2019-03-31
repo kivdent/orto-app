@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Пациенты на сегодня";
-include("header.php");
+$this->title="Пациенты на сегодня";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "yavka":
@@ -241,5 +241,5 @@ echo "</tr>";
 			}
 		}
 }
-include("footer.php");
+//include("footer.php");
 ?>

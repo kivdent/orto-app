@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 include('function_oap.php');
 $ThisVU="all";
-$ModName="Работа с расписанием"; 
-include("header.php");
+$this->title="Работа с расписанием"; 
+//include("header.php");
 
 echo "<div class='head1'>Назначение пациентов</div>";
 echo "<center><a href='naznach_pat_full.php' class='menu2'>Полное расписание</a></center>";
@@ -303,5 +303,5 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 				///Окончание таблицы
 				echo " </tr></table>";	
 			}		
-include("footer.php");
+//include("footer.php");
 ?>

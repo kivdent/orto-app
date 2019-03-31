@@ -1,7 +1,7 @@
 <?php
 $ThisVU="director";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 ////////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -382,5 +382,5 @@ AND (`sotr`.`id` =`sn_kass`.`otv`))";
 			  </p>
 			</form>";
 }
-include("footer.php");
+//include("footer.php");
 ?>

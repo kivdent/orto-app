@@ -1,7 +1,7 @@
 <?php
 $ThisVU="administrator";
-$ModName="Справочник &laquo;Должности&raquo;"; 
-include("header.php");
+$this->title="Справочник &laquo;Должности&raquo;"; 
+//include("header.php");
 if (isset($_POST['del']))
 {
 	if (isset($_POST['id']))
@@ -36,7 +36,7 @@ if (isset($_POST['add']))
 					<input name='add' type='submit'  value='Добавить'/>
 					</form>";
 	}
-	include("footer.php");
+	//include("footer.php");
 	exit;
 }
 $query = "SELECT * FROM dolzh";
@@ -56,5 +56,5 @@ echo "<br>";
 echo "<input name='add' type='submit' value='Добавить'/>";
 echo "<input name='del' type='submit' value='Удалить'/><br>";
 echo "</form>";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа с рсписанием";
-include("header.php");
+$this->title="Работа с рсписанием";
+//include("header.php");
 $dn=array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
 $DayPr=mktime(0,0,0,date("m"),date("d"),date("Y"));
 if (date("w",$DayPr)==0) $day=7;
@@ -181,6 +181,6 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 				echo "</table>";
 			}
 		}
-echo "<form action='raspis.php' method='post'><center><input name='' type='submit'  value='ОК'/></center></form>";include("footer.php");
+echo "<form action='raspis.php' method='post'><center><input name='' type='submit'  value='ОК'/></center></form>";//include("footer.php");
 ?>
 

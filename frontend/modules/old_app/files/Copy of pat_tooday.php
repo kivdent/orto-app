@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Пациенты на сегодня";
-include("header.php");
+$this->title="Пациенты на сегодня";
+//include("header.php");
 if (isset($_SESSION['pat'])) unset($_SESSION['pat']);
 if (isset($_SESSION['OsmID'])) unset($_SESSION['OsmID']);
 if ($_GET['action']=='del')
@@ -54,5 +54,5 @@ else
 	}
 	else echo "<center><span class='head1'>Пациентов на сегодня нет</span></center>";
 }
-include("footer.php");
+//include("footer.php");
 ?>

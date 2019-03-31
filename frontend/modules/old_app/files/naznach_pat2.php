@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Работа с расписанием"; 
-include("header.php");
+$this->title="Работа с расписанием"; 
+//include("header.php");
 echo "<a href='naznach_pat_full.php'>naznach_pat2.php</a>";
 echo "<h4>Выбирите продолжение</h4>";
 echo "<hr />"; 
@@ -268,5 +268,5 @@ ORDER BY dolzh ASC";
 					$DayPr=$DayPr+(24*60*60);
 			}
 }			
-include("footer.php");
+//include("footer.php");
 ?>

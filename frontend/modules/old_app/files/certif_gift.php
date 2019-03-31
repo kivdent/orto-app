@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Подарочные сертификаты"; 
-include("header.php");
+$this->title="Подарочные сертификаты"; 
+//include("header.php");
 //Выданные сертификаты
 //Выдать сетификат
 switch ($_GET['action'])
@@ -105,5 +105,5 @@ switch ($_GET['action'])
                echo "</table>";    
                 break;
 }
-include("footer.php");
+//include("footer.php");
 ?>

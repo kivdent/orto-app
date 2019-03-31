@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Финансовый отчёт за день"; 
-include("header.php");
+$this->title="Финансовый отчёт за день"; 
+//include("header.php");
 $qsm=1;
 echo "<form action='dir_den.php' method='get' >
 			<span class='head2'>Оплата за лечение наличными:</span>";
@@ -272,5 +272,5 @@ $query = "SELECT
 
 			</form>";
 
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="День рождения";   
-include("header.php");
+$this->title="День рождения";   
+//include("header.php");
 $query = "SELECT
 					DATE_FORMAT(`klinikpat`.`dr`, '%d.%m.%Y' ) as date,
  			   	`klinikpat`.`surname`,
@@ -105,5 +105,5 @@ $tables=array ("dnev","zaknar","schet_orto");
 
  }
 echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,7 +1,7 @@
 <?php
 $ThisVU="registrator";
-$ModName="Незаполненные карты";
-include("header.php");
+$this->title="Незаполненные карты";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "del":
@@ -54,5 +54,5 @@ for ($i=0;$i<$count;$i++)
           </tr>";
 }
 echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

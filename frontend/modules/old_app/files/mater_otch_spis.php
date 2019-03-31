@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Отчёт по списанию"; 
+$this->title="Отчёт по списанию"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 $query = "SELECT `id`, `date` FROM `mater_spis` ORDER BY `date`";
 ////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -101,5 +101,5 @@ WHERE ((`mater`.`id` =`mater_spis_soot`.`mater`) AND (`mater_spis_soot`.`mater_s
 			echo "</table>";
 			echo "<a href=\"print.php?type=mater_otch_spis&id=".$_GET['id']."\" class='menu2'>Печать отчёта</a>";
 		}
-include("footer.php");
+//include("footer.php");
 ?>

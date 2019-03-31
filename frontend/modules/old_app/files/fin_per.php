@@ -1,7 +1,7 @@
 <?php
 $ThisVU="buhg";
-$ModName="Финансовый отчёт по врачам за период";
-include("header.php");
+$this->title="Финансовый отчёт по врачам за период";
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "setPer":
@@ -20,7 +20,7 @@ switch ($_GET['action'])
 						$dt=explode("-",$row['okonch']);
 						msg('Начало периода не может быть раньше ',$dt[2].'.'.$dt[1].'.'.$dt[0]);
 						exit;
-						include("footer.php");	
+						//include("footer.php");	
 					}
 					$query = "INSERT INTO `fin-per` (`id`, `nach`, `okonch`,`uet`) VALUES 
 													(NULL,'".$dtN."','".$dtO."','".$uet."')" ;
@@ -29,7 +29,7 @@ switch ($_GET['action'])
 					$row = mysqli_fetch_array($result);
 					ret('fin_per.php');
 				
-					include("footer.php");	
+					//include("footer.php");	
 					exit;
 			break;
 		}
@@ -193,12 +193,12 @@ switch ($_GET['action'])
 <input name='' type='submit' Value='Сохранить'/></form>";
 
 		
-		include("footer.php");
+		//include("footer.php");
 		exit;	
 	break;
 }
 echo "<div class=\"head1\">Финансовый отчёт по врачам за период</div>";
 
 echo "<a href=\"fin_per.php?action=setPer\" class=\"menu\">Установить период</a>";
-include("footer.php");
+//include("footer.php");
 ?>

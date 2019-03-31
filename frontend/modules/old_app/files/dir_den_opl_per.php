@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за период"; 
-include("header.php");
+$this->title="Финансовый отчёт за период"; 
+//include("header.php");
 switch ($_GET['type'])
 {
 	case "vrach_otch":
@@ -303,7 +303,7 @@ for ($i=0;$i<$count;$i++)
 	}
 
 echo "</table>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	break;
 }
@@ -485,5 +485,5 @@ for ($i=0;$i<$count;$i++)
 	}
 }
 echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

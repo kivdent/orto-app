@@ -4,7 +4,8 @@ namespace frontend\modules\old_app\controllers;
 
 use yii\web\Controller;
 use Yii;
-use backend\models\User;
+
+use frontend\modules\userInterface\models\UserInterface;
 
 /**
  * Default controller for the `old_app` module
@@ -15,18 +16,22 @@ class DefaultController extends Controller {
      * Renders the index view for the module
      * @return string
      */
-    /*@var $user User*/
-    public function actionIndex($file) {
+    /* @var $userInterface UserInterface */
+    public function actionIndex($path) {
         if (Yii::$app->user->isGuest) {
             $this->redirect(['/site/login']);
         }
-        $user= User::getUserById(Yii::$app->user->id);
-        $_SESSION['UserName'] = $user->employe->surname.' '.$user->employe->name.' '.$user->employe->otch.' ';
-        $_SESSION['UserID'] = $user->id;
-       // $_SESSION['valid_user'] = $row['Nazv'];
-      //  $_SESSION['user_prava'] = $row['UsarPrava'];
+
+        $userInterface = new UserInterface(Yii::$app->user->id);
+        $_SESSION['UserName'] = $userInterface->user_full_name;
+        $_SESSION['UserID'] = $userInterface->user_id;
+        // $_SESSION['valid_user'] = $row['Nazv'];
+        //  $_SESSION['user_prava'] = $row['UsarPrava'];
+        //var_dump($userInterface->getMenuItems());
+        $this->view->params['userMenuItems']=$userInterface->getMenuItems();
         return $this->render('index', [
-                    'file' => $file,
+                    'path' => $path,
+                    'userInterface' => $userInterface,
         ]);
     }
 

@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Выдача материалов"; 
+$this->title="Выдача материалов"; 
 $js="spisok";  
-include("header.php");
+//include("header.php");
 echo "<script language=\"JavaScript\" type=\"text/javascript\">
 function AddEl(id,qp,v)
 {
@@ -116,7 +116,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 		}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "del":
@@ -180,7 +180,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 			}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "save":
@@ -460,5 +460,5 @@ echo "</TABLE>";
 
 
 
-include("footer.php");
+//include("footer.php");
 ?>

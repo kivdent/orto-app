@@ -64,10 +64,10 @@ AppAsset::register($this);
                     <div class="col-lg-3">
                         <!--Menu-->
                         <?php
-                        if (!Yii::$app->user->isGuest) {
-                            Nav::widget([
+                        if (!Yii::$app->user->isGuest and isset($this->params['userMenuItems'])) {
+                          echo  Nav::widget([
                                 'options' => ['class' => 'navbar-left nav-pills nav-stacked'],
-                                'items' => Router::getMenuItems(Yii::$app->user->id)
+                                'items' => $this->params['userMenuItems'],
                             ]);
                         }
                         ?>

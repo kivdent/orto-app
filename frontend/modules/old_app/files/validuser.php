@@ -1,5 +1,5 @@
 <?php 
-session_start();
+
 if (((!($_SESSION['valid_user']==$ThisVU)) and (!($ThisVU=="all"))) or (!isset($_SESSION['UserName'])))
 {
 echo "<title>Ошибка авторизации</title></head><body>";
@@ -8,5 +8,5 @@ echo "<hr />";
 echo "<a href=index.php>Ввести имя пользователя и пароль</a>";
 exit;
 }
-echo "<title>".$ModName." - Пользователь: ".$_SESSION['UserName']."</title></head><body>";
+echo "<title>".$this->title." - Пользователь: ".$_SESSION['UserName']."</title></head><body>";
 ?>

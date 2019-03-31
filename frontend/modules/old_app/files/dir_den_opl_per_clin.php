@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за период"; 
-include("header.php");
+$this->title="Финансовый отчёт за период"; 
+//include("header.php");
 $query = "SELECT `id`,`nach` , `okonch` 
 FROM `fin-per` 
 ORDER BY `id` DESC" ;
@@ -127,5 +127,5 @@ for ($i=0; $i<$count; $i++)
 		echo "<span class='head2'>Наличные ".($summ[1]['nal']+$summ[1]['av']+$summ[2]['nal']+$summ[2]['av'])."</span><br />";
 		echo "<span class='head2'>Договора ".($summ[1]['bn']+$summ[2]['bn'])."</span><br />";
 		echo "<span class='head2'>Всего ".($summ[1]['nal']+$summ[1]['av']+$summ[1]['bn']+$summ[2]['nal']+$summ[2]['av']+$summ[2]['bn'])."</span><br />";		
-include("footer.php");
+//include("footer.php");
 ?>

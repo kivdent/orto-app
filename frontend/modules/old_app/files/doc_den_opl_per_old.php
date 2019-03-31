@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за день (оплаты)"; 
-include("header.php");
+$this->title="Финансовый отчёт за день (оплаты)"; 
+//include("header.php");
 include("tables.php");
 $qsm=1;
 $query = "SELECT `nach` , `okonch`,`uet`
@@ -471,5 +471,5 @@ echo "<div class=\"head1\">Отчётный период: ".$dtNp[2].".".$dtNp[1
                             $sum_old_sh+=$summ_orto;
                         }
         echo "<p><span class='head2'>Сумма для расчёта зарплаты: ".(($summ_bal*$uet)+$sum_old_sh)."</span><br />";
-include("footer.php");
+//include("footer.php");
 ?>

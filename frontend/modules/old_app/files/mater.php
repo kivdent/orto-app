@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="stms";
-$ModName="Материалы"; 
+$this->title="Материалы"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 echo " <script language='JavaScript' type='text/javascript'>
 					  function dis1()
 					  {
@@ -35,7 +35,7 @@ switch ($_GET['action'])
 		    <input type='submit' name='Submit' value='Добавить' />
 		  </div>
 		</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -91,7 +91,7 @@ VALUES (NULL,'".$_GET['naim']."','1')";
 					  <input type='submit' name='Submit' value='Добавить' />
 					</div>
 				</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case"2":
@@ -265,7 +265,7 @@ VALUES (NULL, '".$_GET['naim']."', '".$_GET['edizm']."', '".$QPack."', '".$QPric
 				  <input type='submit' name='del' value='Удалить материал' />
 			  </div>
 			</form>";	
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 	
@@ -334,5 +334,5 @@ else
 {
 	echo "<center><a href='mater.php?action=AddCat&step=1' class='menu'>Добавить категорию</a></center>";
 }
-include("footer.php");
+//include("footer.php");
 ?>

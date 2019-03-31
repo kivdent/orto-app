@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Проверка Емайлов по имап"; 
-include("header.php");
+$this->title="Проверка Емайлов по имап"; 
+//include("header.php");
 echo "<div class='head1'>Проверка емайлов</div>";
 phpinfo();
 // email с которого слушать команды

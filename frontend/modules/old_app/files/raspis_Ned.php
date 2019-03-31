@@ -1,7 +1,7 @@
 <?php
 $ThisVU="administrator";
-$ModName="Введите необходимые данные для составление пакета";
-include("header.php");
+$this->title="Введите необходимые данные для составление пакета";
+//include("header.php");
 if (isset($_POST['save']))
 {
 
@@ -259,5 +259,5 @@ echo "  </table>
         <input  name='cancel' value='Отменить'  type='submit'/>
     </label> </div>
 </form>";
-include("footer.php");
+//include("footer.php");
 ?>

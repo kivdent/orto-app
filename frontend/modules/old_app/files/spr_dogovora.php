@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="administrator";
-$ModName="Договора";
+$this->title="Договора";
 $js="find"; 
-include("header.php");
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -105,5 +105,5 @@ WHERE ((`dogovor`.`firm` ='".$fid."') AND (`klinikpat`.`id` =`dogovor`.`pat` ))"
 	</form></td>
   </tr>
 </table>";
-include("footer.php");
+//include("footer.php");
 ?>

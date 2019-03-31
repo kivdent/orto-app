@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
 $js="spisok";
-$ModName="Соответствия материалов для автосписания"; 
-include("header.php");
+$this->title="Соответствия материалов для автосписания"; 
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "addmat":
@@ -58,7 +58,7 @@ switch ($_GET['action'])
 				}
 			 
 			echo "</TABLE>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -265,7 +265,7 @@ echo "</select><br />
 
 			echo "</TABLE>";
 			}
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 		}
@@ -301,7 +301,7 @@ ORDER BY `mater_avto_spis`.`mater`";
 				{
 					echo "<div class=\"head1\">Нет материалов для контроля</div>
 					<input name=''type='button' value='Добавить материал в список' onclick='location.href=\"mater_sootv.php?action=addmat&step=1\"'/>";
-					include("footer.php");
+					//include("footer.php");
 					exit;
 					
 				}
@@ -361,5 +361,5 @@ ORDER BY `mater_avto_spis`.`mater`";
 				echo "<input name=''type='button' value='Добавить манипуляции' onclick='location.href=\"mater_sootv.php?action=addmat&step=2&subaction=pred&mater=".$mater."\"'/>";
 				
 				echo "</form>";
-include("footer.php");
+//include("footer.php");
 ?>

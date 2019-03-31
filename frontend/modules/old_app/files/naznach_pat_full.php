@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 $ThisVU="all";
-$ModName="Работа с расписанием";
+$this->title="Работа с расписанием";
 $js="ShowPat"; 
 include('mysql_fuction.php');
-include("header.php");
+//include("header.php");
 echo "<div class='head1'>Полное расписание</div>";
 echo "<center><a href='naznach_pat.php' class='menu2'>Свободные часы</a></center>";
 echo "<hr width='100%' noshade='noshade' size='1'/>";
@@ -298,5 +298,5 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 				echo "<hr width='100%' noshade='noshade' size='1'/>";
 				
 			}	
-include("footer.php");
+//include("footer.php");
 ?>

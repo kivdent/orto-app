@@ -1,6 +1,6 @@
 <?php
 $ThisVU="all";
-$ModName="Работа спациентом";
+$this->title="Работа спациентом";
 $js="insert";
 include("header2.php");
 $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=1 order by range, manip";

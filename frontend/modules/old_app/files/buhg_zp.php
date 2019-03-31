@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="buhg";
-$ModName="Начисление заработной платы";  
-include("header.php");
+$this->title="Начисление заработной платы";  
+//include("header.php");
 include("tables.php");
 $query = "SELECT `id`
 FROM `preysk`";
@@ -79,7 +79,8 @@ echo "</select ><div class='head1'>Начисление заработной п�
 
 
 
-//            Код В стиле  MVC       
+//            Код В стиле  MVC      
+         Yii::$app->params['old_app_mvc_path']=Yii::getAlias('@frontend/modules/old_app/files/'); 
 //Подключение к БД
 require_once 'components/Db.php';
 
@@ -340,5 +341,5 @@ for ($i = 0; $i < $count; $i++) {
     echo "</td></tr>";
 }
 echo "</table><br />";
-include("footer.php");
+//include("footer.php");
 ?>

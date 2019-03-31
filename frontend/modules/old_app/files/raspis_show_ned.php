@@ -1,7 +1,7 @@
 <?php 
 $ThisVU="all";
-$ModName="Расписание на неделю"; 
-include("header.php");
+$this->title="Расписание на неделю"; 
+//include("header.php");
 $dn=array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
 if (date("w")==0) $day=7;
 else $day=date("w");
@@ -37,5 +37,5 @@ echo "</tr><tr>";
 		</table>";
 }
 echo "  </tr></table>";
-include("footer.php");
+//include("footer.php");
 ?>

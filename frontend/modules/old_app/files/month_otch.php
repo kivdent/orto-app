@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Финансовый отчёт за период"; 
-include("header.php");
+$this->title="Финансовый отчёт за период"; 
+//include("header.php");
 $query = "SELECT `id`,`nach` , `okonch` 
 FROM `fin-per` 
 ORDER BY `id` DESC" ;
@@ -73,5 +73,5 @@ for ($i=0; $i<$count; $i++)
 	
 	}
 	echo "</table>";
-include("footer.php");
+//include("footer.php");
 ?>

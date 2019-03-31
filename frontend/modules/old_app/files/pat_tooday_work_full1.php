@@ -1,6 +1,6 @@
 <?php
 $ThisVU="terapevt";
-$ModName="Работа спациентом";
+$this->title="Работа спациентом";
 $js="insert";
 include("header2.php");
 if (!(isset($_SESSION[Nid]))) $_SESSION[Nid]=$_GET[Nid];
@@ -677,7 +677,7 @@ echo "                </table></td>
 ".stripslashes($row1[text])."</div><hr width='100%' noshade='noshade' size='1'/>";
 				}
 				echo "</form>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			}
 		}
@@ -991,7 +991,7 @@ include("query.php");
 			 	echo "<input name='step' type='hidden' value='5' />";
 				echo "<input name='count' type='hidden' value='".($_GET[count])."' />";
 
-			include("footer.php");
+			//include("footer.php");
 	exit;
 		}
 		else
@@ -1294,7 +1294,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 			}
 
 			echo "</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	break;
 	case "5":

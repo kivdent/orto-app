@@ -1,7 +1,7 @@
 <?php
 $ThisVU="administrator";
-$ModName="Анамнез";
-include("header.php");
+$this->title="Анамнез";
+//include("header.php");
 if ((($_GET['vid'])==0) or (!(isset($_GET['vid']))))
 {
 /////////////Ввод жалоб
@@ -204,5 +204,5 @@ echo"
   </tr>
 </table>";	
 }
-include("footer.php");
+//include("footer.php");
 ?>

@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Отчёт по выдачам"; 
+$this->title="Отчёт по выдачам"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 $query = "SELECT `id`,`date` FROM `vid_mater` ORDER BY `date`";
 ////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -106,5 +106,5 @@ WHERE ((`mater`.`id` =`mater_vid`.`mater`) AND (`mater_vid`.`vid_mater` ='".$_GE
 			echo "</table>";
 			echo "<a href=\"prin.php?type=mater_otch_vid&id=".$_GET['id']."\" class='menu2'>Печать отчёта</a>";
 		}
-include("footer.php");
+//include("footer.php");
 ?>

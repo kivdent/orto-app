@@ -1,6 +1,6 @@
 <?php
 $ThisVU="all";
-$ModName="Диагноз";
+$this->title="Диагноз";
 $js="insert";
 include("header2.php");
 echo "<form name='card' id='card'>

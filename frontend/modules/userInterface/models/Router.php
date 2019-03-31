@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
  * @author kivde
  */
 class Router {
-
+    const DEFAULT_ROUTE='/old_app?file=pat_tooday.php';
     /**
      * 
      * @param $user_id id пользователя
@@ -38,7 +38,7 @@ class Router {
     public static function getDefaultRoute(int $user_id) {
         $role = self::getRole($user_id);
         $module = Yii::$app->getModule('userInterface');
-        $route = isset($module->params['defaultRoutes'][$role[0]])?isset($module->params['defaultRoutes'][$role[0]]):'/old_app?file=pat_tooday.php';
+        $route = isset($module->params['defaultRoutes'][$role[0]])?$module->params['defaultRoutes'][$role[0]]:self::DEFAULT_ROUTE;
         return $route;
     }
 /**

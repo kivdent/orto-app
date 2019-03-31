@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Обзвон"; 
-include("header.php");
+$this->title="Обзвон"; 
+//include("header.php");
 
-include("footer.php");
+//include("footer.php");
 ?>

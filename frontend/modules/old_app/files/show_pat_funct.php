@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Работа с пациентами"; 
+$this->title="Работа с пациентами"; 
 
-include("header.php");
+//include("header.php");
 // Форма для вывода пациентов
 echo "<h3 align=center><strong>Пациенты клиники</strong></h3>";
 
@@ -46,5 +46,5 @@ function ajax_search(){
 }
 </script>";
 
-include("footer.php");
+//include("footer.php");
 ?>

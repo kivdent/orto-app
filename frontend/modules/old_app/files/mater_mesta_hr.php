@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Место тхранения"; 
+$this->title="Место тхранения"; 
 $js="spisok";
-include("header.php");
+//include("header.php");
 switch ($_GET['action'])
 {
 	case "add":
@@ -52,7 +52,7 @@ echo "      </select><br />
 <input value='Изменить' name='change' type='submit'/>
 </center>
 		</form>";
-	include("footer.php");
+	//include("footer.php");
 	exit;
 	break;
 	
@@ -90,5 +90,5 @@ echo "      </select>
 <input name='del' type='submit'  value='Изменить' onclick=\"document.edizmf.action.value='ch'\"/>
 </center>
 		</form>";
-include("footer.php");
+//include("footer.php");
 ?>

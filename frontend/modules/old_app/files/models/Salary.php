@@ -11,9 +11,9 @@
  *
  * @author kivde
  */
-require_once 'SalaryCard.php';
-require_once 'PriceListTables.php';
-require_once 'PriceList.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/SalaryCard.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/PriceListTables.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/PriceList.php';
 
 class Salary {
     /*
@@ -47,7 +47,7 @@ class Salary {
 
         $salaryCardsList = SalaryCard::getSalaryCardList();
 
-        $sqTables = include 'components/tables.php';
+        $sqTables = include Yii::$app->params['old_app_mvc_path'].'components/tables.php';
 
         foreach ($mysqlTablesPriceList as $priceList) {//Цикл по таблицам всех манипуляций 
             foreach ($salaryCardsList as &$salaryCard) {//Цикл по зарплатным картам
@@ -238,7 +238,7 @@ class Salary {
     public static function getSalarySummFromPaymentsByWorkerId($WorkerId,$reportingPeriod){
        
       
-        $sqTables = include 'components/tables.php';
+        $sqTables = include Yii::$app->params['old_app_mvc_path'].'components/tables.php';
 
                $summ=0;
                 foreach ($sqTables as $table => $value) {//цикл по таблицам различных чеков

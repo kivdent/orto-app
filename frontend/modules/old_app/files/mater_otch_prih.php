@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Отчёт по приходам"; 
+$this->title="Отчёт по приходам"; 
 $js="spisok"; 
-include("header.php");
+//include("header.php");
 $query = "SELECT `id`, `date` FROM `prih` ORDER BY `date` asc";
 ////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -96,5 +96,5 @@ for ($i=$yn;$i<=$yo;$i++)
 			echo "</table>";
 			echo "<a href=\"print.php?type=mater_otch_prih&id=".$_GET['id']."\" class='menu2'>Печать отчёта</a>";
 		}
-include("footer.php");
+//include("footer.php");
 ?>

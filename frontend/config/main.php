@@ -1,9 +1,7 @@
 <?php
+
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+        require __DIR__ . '/../../common/config/params.php', require __DIR__ . '/../../common/config/params-local.php', require __DIR__ . '/params.php', require __DIR__ . '/params-local.php'
 );
 
 return [
@@ -17,7 +15,6 @@ return [
         ],
         'userInterface' => [
             'class' => 'frontend\modules\userInterface\Module',
-            
         ],
 //        'admin' => [   //Модуль для управления правами на основе RBAC
 //            'class' => 'mdm\admin\Module',
@@ -32,6 +29,7 @@ return [
 //        ],
     ],
     'components' => [
+        
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
@@ -56,15 +54,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-       
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '/'=>'/site/index',
+                '/' => '/site/index',
+                'old_app/<path:.+>'=>'/old_app/',
             ],
         ],
-       
     ],
 //     'as access' => [
 //        'class' => 'mdm\admin\components\AccessControl',

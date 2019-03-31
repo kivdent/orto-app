@@ -11,8 +11,8 @@
  *
  * @author kivde
  */
-require_once 'models/ReportingPeriod.php';
-require_once 'models/FinancialReport.php';
+require_once Yii::$app->params['old_app_mvc_path'].'models/ReportingPeriod.php';
+require_once  Yii::$app->params['old_app_mvc_path'].'models/FinancialReport.php';
 
 class FinancialReportController {
     
@@ -29,6 +29,6 @@ class FinancialReportController {
             //$type='get'.$type;
             call_user_func(array($finacialReport,'get'.$type)); 
                        
-           require_once ('views/FinancialReport_'.$type.'.php');
+           require_once (Yii::$app->params['old_app_mvc_path'].'views/FinancialReport_'.$type.'.php');
     }
 }

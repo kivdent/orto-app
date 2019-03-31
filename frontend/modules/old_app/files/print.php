@@ -1,8 +1,8 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName=""; 
+$this->title=""; 
 include("header2.php");
 include("tables.php");
 switch ($_GET['podr'])

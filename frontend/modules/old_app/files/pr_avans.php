@@ -1,9 +1,9 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="registrator";
-$ModName="Приём аванса";
-include("header.php");
+$this->title="Приём аванса";
+//include("header.php");
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
 //////////echo $query."<br />";
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -83,5 +83,5 @@ WHERE `id`=".$_SESSION['kassa'];
 		ret("pat_tooday_reg.php");
 	break;
 }
-include("footer.php");
+//include("footer.php");
 ?>

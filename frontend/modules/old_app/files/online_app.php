@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
-$ModName="Онлайн заявки";
-include("header.php");
+$this->title="Онлайн заявки";
+//include("header.php");
 include("function_oap.php");
 echo "
 <script type=\"text/JavaScript\" src=\"js/jq.js\">
@@ -62,6 +62,6 @@ echo "<tr id=\"row".$row['id']."\" ".$bgcolor.">
        </tr>";
 }
 echo "</tbody></table>";
-include("footer.php");
+//include("footer.php");
 exit;
 ?>

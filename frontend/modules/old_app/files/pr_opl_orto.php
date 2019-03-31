@@ -1,10 +1,10 @@
 <?php
-session_start();
+
 include('mysql_fuction.php');
 $ThisVU="all";
-$ModName="Приём оплаты ортодонтия";
+$this->title="Приём оплаты ортодонтия";
 $js="ShowPat";
-include("header.php");
+//include("header.php");
 if ($_GET['type']=="vrach")
 {
 				echo "<table width='100%' border='1' cellpadding='0' cellspacing='0' bordercolor='#000000'>
@@ -56,7 +56,7 @@ if ($_GET['type']=="vrach")
 			unset($_SESSION['an']);
 			unset($_SESSION['OsmID']);
 			unset($_SESSION['summ']);	
-		include("footer.php");
+		//include("footer.php");
 exit;			
 }
 $query = "SELECT `id`, `summ` FROM `kassa` WHERE (`date`='".date('Y-m-d')."') and (`timeO`='00:00:00')";
@@ -156,7 +156,7 @@ switch ($_GET['action'])
 		if ($row['vnes']!=0)echo "<a href='pr_opl_orto.php?action=prOpl&step=3&id_shema=".$_GET['sh_id']."&n=13&summ=".($row['summ']-$row['vnes'])."' class='menu2'>Принять остаток (".($row['summ']-$row['vnes'])." р.)</a><br />";
 		else
 echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n=13&summ=".round(($row['summ']-($row['summ']*0.05)),-1)."' class='menu2'>Принять всю сумму сразу (".round(($row['summ']-($row['summ']*0.05)),-1)." р.) Скидка 5%.</a></span>";
-			include("footer.php");
+			//include("footer.php");
 			exit;
 			break;
 			case "2":
@@ -182,7 +182,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 					if (isset($av)) echo "<input name='av' type='hidden' value=".$av.">";
 					if (isset($firm)) echo "<input name='firm' type='hidden' value='".$firm."'>";
 					echo "<input name='ok' type='submit'  value='Дальше>>>'/></form>";
-					include("footer.php");
+					//include("footer.php");
 				exit;
 				}
 				else
@@ -254,7 +254,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 				$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				echo "<a class='mmenu' target='_blanc' href=\"print.php?type=orto_sch&id_shema=".$_GET['id_shema']."&summ=".$_GET['summ']."&podr=".$_SESSION['podr']."\">Печать чека</a><br />";
 				echo "<a class='mmenu' href=\"pr_opl_orto.php\">Дальше</a>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "3":
@@ -317,7 +317,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 					if (isset($av)) echo "<input name='av' type='hidden' value=".$av.">";
 					if (isset($firm)) echo "<input name='firm' type='hidden' value='".$firm."'>";
 					echo "<input name='ok' type='submit'  value='Дальше>>>'/></form>";
-					include("footer.php");
+					//include("footer.php");
 				exit;
 				}
 				else
@@ -393,7 +393,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 				}
 				echo "<a class='mmenu' target='_blanc' href=\"print.php?type=orto_sch&id_shema=".$_GET['id_shema']."&summ=".$_GET['summ']."\">Печать чека</a><br />";
 				echo "<a class='mmenu' href=\"pr_opl_orto.php\">Дальше</a>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "4":
@@ -419,7 +419,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 					if (isset($av)) echo "<input name='av' type='hidden' value=".$av.">";
 					if (isset($firm)) echo "<input name='firm' type='hidden' value='".$firm."'>";
 					echo "<input name='ok' type='submit'  value='Дальше>>>'/></form>";
-					include("footer.php");
+					//include("footer.php");
 				exit;
 				}
 				else
@@ -491,7 +491,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 				$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				echo "<a class='mmenu' target='_blanc' href=\"print.php?type=orto_sch&id_shema=".$_GET['id_shema']."&summ=".$_GET['summ']."\">Печать чека</a><br />";
 				echo "<a class='mmenu' href=\"pr_opl_orto.php\">Дальше</a>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 			case "5":
@@ -517,7 +517,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 					if (isset($av)) echo "<input name='av' type='hidden' value=".$av.">";
 					if (isset($firm)) echo "<input name='firm' type='hidden' value='".$firm."'>";
 					echo "<input name='ok' type='submit'  value='Дальше>>>'/></form>";
-					include("footer.php");
+					//include("footer.php");
 				exit;
 				}
 				else
@@ -589,7 +589,7 @@ echo "<a href='pr_opl_orto.php?action=prOpl&step=4&id_shema=".$_GET['sh_id']."&n
 				$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 				echo "<a class='mmenu' target='_blanc' href=\"print.php?type=orto_sch&id_shema=".$_GET['id_shema']."&summ=".$_GET['summ']."&podr=".$_GET['podr']."\">Печать чека</a><br />";
 				echo "<a class='mmenu' href=\"pr_opl_orto.php\">Дальше</a>";
-				include("footer.php");
+				//include("footer.php");
 				exit;
 			break;
 		}
@@ -721,5 +721,5 @@ else
 }
 echo "
               ";
-include("footer.php");
+//include("footer.php");
 ?>

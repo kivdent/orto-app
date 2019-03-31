@@ -1,8 +1,8 @@
 <?php
 $ThisVU="stms";
-$ModName="Составление заявки"; 
+$this->title="Составление заявки"; 
 $js="spisok";  
-include("header.php");
+//include("header.php");
 echo "<script language=\"JavaScript\" type=\"text/javascript\">
 function AddEl(id,qp,v)
 {
@@ -93,7 +93,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 		}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "del":
@@ -158,7 +158,7 @@ switch ($_GET['action'])
               </center>
 			  </form>";	
 			}
-		include("footer.php");
+		//include("footer.php");
 		exit;
 	break;
 	case "save":
@@ -248,7 +248,7 @@ VALUES ";
 		      <br />
 		      <input type='submit' name='Submit' value='Добавить' />
 		    </form>	";
-			include("footer.php");
+			//include("footer.php");
 				exit;
 			break;
 			case "2":
@@ -438,5 +438,5 @@ echo "<script language=\"JavaScript\" type=\"text/javascript\">
 			}
 
 
-include("footer.php");
+//include("footer.php");
 ?>

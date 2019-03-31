@@ -1,6 +1,6 @@
 <?php
 $ThisVU="";
-$ModName=""; 
-include("header.php");
-include("footer.php");
+$this->title=""; 
+//include("header.php");
+//include("footer.php");
 ?>
