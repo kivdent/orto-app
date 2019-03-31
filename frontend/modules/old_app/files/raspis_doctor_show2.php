@@ -12,15 +12,15 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				$StartD=$StartD+(($_GET[d])*(7*24*60*60));
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				if ($StartD==$_GET['StartD']) $prev="";
-				else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад<a>";
+				else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад</a>";
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -191,14 +191,14 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 												echo "<tr>
 												<td class='smalltext'>".date('G:i',$tm)."</td>
 												<td>&nbsp;</td>
-												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'><a></td></tr>";
+												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'></a></td></tr>";
 											}
 											echo "<tr>";
 											echo "<td class='smalltext' >".date('G:i',$nachN1)."</td>";
 											echo "<td><a href='#' class='small'>".$nP."</a><br /></td>
-											<td align='center'><a href='naznach.php?IDN=".$IDN."&action=del&pred=naznach_pat_full.php' class='small'>Отменить<a><br />
-											<a href='naznach.php?IDN=".$IDN."&action=peren&step=1&pred=naznach_pat_full.php' class='small'>Переназначить<a><br />
-											<a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=naznach_pat_full.php' class='small'>Изменить время приёма<a><br />
+											<td align='center'><a href='naznach.php?IDN=".$IDN."&action=del&pred=naznach_pat_full.php' class='small'>Отменить</a><br />
+											<a href='naznach.php?IDN=".$IDN."&action=peren&step=1&pred=naznach_pat_full.php' class='small'>Переназначить</a><br />
+											<a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=naznach_pat_full.php' class='small'>Изменить время приёма</a><br />
 ";
 											echo "</td>";
 											echo "</tr>";	
@@ -213,7 +213,7 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 										echo "<tr>
 												<td>".date('G:i',$tm)."</td>
 												<td>&nbsp;</td>
-												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'>Назначить<a></td></tr>";
+												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'>Назначить</a></td></tr>";
 											if ($tmd>$tm) $tm=$tmd;
 											else
 										{ 
@@ -227,7 +227,7 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 									echo "<tr>
 									<td>".date('G:i',$tm)."</td>
 									<td>&nbsp;</td>
-									<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'>Назначить<a></td></tr>";
+									<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat_full.php'>Назначить</a></td></tr>";
 									if ($tmd>$tm) $tm=$tmd;
 									else
 									{ 

@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
 $this->title=""; 
-include("header2.php");
+//include("header2.php");
 switch ($_GET['podr'])
 	{
 	 case "1":
@@ -44,7 +44,7 @@ $dt=explode('-',$row['date']);
 				  Подпись пациента______________ </div>";
 
 				 
-				  include("footer2.php");
+				  //include("footer2.php");
 				  exit;
 				  
 	break;
@@ -845,5 +845,5 @@ echo "<script language=\"JavaScript\" type=\"text/javascript\">
 //schet_hyg
 //echo "<center> <a href='#' onclick='window.close()' class='mmenu'>Закрыть окно</a</center>";
 
-include("footer2.php");
+//include("footer2.php");
 ?>

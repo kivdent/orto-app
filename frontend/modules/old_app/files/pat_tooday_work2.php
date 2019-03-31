@@ -2,7 +2,7 @@
 $ThisVU="terapevt";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 	switch ($_GET['step'])
 {
 case "4":
@@ -375,7 +375,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -417,7 +417,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE( (preysk
 					$mat[$cm]['UpId']=$row['UpId'];
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 
 				echo "<table width='80%' border='0'>";
@@ -700,5 +700,5 @@ unset($_SESSION['chek']);
 break;
 }
 ////////////Лечение зуба
-include("footer2.php");
+//include("footer2.php");
 ?>

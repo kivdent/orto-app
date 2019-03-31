@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=1 order by range, manip";
 		////////////echo $query."<br />";
 		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -28,7 +28,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=1
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{

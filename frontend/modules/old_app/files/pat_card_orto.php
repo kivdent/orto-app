@@ -1,4 +1,5 @@
 <?php
+include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Работа с ортодонтическими картами"; 
 $js="ShowPat";

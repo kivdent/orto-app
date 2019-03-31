@@ -2,7 +2,7 @@
 $ThisVU="terapevt";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 if (!(isset($_SESSION[Nid]))) $_SESSION[Nid]=$_GET[Nid];
 if (($_GET[perv]==1) or ($_GET[SodNazn]==4) or ($_GET[action]=="osm"))
 {
@@ -576,7 +576,7 @@ echo "                </table></td>
 		<input name='Input' type='submit'  value='Дальше>>>'/></div>  
 		</form>";
 		exit;
-		include("footer2.php");
+		//include("footer2.php");
 		
 	}
 	    $z=$_GET[Nzub];
@@ -1269,7 +1269,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -1477,7 +1477,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 			if ($i==1) $query.=$m[$i][1];
 			else $query.=", ".$m[$i][1];
 		}
-		//include("footer2.php");
+		////include("footer2.php");
 		$query.=")";
 		$ssk=($s-round($s*($ck/100)));		
 		echo $query."<br />";
@@ -1565,5 +1565,5 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='".$_SESSION
 }
 
 ////////////Лечение зуба
-include("footer2.php");
+//include("footer2.php");
 ?>

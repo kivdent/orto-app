@@ -34,7 +34,7 @@ return [
                 ['label' => 'Должности', 'url' => '/old_app/spr_dolzh.php',],
             ],
             'therapist' => [
-                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php',],
+                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_doctor_show.php',],
                 ['label' => 'Назначение пациентов', 'url' => '/old_app/naznach_pat.php',],
                 ['label' => 'Пациенты на сегодня врачи', 'url' => '/old_app/pat_tooday.php',],
                 ['label' => 'Добавить нового', 'url' => '/old_app/PatWork.php?add=add',],
@@ -49,7 +49,7 @@ return [
                 ['label' => 'Диспансеризация врачи', 'url' => '/old_app/disp_vrach.php',],
             ],
             'orthopedist' => [
-                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php',],
+                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_doctor_show.php',],
                 ['label' => 'Назначение пациентов', 'url' => '/old_app/naznach_pat.php',],
                 ['label' => 'Пациенты на сегодня врачи', 'url' => '/old_app/pat_tooday.php',],
                 ['label' => 'Добавить нового', 'url' => '/old_app/PatWork.php?add=add',],
@@ -64,7 +64,7 @@ return [
                 ['label' => 'Диспансеризация врачи', 'url' => '/old_app/disp_vrach.php',],
             ],
             'surgeon' => [
-                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php',],
+                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_doctor_show.php',],
                 ['label' => 'Назначение пациентов', 'url' => '/old_app/naznach_pat.php',],
                 ['label' => 'Пациенты на сегодня врачи', 'url' => '/old_app/pat_tooday.php',],
                 ['label' => 'Добавить нового', 'url' => '/old_app/PatWork.php?add=add',],
@@ -79,7 +79,7 @@ return [
                 ['label' => 'Диспансеризация врачи', 'url' => '/old_app/disp_vrach.php',],
             ],
             'orthodontist' => [
-                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php',],
+                ['label' => 'Ежедневник', 'url' => '/old_app/raspis_doctor_show.php',],
                 ['label' => 'Назначение пациентов', 'url' => '/old_app/naznach_pat.php',],
                 ['label' => 'Пациенты на сегодня ортодонтия', 'url' => '/old_app/pat_tooday_orto.php',],
                 ['label' => 'Добавить нового', 'url' => '/old_app/PatWork.php?add=add',],

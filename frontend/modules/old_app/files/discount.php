@@ -168,7 +168,7 @@ for ($i=0;$i<$dt_count;$i++)
 		}
 echo "</table><br />";
 //include("footer.php");
-exit;
+//exit;
 break;
 
 
@@ -197,7 +197,7 @@ switch ($_GET['action'])
 			
 			//echo "ChQ('".$_GET['id']."','".$_SESSION['chek'][$_GET['id']]['2']."')";
 			echo "</script>";
-			exit;
+			//exit;
 			}
 				$query = "SELECT `id` FROM `disc_cards` WHERE `pat`=".$_GET['pat'];
 				//echo $query."<br>";
@@ -226,7 +226,7 @@ switch ($_GET['action'])
 				Выдана карта №  ".$_GET['num']."
 				<br>Пациент ".$row[0]." ".$row[1]." ".$row[2];
 				//include("footer.php");
-				exit;
+				//exit;
 			break;
 		}
 	break;
@@ -373,7 +373,7 @@ for ($i=0;$i<$dt_count;$i++)
 		}
 echo "</table><br />";
 	//include("footer.php");
-	exit;
+	//exit;
 break;
 
 case "view":
@@ -405,12 +405,12 @@ ORDER BY `disc_cards`.`id`";
 	}
 	echo "</table><br />";
 	//include("footer.php");
-	exit;
+	//exit;
 break;
 case "types":
 	
 	//include("footer.php");
-	exit;
+	//exit;
 break;
 }
 ?>

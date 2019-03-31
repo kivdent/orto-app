@@ -62,15 +62,15 @@ if (!isset($_GET['show']))
 				$StartD=$StartD+(($_GET[d])*(7*24*60*60));
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				if ($StartD==$_GET['StartD']) $prev="";
-				else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад<a>";
+				else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад</a>";
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -211,13 +211,13 @@ ORDER BY dolzh ASC";
 													echo "<tr>";
 													echo "<td>".date('G:i',$tm)."</td>";
 													echo "<td>&nbsp;</td>";
-													echo "<td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить<a></td>";
+													echo "<td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить</a></td>";
 													echo "</tr>";	
 											}
 											//echo "<tr>";
 //											echo "<td>".date('G:i',$nachN1)."</td>";
 //											echo "<td>Занято<br /></td>
-//											<td><a href='naznach.php?IDN=".$IDN."&action=del'>Отменить<a>";
+//											<td><a href='naznach.php?IDN=".$IDN."&action=del'>Отменить</a>";
 //											echo "</td>";
 //											echo "</tr>";	
 											while ($tmd<=$okonchN1)
@@ -232,7 +232,7 @@ ORDER BY dolzh ASC";
 												echo "<td>".date('G:i',$tm)."</td>";
 												echo "<td>&nbsp;</td>";
 												echo "<td>
-												<a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить<a>
+												<a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить</a>
 												</td>";
 												echo "</tr>";
 												if ($tmd>$tm) $tm=$tmd;
@@ -250,7 +250,7 @@ ORDER BY dolzh ASC";
 									echo "<td>".date('G:i',$tm)."</td>";
 									echo "<td>&nbsp;</td>";
 									echo "<td>
-									<a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить<a>
+									<a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."'>Назначить</a>
 									</td>";
 									echo "</tr>";
 									if ($tmd>$tm) $tm=$tmd;

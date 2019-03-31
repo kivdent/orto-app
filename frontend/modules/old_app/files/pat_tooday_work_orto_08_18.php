@@ -4,7 +4,7 @@ include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 if (!(isset($_SESSION['proc_sk']))) $_SESSION['proc_sk']=0;
 	 switch ($_GET['action'])
 	{
@@ -590,7 +590,7 @@ echo "<a href='pr_opl_orto.php?type=vrach&step=4&id_shema=".$sh_id."&n=13&summ="
 						}
 					}
 					echo "<script language=\"JavaScript\" type=\"text/javascript\">
-					document.onclick = clickHandler; 
+					<!--document.onclick = clickHandler;--> 
 					</script>";
 				for($i=1;$i<=$cc;$i++)
 					{
@@ -1310,7 +1310,7 @@ if (!isset($_GET['skidka']))
 						}
 					}
 					echo "<script language=\"JavaScript\" type=\"text/javascript\">
-					document.onclick = clickHandler; 
+					<!--document.onclick = clickHandler;--> 
 					</script>";
 				for($i=1;$i<=$cc;$i++)
 					{
@@ -1356,11 +1356,11 @@ if (!isset($_GET['skidka']))
 				switch ($_SESSION['step'])
 				{
 					case "1":
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 					case "2":
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 				}
@@ -1370,11 +1370,11 @@ if (!isset($_GET['skidka']))
 				switch ($_SESSION['step'])
 				{
 					case "1":
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 					case "2":
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 				}
@@ -1417,7 +1417,7 @@ if (!isset($_GET['skidka']))
 						<input name='action' type='hidden' value='Sozd_SH' />
 						<input name='' Value='Сохранить' type='Submit'/>";
 						echo "</form>";
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 					case "2":
@@ -1430,7 +1430,7 @@ if (!isset($_GET['skidka']))
 						unset($_SESSION['pat_name']);
 						unset($_SESSION['step']);
 						unset($_SESSION['type']);
-						include("footer2.php");
+						//include("footer2.php");
 						exit;
 					break;
 				}
@@ -1450,11 +1450,11 @@ echo "		<div class='head3'>Пациент: ".$_SESSION['pat_name']."</div>
 ";
 			echo "<a href='pat_tooday_work_orto.php?action=Sozd_SH&type=br&step=1' class='menu2'>Брекеты</a><br />
 ";
-			include("footer2.php");
+			//include("footer2.php");
 			exit;
 		break;
 	}
-include("footer2.php");
+//include("footer2.php");
 exit;
 
 //////////////////////////////////////////////////////////////-------------------------//////////////////////////////////////
@@ -2631,7 +2631,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -2923,12 +2923,12 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='".$_SESSION
 }
 
 ////////////Лечение зуба
-include("footer2.php");
+//include("footer2.php");
 ?> <?php
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 	 switch ($_GET['action'])
 	{
 		case "Sozd_ZN":
@@ -3322,7 +3322,7 @@ include("header2.php");
 						}
 					}
 					echo "<script language=\"JavaScript\" type=\"text/javascript\">
-					document.onclick = clickHandler; 
+					<!--document.onclick = clickHandler;--> 
 					</script>";
 				for($i=1;$i<=$cc;$i++)
 					{
@@ -3355,7 +3355,7 @@ include("header2.php");
 		break;
 	}
 exit;
-include("footer2.php");
+//include("footer2.php");
 //////////////////////////////////////////////////////////////-------------------------//////////////////////////////////////
 if (($_GET['perv']==1) or ($_GET['SodNazn']==4) or ($_GET['action']=="osm"))
 {
@@ -4510,7 +4510,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -4802,5 +4802,5 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='".$_SESSION
 }
 
 ////////////Лечение зуба
-include("footer2.php");
+//include("footer2.php");
 ?>

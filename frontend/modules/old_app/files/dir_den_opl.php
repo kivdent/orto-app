@@ -14,20 +14,20 @@ echo "<span class='feature4'>ВНИМАНИЕ. Кассовая смена не 
 $zakr=0;
 }
 $dn=array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
-$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
+$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
 if (isset($_GET[d]))
 {
 	
 	$DayPr=mktime(0,0,0,date("m"),date("d"),date("Y"))+($_GET[d]*24*60*60);
-	$prev="<a href='dir_den_opl.php?d=".($_GET[d]-1)."' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."<a>";
-	$next="<a href='dir_den_opl.php?d=".($_GET[d]+1)."' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."<a>";
+	$prev="<a href='dir_den_opl.php?d=".($_GET[d]-1)."' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."</a>";
+	$next="<a href='dir_den_opl.php?d=".($_GET[d]+1)."' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."</a>";
 
 }
 else
 {
 	$DayPr=mktime(0,0,0,date("m"),date("d"),date("Y"));
-	$prev="<a href='dir_den_opl.php?d=-1' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."<a>";
-	$next="<a href='dir_den_opl.php.php?d=1' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."<a>";
+	$prev="<a href='dir_den_opl.php?d=-1' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."</a>";
+	$next="<a href='dir_den_opl.php.php?d=1' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."</a>";
 };
 
 if (date("w",$DayPr)==0) $day=6;

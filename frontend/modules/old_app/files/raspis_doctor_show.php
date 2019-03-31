@@ -14,15 +14,15 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				$StartD=$StartD+(($_GET[d])*(7*24*60*60));
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='raspis_doctor_show.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='raspis_doctor_show.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				if ($StartD==$_GET[StartD]) $prev="";
-				else $prev="<a href='raspis_doctor_show.php?d=-1&StartD=".$StartD."'>Назад<a>";
+				else $prev="<a href='raspis_doctor_show.php?d=-1&StartD=".$StartD."'>Назад</a>";
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				$next="<a href='raspis_doctor_show.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				$next="<a href='raspis_doctor_show.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -196,15 +196,15 @@ echo "<center><strong>".date('d.m.y',$DayPr).",<br />".$dn[($day-1)]."</strong><
 												echo "<tr>
 												<td >".date('G:i',$tm)."</td>
 												<td>&nbsp;</td>
-												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить<a></td></tr>";
+												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить</a></td></tr>";
 											}
 											echo "<tr>";
 											echo "<td class='smalltext' >".date('G:i',$nachN1)."</td>";
 											echo "<td><a href='pat_card.php?id=".$idP[($fl-1)]."&ro=0' class='small' target='_blank'>".$nP[($fl-1)]."</a><br /></td>
-											<td align='center'><a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=del&pred=raspis_doctor_show.php' class='small'>Отменить<a><br />
-											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=peren&step=1&pred=raspis_doctor_show.php' class='small'>Переназначить<a><br />
-											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=naznezh&step=1&pred=raspis_doctor_show.php' class='small'>Назначить<a><br />
-											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=ctime&step=1&pred=raspis_doctor_show.php' class='small'>Изменить время приёма<a><br />
+											<td align='center'><a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=del&pred=raspis_doctor_show.php' class='small'>Отменить</a><br />
+											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=peren&step=1&pred=raspis_doctor_show.php' class='small'>Переназначить</a><br />
+											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=naznezh&step=1&pred=raspis_doctor_show.php' class='small'>Назначить</a><br />
+											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=ctime&step=1&pred=raspis_doctor_show.php' class='small'>Изменить время приёма</a><br />
 ";
 											echo "</td>";
 											echo "</tr>";	
@@ -219,7 +219,7 @@ echo "<center><strong>".date('d.m.y',$DayPr).",<br />".$dn[($day-1)]."</strong><
 										echo "<tr>
 												<td>".date('G:i',$tm)."</td>
 												<td>&nbsp;</td>
-												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить<a></td></tr>";
+												<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить</a></td></tr>";
 											if ($tmd>$tm) $tm=$tmd;
 											else
 										{ 
@@ -233,7 +233,7 @@ echo "<center><strong>".date('d.m.y',$DayPr).",<br />".$dn[($day-1)]."</strong><
 									echo "<tr>
 									<td>".date('G:i',$tm)."</td>
 									<td>&nbsp;</td>
-									<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить<a></td></tr>";
+									<td><a class='small' href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=raspis_doctor_show.php'>Назначить</a></td></tr>";
 									if ($tmd>$tm) $tm=$tmd;
 									else
 									{ 

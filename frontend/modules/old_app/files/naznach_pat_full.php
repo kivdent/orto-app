@@ -17,11 +17,11 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				$EndD=$StartD+(7*24*60*60);
 				if (isset($_GET['vrach']))
 				{
-					$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				else
 				{
-					$next="<a href='naznach_pat_full.php?&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat_full.php?&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				if ($StartD==$_GET['StartD']) 
 				{
@@ -30,16 +30,16 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				else 
 				{
 					
-					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад<a>";
-					else $prev="<a href='naznach_pat_full.php?d=-1&StartD=".$StartD."'>Назад<a>";
+					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад</a>";
+					else $prev="<a href='naznach_pat_full.php?d=-1&StartD=".$StartD."'>Назад</a>";
 				}
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				if (isset($_GET['vrach'])) $next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
-				else $next="<a href='naznach_pat_full.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				if (isset($_GET['vrach'])) $next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
+				else $next="<a href='naznach_pat_full.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";		
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -248,9 +248,9 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 											echo "<tr>";
 											echo "<td class='smalltext' >".date('G:i',$nachN1)."</td>";
 											echo "<td><a href='pat_card.php?id=".$idP[($fl-1)]."&ro=1' class='small' target='_blank'>".$nP[($fl-1)]."</a><br /></td>
-											<td align='center'><a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=del&pred=raspis_doctor_show.php' class='small'>Отменить<a><br />
-											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=peren&step=1&pred=raspis_doctor_show.php' class='small'>Переназначить<a><br />
-											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=ctime&step=1&pred=raspis_doctor_show.php' class='small'>Изменить время приёма<a><br />
+											<td align='center'><a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=del&pred=raspis_doctor_show.php' class='small'>Отменить</a><br />
+											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=peren&step=1&pred=raspis_doctor_show.php' class='small'>Переназначить</a><br />
+											<a href='naznach.php?IDN=".$IDN[($fl-1)]."&action=ctime&step=1&pred=raspis_doctor_show.php' class='small'>Изменить время приёма</a><br />
 ";
 											echo "</td>";
 											echo "</tr>";	

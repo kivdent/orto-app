@@ -32,7 +32,7 @@ else
 	$resultB=$result;
 	if ($countB>0)
 	{
-	echo "<table width='60%' border='1' cellpadding='1' cellspacing='1' bordercolor='#999999'>
+	echo "<table width='100%' border='1' cellpadding='1' cellspacing='1' bordercolor='#999999'>
 	  <tr>
 		<td width='10%' class='feature3'>Время</td>
 		<td width='50%' class='feature3'>Пациент</td>

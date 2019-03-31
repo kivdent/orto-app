@@ -126,7 +126,7 @@ for ($z=0;$z<$countA;$z++)
 					echo "<td width='90'>".$row['MTel']."</td>";
 					echo "<td width='90'>".$row['DTel']."</td>";
 					echo "<td width='90'>".$row['RTel']."</td>";
-					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить<a></td>";	
+					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить</a></td>";	
 					echo "<td width='90' ".$bg.">".$row[3]." ".$row[4]." ".$row[5]."<br>".$row['datepr']."</td>";
 					echo "</tr>";
 
@@ -181,7 +181,7 @@ for ($i=0;$i<$count;$i++)
 		<input type=\"hidden\" name=\"action\" value=\"".$_GET['action']."\">
 		<input type=\"hidden\" name=\"step\" value=\"2\">
 		</form>";			
-		include("footer2.php");
+		//include("footer2.php");
 		exit;
   			break;
   			case "2":
@@ -288,7 +288,7 @@ for ($z=0;$z<$countA;$z++)
 					echo "<td width='90'>".$row['MTel']."</td>";
 					echo "<td width='90'>".$row['DTel']."</td>";
 					echo "<td width='90'>".$row['RTel']."</td>";
-					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить<a></td>";	
+					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить</a></td>";	
 					echo "<td width='90' ".$bg.">".$rowA['datepr']."</td>";
 					echo "<td width='90'><script type=\"text/JavaScript\">
 			<!--
@@ -399,7 +399,7 @@ LIMIT 0,1"
 					echo "<td width='90'>".$row['MTel']."</td>";
 					echo "<td width='90'>".$row['DTel']."</td>";
 					echo "<td width='90'>".$row['RTel']."</td>";
-					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить<a></td>";	
+					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить</a></td>";	
 					echo "<td width='90' ".$bg.">".$rowA[3]." ".$rowA[4]." ".$rowA[5]."<br>".$rowA['date']."</td>";
 					echo "<td width='90' ".$bg.">";
 					

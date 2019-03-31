@@ -304,7 +304,7 @@ if ($count>0)
 		
 	}echo "<center><a href='mater.php?action=AddCat&step=1' class='menu'>Добавить категорию</a></center>";
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{

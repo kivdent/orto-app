@@ -16,7 +16,7 @@ switch ($_GET['action'])
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
 				//include("footer.php");	
-				exit;
+				//exit;;
 			break;
 
 		}
@@ -32,7 +32,7 @@ switch ($_GET['action'])
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
 				//include("footer.php");	
-				exit;
+				//exit;;
 			break;
 		}
 	break;
@@ -47,7 +47,7 @@ switch ($_GET['action'])
 				$result=sql_query($query,'orto',0);
 				ret('sotr_time.php');
 				//include("footer.php");	
-				exit;
+				//exit;;
 			break;
 		}
 	break;
@@ -246,7 +246,7 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 }
 echo "</table>";	
 //include("footer.php");
-exit;
+//exit;;
 
 break;
 
@@ -410,7 +410,7 @@ echo "<td align='center' valign='middle' class='head2'>".$summ."</td>";
 }
 echo "</table>";	
 //include("footer.php");
-exit;
+////exit;;
 break;
 
 

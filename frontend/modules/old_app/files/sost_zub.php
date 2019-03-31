@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Состояние зуба";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 if (!(isset($_GET['kol_kan'])))
 {
 	$_GET['kol_kan']=1;	
@@ -467,5 +467,5 @@ echo "
  </div></form>
 ";
 
-include("footer2.php");
+//include("footer2.php");
 ?>

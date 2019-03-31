@@ -32,20 +32,20 @@ switch ($_GET['action'])
 	break;
 }
 $dn=array("Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье");
-$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
+$next="<a href='naznach_pat_full.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
 if (isset($_GET[d]))
 {
 	
 	$DayPr=mktime(0,0,0,date("m"),date("d"),date("Y"))+($_GET[d]*24*60*60);
-	$prev="<a href='pat_tooday_reg.php?d=".($_GET[d]-1)."' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."<a>";
-	$next="<a href='pat_tooday_reg.php?d=".($_GET[d]+1)."' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."<a>";
+	$prev="<a href='pat_tooday_reg.php?d=".($_GET[d]-1)."' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."</a>";
+	$next="<a href='pat_tooday_reg.php?d=".($_GET[d]+1)."' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."</a>";
 
 }
 else
 {
 	$DayPr=mktime(0,0,0,date("m"),date("d"),date("Y"));
-	$prev="<a href='pat_tooday_reg.php?d=-1' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."<a>";
-	$next="<a href='pat_tooday_reg.php?d=1' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."<a>";
+	$prev="<a href='pat_tooday_reg.php?d=-1' class='menu2'>".date("d.m.Y",($DayPr-(24*60*60)))."</a>";
+	$next="<a href='pat_tooday_reg.php?d=1' class='menu2'>".date("d.m.Y",($DayPr+(24*60*60)))."</a>";
 };
 
 if (date("w",$DayPr)==0) $day=6;
@@ -355,9 +355,9 @@ for ($i=0;$i<$dt_count;$i++)
 							echo "</td>";
 							echo "<td class='bottom'>
 						<center>
-						<a href='naznach.php?IDN=".$IDN."&action=naznezh&step=1&pred=pat_tooday_reg.php&vrach=".$rowA['vrachID']."' class='small'>Назначить<a><br />
-						<a href='naznach.php?IDN=".$IDN."&action=peren&step=1&pred=pat_tooday_reg.php' class='small'>Переназначить<a>|
-<a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=pat_tooday_reg.php' class='small'>Изменить время приёма<a>|
+						<a href='naznach.php?IDN=".$IDN."&action=naznezh&step=1&pred=pat_tooday_reg.php&vrach=".$rowA['vrachID']."' class='small'>Назначить</a><br />
+						<a href='naznach.php?IDN=".$IDN."&action=peren&step=1&pred=pat_tooday_reg.php' class='small'>Переназначить</a>|
+<a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=pat_tooday_reg.php' class='small'>Изменить время приёма</a>|
 <a href='naznach.php?IDN=".$IDN."&action=del&pred=pat_tooday_reg.php' class='small'>Отменить</a>";
 if ($Yavka==0) echo "|<a href='pat_tooday_reg.php?IDN=".$IDN."&action=yavka' class='small'>Явка</a></center>";
 //						echo "|Изменить продолжительность";
@@ -412,7 +412,7 @@ echo "</td>";
 						echo "<td class='alltext'>".date('G:i',$tm)."</td>";
 						echo "<td>&nbsp;</td>";
 						echo "<td>
-						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."' class='menu2'>Назначить<a>
+						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."' class='menu2'>Назначить</a>
 						</td>";
 						echo "<td>&nbsp;</td>";
 						echo "<td>&nbsp;</td>";

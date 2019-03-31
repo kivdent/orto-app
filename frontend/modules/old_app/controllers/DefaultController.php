@@ -21,12 +21,12 @@ class DefaultController extends Controller {
         if (Yii::$app->user->isGuest) {
             $this->redirect(['/site/login']);
         }
-
+        
         $userInterface = new UserInterface(Yii::$app->user->id);
         $_SESSION['UserName'] = $userInterface->user_full_name;
-        $_SESSION['UserID'] = $userInterface->user_id;
+        $_SESSION['UserID'] = $userInterface->employe_id;
         // $_SESSION['valid_user'] = $row['Nazv'];
-        //  $_SESSION['user_prava'] = $row['UsarPrava'];
+        $_SESSION['user_prava'] = $userInterface->old_user_prava;
         //var_dump($userInterface->getMenuItems());
         $this->view->params['userMenuItems']=$userInterface->getMenuItems();
         return $this->render('index', [

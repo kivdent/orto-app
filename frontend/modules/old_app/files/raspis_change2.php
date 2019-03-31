@@ -143,11 +143,11 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				$EndD=$StartD+(7*24*60*60);
 				if (isset($_GET['vrach']))
 				{
-					$next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				else
 				{
-					$next="<a href='naznach_pat.php?&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat.php?&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				if ($StartD==$_GET['StartD']) 
 				{
@@ -156,16 +156,16 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				else 
 				{
 					
-					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад<a>";
-					else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад<a>";
+					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад</a>";
+					else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад</a>";
 				}
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				if (isset($_GET['vrach'])) $next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
-				else $next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				if (isset($_GET['vrach'])) $next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
+				else $next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";		
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -354,10 +354,10 @@ $row = mysqli_fetch_array($result);
 					echo "<tr><td class='bottom'>
 					Рабочее место: ".$row[0]."</br>
 					Время приёма: ".date('G:i',$nach)."-".date('G:i',$okonch)."
-					</br><a href='raspis_change2.php?action=change&step=1&DayPr=".$DayPr."&idDP=".$idDP."&vrach=".$vrach."'>Изменить<a>
+					</br><a href='raspis_change2.php?action=change&step=1&DayPr=".$DayPr."&idDP=".$idDP."&vrach=".$vrach."'>Изменить</a>
 					</td></tr>";
 					}
-				else echo "<tr><td class='bottom'>Выходной</br><a href='raspis_change2.php?action=change&step=1&DayPr=".$DayPr."&idDP=".$idDP."'>Изменить<a>
+				else echo "<tr><td class='bottom'>Выходной</br><a href='raspis_change2.php?action=change&step=1&DayPr=".$DayPr."&idDP=".$idDP."'>Изменить</a>
 					</td></tr>";
 				echo "</table></td>";	
 				$DayPr=$DayPr+(24*60*60);

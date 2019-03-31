@@ -136,7 +136,7 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 									echo "<tr>";
 									echo "<td>".date('G:i',$tm)."</td>";
 									echo "<td>&nbsp;</td><td>
-									<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID.">Назначить<a>";
+									<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID.">Назначить</a>";
 									echo "</td>";
 									echo "</tr>";	
 							}
@@ -147,7 +147,7 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 							<span class='bottom'>".$row['SoderzhNaz']."</span>
 </td>";
 							echo "<td>
-						<a href='naznach.php?IDN=".$IDN."&action=del'>Отменить<a>";
+						<a href='naznach.php?IDN=".$IDN."&action=del'>Отменить</a>";
 						//echo "|Переназначить";
 //						echo "|Изменить продолжительность";
 						echo "</td>";
@@ -165,7 +165,7 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 						echo "<td>".date('G:i',$tm)."</td>";
 						echo "<td>&nbsp;</td>";
 						echo "<td>
-						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID.">Назначить<a>
+						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID.">Назначить</a>
 						</td>";
 						echo "</tr>";
 						if ($tmd>$tm) $tm=$tmd;

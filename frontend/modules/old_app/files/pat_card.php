@@ -5,7 +5,7 @@ include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Карта пациента"; 
 $js="ShowPat";
-include("header2.php");
+//include("header2.php");
 if ($ro==1) $disabled="disabled='disabled'";
 else $disabled="";
 $query="select * from klinikpat where id='".$id."'";
@@ -762,7 +762,7 @@ echo "</form>";
 				if (($row['full']==1) or ($row['summ']==$row['vnes'])) echo "Оплачено полностью (".$row['vnes']."р.)"; 
 				echo "Оплачено: ".$row['vnes']."р. Долг: ".($row['summ']-$row['vnes'])."р<br />";
 				echo "5. Ретейнер";
-		include("footer2.php");
+		//include("footer2.php");
 		exit;		
 		break;
 	}
@@ -878,13 +878,13 @@ echo "</form>";
                                                                       echo "</div>";
                                                                            echo "<div align='center'><input type=\"submit\" value=\"Сохранить\"></div></form>";
 
-					include("footer2.php");
+					//include("footer2.php");
 					exit;
 					break;
                                                                             case "2":
                                                                                         $query = "INSERT INTO `kontr_osm` (`id`, `disp_card`, `date`, `igv`, `psr`, `kpu`,`osm`,`vrach`,`next_date`,`rezobzv`,`work`,`short`) VALUES (NULL, '".$_GET['dc']."', '".date('Y-m-d')."', 0, 0,0,0,'".$_SESSION["UserID"]."','".$_GET['year']."-".$_GET['month']."-".date('d')."','55555','".$_GET['work']."',1)";
                                                                                 $result=sql_query($query,'orto',0); 
-                                                                                            include("footer2.php");
+                                                                                            //include("footer2.php");
                                                                                             ret("pat_card.php?id=".$_GET['id']."&action=disp");
                                                                                          exit;  
                                                                             break;
@@ -1264,7 +1264,7 @@ echo "</table></td>
     echo "</div>";
 	 echo "<div align='center'><input type=\"submit\" value=\"Сохранить\"></div></form>";
 
-					include("footer2.php");
+					//include("footer2.php");
 					exit;
 					break;
 					case "2":
@@ -1319,7 +1319,7 @@ $zn=$_GET['zn'];
 		//echo $query."<br>";
                 
                                                                                 $result=sql_query($query,'orto',0); 
-                                                                                            include("footer2.php");
+                                                                                            //include("footer2.php");
                                                                                             ret("pat_card.php?id=".$_GET['id']."&action=disp");
                 /// Дальше код не работает
                 
@@ -1390,7 +1390,7 @@ echo $ko."<br>";
 		<input type=\"hidden\" name=\"act\" value=\"add\">
 		<input type=\"hidden\" name=\"step\" value=\"3\">
 		</form>";			
-		include("footer2.php");
+		//include("footer2.php");
 					exit;
 					break;
 			case "3":
@@ -1410,12 +1410,12 @@ echo $ko."<br>";
 			WHERE `id` =".$_GET['ko'];
 //echo $query."<br>";
 $result=sql_query($query,'orto',0);    
-include("footer2.php");
+//include("footer2.php");
 ret("pat_card.php?id=".$_GET['id']."&action=disp");
 			exit;
 			break;
 				}
-			include("footer2.php");
+			//include("footer2.php");
 			exit;
 			break;
 			case "ch":
@@ -1424,7 +1424,7 @@ ret("pat_card.php?id=".$_GET['id']."&action=disp");
 				$result=sql_query($query,'orto',0);    
 				$row = mysqli_fetch_array($result);
 				ret("pat_card.php?id=".$_GET['id']."&action=disp");
-			include("footer2.php");
+			//include("footer2.php");
 			exit;
 			break;
 		}
@@ -1523,7 +1523,7 @@ function MM_jumpMenu2(targ,selObj,restore){
 		 
 		 
 		 
-		 include("footer2.php");
+		 //include("footer2.php");
 			exit;
 			
 		}		
@@ -1682,7 +1682,7 @@ echo "<table border=0><tr valign='top'><td><div class='feature'>КПУ= ".$kpu."
                 echo "<div align='left'><br><br>Планируемая работа во время осмотра<br><textarea name='work' id='work' rows='10' cols='77' >".$work."</textarea>";                    
                     
 
-		include("footer2.php");	
+		//include("footer2.php");	
 		exit;
 		
 	break;
@@ -1939,5 +1939,5 @@ GROUP BY
 		ShowOsnSved($_GET['id'],$_GET['ro']);
 	break;
 }
-include("footer2.php");
+//include("footer2.php");
 ?>

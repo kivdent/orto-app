@@ -65,7 +65,7 @@ else
 	if ($flag==0) 
 	{
 		echo "<a href=naznach.php?action=del&Nid=".$rowB[2]." class='menu2'>Вычеркнуть</a><br>
-		<a href='naznach.php?IDN=".$rowB[2]."&action=naznezh&step=1&pred=pat_tooday_orto.php&vrach=".$_SESSION['UserID']."' class='menu2'>Назначить<a><br />
+		<a href='naznach.php?IDN=".$rowB[2]."&action=naznezh&step=1&pred=pat_tooday_orto.php&vrach=".$_SESSION['UserID']."' class='menu2'>Назначить</a><br />
 		<a href='pat_tooday_work_orto.php?action=oplata&SodNazn=".$rowB['18']."&step=1&pat=".$rowB['13']."' class='menu2'>Оплата</a><br />
 				<a href='pat_tooday_work_orto.php?action=Sozd_ZN&SodNazn=".$rowB['18']."&step=1&pat=".$rowB['13']."' class='menu2'>Создать заказ-наряд</a><br />
 <a href='pat_tooday_work_orto.php?action=Sozd_SH&SodNazn=".$rowB['18']."&step=1&pat=".$rowB['13']."' class='menu2'>Создать схему расчёта за ортодонтию</a><br />";

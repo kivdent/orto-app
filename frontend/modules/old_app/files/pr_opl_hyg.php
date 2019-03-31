@@ -237,7 +237,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from `manip` WHERE `preys
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -279,7 +279,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from `manip` WHERE( (`pre
 					$mat[$cm]['UpId']=$row['UpId'];
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 
 				echo "<table width='80%' border='0'>";

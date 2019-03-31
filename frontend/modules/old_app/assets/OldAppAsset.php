@@ -15,19 +15,23 @@ use yii\web\AssetBundle;
  */
 class OldAppAsset extends AssetBundle {
 
-    public $sourcePath = '@frontend/modules/old_app/files';
+    public $sourcePath = '@frontend/modules/old_app/assets/files';
     public $css = [
         'main2.css'
     ];
     public $js = [
-        'js/ShowPat.js',
-         'js/find.js',
-         'js/functions.js',
-         'js/gig_index.js',
-         'js/insert.js',
-         'js/manip.js',
-         'js/spisok.js',
+        'ShowPat.js',
+        'find.js',
+        'functions.js',
+        'gig_index.js',
+        'insert.js',
+        'manip.js',
+        'spisok.js',
+        'jumper.js',
     ];
-    public $depends = [];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+    ];
 
 }

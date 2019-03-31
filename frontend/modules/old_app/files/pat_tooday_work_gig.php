@@ -2,7 +2,7 @@
 $ThisVU="gigienist";
 $this->title="Работа спациентом";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 switch ($_GET[step])
 {
 case "4":
@@ -427,7 +427,7 @@ $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk="
 				}
 			}
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$cc;$i++)
 			{
@@ -727,5 +727,5 @@ unset($_SESSION[skidka]);
 break;
 }
 ////////////Лечение зуба
-include("footer2.php");
+//include("footer2.php");
 ?>

@@ -415,7 +415,7 @@ for ($i=0;$i<$count;$i++)
 
 
 echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 		for($i=1;$i<=$_SESSION['cc'];$i++)
 			{

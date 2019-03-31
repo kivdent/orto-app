@@ -3,7 +3,7 @@
 include('mysql_fuction.php');
 $ThisVU="all";
 $this->title=""; 
-include("header2.php");
+//include("header2.php");
 include("tables.php");
 switch ($_GET['podr'])
 	{
@@ -47,7 +47,7 @@ $dt=explode('-',$row['date']);
 				  Подпись пациента______________ </div>";
 
 				 
-				  include("footer2.php");
+				  //include("footer2.php");
 				  exit;
 				  
 	break;
@@ -1604,5 +1604,5 @@ echo "<script language=\"JavaScript\" type=\"text/javascript\">window.print();</
 //schet_hyg
 //echo "<center> <a href='#' onclick='window.close()' class='mmenu'>Закрыть окно</a</center>";
 
-include("footer2.php");
+//include("footer2.php");
 ?>

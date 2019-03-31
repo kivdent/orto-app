@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Диагноз";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=1 order by range, manip";
 		//echo $query."<br />";
 		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
@@ -63,5 +63,5 @@ for($i=1;$i<=$klass['count'];$i++)
 echo "
 </ul>
 </div>";
-			include("footer2.php");
+			//include("footer2.php");
 ?>

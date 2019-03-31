@@ -384,7 +384,7 @@ $mat['$cm][new_tot']=($mat['$cm][new_price']*$mat['$cm][kolvo']);
 
 }
 			echo "<script language=\"JavaScript\" type=\"text/javascript\">
-			document.onclick = clickHandler; 
+			<!--document.onclick = clickHandler;--> 
 			</script>";
 			//echo $cc." ".$cm;
 		for($i=1;$i<=$cc;$i++)

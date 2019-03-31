@@ -21,11 +21,11 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				$EndD=$StartD+(7*24*60*60);
 				if (isset($_GET['vrach']))
 				{
-					$next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				else
 				{
-					$next="<a href='naznach_pat.php?&d=1&StartD=".$StartD."'>Дальше<a>";
+					$next="<a href='naznach_pat.php?&d=1&StartD=".$StartD."'>Дальше</a>";
 				}
 				if ($StartD==$_GET['StartD']) 
 				{
@@ -34,16 +34,16 @@ echo "<hr width='100%' noshade='noshade' size='1'/>";
 				else 
 				{
 					
-					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад<a>";
-					else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад<a>";
+					if (isset($_GET['vrach'])) $prev="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=-1&StartD=".$StartD."'>Назад</a>";
+					else $prev="<a href='naznach_pat.php?d=-1&StartD=".$StartD."'>Назад</a>";
 				}
 			}
 			else 
 			{
 				$DayPr=$StartD;
 				$EndD=$StartD+(7*24*60*60);
-				if (isset($_GET['vrach'])) $next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше<a>";
-				else $next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше<a>";
+				if (isset($_GET['vrach'])) $next="<a href='naznach_pat.php?vrach=".$_GET['vrach']."&d=1&StartD=".$StartD."'>Дальше</a>";
+				else $next="<a href='naznach_pat.php?d=1&StartD=".$StartD."'>Дальше</a>";
 				$prev="";		
 			}
 			echo "<div align='center' class='feature3'>".$prev."|".$next."</div>";
@@ -61,7 +61,7 @@ echo "<div>Выбирите врача: ";
                                                      $count=mysqli_num_rows($result);					
  echo " <select id=\"vrach\">";
 if ((!(isset($_GET['vrach']))) or ($_GET['vrach']=='all')) echo "<option value='all' selected='selected'>Все врачи</option>";
-else echo "<option value='all'>Все врачи</option>";
+else echo "<option value='naznach_pat.php'>Все врачи</option>";
 for ($i=0;$i<$count;$i++)
 {
 	$row = mysqli_fetch_array($result);
@@ -69,12 +69,12 @@ for ($i=0;$i<$count;$i++)
 	else echo "<option value='naznach_pat.php?vrach=".$row['id']."'>".$row['surname']." ".$row['name']." ".$row['otch']."</option>";
 }
 echo "  </select>";
-echo "<script type=\"text/JavaScript\">
- $('#vrach').change(function() {
-  var url = $(\"#vrach\").val();
- $(location).attr('href',url);
-    });
-</script>";
+//echo "<script type=\"text/JavaScript\">
+// $('#vrach').change(function() {
+//  var url = $(\"#vrach\").val();
+// $(location).attr('href',url);
+//    });
+//</script>";
 //
 //
 // форма выбора врача  jump_menu($id_change,$action_page,$action_str,$select_options,$menu_id,$selected_option="0")
@@ -258,12 +258,12 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 											if (($tm!=$nachN1) and ($tm!=$nach))
 											{
 												echo "<tr>
-												<td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.<a></td></tr>";
+												<td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.</a></td></tr>";
 											}
 											//echo "<tr>";
 //											echo "<td>".date('G:i',$nachN1)."</td>";
 //											echo "<td>Занято<br /></td>
-//											<td><a href='naznach.php?IDN=".$IDN."&action=del'>Отменить<a>";
+//											<td><a href='naznach.php?IDN=".$IDN."&action=del'>Отменить</a>";
 //											echo "</td>";
 //											echo "</tr>";	
 											while ($tmd<=$okonchN1)
@@ -274,7 +274,7 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 										}
 											else 
 											{
-												echo "<tr><td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.<a></td></tr>";
+												echo "<tr><td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.</a></td></tr>";
 												if ($tmd>$tm) $tm=$tmd;
 												else
 												{ 
@@ -286,7 +286,7 @@ WHERE `raspis_pack`.`vrachID` = `sotr`.`id`";
 	
 							else 
 							{
-									echo "<tr><td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.<a></td></tr>";
+									echo "<tr><td><a href='naznach.php?date=".$tm."&prodpr=".$prodpr."&vrach=".$vrach."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID=".$RMID."&pred=naznach_pat.php'>".date('G:i',$tm)." Назначить.</a></td></tr>";
 									if ($tmd>$tm) $tm=$tmd;
 									else
 									{ 

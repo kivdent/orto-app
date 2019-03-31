@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Диагноз";
 $js="insert";
-include("header2.php");
+//include("header2.php");
 echo "<form name='card' id='card'>
 <table border=0>
 <tr>
@@ -28,5 +28,5 @@ $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 <a href='#' class='small' onClick=\"javascript:insDs('".$_GET['nazv']."','".$_GET['id']."',document.card.zh.value,0)\"'>Вставить</a></td>
 </tr>
 </table></form>";				
-include("footer2.php");
+//include("footer2.php");
 ?>

@@ -203,7 +203,7 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 </td>";
 							echo "<td>
 						<center>
-						<a href='pat_tooday_work_rentgen.php?step=4&pat=".$PatID."&count=1' class='small'>Оплата<a></center>";
+						<a href='pat_tooday_work_rentgen.php?step=4&pat=".$PatID."&count=1' class='small'>Оплата</a></center>";
 //						echo "|Изменить продолжительность";
 						echo "</td>";
 echo "</tr>";
@@ -220,7 +220,7 @@ echo "</tr>";
 //						echo "<td class='alltext'>".date('G:i',$tm)."</td>";
 //						echo "<td>&nbsp;</td>";
 //						echo "<td>
-//						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID." class='menu2'>Назначить<a>
+//						<a href='naznach.php?date=".$tm."&prodpr=".$rowA['prodpr']."&vrach=".$rowA['vrachID']."&okonchS=".$okonch."&idDP=".$idDP."&nachS=".$nach."&RMID='".$RMID." class='menu2'>Назначить</a>
 //						</td>";
 //						echo "<td>&nbsp;</td>";
 //						echo "<td>&nbsp;</td>";

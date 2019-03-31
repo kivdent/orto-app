@@ -4,7 +4,7 @@
 include('mysql_fuction.php');
 $ThisVU = "all";
 $this->title = "";
-include("header2.php");
+//include("header2.php");
 include("tables.php");
 //"Это должен делать роутер
 //
@@ -32,6 +32,6 @@ call_user_func_array(array($controllerObject,$action), $params);
 if ($_GET['print']) {
     echo "<script language=\"JavaScript\" type=\"text/javascript\">window.print();</script>";
 }
-include("footer2.php");
+//include("footer2.php");
 ?>
 
