@@ -5,7 +5,7 @@ include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Карта пациента"; 
 $js="ShowPat";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 if ($ro==1) $disabled="disabled='disabled'";
 else $disabled="";
 $query="select * from klinikpat where id='".$id."'";

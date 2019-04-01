@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Состояние зуба";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 if (!(isset($_GET['kol_kan'])))
 {
 	$_GET['kol_kan']=1;	

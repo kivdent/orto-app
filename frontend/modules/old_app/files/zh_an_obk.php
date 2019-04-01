@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Диагноз";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 echo "<form name='card' id='card'>
 <table border=0>
 <tr>

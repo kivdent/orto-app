@@ -4,7 +4,7 @@ include('mysql_fuction.php');
 $ThisVU = "all";
 $this->title = "Вставка диагноза";
 $js = "insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 if (!(isset($_SESSION['Nid'])))
     $_SESSION['Nid'] = $_GET['Nid'];
 if (($_GET['perv'] == 1) or ( $_GET['SodNazn'] == 4) or ( $_GET['action'] == "osm")) {

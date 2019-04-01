@@ -9,6 +9,7 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -55,31 +56,19 @@ AppAsset::register($this);
             ?>
 
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <!--Menu-->
-                        <?php
-                        if (!Yii::$app->user->isGuest and isset($this->params['userMenuItems'])) {
-                            echo Nav::widget([
-                                'options' => ['class' => 'navbar-left nav-pills nav-stacked'],
-                                'items' => $this->params['userMenuItems'],
-                            ]);
-                        }
-                        ?>
-                    </div>
-                    <div class="col-lg-6">
-                        <?=
-                        Breadcrumbs::widget([
-                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                        ])
-                        ?>
-                        <?= Alert::widget() ?>
-                        <?= $content ?>
-                    </div>
-                    <div class="col-lg-3">
-                        <!--Виджеты -->
-                    </div>
-                </div>
+
+
+
+                <?=
+                Breadcrumbs::widget([
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                ])
+                ?>
+                <?= Alert::widget() ?>
+                <?= $content ?>
+
+
+
             </div>
         </div>
 

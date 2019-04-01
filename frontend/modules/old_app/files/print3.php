@@ -1,7 +1,7 @@
 <?php
 $ThisVU="all";
 $this->title=""; 
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 switch ($_GET['podr'])
 	{
 	 case "1":

@@ -1,6 +1,6 @@
 <?php
 $ThisVU="";
 $this->title="";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 //include("footer2.php");
 ?>

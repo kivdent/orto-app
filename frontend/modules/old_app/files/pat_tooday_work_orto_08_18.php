@@ -4,7 +4,7 @@ include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 if (!(isset($_SESSION['proc_sk']))) $_SESSION['proc_sk']=0;
 	 switch ($_GET['action'])
 	{
@@ -2928,7 +2928,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='".$_SESSION
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 	 switch ($_GET['action'])
 	{
 		case "Sozd_ZN":

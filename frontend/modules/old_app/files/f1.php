@@ -2,7 +2,7 @@
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=1 order by range, manip";
 		////////////echo $query."<br />";
 		$result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);

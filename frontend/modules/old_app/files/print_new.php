@@ -4,7 +4,7 @@
 include('mysql_fuction.php');
 $ThisVU = "all";
 $this->title = "";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/print.php';
 include("tables.php");
 //"Это должен делать роутер
 //

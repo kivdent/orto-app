@@ -4,7 +4,7 @@ include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Работа спациентом";
 $js="insert";
-//include("header2.php");
+$this->context->layout='@frontend/views/layouts/light.php';
 	switch ($_GET['step'])
 {
 case "4":
