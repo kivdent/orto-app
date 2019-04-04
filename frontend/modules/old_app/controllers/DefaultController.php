@@ -4,7 +4,6 @@ namespace frontend\modules\old_app\controllers;
 
 use yii\web\Controller;
 use Yii;
-
 use frontend\modules\userInterface\models\UserInterface;
 
 /**
@@ -21,18 +20,33 @@ class DefaultController extends Controller {
         if (Yii::$app->user->isGuest) {
             $this->redirect(['/site/login']);
         }
-        
+
         $userInterface = new UserInterface(Yii::$app->user->id);
         $_SESSION['UserName'] = $userInterface->user_full_name;
         $_SESSION['UserID'] = $userInterface->employe_id;
         // $_SESSION['valid_user'] = $row['Nazv'];
-        $_SESSION['user_prava'] = $userInterface->old_user_prava;
-        //var_dump($userInterface->getMenuItems());
-        $this->view->params['userMenuItems']=$userInterface->getMenuItems();
+        $_SESSION['user_prava'] = $this->getOldUserPrava();
+        
+     
+        $this->view->params['userMenuItems'] = $userInterface->getMenuItems();
         return $this->render('index', [
                     'path' => $path,
                     'userInterface' => $userInterface,
         ]);
+    }
+
+/**
+ * 
+ * @return string;
+ */
+
+    public function getOldUserPrava() {
+        /*@var $module  frontend\modules\old_app\Module*/
+      
+        $module = Yii::$app->getModule('old_app');
+        $roleName = UserInterface::getRoleName(Yii::$app->user->id);
+        
+        return   $module->userprava[$roleName];
     }
 
 }
