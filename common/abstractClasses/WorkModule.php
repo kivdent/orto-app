@@ -11,21 +11,18 @@ namespace common\abstractClasses;
 use Yii;
 use common\interfaces\WorkModuleInterface;
 use yii\base\Module;
+use yii\web\NotFoundHttpException;
 
 /**
  * Description of WorkModule
  *
  * @author kivdent
  */
-
 abstract class WorkModule extends Module implements WorkModuleInterface {
-    
-    const IS_WORK_MODULE=true;
+
+    const IS_WORK_MODULE = true;
 
     public $moduleName = "";
-    public $entitys=[];//сущности используемые в модели;
-
-  
 
     /**
      * 
@@ -33,8 +30,8 @@ abstract class WorkModule extends Module implements WorkModuleInterface {
      * @return array ['label'=>'route']
      */
     public function getMenuItems() {
-         $menuItems=isset($this->params['menuItems'])? $this->params['menuItems'] :[];
-        return  $menuItems;
+        $menuItems = isset($this->params['menuItems']) ? $this->params['menuItems'] : [];
+        return $menuItems;
     }
 
     /**
@@ -44,5 +41,19 @@ abstract class WorkModule extends Module implements WorkModuleInterface {
     public function getModuleLabel() {
         return $this->moduleName;
     }
-    
+
+    public function getEntitie($entitie) {
+        $entitieClass=$this->getEntitiesClass($entitie);
+        $entiesInsatance=new $entitieClass;
+        return $entiesInsatance;
+    }
+
+    private function getEntitiesClass($entitie) {
+        if (isset($this->params['entities'][$entitie])) {
+            return $this->params['entities'][$entitie];
+        }else{
+            throw new NotFoundHttpException('Не нйден класс для работы с {$entitie}');
+        }
+    }
+
 }

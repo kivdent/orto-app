@@ -20,6 +20,7 @@ class Module extends WorkModule {
     public $defaultRoute = 'manage';
     public $controllerNamespace = 'common\modules\clinic\controllers';
     public $moduleName = "Клиника";
+    
 
     /**
      * {@inheritdoc}
@@ -28,6 +29,7 @@ class Module extends WorkModule {
         parent::init();
         
         Yii::configure($this, require __DIR__ . '/menu.php');
+        Yii::configure($this, require __DIR__ . '/entities.php');
     }
 
 }

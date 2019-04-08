@@ -23,5 +23,10 @@ interface WorkModuleInterface {
      * Вовращает название модуля в человекопонятном формате
      */
      public function getModuleLabel();
+     /**
+      * Получение сущности
+      * @param object $entitie
+      */
+      public function getEntitie($entitie);
     
 }
