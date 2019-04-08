@@ -7,7 +7,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use frontend\modules\userInterface\models\UserInterface;
+use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Url;
 
 /**
@@ -70,7 +70,7 @@ class SiteController extends Controller {
             return $this->redirect(Url::to('/site/login'));
         }
         $route = UserInterface::getDefaultRoute(Yii::$app->user->id);
-
+        
         return $this->redirect(Url::to($route));
     }
 

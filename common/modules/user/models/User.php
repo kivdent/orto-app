@@ -1,9 +1,9 @@
 <?php
 
-namespace common\modules\user\models;
+namespace common\models;
 
 use Yii;
-use common\models\Employe;
+use backend\modules\employe\models\Employe;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -122,7 +122,7 @@ class User extends \yii\db\ActiveRecord {
     }
     /**
      * Find user by id
-     * @return backend\models\User object
+     * @return common\models\User object
      */
     public static function getUserById($id) {
         $user=self::findOne($id);

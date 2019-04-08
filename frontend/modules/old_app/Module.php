@@ -3,18 +3,20 @@
 namespace frontend\modules\old_app;
 
 use Yii;
-use common\interfaces\ModuleInterface;
+use common\interfaces\WorkModuleInterface;
+use common\abstractClasses\WorkModule;
 
 /**
  * old_app 
  * Модуль для интеграции старых функций
  */
-class Module extends \yii\base\Module implements ModuleInterface {
-
+class Module extends WorkModule {
+    
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'frontend\modules\old_app\controllers';
+    public $moduleName="";
     public $userprava = [
         'admin' => '1',
         'therapist' => '2',
@@ -27,9 +29,7 @@ class Module extends \yii\base\Module implements ModuleInterface {
         'radiologist' => '14',
         'surgeon' => '17',
     ];
-  
-
-    /**
+   /**
      * {@inheritdoc}
      */
     public function init() {
@@ -37,14 +37,4 @@ class Module extends \yii\base\Module implements ModuleInterface {
         Yii::configure($this, require __DIR__ . '/menu.php');
         
     }
-    /**
-     * 
-     * @param type $roleName Название роли пользователя
-     * @return array ['label'=>'route']
-     */
-
-    public function getMenuItemsByRole($roleName) {
-        return $this->params['menuItems'][$roleName];
-    }
-
 }

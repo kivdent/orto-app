@@ -1,8 +1,9 @@
 <?php
 
 /*
- * Интрефес представления информации о клинике
+ * Интрефейс представления информации о клинике
  * -Название
+ * -Логотип
  * -Адрес
  * -Контактный телефон
  * -График работы
@@ -14,21 +15,32 @@
 
 namespace common\interfaces;
 
+
+use common\interfaces\EntitiesInterface;
 /**
  *
- * @author kivde
+ * @author kivdent
  */
-interface Clinic {
+interface ClinicInterface extends EntitiesInterface{
 
     /**
-     * Название клиники@return string
+     * Название клиники
+     * @return string
      */
     public function getName();
 
     /**
-     * Описание клиники@return string
+     * Описание клиники
+     * @return string
      */
     public function getDescription();
+
+    
+    /**
+     * Реквизиты клиники
+     * @return string
+     */
+    public function getRequisites();
 
     /**
      * Адрес клиники
@@ -40,7 +52,7 @@ interface Clinic {
      * Расписание клиники
      * @return array 
      */
-    public function getClinicSheudle();
+    public function getSheudle();
 
     /**
      * Финансовые подразделения клиники
@@ -53,4 +65,9 @@ interface Clinic {
      * @return array 
      */
     public function getWorkplaces();
+     /**
+     * Логотип
+     * @return array 
+     */
+    public function getLogo();
 }

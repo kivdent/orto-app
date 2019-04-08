@@ -14,9 +14,7 @@ return [
         'old_app' => [
             'class' => 'frontend\modules\old_app\Module',
         ],
-        'userInterface' => [
-            'class' => 'frontend\modules\userInterface\Module',
-        ],
+        
 //        'admin' => [   //Модуль для управления правами на основе RBAC
 //            'class' => 'mdm\admin\Module',
 //            'layout' => 'left-menu',

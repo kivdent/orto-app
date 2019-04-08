@@ -11,15 +11,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'employe' => [
-            'class' => 'backend\modules\employe\Module',
-        ],
-        'old_app' => [
-            'class' => 'backend\modules\old_app\Module',
-        ],
-        'user' => [
-            'class' => 'backend\modules\user\Module',
-        ],
+       
         'admin' => [//Модуль для управления правами на основе RBAC
             'class' => 'mdm\admin\Module',
             'layout' => 'left-menu',

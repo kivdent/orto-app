@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use common\models\Employe;
 
 /**
  * User model
@@ -20,6 +21,7 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ 
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -51,6 +53,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['username', 'auth_key', 'password_hash'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'safe'],
+            [['newPassword'],'safe'],
+
+            [['password_reset_token'], 'unique'],
+            [['employe_id'],'integer'],
+            
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
@@ -158,10 +171,10 @@ class User extends ActiveRecord implements IdentityInterface
      *
      * @param string $password
      */
-    public function setPassword($password)
-    {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
-    }
+//    public function setPassword($password)
+//    {
+//        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+//    }
 
     /**
      * Generates "remember me" authentication key
@@ -186,8 +199,63 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    
+     /**
+     * inactivate current user
+     * @return boolean
+     */
     public function inactivate() {
-        $this->status= self::STATUS_DELETED;
-        return $this->save(false,'status');
+        $this->status=self::STATUS_DELETED;
+        return $this->save(false, ['status']);
+    }
+    
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels() {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Пароль',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Электронная почта',
+            'status' => 'Статус',
+            'created_at' => 'Создан',
+            'updated_at' => 'Изменён',
+            'employe_id'=>'Cотрудник',
+            'newPassword'=>'Новый пароль'
+        ];
+    }
+    
+    public function getEmploye() {
+        return $this->hasOne(Employe::className(), ['id' => 'employe_id']);
+    }
+    public function getRoles() {
+         return Yii::$app->authManager->getRolesByUser($this->id);
+    }
+     public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        return $this->password_hash;
+    }
+   
+    /**
+     * Activate current user
+     * @return boolean
+     */
+    public function activate() {
+        $this->status=self::STATUS_ACTIVE;
+        return $this->save(false, ['status']);
+    }
+    /**
+     * Find user by id
+     * @return backend\models\User object
+     */
+    public static function getUserById($id) {
+        $user=self::findOne($id);
+        return $user ? $user : false;
     }
 }

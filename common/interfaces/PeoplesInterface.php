@@ -6,7 +6,7 @@
 
 namespace common\interfaces;
 
-use common\models\Address;
+use common\abstractClasses\Address;
 
 /**
  *
