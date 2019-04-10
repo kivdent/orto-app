@@ -28,8 +28,7 @@ class Module extends WorkModule {
     public function init() {
         parent::init();
         
-        Yii::configure($this, require __DIR__ . '/menu.php');
-        Yii::configure($this, require __DIR__ . '/entities.php');
+        Yii::configure($this, require __DIR__ . '/config.php');;
     }
 
 }

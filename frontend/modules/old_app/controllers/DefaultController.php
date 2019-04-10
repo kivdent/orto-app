@@ -4,7 +4,7 @@ namespace frontend\modules\old_app\controllers;
 
 use yii\web\Controller;
 use Yii;
-use frontend\modules\userInterface\models\UserInterface;
+use common\modules\userInterface\models\UserInterface;
 
 /**
  * Default controller for the `old_app` module
@@ -21,7 +21,7 @@ class DefaultController extends Controller {
             $this->redirect(['/site/login']);
         }
 
-        $userInterface = new UserInterface(Yii::$app->user->id);
+        $userInterface = Yii::$app->userInterface;
         $_SESSION['UserName'] = $userInterface->user_full_name;
         $_SESSION['UserID'] = $userInterface->employe_id;
         // $_SESSION['valid_user'] = $row['Nazv'];

@@ -9,18 +9,21 @@
 namespace common\modules\clinic\models;
 
 use yii\base\Model;
+use Yii;
 
 /**
  * Description of CreateForm
  *
  * @author kivdent
  */
-
-
 class CreateForm extends Model {
-
     /**
      * {@inheritdoc}
+     */
+
+    /**
+     *
+     * @var $clinic common\modules\clinic\models\Clinics;
      */
     public $name;
     public $address;
@@ -30,6 +33,7 @@ class CreateForm extends Model {
     public $description;
     public $logo;
     public $requisites;
+    public $clinic;
 
     public function rules() {
         return [
@@ -38,6 +42,11 @@ class CreateForm extends Model {
             [['additional_phones', 'description'], 'string'],
             [['name', 'phone', 'record_phone', 'logo'], 'string', 'max' => 255],
         ];
+    }
+
+    public function __construct() {
+
+        $this->clinic = Yii::$app->controller->module->getEntitie('clinic');
     }
 
     /**
@@ -55,6 +64,39 @@ class CreateForm extends Model {
             'logo' => 'Логотип',
             'requisites' => 'Реквизиты',
         ];
+    }
+
+    public static function getById($id) {
+        $createForm = new CreateForm();
+        $createForm->clinic = $createForm->getEntitiesById($id, 'clinic');
+        $createForm->setAttributes($createForm->clinic->attributes);
+        return $createForm;
+    }
+
+    public function delete() {
+        $this->clinic->delete();
+        unset($this->clinic);
+        return true;
+    }
+
+    public function save() {
+        $entityClass = Yii::$app->controller->module->getEntitiesClass('clinic');
+        $clinic = new $entityClass;
+        $clinic->setAttributes($this->attributes);
+
+        if ($clinic->save()) {
+            $this->clinic = $clinic;
+            $result = true;
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
+
+    public function getEntitiesById($id, $entity) {
+        $entitieClass = Yii::$app->controller->module->getEntitiesClass($entity);
+        $model = $entitieClass:: getById($id);
+        return $model:: getById($id);
     }
 
 }

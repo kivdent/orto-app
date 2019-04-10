@@ -15,76 +15,94 @@ use yii\base\Model;
 use common\interfaces\ClinicInterface;
 use common\models\Clinics;
 
-class Clinic extends Model implements ClinicInterface {
+class Clinic extends Clinics implements ClinicInterface {
 
-    public static function getById($id){}
+    public static function getById($id) {
+
+
+        return self::findOne($id) !== NULL ? self::findOne($id) : false;
+    }
 
     /**
      * 
      * получение списка 
      */
-    public static function getAll(){}
-
-    /**
-     * сохранение
-     */
-    public function save(){}
-
-    /**
-     * удаление
-     */
-    public function delete(){}
+    public static function getAll() {
+        $clinics=self::find()->where('id>0')->all();
+        return $clinics !== NULL ? $clinics : false;
+    }
 
     /**
      * получение идентификатора
      */
-    public function getId(){}
+    public function getId() {
+        return $this->id;
+    }
 
     /**
      * Название клиники
      * @return string
      */
-    public function getName(){}
+    public function getName() {
+        
+    }
 
     /**
      * Описание клиники
      * @return string
      */
-    public function getDescription(){}
+    public function getDescription() {
+        
+    }
 
     /**
      * Реквизиты клиники
      * @return string
      */
-    public function getRequisites(){}
+    public function getRequisites() {
+        
+    }
 
     /**
      * Адрес клиники
      * @return array 
      */
-    public function getAddres(){}
+    public function getAddres() {
+        
+    }
 
     /**
      * Расписание клиники
      * @return array 
      */
-    public function getSheudle(){}
+    public function getSheudle() {
+        
+    }
 
     /**
      * Финансовые подразделения клиники
      * @return array 
      */
-    public function getFinancialDivisions(){}
+    public function getFinancialDivisions() {
+        
+    }
 
     /**
      * Рабочие места клиники
      * @return array 
      */
-    public function getWorkplaces(){}
+    public function getWorkplaces() {
+        
+    }
 
     /**
      * Логотип
      * @return array 
      */
-    public function getLogo(){}
+    public function getLogo() {
+        
+    }
+
+   
+
 }

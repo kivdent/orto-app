@@ -43,16 +43,16 @@ abstract class WorkModule extends Module implements WorkModuleInterface {
     }
 
     public function getEntitie($entitie) {
-        $entitieClass=$this->getEntitiesClass($entitie);
-        $entiesInsatance=new $entitieClass;
+        $entitieClass = $this->getEntitiesClass($entitie);
+        $entiesInsatance = new $entitieClass;
         return $entiesInsatance;
     }
 
-    private function getEntitiesClass($entitie) {
+    public function getEntitiesClass($entitie) {
         if (isset($this->params['entities'][$entitie])) {
             return $this->params['entities'][$entitie];
-        }else{
-            throw new NotFoundHttpException('Не нйден класс для работы с {$entitie}');
+        } else {
+            throw new NotFoundHttpException("Не нйден класс для работы с $entitie");
         }
     }
 

@@ -3,7 +3,7 @@
 namespace common\modules\clinic\controllers;
 
 use Yii;
-use common\modules\clinic\models\CreateForm;
+use common\models\Clinics;
 use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -13,12 +13,13 @@ use yii\filters\AccessControl;
 /**
  * ManageController implements the CRUD actions for Clinics model.
  */
-class ManageController extends Controller {
-
+class ManageController extends Controller
+{
     /**
      * {@inheritdoc}
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -28,12 +29,14 @@ class ManageController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
+                
                 'rules' => [
                     [
                         'allow' => true,
                         'actions' => [],
-                        'roles' => ['admin', 'director'],
+                        'roles' => ['admin','director'],
                     ],
+                  
                 ],
             ],
         ];
@@ -43,25 +46,15 @@ class ManageController extends Controller {
      * Lists all Clinics models.
      * @return mixed
      */
-    public function actionIndex() {
-        $entityClass = Yii::$app->controller->module->getEntitiesClass('clinic');
-        $entities = $entityClass::getAll();
-       
-        if ($entities==NULL) {
-            return $this->redirect(['create']);
-        } else {
-            
-            if (count($entities) === 1) {
-                return $this->redirect(['update', 'id' => $entities[0]->getId()]);
-            } else {
-                $dataProvider = new ArrayDataProvider(
-                        [
-                            'allModels' => $entities,
-                            ]
-                        );
-                return $this->render('index', ['dataProvider' => $entities]);
-            }
-        }
+    public function actionIndex()
+    {
+        $dataProvider = new ArrayDataProvider([
+            'query' => Clinics::find(),
+        ]);
+
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
@@ -70,9 +63,10 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -81,15 +75,16 @@ class ManageController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
-        $model = new CreateForm();
+    public function actionCreate()
+    {
+        $model = new Clinics();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->clinic->id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -100,7 +95,8 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -108,7 +104,7 @@ class ManageController extends Controller {
         }
 
         return $this->render('update', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -119,7 +115,8 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -132,13 +129,12 @@ class ManageController extends Controller {
      * @return Clinics the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
-        $model = CreateForm::getById($id);
-        if (isset($model)) {
+    protected function findModel($id)
+    {
+        if (($model = Clinics::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
-    }
 
+        throw new NotFoundHttpException('Запрашиваемая страница не существует');
+    }
 }

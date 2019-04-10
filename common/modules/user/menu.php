@@ -5,8 +5,10 @@ return [
         /**
          * menu для разных ролей 
          */
+        
+       
         'menuItems' => [
-            ['label' => 'Пользователи', 'url' => '/users/', 'roles'=>['admin',]],
+            ['label' => 'Пользователи', 'url' => '/user/', 'roles'=>['admin',]],
         ],
     ],
 ];

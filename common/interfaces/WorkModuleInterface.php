@@ -24,9 +24,13 @@ interface WorkModuleInterface {
      */
      public function getModuleLabel();
      /**
-      * Получение сущности
-      * @param object $entitie
+      * Получение объекта сущности
+      * @param string $entitie
       */
       public function getEntitie($entitie);
-    
+      /**
+       *  Получение класса сущности
+       * @param string $entitie
+       */
+     public function getEntitiesClass($entitie);
 }
