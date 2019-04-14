@@ -3,17 +3,17 @@
 namespace common\modules\clinic\controllers;
 
 use Yii;
-use common\modules\clinic\models\CreateForm;
-use yii\data\ArrayDataProvider;
+use common\modules\clinic\models\Workplaces;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
- * ManageController implements the CRUD actions for Clinics model.
+ * WorkplacesController implements the CRUD actions for Workplaces model.
  */
-class ManageController extends Controller {
+class WorkplacesController extends Controller {
 
     /**
      * {@inheritdoc}
@@ -40,32 +40,23 @@ class ManageController extends Controller {
     }
 
     /**
-     * Lists all Clinics models.
+     * Lists all Workplaces models.
      * @return mixed
      */
-    public function actionIndex() {
-        $entityClass = Yii::$app->controller->module->getEntitysClass('clinic');
-        $entities = $entityClass::getAll();
-       
-        if ($entities==NULL) {
-            return $this->redirect(['create']);
-        } else {
-            
-            if (count($entities) === 1) {
-                return $this->redirect(['update', 'id' => $entities[0]->getId()]);
-            } else {
-                $dataProvider = new ArrayDataProvider(
-                        [
-                            'allModels' => $entities,
-                            ]
-                        );
-                return $this->render('index', ['dataProvider' => $dataProvider]);
-            }
-        }
+    public function actionIndex($clinic_id) {
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Workplaces::find()->where('clinic_id=:id', [':id' => $clinic_id])
+        ]);
+
+        return $this->render('index', [
+                    'dataProvider' => $dataProvider,
+                    'clinic_id' => $clinic_id,
+        ]);
     }
 
     /**
-     * Displays a single Clinics model.
+     * Displays a single Workplaces model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -77,25 +68,27 @@ class ManageController extends Controller {
     }
 
     /**
-     * Creates a new Clinics model.
+     * Creates a new Workplaces model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
-        $model = new CreateForm();
-
+    public function actionCreate($clinic_id) {
+        $model = new Workplaces();
+        
+        $model->clinic_id=$clinic_id;
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-              Yii::$app->session->setFlash('success','Клиника создана');
-            return $this->redirect(['update', 'id' => $model->clinic->id]);
+            return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
         }
-
+       
         return $this->render('create', [
                     'model' => $model,
+                    
         ]);
     }
 
     /**
-     * Updates an existing Clinics model.
+     * Updates an existing Workplaces model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -105,8 +98,7 @@ class ManageController extends Controller {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-              Yii::$app->session->setFlash('success','Данные о клинике обновлены');
-            return $this->redirect(['index']);
+            return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
         }
 
         return $this->render('update', [
@@ -115,32 +107,33 @@ class ManageController extends Controller {
     }
 
     /**
-     * Deletes an existing Clinics model.
+     * Deletes an existing Workplaces model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
+        $model= $this->findModel($id);
+        $clinic_id=$model->clinic_id;
+       $model->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','clinic_id'=> $clinic_id]);
     }
 
     /**
-     * Finds the Clinics model based on its primary key value.
+     * Finds the Workplaces model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Clinics the loaded model
+     * @return Workplaces the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        $model = CreateForm::getById($id);
-        if (isset($model)) {
+        if (($model = Workplaces::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('Запрашиваемая страница не существует');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 }

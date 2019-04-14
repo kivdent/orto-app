@@ -9,13 +9,13 @@ use Yii;
  *
  * @property int $id
  * @property string $name
- * @property int $address
+ * @property int $address_id
  * @property string $phone
  * @property string $record_phone
  * @property string $additional_phones
  * @property string $description
  * @property string $logo
- * @property int $requisites
+ * @property int $requisites_id
  */
 class Clinics extends \yii\db\ActiveRecord
 {
@@ -34,7 +34,7 @@ class Clinics extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['address', 'requisites'], 'integer'],
+            [['address_id', 'requisites_id'], 'integer'],
             [['additional_phones', 'description'], 'string'],
             [['name', 'phone', 'record_phone', 'logo'], 'string', 'max' => 255],
         ];
@@ -48,13 +48,13 @@ class Clinics extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'address' => 'Address',
+            'address_id' => 'Address',
             'phone' => 'Phone',
             'record_phone' => 'Record Phone',
             'additional_phones' => 'Additional Phones',
             'description' => 'Description',
             'logo' => 'Logo',
-            'requisites' => 'Requisites',
+            'requisites_id' => 'Requisites',
         ];
     }
 }

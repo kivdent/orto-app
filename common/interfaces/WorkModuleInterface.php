@@ -27,10 +27,10 @@ interface WorkModuleInterface {
       * Получение объекта сущности
       * @param string $entitie
       */
-      public function getEntitie($entitie);
+      public function getEntity($entitie);
       /**
        *  Получение класса сущности
        * @param string $entitie
        */
-     public function getEntitiesClass($entitie);
+     public function getEntitysClass($entitie);
 }

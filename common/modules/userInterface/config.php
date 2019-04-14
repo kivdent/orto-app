@@ -22,5 +22,8 @@ return [
             'director'=>'/old_app/dir_den_opl.php',
             'radiologist'=>'/old_app/rentgen.php?type=today'
         ],
+        'widgets'=>[
+          'addressFormFields'=>'common\modules\userInterface\widgets\AddressFormWidget'
+        ],
     ],
 ];

@@ -10,7 +10,7 @@ namespace common\interfaces;
  *
  * @author kivdent
  */
-interface AddressInterface {
+interface AddressInterface extends EntitiesInterface{
 
     /**
      * @return integer индекс

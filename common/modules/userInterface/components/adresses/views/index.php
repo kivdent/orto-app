@@ -6,15 +6,15 @@ use yii\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Clinics';
+$this->title = 'Addresses';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clinics-index">
+<div class="addresses-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Clinics', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Addresses', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -23,16 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'name',
-            'address',
-            'phone',
-            //'record_phone',
-            //'additional_phones:ntext',
-            //'description:ntext',
-            //'logo',
-            //'requisites',
+            'postcode',
+            'city',
+            'street',
+            'house',
+            //'apartment',
 
-            //['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

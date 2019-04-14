@@ -16,7 +16,7 @@ class m190408_105202_create_clinic_sheudles_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'clinic_id' => $this->integer()->notNull(),
-            'crated_at' => $this->dateTime()->notNull(),
+            'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull(),
             'start_date' => $this->date()->notNull(),
             'status' => $this->integer()->notNull(),

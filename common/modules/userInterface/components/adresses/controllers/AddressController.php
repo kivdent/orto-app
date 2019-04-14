@@ -1,19 +1,18 @@
 <?php
 
-namespace common\modules\clinic\controllers;
+namespace common\modules\userInterface\components\adresses\controllers;
 
 use Yii;
-use common\models\Clinics;
-use yii\data\ArrayDataProvider;
+use common\modules\userInterface\models\Addresses;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * ManageController implements the CRUD actions for Clinics model.
+ * AddressController implements the CRUD actions for Addresses model.
  */
-class ManageController extends Controller
+class AddressController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -27,29 +26,17 @@ class ManageController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::className(),
-                
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => [],
-                        'roles' => ['admin','director'],
-                    ],
-                  
-                ],
-            ],
         ];
     }
 
     /**
-     * Lists all Clinics models.
+     * Lists all Addresses models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $dataProvider = new ArrayDataProvider([
-            'query' => Clinics::find(),
+        $dataProvider = new ActiveDataProvider([
+            'query' => Addresses::find(),
         ]);
 
         return $this->render('index', [
@@ -58,7 +45,7 @@ class ManageController extends Controller
     }
 
     /**
-     * Displays a single Clinics model.
+     * Displays a single Addresses model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,13 +58,13 @@ class ManageController extends Controller
     }
 
     /**
-     * Creates a new Clinics model.
+     * Creates a new Addresses model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Clinics();
+        $model = new Addresses();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -89,7 +76,7 @@ class ManageController extends Controller
     }
 
     /**
-     * Updates an existing Clinics model.
+     * Updates an existing Addresses model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -109,7 +96,7 @@ class ManageController extends Controller
     }
 
     /**
-     * Deletes an existing Clinics model.
+     * Deletes an existing Addresses model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -123,18 +110,18 @@ class ManageController extends Controller
     }
 
     /**
-     * Finds the Clinics model based on its primary key value.
+     * Finds the Addresses model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Clinics the loaded model
+     * @return Addresses the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Clinics::findOne($id)) !== null) {
+        if (($model = Addresses::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('Запрашиваемая страница не существует');
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

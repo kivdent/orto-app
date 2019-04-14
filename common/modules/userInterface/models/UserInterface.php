@@ -137,5 +137,11 @@ class UserInterface {
         }
         return $modules;
     }
-
+    public function getWidget($widgetName){
+        $module = Yii::$app->getModule('userInterface');
+        $widget = isset($module->params['widgets'][$widgetName]) ? $module->params['widgets'][$widgetName] : "Виджет $widgetName не найден";
+        
+        return $widget;
+                
+    }
 }

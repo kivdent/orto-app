@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\modules\userInterface\widgets\AddressFormWidget;
+use common\modules\userInterface\widgets\RequisitesFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Clinics */
@@ -16,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 4]) ?>
 
-    <?= $form->field($model, 'address')->textInput() ?>
+    <?= AddressFormWidget::widget(['form'=>$form,'model'=>$model]); ?>
 
     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
 
@@ -25,7 +27,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'additional_phones')->textarea(['rows' => 1]) ?>
 
 
-    <?= $form->field($model, 'requisites')->textInput() ?>
+    <?= RequisitesFormWidget::widget(['form'=>$form,'model'=>$model]); ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
