@@ -3,15 +3,17 @@
 namespace common\modules\clinic\controllers;
 
 use Yii;
-use common\modules\clinic\models\ClinicSheudles;
+use common\modules\clinic\models\ClinicSchedleForm;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\modules\clinic\models\DaysInClinicSheudles;
+use yii\base\Model;
 
 /**
- * SheudlesController implements the CRUD actions for ClinicSheudles model.
+ * SheudlesController implements the CRUD actions for ClinicSchedleForm model.
  */
 class ScheudlesController extends Controller {
 
@@ -40,12 +42,12 @@ class ScheudlesController extends Controller {
     }
 
     /**
-     * Lists all ClinicSheudles models.
+     * Lists all ClinicSchedleForm models.
      * @return mixed
      */
     public function actionIndex($clinic_id) {
         $dataProvider = new ActiveDataProvider([
-            'query' => ClinicSheudles::find()->where('clinic_id=:id', [':id' => $clinic_id]),
+            'query' => ClinicSchedleForm::find()->where('clinic_id=:id', [':id' => $clinic_id]),
         ]);
 
         return $this->render('index', [
@@ -55,7 +57,7 @@ class ScheudlesController extends Controller {
     }
 
     /**
-     * Displays a single ClinicSheudles model.
+     * Displays a single ClinicSchedleForm model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -67,36 +69,34 @@ class ScheudlesController extends Controller {
     }
 
     /**
-     * Creates a new ClinicSheudles model.
+     * Creates a new ClinicSchedleForm model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($clinic_id) {
-        $model = new ClinicSheudles();
+        $model = new ClinicSchedleForm();
 
         $model->clinic_id = $clinic_id;
-//        
-//        if ($model->load(Yii::$app->request->post())){
-//          $model->start_date=Yii::$app->formatter->asDate($model->start_date, 'php:Y-m-d');
-//           echo "<pre>";
-//        print_r($model);
-//        echo "</pre>"; die();
-        //}
+        $model->createEmptyDays();
         
-        if ($model->load(Yii::$app->request->post())) {
-            if( $model->save()){  
-                
-            return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
+        if ($model->load(Yii::$app->request->post())&&
+                Model::loadMultiple($model->days, Yii::$app->request->post()) 
+                && Model::validateMultiple($model->days)) {
+           
+            if ($model->save()) {
+
+                return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
             }
         }
- $model->start_date=date("d.m.Y");
+        $model->start_date = date("d.m.Y");
+        
         return $this->render('create', [
                     'model' => $model,
         ]);
     }
 
     /**
-     * Updates an existing ClinicSheudles model.
+     * Updates an existing ClinicSchedleForm model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -105,16 +105,19 @@ class ScheudlesController extends Controller {
     public function actionUpdate($id) {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) &&
+                Model::loadMultiple($model->days, Yii::$app->request->post()) 
+                && Model::validateMultiple($model->days) && $model->save()) {
             return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
         }
-
+        
         return $this->render('update', [
                     'model' => $model,
         ]);
     }
- /**
-     * Updates an existing ClinicSheudles model.
+
+    /**
+     * Updates an existing ClinicSchedleForm model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -122,7 +125,7 @@ class ScheudlesController extends Controller {
      */
     public function actionInactivate($id) {
         $model = $this->findModel($id);
-       $model->status=$model->status? $model::STATUS_INACTIVE:$model::STATUS_ACTIVE;
+        $model->status = $model->status ? $model::STATUS_INACTIVE : $model::STATUS_ACTIVE;
         if ($model->save()) {
             return $this->redirect(['index', 'clinic_id' => $model->clinic_id]);
         }
@@ -131,8 +134,9 @@ class ScheudlesController extends Controller {
                     'model' => $model,
         ]);
     }
+
     /**
-     * Deletes an existing ClinicSheudles model.
+     * Deletes an existing ClinicSchedleForm model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -147,14 +151,15 @@ class ScheudlesController extends Controller {
     }
 
     /**
-     * Finds the ClinicSheudles model based on its primary key value.
+     * Finds the ClinicSchedleForm model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ClinicSheudles the loaded model
+     * @return ClinicSchedleForm the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = ClinicSheudles::findOne($id)) !== null) {
+        if (($model = ClinicSchedleForm::findOne($id)) !== null) {
+
             return $model;
         }
 

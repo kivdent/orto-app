@@ -10,6 +10,7 @@ namespace common\modules\userInterface\models;
 use frontend\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
+use common\modules\userInterface\helpers\FormatHelper;
 
 /**
  * Description of UserInterface
@@ -140,8 +141,10 @@ class UserInterface {
     public function getWidget($widgetName){
         $module = Yii::$app->getModule('userInterface');
         $widget = isset($module->params['widgets'][$widgetName]) ? $module->params['widgets'][$widgetName] : "Виджет $widgetName не найден";
-        
         return $widget;
                 
+    }
+    public function getNameDayWeek($numberDayWeek) {
+        return FormatHelper::getNameDayWeek($numberDayWeek);
     }
 }

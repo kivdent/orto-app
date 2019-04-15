@@ -42,11 +42,11 @@ class DaysInClinicSheudles extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'sheudle_id' => 'Sheudle ID',
-            'day_number' => 'Day Number',
-            'holiday' => 'Holiday',
-            'start' => 'Start',
-            'end' => 'End',
+            'sheudle_id' => 'Расписание',
+            'day_number' => 'День',
+            'holiday' => 'Выходной',
+            'start' => 'Начало приёма',
+            'end' => 'Окончание приёма',
         ];
     }
 }
