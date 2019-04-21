@@ -156,6 +156,9 @@ class CreateForm extends Model {
         unset($this->clinic);
         $this->address->delete();
         unset($this->address);
+        $this->requisites->delete();
+        unset($this->requisites);
+        
         return true;
     }
 

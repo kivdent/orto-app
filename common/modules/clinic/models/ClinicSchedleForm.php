@@ -26,17 +26,30 @@ class ClinicSchedleForm extends ClinicSheudles {
     public function afterFind() {
 
         $this->days = DaysInClinicSheudles::find()->indexBy('day_number')->where('sheudle_id=' . $this->id)->all();
-        
     }
-    public function afterSave($insert, $changedAttributes)
-{
-    
-    foreach($this->days as &$day){
-        $day->sheudle_id= $this->id;
-        $day->save(false);
+
+    public function afterSave($insert, $changedAttributes) {
+
+        foreach ($this->days as &$day) {
+            $day->sheudle_id = $this->id;
+            $day->save(false);
+        }
+        return true;
     }
-    return true;
-}
+
+    public function beforeDelete() {
+        if (!parent::beforeDelete()) {
+            return false;
+        }
+        $result=true;
+        foreach ($this->days as &$day) {
+
+            $result = $day->delete();
+        }
+
+        return $result;
+    }
+
     public function createEmptyDays() {
         for ($i = 1; $i <= $this->countDays; $i++) {
             $this->days[$i] = new DaysInClinicSheudles();

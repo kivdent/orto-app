@@ -104,7 +104,7 @@ class ScheudlesController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-
+        
         if ($model->load(Yii::$app->request->post()) &&
                 Model::loadMultiple($model->days, Yii::$app->request->post()) 
                 && Model::validateMultiple($model->days) && $model->save()) {
@@ -163,7 +163,7 @@ class ScheudlesController extends Controller {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Страница не найдена.');
     }
 
 }

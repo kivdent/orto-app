@@ -28,7 +28,7 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
      */
     public function rules() {
         return [
-            [['postcode', 'street', 'house'], 'required'],
+            [[ 'street', 'house'], 'required'],
             [['postcode'], 'integer'],
             [['city'], 'string', 'max' => 25],
             [['street'], 'string', 'max' => 100],
@@ -43,11 +43,11 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
     public function attributeLabels() {
         return [
             'id' => 'ID',
-            'postcode' => 'Postcode',
-            'city' => 'City',
-            'street' => 'Street',
-            'house' => 'House',
-            'apartment' => 'Apartment',
+            'postcode' => 'Индекс',
+            'city' => 'Город',
+            'street' => 'Улица',
+            'house' => 'Дом',
+            'apartment' => 'Квартира',
         ];
     }
 
@@ -90,4 +90,8 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
      * получение идентификатора
      */
     public function getId(){}
+  
+     public function getAddressString(){
+         return $this->postcode." ".$this->city." ".$this->street." ".$this->house." ".$this->apartment;
+     }
 }

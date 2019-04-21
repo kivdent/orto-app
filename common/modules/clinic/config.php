@@ -14,5 +14,6 @@ return [
         'menuItems' => [
           ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/manage/index','roles'=>['admin', 'director', ]],
         ],
+        'moduleMenu'=>'@common/modules/clinic/components/moduleMenu.php',
     ],
 ];

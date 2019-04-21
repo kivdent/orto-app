@@ -2,23 +2,38 @@
 
 namespace common\modules\patient;
 
+use common\abstractClasses\WorkModule;
+use Yii;
 /**
  * patient module definition class
  */
-class Module extends \yii\base\Module
-{
+class Module extends WorkModule {
+
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'common\modules\patient\controllers';
+    public $defaultRoute = 'manage';
+    public $moduleName = "Пациенты";
+
+    /**
+     * Устанавливает параметры для работы userInterface
+     * @param type $action
+     * @return type
+     */
+    public function beforeAction($action) {
+        //Новый код
+        return parent::beforeAction($action);
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
 
-        // custom initialization code goes here
+        Yii::configure($this, require __DIR__ . '/config.php');
+        ;
     }
+
 }

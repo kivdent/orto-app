@@ -1,8 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
-use common\modules\clinic\widgets\ClinicManageMenuWidget;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -11,7 +11,6 @@ $this->title = 'Рабочие места';
 
 ?>
 <div class="workplaces-index">
-    <?= ClinicManageMenuWidget::widget(['clinic_id'=> $clinic_id]);?>
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
@@ -24,9 +23,16 @@ $this->title = 'Рабочие места';
             ['class' => 'yii\grid\SerialColumn'],
 
             
-            'nazv',
+            
+              [
+                'attribute' =>'nazv',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a($model->nazv, Url::to(['update','id'=>$model->id,'clinic_id' => $model->clinic_id]));
+                }
+            ],
           
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

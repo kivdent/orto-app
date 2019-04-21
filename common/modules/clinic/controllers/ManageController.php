@@ -52,7 +52,7 @@ class ManageController extends Controller {
         } else {
             
             if (count($entities) === 1) {
-                return $this->redirect(['update', 'id' => $entities[0]->getId()]);
+                return $this->redirect(['update', 'clinic_id' => $entities[0]->getId()]);
             } else {
                 $dataProvider = new ArrayDataProvider(
                         [
@@ -66,13 +66,13 @@ class ManageController extends Controller {
 
     /**
      * Displays a single Clinics model.
-     * @param integer $id
+     * @param integer $clinic_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id) {
+    public function actionView($clinic_id) {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+                    'model' => $this->findModel($clinic_id),
         ]);
     }
 
@@ -86,7 +86,7 @@ class ManageController extends Controller {
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
               Yii::$app->session->setFlash('success','Клиника создана');
-            return $this->redirect(['update', 'id' => $model->clinic->id]);
+            return $this->redirect(['update', 'clinic_id' => $model->clinic->id]);
         }
 
         return $this->render('create', [
@@ -97,12 +97,12 @@ class ManageController extends Controller {
     /**
      * Updates an existing Clinics model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $clinic_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
+    public function actionUpdate($clinic_id) {
+        $model = $this->findModel($clinic_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
               Yii::$app->session->setFlash('success','Данные о клинике обновлены');
@@ -117,12 +117,12 @@ class ManageController extends Controller {
     /**
      * Deletes an existing Clinics model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $clinic_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
+    public function actionDelete($clinic_id) {
+        $this->findModel($clinic_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -130,12 +130,12 @@ class ManageController extends Controller {
     /**
      * Finds the Clinics model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
+     * @param integer $clinic_id
      * @return Clinics the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
-        $model = CreateForm::getById($id);
+    protected function findModel($clinic_id) {
+        $model = CreateForm::getById($clinic_id);
         if (isset($model)) {
             return $model;
         } else {

@@ -27,6 +27,7 @@ class UserInterface {
     public $user_full_name;
     public $menuItems;
     public $roleName;
+    public $params = [];
 
     /**
      * 
@@ -118,7 +119,7 @@ class UserInterface {
                 }
             }
         }
-        
+
 
         return $menuItems;
     }
@@ -138,13 +139,27 @@ class UserInterface {
         }
         return $modules;
     }
-    public function getWidget($widgetName){
+
+    public function getWidget($widgetName) {
         $module = Yii::$app->getModule('userInterface');
         $widget = isset($module->params['widgets'][$widgetName]) ? $module->params['widgets'][$widgetName] : "Виджет $widgetName не найден";
         return $widget;
-                
     }
+
     public function getNameDayWeek($numberDayWeek) {
         return FormatHelper::getNameDayWeek($numberDayWeek);
     }
+
+    public function hasModuleMenu() {
+        $module = Yii::$app->controller->module;
+        $result = (Isset($module->params['moduleMenu'])) ? true : false;
+        return $result;
+    }
+
+    public function renderModuleMenu() {
+        $module = Yii::$app->controller->module;
+        $result = (Isset($module->params['moduleMenu'])) ? $module->params['moduleMenu'] : false;
+        return $result;
+    }
+
 }

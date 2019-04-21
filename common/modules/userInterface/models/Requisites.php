@@ -48,16 +48,16 @@ class Requisites extends \common\abstractClasses\ActiveRecordEntity
     {
         return [
             'id' => 'ID',
-            'full_name' => 'Full Name',
-            'OGRN' => 'O G R N',
-            'INN' => 'I N N',
-            'KPP' => 'K P P',
-            'legal_address' => 'Legal Address',
-            'OKPO' => 'O K P O',
-            'OKVED' => 'O K V E D',
-            'checking_account' => 'Checking Account',
-            'correspondent_bank_account' => 'Correspondent Bank Account',
-            'BIC' => 'B I C',
+            'full_name' => 'Полное название',
+            'OGRN' => 'ОГРН',
+            'INN' => 'ИНН',
+            'KPP' => 'КПП',
+            'legal_address' => 'Юридический адрес',
+            'OKPO' => 'OKPO',
+            'OKVED' => 'ОКВЭД',
+            'checking_account' => 'Расчётный счёт',
+            'correspondent_bank_account' => 'Кор счёт',
+            'BIC' => 'БИК',
         ];
     }
 

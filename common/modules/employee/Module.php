@@ -2,23 +2,29 @@
 
 namespace common\modules\employee;
 
+use common\abstractClasses\WorkModule;
+use Yii;
+
 /**
  * employee module definition class
  */
-class Module extends \yii\base\Module
-{
+class Module extends WorkModule {
+
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'common\modules\employee\controllers';
+    public $defaultRoute = 'manage';
+    public $moduleName = "Cотрудники";
 
     /**
      * {@inheritdoc}
      */
-    public function init()
-    {
+    public function init() {
         parent::init();
 
-        // custom initialization code goes here
+        Yii::configure($this, require __DIR__ . '/config.php');
+        ;
     }
+
 }

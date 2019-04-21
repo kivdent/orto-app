@@ -62,8 +62,7 @@ AppAsset::register($this);
                         if (!Yii::$app->user->isGuest) {
                             echo Nav::widget([
                                 'options' => ['class' => 'navbar-left nav-pills nav-stacked'],
-                                //'items' => $this->params['userMenuItems'],
-                                'items' =>Yii::$app->userInterface->menuItems,
+                                'items' => Yii::$app->userInterface->menuItems,
                             ]);
                         }
                         ?>
@@ -75,6 +74,9 @@ AppAsset::register($this);
                         ])
                         ?>
                         <?= Alert::widget() ?>
+                        <?php if (Yii::$app->userInterface->hasModuleMenu()): ?>
+                            <?=$this->render(Yii::$app->userInterface->renderModuleMenu()) ?>
+                        <?php endif ?>
                         <?= $content ?>
                     </div>
                     <div class="col-lg-3">

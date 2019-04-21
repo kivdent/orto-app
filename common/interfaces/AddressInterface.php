@@ -34,4 +34,8 @@ interface AddressInterface extends EntitiesInterface{
      * @return  string квартиры
      */
     public function getApartment ();
+     /**
+     * @return  string Полный адрес
+     */
+    public function getAddressString ();
 }
