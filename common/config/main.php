@@ -37,8 +37,16 @@ return [
         'user' => [
             'class' => 'common\modules\user\Module',
         ],
+        'schedule' => [
+            'class' => 'common\modules\schedule\Module',
+        ],
+        'catalogs' => [
+            'class' => 'common\modules\catalogs\Module',
+        ],
         'old_app' => [
             'class' => 'frontend\modules\old_app\Module',
         ],
+
+
     ],
 ];
