@@ -5,9 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\BaseSchedules */
 
-$this->title = 'Create Base Schedules';
-$this->params['breadcrumbs'][] = ['label' => 'Base Schedules', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Новое базовое расписание';
+
 ?>
 <div class="base-schedules-create">
 

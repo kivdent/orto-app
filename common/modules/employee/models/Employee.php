@@ -5,6 +5,7 @@ namespace common\modules\employee\models;
 use Yii;
 use common\modules\catalogs\modules\positions\models\Positions;
 use common\modules\userInterface\models\Addresses;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "sotr".
@@ -21,7 +22,8 @@ use common\modules\userInterface\models\Addresses;
  * @property int $address_id
  * @property int $status
  */
-class Employee extends \yii\db\ActiveRecord {
+class Employee extends \yii\db\ActiveRecord
+{
 
     /**
      * {@inheritdoc}
@@ -30,14 +32,16 @@ class Employee extends \yii\db\ActiveRecord {
     const STATUS_NOT_WORKED = 'Не работает';
     const STATUS_TEMPORARILY_WORKED = 'Временно не работает';
 
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'sotr';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['dr'], 'safe'],
             [['status'], 'string'],
@@ -52,7 +56,8 @@ class Employee extends \yii\db\ActiveRecord {
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'surname' => 'Фамилия',
@@ -63,34 +68,40 @@ class Employee extends \yii\db\ActiveRecord {
             'mtel' => 'Мобильный телефон',
             'adres' => 'Адрес',
             'dolzh' => 'Должность',
-             'status' => 'Статус',
+            'status' => 'Статус',
         ];
     }
 
-    public function getPosition() {
+    public function getPosition()
+    {
 
         return $this->hasOne(Positions::class, ['id' => 'dolzh']);
     }
 
-    public function getPositionName() {
+    public function getPositionName()
+    {
         return $this->position->getName();
     }
 
-    public function getFullName() {
+    public function getFullName()
+    {
         return $this->surname . ' ' . $this->name . ' ' . $this->otch;
     }
 
-    public function afterFind() {
+    public function afterFind()
+    {
 
         $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:d.m.Y');
     }
 
-    public function getPositionsList() {
+    public function getPositionsList()
+    {
 
         return Positions::getList();
     }
 
-    public function getAddressString() {
+    public function getAddressString()
+    {
         if ($this->address !== null) {
             $address = $this->address->addressString;
         } else {
@@ -99,12 +110,14 @@ class Employee extends \yii\db\ActiveRecord {
         return $address;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
 
         return $this->hasOne(Addresses::class, ['id' => 'address_id']);
     }
 
-    public function getStatusList() {
+    public function getStatusList()
+    {
         return [
             self::STATUS_NOT_WORKED => self::STATUS_NOT_WORKED,
             self::STATUS_WORKED => self::STATUS_WORKED,
@@ -112,4 +125,16 @@ class Employee extends \yii\db\ActiveRecord {
         ];
     }
 
+    public static function getList($status = self::STATUS_WORKED)
+    {
+
+        $list=self::find()->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['status'=>$status])
+            ->orderBy('surname')
+            ->asArray()
+            ->all();
+        $list=ArrayHelper::map($list,'id','full_name');
+
+        return $list;
+    }
 }

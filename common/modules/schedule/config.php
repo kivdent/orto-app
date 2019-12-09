@@ -8,7 +8,7 @@ return [
 
         'menuItems' => [
 //            ['label' => 'Ежедневник', 'url' => '/schedule/show/diary','roles'=>['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', ]],
-            ['label' => 'Пакеты расписаний', 'url' => '/schedule/manageBasicSchedule/index','roles'=>['admin', ]],
+            ['label' => 'Пакеты расписаний', 'url' => '/schedule/manage-basic-schedule','roles'=>['admin', ]],
 //            ['label' => 'Изменить расписание', 'url' => '/schedule/manage/update','roles'=>['admin', ]],
 //            ['label' => 'Назначение пациентов', 'url' => '/schedule/assignment/create','roles'=>['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', ]],
 //            ['label' => 'Пациенты на сегодня регитратура', 'url' => '/schedule/show/today','roles'=>['recorder', ]],

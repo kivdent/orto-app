@@ -19,7 +19,7 @@ use yii\db\ActiveRecord;
 class AddressBehaivor extends Behavior {
     
     public function AddressSave($insert) {
-       $owner->address_id
+       $owner->address_id;
         return true;
     }
 

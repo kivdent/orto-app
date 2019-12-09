@@ -20,6 +20,8 @@ use Yii;
  */
 class BaseSchedules extends \yii\db\ActiveRecord
 {
+    const STATUS_ACTIVE='1';
+    const STATUS_INACTIVE='0';
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,7 @@ class BaseSchedules extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['DateD', 'created_at', 'updated_at', 'start_date'], 'safe'],
+            [['DateD', 'start_date'], 'safe'],
             [['vrachID', 'prodpr', 'doctor_id', 'status', 'appointment_duration'], 'integer'],
             [['doctor_id', 'status', 'appointment_duration'], 'required'],
         ];
@@ -47,15 +49,15 @@ class BaseSchedules extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'DateD' => 'Date D',
-            'vrachID' => 'Vrach I D',
-            'prodpr' => 'Prodpr',
-            'doctor_id' => 'Doctor ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'start_date' => 'Start Date',
-            'status' => 'Status',
-            'appointment_duration' => 'Appointment Duration',
+            'DateD' => 'Начало',
+            'vrachID' => 'Врач',
+            'prodpr' => 'Продолжительность приёма',
+            'doctor_id' => 'Врач',
+            'created_at' => 'Создано',
+            'updated_at' => 'Обновлено',
+            'start_date' => 'Начало',
+            'status' => 'Статус',
+            'appointment_duration' => 'Продолжительность приёма',
         ];
     }
 }

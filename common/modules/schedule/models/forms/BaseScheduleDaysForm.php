@@ -4,7 +4,9 @@
 namespace common\modules\schedule\models\forms;
 
 
-class BaseScheduleDaysForm
+use common\modules\schedule\models\BaseSchedulesDays;
+
+class BaseScheduleDaysForm extends BaseSchedulesDays
 {
 
 }

@@ -5,9 +5,11 @@ namespace common\modules\schedule\controllers;
 use Yii;
 use common\modules\schedule\models\BaseSchedules;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\modules\schedule\models\forms\BaseScheduleForm;
 
 /**
  * ManageBasicScheduleController implements the CRUD actions for BaseSchedules model.
@@ -24,6 +26,17 @@ class ManageBasicScheduleController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => [],
+                        'roles' => ['admin', 'director'],
+                    ],
                 ],
             ],
         ];
@@ -44,18 +57,7 @@ class ManageBasicScheduleController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single BaseSchedules model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+
 
     /**
      * Creates a new BaseSchedules model.
@@ -64,10 +66,14 @@ class ManageBasicScheduleController extends Controller
      */
     public function actionCreate()
     {
-        $model = new BaseSchedules();
-
+        $model = new BaseScheduleForm();
+        $model->setStartValues();
+//        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+//
+//        }
+//        print_r($model->errors);die();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         return $this->render('create', [

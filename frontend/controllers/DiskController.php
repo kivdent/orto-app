@@ -2,9 +2,12 @@
 
 
 namespace frontend\controllers;
+use yii\web\Controller;
 
-
-class DiskController
+class DiskController extends Controller
 {
-
+public function actionIndex()
+{
+    return $this->render('index');
+}
 }
