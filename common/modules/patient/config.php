@@ -15,6 +15,8 @@ return [
             ['label' => 'Работа с пациентами', 'url' => '/patient', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior nurse', ]],
             ['label' => 'Добавить нового пациента', 'url' => '/patient/manage/create','roles'=>['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior nurse', ]],
         ],
-       // 'moduleMenu' => '@common/modules/clinic/components/moduleMenu.php',
+        'moduleMenu' => [
+            'file'=>'@common/modules/patient/components/ModuleMenu.php',
+            ]
     ],
 ];

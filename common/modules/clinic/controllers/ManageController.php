@@ -46,8 +46,8 @@ class ManageController extends Controller {
     public function actionIndex() {
         $entityClass = Yii::$app->controller->module->getEntitysClass('clinic');
         $entities = $entityClass::getAll();
-       
-        if ($entities==NULL) {
+
+        if (count($entities)==0) {
             return $this->redirect(['create']);
         } else {
             
@@ -92,6 +92,7 @@ class ManageController extends Controller {
         return $this->render('create', [
                     'model' => $model,
         ]);
+
     }
 
     /**
@@ -112,6 +113,7 @@ class ManageController extends Controller {
         return $this->render('update', [
                     'model' => $model,
         ]);
+
     }
 
     /**

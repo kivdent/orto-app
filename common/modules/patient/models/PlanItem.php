@@ -4,7 +4,7 @@
 namespace common\modules\patient\models;
 
 
-class PlanItem
+class PlanItem extends \common\models\PlanItem
 {
 
 }

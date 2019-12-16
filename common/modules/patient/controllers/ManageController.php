@@ -62,14 +62,14 @@ class ManageController extends Controller
 
     /**
      * Displays a single Patient model.
-     * @param double $id
+     * @param double $patient_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($patient_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($patient_id),
         ]);
     }
 
@@ -95,13 +95,13 @@ class ManageController extends Controller
     /**
      * Updates an existing Patient model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param double $id
+     * @param double $patient_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($patient_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($patient_id);
      
         if ($model->load(Yii::$app->request->post())&& $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -115,13 +115,13 @@ class ManageController extends Controller
     /**
      * Deletes an existing Patient model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param double $id
+     * @param double $patient_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($patient_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($patient_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -129,13 +129,13 @@ class ManageController extends Controller
     /**
      * Finds the Patient model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param double $id
+     * @param double $patient_id
      * @return Patient the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($patient_id)
     {
-        if (($model = PatientForm::findOne($id)) !== null) {
+        if (($model = PatientForm::findOne($patient_id)) !== null) {
             return $model;
         }
 

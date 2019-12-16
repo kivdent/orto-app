@@ -6,8 +6,10 @@ namespace console\controllers;
 use Yii;
 use yii\console\Controller;
 use common\models\User;
+
 class RbacController extends Controller
 {
+
     public function actionInit()
     {
         $auth = Yii::$app->authManager;
@@ -60,7 +62,7 @@ class RbacController extends Controller
         $orthopedist = $auth->createRole('orthopedist');
         $auth->add($orthopedist);
         $auth->addChild($orthopedist, $doctor);
-        
+
         // добавляем роль "surgeon" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $surgeon = $auth->createRole('surgeon');
@@ -86,18 +88,17 @@ class RbacController extends Controller
         $auth->addChild($admin, $therapist);
 
 
-
         $user = new User();
         $user->username = "admin";
         $user->email = "default@site.com";
         $user->setPassword('admin');
         $user->generateAuthKey();
-        $user->employe_id ='1';
+        $user->employe_id = '1';
         $user->save(false);
 
         // Назначение ролей пользователям. 1 и 2 это IDs возвращаемые IdentityInterface::getId()
         // обычно реализуемый в модели User.
-        
+
         $auth->assign($admin, $user->id);
     }
 }

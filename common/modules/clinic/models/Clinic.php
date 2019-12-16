@@ -102,7 +102,9 @@ class Clinic extends Clinics implements ClinicInterface {
     public function getLogo() {
         
     }
-
+    static function hasClinics(){
+        return self::getAll();
+    }
    
 
 }

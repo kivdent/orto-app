@@ -65,6 +65,9 @@ AppAsset::register($this);
                 ])
                 ?>
                 <?= Alert::widget() ?>
+                <?php if (Yii::$app->userInterface->hasModuleMenu()): ?>
+                    <?=$this->render(Yii::$app->userInterface->renderModuleMenu()) ?>
+                <?php endif ?>
                 <?= $content ?>
 
 

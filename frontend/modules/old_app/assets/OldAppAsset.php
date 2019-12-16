@@ -11,7 +11,7 @@ use yii\web\AssetBundle;
 /**
  * Description of OldAppAsset
  *
- * @author kivde
+ * @author kivdent
  */
 class OldAppAsset extends AssetBundle {
 
@@ -28,6 +28,7 @@ class OldAppAsset extends AssetBundle {
         'manip.js',
         'spisok.js',
         'jumper.js',
+        'disp.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

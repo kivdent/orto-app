@@ -158,7 +158,7 @@ class UserInterface {
 
     public function renderModuleMenu() {
         $module = Yii::$app->controller->module;
-        $result = (Isset($module->params['moduleMenu'])) ? $module->params['moduleMenu'] : false;
+        $result = (Isset($module->params['moduleMenu'])) ? $module->params['moduleMenu']['file'] : false;
         return $result;
     }
 

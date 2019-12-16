@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace common\modules\clinic\widgets;
+namespace common\modules\patient\widgets;
 
 use yii\base\Widget;
 use Yii;
@@ -16,29 +16,41 @@ use Yii;
  *
  * @author kivdent
  */
-class ClinicManageMenuWidget extends Widget {
+class PatientMenuWidget extends Widget {
 
     public $menuItems = [
     ];
-    public $clinic_id;
+    public $patient_id;
 
     public function run() {
         $this->menuItems = [
-            ['label' => 'Сведения', 'url' => ['/clinic/manage/update', 'clinic_id' => $this->clinic_id],],
-            ['label' => 'Расписания', 'url' => ['/clinic/scheudles', 'clinic_id' => $this->clinic_id],],
-            ['label' => 'Рабочие места', 'url' => ['/clinic/workplaces', 'clinic_id' => $this->clinic_id],],
-              ['label' => 'Подразделения', 'url' => ['/clinic/financial-divisions', 'clinic_id' => $this->clinic_id],],
+
+            ['label' => 'Основные сведения', 'url' => ['/patient/manage/view','patient_id' => $this->patient_id]],
+//            ['label' => 'Медицинская карта', 'url' => ['/patient/examination/index','patient_id' => $this->patient_id]],
+//           ['label' => 'Дневник', 'url' => ['/patient/journal/index','patient_id' => $this->patient_id]],
+//            ['label' => 'Диспансеризация', 'url' => ['/patient/recall/index','patient_id' => $this->patient_id]],
+//            ['label' => 'Статистика', 'url' => ['/patient/statistics/index','patient_id' => $this->patient_id]],
+            ['label' => 'План лечения', 'url' => ['/patient/plan/index','patient_id' => $this->patient_id]],
+
+            ['label' => 'Медицинская карта', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'medcard']],
+            ['label' => 'Терапия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ter']],
+            ['label' => 'Ортодонтия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ortd']],
+            ['label' => 'Ортопедия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ortp']],
+            ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'disp']],
+            ['label' => 'Статистика', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'stat']],
+
+
         ];
         foreach ($this->menuItems as &$menuItem) {
             $routeArray = explode('/', $menuItem['url'][0]);
-            $menuItemController = $routeArray[2];
-            $currentController = Yii::$app->controller->id;
-            $menuItem['active'] = ($menuItemController === $currentController) ? true : false;
+            $menuItemAction = isset($routeArray[3]) ? $routeArray[3] : false ;
+            $currentAction = Yii::$app->controller->action->id;
+            $menuItem['active'] = ($menuItemAction === $currentAction) ? true : false;
         }
 
 
 
-        return $this->render('_clinicManageMenu', [
+        return $this->render('_patientMenu', [
                     'menuItems' => $this->menuItems,
         ]);
     }

@@ -137,4 +137,8 @@ class Employee extends \yii\db\ActiveRecord
 
         return $list;
     }
+    public static function getEmployeeFullName($id)
+    {
+
+    }
 }

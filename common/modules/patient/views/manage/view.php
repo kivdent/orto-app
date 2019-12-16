@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+$this->context->layout = '@frontend/views/layouts/light.php';
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\Patient */
 
@@ -12,21 +12,13 @@ $this->title = $model->fullName;
 ?>
 <div class="patient-view">
 
-    <h1>Карта №<?= Html::encode($model->getId()) ?></h1>
+    <h1>Карта № <?= Html::encode($model->getId()) ?></h1>
     <h2><?= Html::encode($this->title) ?></h2>
 
     <p>
-        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Изменить', ['update', 'patient_id' => $model->id], ['class' => 'btn btn-primary']) ?>
           <?= Html::a('Карта', ['/old_app/pat_card.php', 'id' => $model->id], ['class' => 'btn btn-info','target'=>'blank']) ?>
-        <?=
-        Html::a('Удалить', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ])
-        ?>
+
     </p>
   
     <?=

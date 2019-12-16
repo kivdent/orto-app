@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\modules\employe\models\Employe;
+//use common\modules\employe\models\Employe;
+use common\modules\employee\models\Employee as Employe;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\user\models\CreateUserForm */

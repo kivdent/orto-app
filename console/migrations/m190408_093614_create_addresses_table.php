@@ -14,10 +14,10 @@ class m190408_093614_create_addresses_table extends Migration
     {
         $this->createTable('{{%addresses}}', [
             'id' => $this->primaryKey(),
-            'postcode' => $this->integer()->notNull(),
+            'postcode' => $this->integer(),
             'city' => $this->string(25),
-            'street' => $this->string(100)->notNull(),
-            'house' => $this->string(20)->notNull(),
+            'street' => $this->string(100),
+            'house' => $this->string(20),
             'apartment' => $this->string(10),
         ]);
     }

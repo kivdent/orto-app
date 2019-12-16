@@ -22,7 +22,10 @@ class Module extends WorkModule {
      * @return type
      */
     public function beforeAction($action) {
-        //Новый код
+        if (Yii::$app->request->get('patient_id')!==null){
+            Yii::$app->userInterface->params['patient_id']=Yii::$app->request->get('patient_id');
+
+        }
         return parent::beforeAction($action);
     }
 

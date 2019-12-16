@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
+$this->context->layout = '@frontend/views/layouts/light.php';
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\Patient */
 

@@ -31,7 +31,7 @@ $this->title = 'Пациенты';
                 'attribute' => 'id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a($model->id, ['view','id'=>$model->id]);
+                    return Html::a($model->id, ['update','patient_id'=>$model->id]);
                 }
             ],
             'surname',
@@ -42,7 +42,13 @@ $this->title = 'Пациенты';
             'DTel',
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view}  {update}'
+                'template' => '{update}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('', ['/old_app/pat_card.php', 'id' =>$model->id], ['class' => 'glyphicon glyphicon-pencil','target'=>'_blank']);
+
+                    },
+                        ]
             ],
         ],
     ]);
