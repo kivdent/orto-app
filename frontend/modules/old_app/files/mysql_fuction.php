@@ -1,6 +1,10 @@
-    <?php 
+    <?php
+    use Yii;
+
     function sql_query($query,$bd='orto',$echo_query='false')
 {
+    $dbname = explode("=", Yii::$app->getDb()->dsn);
+    $dbname = $dbname[2];
     //выбираем базу
     switch ($bd) {
     case "internet"://соединение с базой orto-premier.ru
@@ -9,7 +13,7 @@
         //$charset="utf8";
     break;
     case "orto"://соединение с основной базой программы
-        $link = mysqli_connect("localhost" , "orto", "445223", "orto");
+        $link = mysqli_connect("localhost" , "orto", "445223", "$dbname");
         //$charset="cp1251";
         $charset="utf8";
     break;

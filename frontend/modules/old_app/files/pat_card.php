@@ -23,8 +23,8 @@ $result = sql_query($query, 'orto', 0);
 $count = mysqli_num_rows($result);
 $row = mysqli_fetch_array($result);
 echo $row['surname'] . " " . $row['name'] . " " . $row['otch'] . " " . "</span></center>
-          <center><a href='/patient/manage/view?id=" . $_GET['id'] . "' class='mmenu'>Основные сведения</a>|
-          <a href='/patient/plan/index?id=" . $_GET['id'] . "' class='mmenu'>План лечения</a>| 
+          <center><a href='/patient/manage/view?patient_id=" . $_GET['id'] . "' class='mmenu'>Основные сведения</a>|
+          <a href='/patient/plan/index?patient_id=" . $_GET['id'] . "' class='mmenu'>План лечения</a>| 
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=medcard' class='mmenu'>Медицинская карта</a>|
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ter' class='mmenu'>Терапия </a>|
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortd'class='mmenu'>Ортодонтия</a>|

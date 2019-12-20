@@ -32,7 +32,7 @@ class TreatmentPlan extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'safe'],
-            [['author', 'patient', 'deleted'], 'integer'],
+            [['author', 'patient', 'deleted','diagnosis_id'], 'integer'],
             [['comments'], 'string'],
         ];
     }
@@ -51,5 +51,10 @@ class TreatmentPlan extends \yii\db\ActiveRecord
             'comments' => 'Comments',
             'deleted' => 'Deleted',
         ];
+    }
+    public function setDeleted(){
+        $this->deleted=1;
+
+        return $this->save(false);
     }
 }

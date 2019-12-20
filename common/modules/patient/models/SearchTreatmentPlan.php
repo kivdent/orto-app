@@ -40,7 +40,7 @@ class SearchTreatmentPlan extends TreatmentPlan
      */
     public function search($params,$patient_id)
     {
-        $query = TreatmentPlan::find()->where('patient=:patient_id',[':patient_id' =>$patient_id ]);
+        $query = TreatmentPlan::find()->where('patient=:patient_id',[':patient_id' =>$patient_id ])->andWhere('deleted=0');
 
         // add conditions that should always apply here
 

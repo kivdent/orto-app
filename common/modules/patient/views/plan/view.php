@@ -1,33 +1,39 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-use common\modules\employee\models\Employee;
+
 
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlan */
 
-$this->title = "План лечения от ".Yii::$app->formatter->asDate($model->created_at,'php:d.m.Y');
-$i=0;
+$this->title = "План лечения от " . Yii::$app->formatter->asDate($model->created_at, 'php:d.m.Y');
+$i = 1;
 \yii\web\YiiAsset::register($this);
 ?>
+
 <div class="treatment-plan-view">
 
     <h1><?= Html::encode($this->title) ?>
-        <?= Html::a('Изменить', ['update', 'patient_id' =>Yii::$app->request->get('patient_id'),'id'=>$model->id,], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Удалить', ['delete', 'patient_id' => Yii::$app->request->get('patient_id'),'id'=>$model->id,], [
+        <?= Html::a('Изменить', ['update', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Вы уверены, что хотите удалить план лечения',
                 'method' => 'post',
             ],
-        ]) ?></h1>
+        ]) ?>
+        <?= Html::a('Печать', ['print', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,'print'=>'true'], ['class' => 'btn btn-primary','target'=>'_blank']) ?>
+    </h1>
 
+    <p><?= Html::encode($model->comments) ?></p>
 
     <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading">Врач: <?=Employee::findOne($model->author)->getFullName()?></div>
+        <div class="panel-heading">
+            <h4>Врач: <?=$model->getAuthorName() ?></h4>
+            <h4>Диагноз: <?= Html::encode($model->diagnosis['Nazv']) ?></h4>
+        </div>
 
         <!-- Table -->
         <table class="table">
@@ -41,13 +47,13 @@ $i=0;
             </thead>
             <tbody>
             <?php foreach ($model->planItems as $planlItem): ?>
-            <tr>
-                <th scope="row"><?=Html::encode($i++)?></th>
-                <td><?=Html::encode($planlItem->region_id)?></td>
-                <td><?=Html::encode($planlItem->operation_id)?></td>
-                <td><?=Html::encode($planlItem->comment)?></td>
-            </tr>
-             <?php endforeach;?>
+                <tr>
+                    <th scope="row"><?= Html::encode($i++) ?></th>
+                    <td><?= Html::encode($planlItem->region->title) ?></td>
+                    <td><?= Html::encode($planlItem->operation->title) ?></td>
+                    <td><?= Html::encode($planlItem->comment) ?></td>
+                </tr>
+            <?php endforeach; ?>
             </tbody>
         </table>
     </div>

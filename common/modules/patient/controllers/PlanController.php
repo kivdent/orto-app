@@ -2,7 +2,7 @@
 
 namespace common\modules\patient\controllers;
 
-use common\modules\patient\models\forms\PlanItemForm;
+
 use common\modules\patient\models\forms\TreatmentPlanForm;
 use Yii;
 use common\modules\patient\models\TreatmentPlan;
@@ -15,6 +15,7 @@ use common\models\DynamicFormModel as Model;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use common\modules\patient\models\PlanItem;
 
 /**
  * PlanController implements the CRUD actions for TreatmentPlan model.
@@ -48,6 +49,7 @@ class PlanController extends Controller
         $this->layout = '@frontend/views/layouts/light';
         return true; // or false to not run the action
     }
+
     /**
      * Lists all TreatmentPlan models.
      * @return mixed
@@ -55,7 +57,7 @@ class PlanController extends Controller
     public function actionIndex($patient_id)
     {
         $searchModel = new SearchTreatmentPlan();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$patient_id);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $patient_id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -71,8 +73,21 @@ class PlanController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        Yii::$app->userInterface->params['patient_id'] = $model->patient;
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPrint($id)
+    {
+        $model = $this->findModel($id);
+        Yii::$app->userInterface->params['patient_id'] = $model->patient;
+        $this->layout = '@frontend/views/layouts/print';
+        return $this->render('print', [
+            'model' => $model,
         ]);
     }
 
@@ -84,13 +99,14 @@ class PlanController extends Controller
     public function actionCreate()
     {
         $model = new TreatmentPlanForm();
-        $model->author=Yii::$app->user->identity->employe_id;
-        $model->patient=Yii::$app->request->get('patient_id');
-        $modelsPlanItem=[new PlanItemForm()];
+        $model->author = Yii::$app->user->identity->employe_id;
+        $model->patient = Yii::$app->request->get('patient_id');
+        $model->deleted = 0;
+        $modelsPlanItem = [new PlanItem()];
 
         if ($model->load(Yii::$app->request->post())) {
 
-            $modelsPlanItem = Model::createMultiple(PlanItemForm::classname());
+            $modelsPlanItem = Model::createMultiple(PlanItem::classname());
             Model::loadMultiple($modelsPlanItem, Yii::$app->request->post());
 
             // ajax validation
@@ -112,7 +128,7 @@ class PlanController extends Controller
                     if ($flag = $model->save(false)) {
                         foreach ($modelsPlanItem as $modelItem) {
                             $modelItem->plan_id = $model->id;
-                            if (! ($flag = $modelItem->save(false))) {
+                            if (!($flag = $modelItem->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
@@ -120,6 +136,7 @@ class PlanController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
+                        Yii::$app->userInterface->params['patient_id'] = $model->patient;
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
                 } catch (Exception $e) {
@@ -130,7 +147,7 @@ class PlanController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'modelsPlanItem' => (empty($modelsPlanItem)) ? [new PlanItemForm] : $modelsPlanItem
+            'modelsPlanItem' => (empty($modelsPlanItem)) ? [new PlanItem] : $modelsPlanItem
         ]);
 
     }
@@ -144,16 +161,19 @@ class PlanController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $modelsPlanItem=$model->planItems;
 
+        $model = $this->findModel($id);
+        $modelsPlanItem = $model->planItems;
+        Yii::$app->userInterface->params['patient_id'] = $model->patient;
 
         if ($model->load(Yii::$app->request->post())) {
 
             $oldIDs = ArrayHelper::map($modelsPlanItem, 'id', 'id');
-            $modelsPlanItem = Model::createMultiple(PlanItemForm::classname(), $modelsPlanItem);
+
+            $modelsPlanItem = Model::createMultiple(PlanItem::classname(), $modelsPlanItem);
             Model::loadMultiple($modelsPlanItem, Yii::$app->request->post());
-            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelsPlanItem, 'id', 'id')));
+
+            $deletedIDs = array_diff($oldIDs, (ArrayHelper::map($modelsPlanItem, 'id', 'id')));
 
             // ajax validation
             if (Yii::$app->request->isAjax) {
@@ -172,12 +192,12 @@ class PlanController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
-                        if (! empty($deletedIDs)) {
-                            PlanItemForm::deleteAll(['id' => $deletedIDs]);
+                        if (!empty($deletedIDs)) {
+                            PlanItem::deleteAll(['id' => $deletedIDs]);
                         }
                         foreach ($modelsPlanItem as $modelItem) {
                             $modelItem->plan_id = $model->id;
-                            if (! ($flag = $modelItem->save(false))) {
+                            if (!($flag = $modelItem->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
@@ -192,13 +212,10 @@ class PlanController extends Controller
                 }
             }
         }
-//        echo "<pre>";
-//        print_r($modelsPlanItem);
-//        echo "</pre>";
-//        die();
+
         return $this->render('update', [
             'model' => $model,
-            'modelsPlanItem' => (empty($modelsPlanItem)) ? [new PlanItemForm] : $modelsPlanItem
+            'modelsPlanItem' => (empty($modelsPlanItem)) ? [new PlanItem] : $modelsPlanItem
         ]);
 
     }
@@ -210,11 +227,11 @@ class PlanController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id,$patient_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->setDeleted();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','patient_id'=>$patient_id]);
     }
 
     /**

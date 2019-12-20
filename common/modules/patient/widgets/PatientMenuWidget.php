@@ -32,19 +32,19 @@ class PatientMenuWidget extends Widget {
 //            ['label' => 'Статистика', 'url' => ['/patient/statistics/index','patient_id' => $this->patient_id]],
             ['label' => 'План лечения', 'url' => ['/patient/plan/index','patient_id' => $this->patient_id]],
 
-            ['label' => 'Медицинская карта', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'medcard']],
-            ['label' => 'Терапия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ter']],
-            ['label' => 'Ортодонтия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ortd']],
-            ['label' => 'Ортопедия', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'ortp']],
-            ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'disp']],
-            ['label' => 'Статистика', 'url' => ['/old_app/pat_card.php','patient_id' => $this->patient_id,'action'=>'stat']],
+            ['label' => 'Медицинская карта', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'medcard']],
+            ['label' => 'Терапия', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'ter']],
+            ['label' => 'Ортодонтия', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'ortd']],
+            ['label' => 'Ортопедия', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'ortp']],
+            ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'disp']],
+            ['label' => 'Статистика', 'url' => ['/old_app/pat_card.php','id' => $this->patient_id,'action'=>'stat']],
 
 
         ];
         foreach ($this->menuItems as &$menuItem) {
             $routeArray = explode('/', $menuItem['url'][0]);
-            $menuItemAction = isset($routeArray[3]) ? $routeArray[3] : false ;
-            $currentAction = Yii::$app->controller->action->id;
+            $menuItemAction = isset($routeArray[2]) ? $routeArray[2] : false ;
+            $currentAction = Yii::$app->controller->id;
             $menuItem['active'] = ($menuItemAction === $currentAction) ? true : false;
         }
 

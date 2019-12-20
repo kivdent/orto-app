@@ -6,15 +6,18 @@ use wbraganca\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
-/* @var $modelsPlanItem common\modules\patient\models\PlanItemForm*/
+/* @var $modelsPlanItem common\modules\patient\models\PlanItem*/
 /* @var $form yii\widgets\ActiveForm */
+
+$classification=9;//9 id классификации МКБ-10
 ?>
 
 <div class="treatment-plan-form">
 
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-
+    <?= $form->field($model, 'diagnosis_id')->dropDownList(\common\modules\patient\models\Diagnosis::getListByClassification($classification)) ?>
     <?= $form->field($model, 'comments')->textarea(['rows' => 4]) ?>
+
 
     <div class="panel panel-default">
         <div class="panel-heading"><h4><i class="glyphicon glyphicon-th-list"></i> План лечения</h4></div>
@@ -23,7 +26,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
-                'limit' => 4, // the maximum times, an element can be cloned (default 999)
+                'limit' => 999, // the maximum times, an element can be cloned (default 999)
                 'min' => 1, // 0 or 1 (default 1)
                 'insertButton' => '.add-item', // css class
                 'deleteButton' => '.remove-item', // css class
@@ -51,17 +54,18 @@ use wbraganca\dynamicform\DynamicFormWidget;
                         <div class="panel-body">
                             <?php
                             // necessary for update action.
-                            if (! $modelItem->isNewRecord) {
+                            if (!$modelItem->isNewRecord) {
                                 echo Html::activeHiddenInput($modelItem, "[{$i}]id");
                             }
                             ?>
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <?= $form->field($modelItem, "[{$i}]region_id")->textInput(['maxlength' => true]) ?>
+                                    <?= $form->field($modelItem, "[{$i}]region_id")->dropDownList(\common\modules\patient\models\Region::getList()) ?>
                                 </div>
                                 <div class="col-sm-4">
-                                    <?= $form->field($modelItem, "[{$i}]operation_id")->textInput(['maxlength' => true]) ?>
+
+                                    <?= $form->field($modelItem, "[{$i}]operation_id")->dropDownList(\common\modules\patient\models\Operation::getList()) ?>
                                 </div>
                                 <div class="col-sm-4">
                                     <?= $form->field($modelItem, "[{$i}]comment")->textInput(['maxlength' => true]) ?>
@@ -77,7 +81,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton($modelItem->isNewRecord ? 'Сохранить' : 'Обновить', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Сохранить' : 'Обновить', ['class' => 'btn btn-primary']) ?>
     </div>
 
 

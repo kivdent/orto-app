@@ -22,10 +22,11 @@ class DynamicFormModel extends Model
     {
         $model    = new $modelClass;
         $formName = $model->formName();
+
         $post     = Yii::$app->request->post($formName);
         $models   = [];
 
-        if (! empty($multipleModels)) {
+        if (!empty($multipleModels)) {
             $keys = array_keys(ArrayHelper::map($multipleModels, 'id', 'id'));
             $multipleModels = array_combine($keys, $multipleModels);
         }
