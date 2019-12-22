@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use common\modules\userInterface\widgets\AddressFormWidget;
 
+
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\Patient */
 /* @var $form yii\widgets\ActiveForm */
@@ -18,11 +19,11 @@ use common\modules\userInterface\widgets\AddressFormWidget;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'otch')->textInput(['maxlength' => true]) ?> 
+    <?= $form->field($model, 'otch')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'sex')->dropDownList($model->sexList) ?>
     <?=
     $form->field($model, 'dr')->widget(
-            DatePicker::classname(), [
+        DatePicker::classname(), [
         'options' => ['placeholder' => 'Дата рождения'],
         'removeButton' => false,
         'pluginOptions' => [
@@ -31,6 +32,8 @@ use common\modules\userInterface\widgets\AddressFormWidget;
         ]
     ]);
     ?>
+
+
     <?= $form->field($model, 'DTel')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'RTel')->textInput(['maxlength' => true]) ?>

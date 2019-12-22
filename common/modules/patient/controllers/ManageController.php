@@ -84,7 +84,7 @@ class ManageController extends Controller
         
 
         if ($model->load(Yii::$app->request->post())&& $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'patient_id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -104,7 +104,7 @@ class ManageController extends Controller
         $model = $this->findModel($patient_id);
      
         if ($model->load(Yii::$app->request->post())&& $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'patient_id' => $model->id]);
         }
 
         return $this->render('update', [
