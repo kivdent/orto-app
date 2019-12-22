@@ -40,13 +40,33 @@ return [
         'schedule' => [
             'class' => 'common\modules\schedule\Module',
         ],
+        'cash' => [
+            'class' => 'common\modules\cash\Module',
+        ],
+        'reports' => [
+            'class' => 'common\modules\reports\Module',
+        ],
         'catalogs' => [
             'class' => 'common\modules\catalogs\Module',
+        ],
+
+        'recall' => [
+            'class' => 'common\modules\recall\Module',
+        ],
+        'discounts' => [
+            'class' => 'common\modules\discounts\Module',
+        ],
+        'sale' => [
+            'class' => 'common\modules\sale\Module',
+        ],
+        'salary' => [
+            'class' => 'common\modules\salary\Module',
+        ],
+        'materials' => [
+            'class' => 'common\modules\materials\Module',
         ],
         'old_app' => [
             'class' => 'frontend\modules\old_app\Module',
         ],
-
-
     ],
 ];

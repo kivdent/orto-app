@@ -781,14 +781,14 @@ switch ($_GET['action']) {
                                 echo "<option value='" . $i . "'>" . $i . "</option>";
                             }
                             echo "</select>";
-                            echo " Приём через <select id='per' name='per'>";
-
-                            echo "<option value='3'>3 месяца</option>";
-                            echo "<option value='4'>4 месяца</option>";
-                            echo "<option value='6' selected='selected'>6 месяцев</option>";
-                            echo "<option value='12'>12 месяцев</option>";
-
-                            echo "</select>";
+//                            echo " Приём через <select id='per' name='per'>";
+//
+//                            echo "<option value='3'>3 месяца</option>";
+//                            echo "<option value='4'>4 месяца</option>";
+//                            echo "<option value='6' selected='selected'>6 месяцев</option>";
+//                            echo "<option value='12'>12 месяцев</option>";
+//
+//                            echo "</select>";
                             echo "<br><br>Планируемая работа во время следующего осмотра<br><textarea name='work' id='work' rows='10' cols='77'  placeholder='Работа'></textarea>";
                             echo "<select multiple size=\"9\"  name='add_work_list' id='add_work_list'>";
                             $query = "SELECT * FROM `klishe_ko`";

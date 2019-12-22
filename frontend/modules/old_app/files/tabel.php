@@ -140,8 +140,8 @@ for ($i=0;$i<$count;$i++)
 	$row = mysqli_fetch_array($result);
 	$dt=explode("-",$row['date']);
 	$dt2=mktime(0,0,0,$dt[1],$dt[2],$dt[0]);
-	$r['$row['id']']['$dt2][tm']=$row['time'];
-	$r['$row['id']']['$dt2][id']=$row['tid'];
+	$r[$row['id']][$dt2]['tm']=$row['time'];
+	$r[$row['id']][$dt2]['id']=$row['tid'];
 }
 
 }
@@ -174,10 +174,10 @@ for ($j=1;$j<=$count;$j++)
 	for ($i=$dtN_TS;$i<=$dtO_TS; $i+=60*60*24)
 	{if ((date('D',$i)=='Sun') or (date('D',$i)=='Sat')) $bg="bgcolor='#cccccc'";
 	else $bg="";
-		if (isset($r['$row['id']']['$i][tm']))
-		{$summ+=(floor($r['$row['id']']['$i][tm'])*60)+(($r['$row['id']']['$i][tm']-floor($r['$row['id']']['$i][tm']))*100);
+		if (isset($r[$row['id']][$i]['tm']))
+		{$summ+=(floor($r[$row['id']][$i]['tm'])*60)+(($r[$row['id']][$i]['tm']-floor($r[$row['id']]['$i][tm']))*100);
 			
-			echo "<td width='20' align='center' valign='middle' ".$bg."><a href=\"tabel.php?action=ch_time&tid=".$r['$row['id']']['$i][id']."&step=1\" class='menu7'>".$r['$row['id']']['$i][tm']."</a></td>";
+			echo "<td width='20' align='center' valign='middle' ".$bg."><a href=\"tabel.php?action=ch_time&tid=".$r[$row['id']][$i]['id']."&step=1\" class='menu7'>".$r[$row['id']][$i]['tm']."</a></td>";
 			
 		}
 		else 

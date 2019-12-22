@@ -189,6 +189,7 @@ class ManageController extends Controller {
     }
 
     public static function getRoles() {
+
         return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
     }
 

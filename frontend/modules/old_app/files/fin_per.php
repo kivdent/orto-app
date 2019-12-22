@@ -1,4 +1,5 @@
 <?php
+include('mysql_fuction.php');
 $ThisVU="buhg";
 $this->title="Финансовый отчёт по врачам за период";
 //include("header.php");

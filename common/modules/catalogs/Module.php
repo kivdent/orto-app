@@ -14,6 +14,7 @@ class Module extends WorkModule
      * {@inheritdoc}
      */
     public $controllerNamespace = 'common\modules\catalogs\controllers';
+    public $moduleName="Справочники";
 
     /**
      * {@inheritdoc}

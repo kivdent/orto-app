@@ -15,7 +15,7 @@ class Module extends WorkModule {
      */
     public $controllerNamespace = 'common\modules\user\controllers';
     public $defaultRoute = 'manage';
-     public $moduleName = "Пользователи";
+    public $moduleName = "Пользователи";
 
     /**
      * {@inheritdoc}

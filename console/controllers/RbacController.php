@@ -17,18 +17,21 @@ class RbacController extends Controller
 
         // добавляем роль "user" и даём роли разрешение "createPost"
         $user = $auth->createRole('user');
+        $user->description="Пользователь";
         $auth->add($user);
 
 
         // добавляем роль "doctor" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $doctor = $auth->createRole('doctor');
+        $doctor->description="Врач";
         $auth->add($doctor);
         $auth->addChild($doctor, $user);
 
         // добавляем роль "recorder" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $recorder = $auth->createRole('recorder');
+        $recorder->description="Регистратор";
         $auth->add($recorder);
         $auth->addChild($recorder, $user);
 
@@ -36,30 +39,35 @@ class RbacController extends Controller
         // добавляем роль "accountant" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $accountant = $auth->createRole('accountant');
+        $accountant->description="Бухгалтер";
         $auth->add($accountant);
         $auth->addChild($accountant, $user);
 
         // добавляем роль "senior_nurse" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $senior_nurse = $auth->createRole('senior_nurse');
+        $senior_nurse ="Старшая медицинска сестра";
         $auth->add($senior_nurse);
         $auth->addChild($senior_nurse, $user);
 
         // добавляем роль "director" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $director = $auth->createRole('director');
+        $director->description="Директор";
         $auth->add($director);
         $auth->addChild($director, $user);
 
         // добавляем роль "radiologist" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $radiologist = $auth->createRole('radiologist');
+        $radiologist->description="Рентгенлаборант";
         $auth->add($radiologist);
         $auth->addChild($radiologist, $user);
 
         // добавляем роль "orthopedist" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $orthopedist = $auth->createRole('orthopedist');
+        $orthopedist->description="Ортопед";
         $auth->add($orthopedist);
         $auth->addChild($orthopedist, $doctor);
 

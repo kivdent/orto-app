@@ -40,7 +40,8 @@ $vrach=$rowZ['id'];
 $query="select `id`,`vrachID`,`prodpr` from`raspis_pack` where 
 ((`DateD`='".date("Y-m-d",$DayPr)."' or 
 `DateD`<'".date("Y-m-d",$DayPr)."')) and
-`vrachID`='".$vrach."'";
+`vrachID`='".$vrach."'
+";
 //echo $query."<br>"; 
 $result=sql_query($query,'orto',0);     $count=mysqli_num_rows($result);
 $countA=$count;

@@ -15,8 +15,9 @@ class Module extends WorkModule {
     /**
      * {@inheritdoc}
      */
+    public $dbName="";
     public $controllerNamespace = 'frontend\modules\old_app\controllers';
-    public $moduleName="";
+    public $moduleName="Функции старой версии";
     public $userprava = [
         'admin' => '1',
         'therapist' => '2',
@@ -24,7 +25,7 @@ class Module extends WorkModule {
         'orthodontist' => '4',
         'recorder' => '5',
         'accountant' => '6',
-        'senior nurse' => '7',
+        'senior_nurse' => '7',
         'director' => '13',
         'radiologist' => '14',
         'surgeon' => '17',
@@ -35,6 +36,16 @@ class Module extends WorkModule {
     public function init() {
         parent::init();
         Yii::configure($this, require __DIR__ . '/menu.php');
+        $this->dbName= $this->getDsnAttribute('dbname', Yii::$app->getDb()->dsn);
         
+    }
+
+    private function getDsnAttribute($name, $dsn)
+    {
+        if (preg_match('/' . $name . '=([^;]*)/', $dsn, $match)) {
+            return $match[1];
+        } else {
+            return null;
+        }
     }
 }

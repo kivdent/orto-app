@@ -1,6 +1,6 @@
 <?php
 
-                    
+//$tables= include Yii::$app->params['old_app_mvc_path'].'components/tables.php';
 	$fp=$this->reportingPeriod->id;
 	$query = "SELECT `id`,`nach` , `okonch` ,`uet`
 FROM `fin-per` 
@@ -73,7 +73,7 @@ echo "</table><br />";
  <?php
 // Оплаты по картам Черненко
     $chern_summ=0;
-    include("tables.php");
+include("tables.php");
  for ($j=0;$j<=2;$j++)
  {
     $query = "SELECT 

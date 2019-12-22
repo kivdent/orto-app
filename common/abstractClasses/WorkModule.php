@@ -43,7 +43,10 @@ abstract class WorkModule extends Module implements WorkModuleInterface
      */
     public function getModuleLabel()
     {
-        return $this->moduleName;
+
+
+        return isset($this->moduleName)?$this->moduleName:"Не указано имя";
+
     }
 
     public function getEntity($entity)

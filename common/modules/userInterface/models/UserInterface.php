@@ -17,7 +17,8 @@ use common\modules\userInterface\helpers\FormatHelper;
  *
  * @author kivdent
  */
-class UserInterface {
+class UserInterface
+{
 
     const DEFAULT_ROUTE = '/old_app/pat_tooday.php';
     const DEFAULT_MENU_ITEM = ['label' => 'Главная', 'url' => '/'];
@@ -30,11 +31,12 @@ class UserInterface {
     public $params = [];
 
     /**
-     * 
+     *
      * @param int $user_id
-     * 
+     *
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (!Yii::$app->user->isGuest) {
             $user_id = Yii::$app->user->id;
             $this->user_id = $user_id;
@@ -47,11 +49,12 @@ class UserInterface {
     }
 
     /**
-     * 
+     *
      * @param int $user_id
-     * 
+     *
      */
-    public function setAtrributes() {
+    public function setAtrributes()
+    {
         if (!Yii::$app->user->isGuest) {
             $user_id = Yii::$app->user->id;
             $this->user_id = $user_id;
@@ -64,34 +67,37 @@ class UserInterface {
     }
 
     /**
-     * 
+     *
      * @param $user_id id пользователя
-     * 
+     *
      * @return string role name для ползователя с $user_id
      */
-    public static function getRoleName(int $user_id) {
+    public static function getRoleName(int $user_id)
+    {
         $role = ArrayHelper::getColumn(Yii::$app->authManager->getRolesByUser($user_id), 'name', false);
         return $role[0];
     }
 
     /**
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @return string интерфейс который реализуют рабоче модули.
      */
-    public function getWorkModuleInterface() {
+    public function getWorkModuleInterface()
+    {
         $module = Yii::$app->getModule('userInterface');
         return $module->params['workModuleInterface'];
     }
 
     /**
-     * 
+     *
      * @param $user_id id пользователя
-     * 
+     *
      * @return string маршрут для ползователя с $user_id
      */
-    public static function getDefaultRoute(int $user_id) {
+    public static function getDefaultRoute(int $user_id)
+    {
         $role = self::getRoleName($user_id);
         $module = Yii::$app->getModule('userInterface');
         $route = isset($module->params['defaultRoutes'][$role]) ? $module->params['defaultRoutes'][$role] : self::DEFAULT_ROUTE;
@@ -100,24 +106,41 @@ class UserInterface {
 
     /**
      * Формирует массив с элеменатми меню для пользователя из модулей
-     * 
-     * 
-     * @return array  
+     *
+     *
+     * @return array
      */
-    public function getMenuItems() {
+    public function getMenuItems()
+    {
         $menuItems = [];
         $roleName = $this->roleName;
         $modules = $this->getWorkModules();
         foreach ($modules as $moduleName => $module) {
             $moduleMenuItems = $module->getMenuItems();
-            foreach ($moduleMenuItems as $moduleMenuItem) {
-                if (ArrayHelper::isIn($roleName, $moduleMenuItem['roles'])) {
-                    $menuItems [] = [
-                        'label' => $moduleMenuItem['label'],
-                        'url' => $moduleMenuItem['url'],
-                    ];
+            if (!empty($moduleMenuItems)) {
+               $hasMenuItemsForUser=false;
+                $subMenuItems=[];
+                foreach ($moduleMenuItems as $moduleMenuItem) {
+                    if (ArrayHelper::isIn($roleName, $moduleMenuItem['roles'])) {
+                        $subMenuItems[] = [
+                            'label' => $moduleMenuItem['label'],
+                            'url' => $moduleMenuItem['url'],
+
+                        ];
+                        $hasMenuItemsForUser=true;
+                    }
                 }
-            }
+                if($hasMenuItemsForUser) {
+                    $menuItems[] = [
+                        'label' => $module->getModuleLabel(),
+                        'url' => '#',
+                        'options' => ['class' => 'active'],];
+
+                    $menuItems=array_merge($menuItems,$subMenuItems);
+                }
+
+            };
+
         }
 
 
@@ -128,7 +151,8 @@ class UserInterface {
      * Состовляет список рабочих модулей
      * @return array
      */
-    public function getWorkModules() {
+    public function getWorkModules()
+    {
         $modules = [];
         $workModuleInterface = $this->getWorkModuleInterface();
         foreach (array_keys(Yii::$app->getModules()) as $moduleName) {
@@ -140,23 +164,27 @@ class UserInterface {
         return $modules;
     }
 
-    public function getWidget($widgetName) {
+    public function getWidget($widgetName)
+    {
         $module = Yii::$app->getModule('userInterface');
         $widget = isset($module->params['widgets'][$widgetName]) ? $module->params['widgets'][$widgetName] : "Виджет $widgetName не найден";
         return $widget;
     }
 
-    public function getNameDayWeek($numberDayWeek) {
+    public function getNameDayWeek($numberDayWeek)
+    {
         return FormatHelper::getNameDayWeek($numberDayWeek);
     }
 
-    public function hasModuleMenu() {
+    public function hasModuleMenu()
+    {
         $module = Yii::$app->controller->module;
         $result = (Isset($module->params['moduleMenu'])) ? true : false;
         return $result;
     }
 
-    public function renderModuleMenu() {
+    public function renderModuleMenu()
+    {
         $module = Yii::$app->controller->module;
         $result = (Isset($module->params['moduleMenu'])) ? $module->params['moduleMenu']['file'] : false;
         return $result;

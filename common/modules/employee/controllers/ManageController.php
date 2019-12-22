@@ -34,7 +34,7 @@ class ManageController extends Controller {
                     [
                         'allow' => true,
                         'actions' => [],
-                        'roles' => ['admin', 'senior nurse', 'director', ],
+                        'roles' => ['admin', 'senior_nurse', 'director', ],
                     ],
                 ],
             ],

@@ -17,6 +17,7 @@ class DefaultController extends Controller {
      */
     /* @var $userInterface UserInterface */
     public function actionIndex($path) {
+
         if (Yii::$app->user->isGuest) {
             $this->redirect(['/site/login']);
         }

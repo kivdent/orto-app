@@ -17,8 +17,8 @@ return [
              'surgeon'=>'/old_app/pat_tooday.php',
             'orthodontist'=>'/old_app/pat_tooday.php',
             'recorder'=>'/old_app/pat_tooday_reg.php',
-            'accountant'=>'/old_app/hello_word.php',
-            'senior nurse'=>'/old_app/spr_sotr.php',
+            'accountant'=>'/old_app/buhg_zp.php',
+            'senior_nurse'=>'/employee/manage/index',
             'director'=>'/old_app/dir_den_opl.php',
             'radiologist'=>'/old_app/rentgen.php?type=today'
         ],
