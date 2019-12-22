@@ -11,14 +11,16 @@ use common\modules\patient\models\PlanItem;
 
 class TreatmentPlan extends CommonTreatmentPlan
 {
-    public function behaviors() {
-        return[
+    public function behaviors()
+    {
+        return [
             [
                 'class' => TimestampBehavior::className(),
                 'value' => new Expression('NOW()'),
             ]
         ];
     }
+
     public function attributeLabels()
     {
         return [
@@ -32,22 +34,42 @@ class TreatmentPlan extends CommonTreatmentPlan
             'diagnosis_id' => 'Диагноз',
         ];
     }
-    public function getPlanItems(){
-        return $this->hasMany(PlanItem::className(),['plan_id'=>'id']);
+
+    public function getPlanItems()
+    {
+        return $this->hasMany(PlanItem::className(), ['plan_id' => 'id']);
     }
-    public function getDiagnosis(){
-        return $this->hasOne(Diagnosis::className(),['id'=>'diagnosis_id']);
+
+    public function getDiagnosis()
+    {
+        return $this->hasOne(Diagnosis::className(), ['id' => 'diagnosis_id']);
     }
-    public function getDoctor(){
-        return $this->hasOne(Employee::className(),['id'=>'author']);
+
+    public function getDoctor()
+    {
+        return $this->hasOne(Employee::className(), ['id' => 'author']);
     }
-    public function getAuthorName(){
+
+    public function getAuthorName()
+    {
         return $this->doctor->getFullName();
     }
-    public function getPatientInPlan(){
-        return $this->hasOne(Patient::className(),['id'=>'patient']);
+
+    public function getPatientInPlan()
+    {
+        return $this->hasOne(Patient::className(), ['id' => 'patient']);
     }
-    public function getPatientName(){
+
+    public function getPatientName()
+    {
         return $this->patientInPlan->fullName;
+    }
+
+    public function getDiagnosisTitle()
+    {
+        $diagnosis='';
+        $diagnosis.=isset($this->diagnosis->code)?$this->diagnosis->code." " : "";
+        $diagnosis.=isset($this->diagnosis->Nazv)?$this->diagnosis->Nazv : "";
+        return $diagnosis;
     }
 }

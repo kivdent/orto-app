@@ -2,21 +2,36 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use wbraganca\dynamicform\DynamicFormWidget;
+//use wbraganca\dynamicform\DynamicFormWidget заменён на kidzen\dynamicform\DynamicFormWidget, для совместимости с kartik\select2\Select2;
+use kartik\select2\Select2;
+use kidzen\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
-/* @var $modelsPlanItem common\modules\patient\models\PlanItem*/
+/* @var $modelsPlanItem common\modules\patient\models\PlanItem */
 /* @var $form yii\widgets\ActiveForm */
 
-$classification=9;//9 id классификации МКБ-10
+$classification = 13;//9 id классификации МКБ-10
 ?>
 
 <div class="treatment-plan-form">
-
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-    <?= $form->field($model, 'diagnosis_id')->dropDownList(\common\modules\patient\models\Diagnosis::getListByClassification($classification)) ?>
-    <?= $form->field($model, 'comments')->textarea(['rows' => 4]) ?>
+    <div class="row">
+        <div class="col-lg-6">
+            <?= $form->field($model, 'diagnosis_id')->widget(Select2::classname(), [
+                'data' => \common\modules\patient\models\Diagnosis::getListByClassification($classification),
+                'options' => ['placeholder' => 'Выберете диагноз ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+
+            ?>
+        </div>
+        <div class="col-lg-6">
+            <?= $form->field($model, 'comments')->textarea(['rows' => 2]) ?>
+        </div>
+    </div>
 
 
     <div class="panel panel-default">
@@ -46,8 +61,10 @@ $classification=9;//9 id классификации МКБ-10
                         <div class="panel-heading">
                             <h3 class="panel-title pull-left">Рекомендация</h3>
                             <div class="pull-right">
-                                <button type="button" class="add-item btn btn-success btn-xs"><i class="glyphicon glyphicon-plus"></i></button>
-                                <button type="button" class="remove-item btn btn-danger btn-xs"><i class="glyphicon glyphicon-minus"></i></button>
+                                <button type="button" class="add-item btn btn-success btn-xs"><i
+                                            class="glyphicon glyphicon-plus"></i></button>
+                                <button type="button" class="remove-item btn btn-danger btn-xs"><i
+                                            class="glyphicon glyphicon-minus"></i></button>
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -61,11 +78,28 @@ $classification=9;//9 id классификации МКБ-10
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <?= $form->field($modelItem, "[{$i}]region_id")->dropDownList(\common\modules\patient\models\Region::getList()) ?>
+                                    <?= $form->field($modelItem, "[{$i}]region_id")->
+                                    widget(Select2::classname(), [
+                                        'data' => \common\modules\patient\models\Region::getList(),
+                                        'options' => ['placeholder' => 'Выберете область ...'],
+                                        'pluginOptions' => [
+                                            'allowClear' => true
+                                        ],
+                                    ]);
+                                    ?>
                                 </div>
                                 <div class="col-sm-4">
 
-                                    <?= $form->field($modelItem, "[{$i}]operation_id")->dropDownList(\common\modules\patient\models\Operation::getList()) ?>
+
+                                    <?= $form->field($modelItem, "[{$i}]operation_id")
+                                        ->widget(Select2::classname(), [
+                                            'data' => \common\modules\patient\models\Operation::getList(),
+                                            'options' => ['placeholder' => 'Выберете рекомендацию ...'],
+                                            'pluginOptions' => [
+                                                'allowClear' => true
+                                            ],
+                                        ]);
+                                    ?>
                                 </div>
                                 <div class="col-sm-4">
                                     <?= $form->field($modelItem, "[{$i}]comment")->textInput(['maxlength' => true]) ?>

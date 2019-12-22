@@ -17,7 +17,9 @@ PrintAsset::register($this);
 
 <div class="raw">
     <div class="col-xs-5">
-        ООО "Орто-Премьер"
+        <?=
+        Html::img('/images/logo orto premier.png')
+        ?>
     </div>
     <div class="col-xs-7 small">
         Новокузнецк, пр. Кузнецкстроевский д.30 п.73<br>+7 (3843) 45 46 33, +7-913-429-97-23
@@ -25,8 +27,7 @@ PrintAsset::register($this);
 </div>
 <p class="text-center"><b><?= Html::encode($this->title) ?></b></p>
 <div class="row small">
-    <div
-            class="col-xs-6">
+    <div class="col-xs-6">
         Дата : <?= Yii::$app->formatter->asDate($model->created_at, 'php:d.m.Y') ?><br>
         Пациент: <?= $model->getPatientName() ?>
 

@@ -150,6 +150,7 @@ class FillMkb10Controller extends Controller
     private $section_id;
     public function actionFill()
     {
+        echo "Заполнение таблицы диагнозов мкб 10 в плане лечения...";
         $this->section_id=$this->createSection(self::SECTION_NAME);
         $this->class_id=$this->createClassification(self::CLASSIFFICATION_NAME,$this->section_id);
 
@@ -166,6 +167,7 @@ class FillMkb10Controller extends Controller
 
             }
         }
+        echo "Выполнено.".PHP_EOL;
     }
     private function createClassification($name,$razd){
 

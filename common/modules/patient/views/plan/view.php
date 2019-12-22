@@ -15,6 +15,9 @@ $i = 1;
 <div class="treatment-plan-view">
 
     <h1><?= Html::encode($this->title) ?>
+        <?= Html::a('Печать', ['print', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,'print'=>'true'], ['class' => 'btn btn-primary','target'=>'_blank']) ?>
+<?= Html::a('Список', ['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']], ['class' => 'btn btn-primary',]) ?>
+
         <?= Html::a('Изменить', ['update', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Удалить', ['delete', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,], [
             'class' => 'btn btn-danger',
@@ -23,8 +26,7 @@ $i = 1;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Печать', ['print', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,'print'=>'true'], ['class' => 'btn btn-primary','target'=>'_blank']) ?>
-    </h1>
+        </h1>
 
     <p><?= Html::encode($model->comments) ?></p>
 

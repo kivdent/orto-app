@@ -39,7 +39,13 @@ $this->title = 'Планы лечения';
                     return $data->getAuthorName();
                 },
             ],
-
+            [
+                'attribute' => 'diagnosis',
+                'format' => 'raw',
+                'content' => function ($data) {
+                    return $data->getDiagnosisTitle();
+                },
+            ],
             'comments:ntext',
 
             ['class' => 'yii\grid\ActionColumn',

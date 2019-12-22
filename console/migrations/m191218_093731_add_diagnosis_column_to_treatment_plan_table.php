@@ -20,6 +20,6 @@ class m191218_093731_add_diagnosis_column_to_treatment_plan_table extends Migrat
      */
     public function safeDown()
     {
-        $this->dropColumn('{{%treatment_plan}}', 'diagnosis');
+        $this->dropColumn('{{%treatment_plan}}', 'diagnosis_id');
     }
 }

@@ -18,6 +18,8 @@ class m191215_161154_create_plan_item_table extends Migration
             'operation_id' => $this->integer(),
             'region_id' => $this->integer(),
             'comment' => $this->text(),
+            'price_from'=>$this->integer(),
+            'price_to'=>$this->integer(),
         ]);
     }
 

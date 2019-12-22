@@ -12,24 +12,27 @@ use Yii;
 use common\interfaces\WorkModuleInterface;
 use yii\base\Module;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 
 /**
  * Description of WorkModule
  *
  * @author kivdent
  */
-abstract class WorkModule extends Module implements WorkModuleInterface {
+abstract class WorkModule extends Module implements WorkModuleInterface
+{
 
     const IS_WORK_MODULE = true;
 
     public $moduleName = "";
 
     /**
-     * 
+     *
      * @param type $roleName Название роли пользователя
      * @return array ['label'=>'route']
      */
-    public function getMenuItems() {
+    public function getMenuItems()
+    {
         $menuItems = isset($this->params['menuItems']) ? $this->params['menuItems'] : [];
         return $menuItems;
     }
@@ -38,22 +41,34 @@ abstract class WorkModule extends Module implements WorkModuleInterface {
      * Вовращает название модуля в человекопонятном формате
      * @return string
      */
-    public function getModuleLabel() {
+    public function getModuleLabel()
+    {
         return $this->moduleName;
     }
 
-    public function getEntity($entity) {
+    public function getEntity($entity)
+    {
         $entitieClass = $this->getEntitysClass($entity);
         $entiesInsatance = new $entitieClass;
         return $entiesInsatance;
     }
 
-    public function getEntitysClass($entity) {
+    public function getEntitysClass($entity)
+    {
         if (isset($this->params['entities'][$entity])) {
             return $this->params['entities'][$entity];
         } else {
             throw new NotFoundHttpException("Не нйден класс для работы с $entity");
         }
+    }
+
+    public function beforeAction($action)
+    {
+        if (Yii::$app->user->isGuest) {
+            Yii::$app->controller->redirect(['site/login']);
+
+        }
+        return parent::beforeAction($action);
     }
 
 }

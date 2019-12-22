@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $title
+ * @property int $price_from
+ * @property int $price_to
  */
 class Operation extends \yii\db\ActiveRecord
 {
@@ -26,6 +28,7 @@ class Operation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['price_from', 'price_to'], 'integer'],
             [['title'], 'string', 'max' => 255],
         ];
     }
@@ -38,6 +41,8 @@ class Operation extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
+            'price_from' => 'Price From',
+            'price_to' => 'Price To',
         ];
     }
 }

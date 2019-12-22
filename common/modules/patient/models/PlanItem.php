@@ -6,12 +6,16 @@ namespace common\modules\patient\models;
 
 class PlanItem extends \common\models\PlanItem
 {
-public function getRegion(){
-    return $this->hasOne(Region::className(),['id'=>'region_id']);
-}
-    public function getOperation(){
-        return $this->hasOne(Operation::className(),['id'=>'operation_id']);
+    public function getRegion()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
+
+    public function getOperation()
+    {
+        return $this->hasOne(Operation::className(), ['id' => 'operation_id']);
+    }
+
     public function attributeLabels()
     {
         return [
@@ -23,4 +27,10 @@ public function getRegion(){
             'comment' => 'Комментарий',
         ];
     }
+
+    public function getRegionName()
+    {
+        return $this->region->name;
+    }
+
 }
