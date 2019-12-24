@@ -46,7 +46,7 @@ class RbacController extends Controller
         // добавляем роль "senior_nurse" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $senior_nurse = $auth->createRole('senior_nurse');
-        $senior_nurse ="Старшая медицинска сестра";
+        $senior_nurse->description ="Старшая медицинска сестра";
         $auth->add($senior_nurse);
         $auth->addChild($senior_nurse, $user);
 
@@ -74,24 +74,28 @@ class RbacController extends Controller
         // добавляем роль "surgeon" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $surgeon = $auth->createRole('surgeon');
+        $surgeon->description="Хирург";
         $auth->add($surgeon);
         $auth->addChild($surgeon, $doctor);
 
         // добавляем роль "orthodontist" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $orthodontist = $auth->createRole('orthodontist');
+        $orthodontist->description="Ортодонт";
         $auth->add($orthodontist);
         $auth->addChild($orthodontist, $doctor);
 
         // добавляем роль "therapist" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $therapist = $auth->createRole('therapist');
+        $therapist->description="Терапевт";
         $auth->add($therapist);
         $auth->addChild($therapist, $doctor);
 
         // добавляем роль "admin" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
         $admin = $auth->createRole('admin');
+        $admin->description="Администратор";
         $auth->add($admin);
         $auth->addChild($admin, $therapist);
 
