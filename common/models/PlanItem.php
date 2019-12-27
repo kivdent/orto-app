@@ -47,8 +47,8 @@ class PlanItem extends \yii\db\ActiveRecord
             'operation_id' => 'Operation ID',
             'region_id' => 'Region ID',
             'comment' => 'Comment',
-            'price_from' => 'Price From',
-            'price_to' => 'Price To',
+            'price_from' => 'Стоимость от',
+            'price_to' => 'Стоимость до',
         ];
     }
 }

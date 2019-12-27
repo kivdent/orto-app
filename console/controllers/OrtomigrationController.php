@@ -44,6 +44,8 @@ class OrtomigrationController extends Controller
             echo "Пользователь ".$user->username." сохранён, роль: ".$this->roles[$oldUser['UsarPrava']];
         }
     }
+
+
     private function getOldUsers()
     {
 

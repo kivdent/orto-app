@@ -25,6 +25,8 @@ class PlanItem extends \common\models\PlanItem
             'operation_id' => 'Рекомендация',
             'region_id' => 'Область',
             'comment' => 'Комментарий',
+            'price_from' => 'Стоимость от',
+            'price_to' => 'Стоимость до',
         ];
     }
 

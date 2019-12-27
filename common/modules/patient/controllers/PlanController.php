@@ -4,6 +4,7 @@ namespace common\modules\patient\controllers;
 
 
 use common\modules\patient\models\forms\TreatmentPlanForm;
+use common\modules\patient\models\Operation;
 use Yii;
 use common\modules\patient\models\TreatmentPlan;
 use common\modules\patient\models\SearchTreatmentPlan;
@@ -248,5 +249,31 @@ class PlanController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionPrices(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if(Yii::$app->request->isAjax){
+            $id=Yii::$app->request->post('id');
+            $operation=Operation::findOne($id);
+            if (isset($operation->price_from)?true:false){
+                return [
+                    "price_from" =>$operation->price_from,
+                    "price_to"=>$operation->price_to,
+
+                    "error" => null
+                ];
+            }else{
+                return [
+                    "empty"=>'true',
+                    "error" => null
+                ];
+            }
+
+
+        }
+        return [
+            "data" => "Error",
+            "error" => "Error"
+        ];
     }
 }

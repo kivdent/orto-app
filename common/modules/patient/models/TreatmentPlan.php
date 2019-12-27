@@ -67,9 +67,20 @@ class TreatmentPlan extends CommonTreatmentPlan
 
     public function getDiagnosisTitle()
     {
-        $diagnosis='';
-        $diagnosis.=isset($this->diagnosis->code)?$this->diagnosis->code." " : "";
-        $diagnosis.=isset($this->diagnosis->Nazv)?$this->diagnosis->Nazv : "";
+        $diagnosis = '';
+        $diagnosis .= isset($this->diagnosis->code) ? $this->diagnosis->code . " " : "";
+        $diagnosis .= isset($this->diagnosis->Nazv) ? $this->diagnosis->Nazv : "";
         return $diagnosis;
+    }
+
+    public function getPrice()
+    {
+        $price_from = 0;
+        $price_to = 0;
+        foreach ($this->planItems as $planItem) {
+            $price_from += isset($planItem->price_from) ? $planItem->price_from : 0;
+            $price_to += isset($planItem->price_to) ? $planItem->price_to : 0;
+        }
+        return $price_from == 0 ? "" : $price_from . "-" . $price_to;
     }
 }

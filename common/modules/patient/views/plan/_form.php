@@ -5,16 +5,17 @@ use yii\widgets\ActiveForm;
 //use wbraganca\dynamicform\DynamicFormWidget заменён на kidzen\dynamicform\DynamicFormWidget, для совместимости с kartik\select2\Select2;
 use kartik\select2\Select2;
 use kidzen\dynamicform\DynamicFormWidget;
+use common\modules\patient\assets\TreatmentPlanAsset;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
 /* @var $modelsPlanItem common\modules\patient\models\PlanItem */
 /* @var $form yii\widgets\ActiveForm */
-
+TreatmentPlanAsset::register($this);
 $classification = 13;//9 id классификации МКБ-10
 ?>
 
-<div class="treatment-plan-form">
+<div class="treatment-plan-form" id="treatment-plan-body">
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <div class="row">
         <div class="col-lg-6">
@@ -50,6 +51,8 @@ $classification = 13;//9 id классификации МКБ-10
                 'formFields' => [
                     'region_id',
                     'operation_id',
+                    'price_from',
+                    'price_to',
                     'comment',
 
                 ],
@@ -68,7 +71,7 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body" >
                             <?php
                             // necessary for update action.
                             if (!$modelItem->isNewRecord) {
@@ -77,7 +80,7 @@ $classification = 13;//9 id классификации МКБ-10
                             ?>
 
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <?= $form->field($modelItem, "[{$i}]region_id")->
                                     widget(Select2::classname(), [
                                         'data' => \common\modules\patient\models\Region::getList(),
@@ -94,14 +97,26 @@ $classification = 13;//9 id классификации МКБ-10
                                     <?= $form->field($modelItem, "[{$i}]operation_id")
                                         ->widget(Select2::classname(), [
                                             'data' => \common\modules\patient\models\Operation::getList(),
-                                            'options' => ['placeholder' => 'Выберете рекомендацию ...'],
+                                            'options' => ['placeholder' => 'Выберете рекомендацию ...','class'=>'operation',],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
                                         ]);
                                     ?>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
+
+
+                                    <?= $form->field($modelItem, "[{$i}]price_from")->textInput();
+                                    ?>
+                                </div>
+                                <div class="col-sm-2">
+
+
+                                    <?= $form->field($modelItem, "[{$i}]price_to")->textInput();
+                                    ?>
+                                </div>
+                                <div class="col-sm-2">
                                     <?= $form->field($modelItem, "[{$i}]comment")->textInput(['maxlength' => true]) ?>
                                 </div>
                             </div><!-- .row -->
