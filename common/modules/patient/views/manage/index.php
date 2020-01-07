@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use common\modules\employee\models\Employee;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\modules\patient\models\PatientSearch */
@@ -26,18 +27,23 @@ $this->title = 'Пациенты';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            
+
             [
                 'attribute' => 'id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a($model->id, ['update','patient_id'=>$model->id]);
-                }
+                    return Html::a($model->id, ['update', 'patient_id' => $model->id], ['target' => '_blank']);
+                },
+
             ],
             'surname',
             'name',
             'otch',
-            'dr:date',
+            [
+                'attribute' => 'dr',
+                'format' => ['date', 'dd.MM.Y'],
+            ],
+
             'MTel',
             'DTel',
             [
@@ -45,10 +51,10 @@ $this->title = 'Пациенты';
                 'template' => '{update}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('', ['/old_app/pat_card.php', 'id' =>$model->id], ['class' => 'glyphicon glyphicon-pencil','target'=>'_blank']);
+                        return Html::a('', ['/old_app/pat_card.php', 'id' => $model->id], ['class' => 'glyphicon glyphicon-pencil', 'target' => '_blank']);
 
                     },
-                        ]
+                ]
             ],
         ],
     ]);

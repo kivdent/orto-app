@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use kidzen\dynamicform\DynamicFormWidget;
 use common\modules\patient\assets\TreatmentPlanAsset;
+use common\modules\catalogs\widgets\DiagnosisInputWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
@@ -19,15 +20,7 @@ $classification = 13;//9 id классификации МКБ-10
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'diagnosis_id')->widget(Select2::classname(), [
-                'data' => \common\modules\patient\models\Diagnosis::getListByClassification($classification),
-                'options' => ['placeholder' => 'Выберете диагноз ...'],
-                'pluginOptions' => [
-                    'allowClear' => true
-                ],
-            ]);
-
-            ?>
+            <?= $form->field($model, 'diagnosis_id')->widget(DiagnosisInputWidget::classname());?>
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'comments')->textarea(['rows' => 2]) ?>

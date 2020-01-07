@@ -8,6 +8,7 @@ use common\modules\patient\models\Operation;
 use Yii;
 use common\modules\patient\models\TreatmentPlan;
 use common\modules\patient\models\SearchTreatmentPlan;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,14 +36,28 @@ class PlanController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+
+                    [
+                        'allow' => true,
+                        'actions' => ['index', 'view', 'update', 'create','prices','print'],
+                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse',],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['delete'],
+                        'roles' => ['admin',],
+                    ],
+                ],
+            ],
         ];
     }
 
 
     public function beforeAction($action)
     {
-
-
         if (!parent::beforeAction($action)) {
             return false;
         }
@@ -228,11 +243,11 @@ class PlanController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id,$patient_id)
+    public function actionDelete($id, $patient_id)
     {
         $this->findModel($id)->setDeleted();
 
-        return $this->redirect(['index','patient_id'=>$patient_id]);
+        return $this->redirect(['index', 'patient_id' => $patient_id]);
     }
 
     /**
@@ -250,21 +265,23 @@ class PlanController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionPrices(){
+
+    public function actionPrices()
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        if(Yii::$app->request->isAjax){
-            $id=Yii::$app->request->post('id');
-            $operation=Operation::findOne($id);
-            if (isset($operation->price_from)?true:false){
+        if (Yii::$app->request->isAjax) {
+            $id = Yii::$app->request->post('id');
+            $operation = Operation::findOne($id);
+            if (isset($operation->price_from) ? true : false) {
                 return [
-                    "price_from" =>$operation->price_from,
-                    "price_to"=>$operation->price_to,
+                    "price_from" => $operation->price_from,
+                    "price_to" => $operation->price_to,
 
                     "error" => null
                 ];
-            }else{
+            } else {
                 return [
-                    "empty"=>'true',
+                    "empty" => 'true',
                     "error" => null
                 ];
             }

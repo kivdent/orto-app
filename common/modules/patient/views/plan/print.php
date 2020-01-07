@@ -9,6 +9,7 @@ use common\assets\PrintAsset;
 /* @var $model common\modules\patient\models\TreatmentPlan */
 
 $this->title = "План лечения";
+
 $i = 1;
 //\yii\web\YiiAsset::register($this);
 PrintAsset::register($this);

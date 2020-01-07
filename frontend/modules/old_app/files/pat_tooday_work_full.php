@@ -4,10 +4,10 @@ include('mysql_fuction.php');
 $ThisVU = "all";
 $this->title = "Вставка диагноза";
 $js = "insert";
-$this->context->layout='@frontend/views/layouts/light.php';
+$this->context->layout = '@frontend/views/layouts/light.php';
 if (!(isset($_SESSION['Nid'])))
     $_SESSION['Nid'] = $_GET['Nid'];
-if (($_GET['perv'] == 1) or ( $_GET['SodNazn'] == 4) or ( $_GET['action'] == "osm")) {
+if (($_GET['perv'] == 1) or ($_GET['SodNazn'] == 4) or ($_GET['action'] == "osm")) {
     ////////////////Осмотр
     switch ($_GET['step']) {
         case "1":
@@ -289,8 +289,7 @@ WHERE (`nzuba`.`id` ='" . ($_GET['ZubN'] + 1) . "')";
             unset($_SESSION['perv']);
             break;
     }
-}
-else {
+} else {
 ///////////////////////Лечение
     if ($_GET['action'] == "lech") {
         switch ($_GET['step']) {
@@ -407,7 +406,7 @@ AND (
                 //echo $query."<br>";
                 $result = sql_query($query, 'orto', 0);
                 $count = mysqli_num_rows($result);
-                if (($count > 0) and ( $_SESSION['OsmID'] != 0) and ( $_SESSION['OsmID'] != "")) {
+                if (($count > 0) and ($_SESSION['OsmID'] != 0) and ($_SESSION['OsmID'] != "")) {
                     echo "<table width='100%' border='1' align='right' cellpadding='0' cellspacing='0' bordercolor='#000000' bordercolordark='#FFFFFF' bgcolor='#000000' >";
 
 
@@ -435,7 +434,7 @@ ORDER BY `sostzubosm`.`NZuba` ASC
                     $count = mysqli_num_rows($result);
                     for ($i = 1; $i <= 32; $i++) {
                         $row = mysqli_fetch_array($result);
-                        if (($row['id'] == 7) or ( $row['id'] == 6))
+                        if (($row['id'] == 7) or ($row['id'] == 6))
                             $z[1][$i] = "<input type='checkbox' name='Nzub[" . $i . "]' value='" . $i . "'  disabled='disabled'/>";
                         else
                             $z[1][$i] = "<input type='checkbox' name='Nzub[" . $i . "]' value='" . $i . "' />";
@@ -484,8 +483,7 @@ ORDER BY `sostzubosm`.`NZuba` ASC
                     echo "                </table></td>
               </tr>
             </table>";
-                }
-                //Если формулы нет
+                } //Если формулы нет
                 else {
                     echo "<table width='100%' border='1' align='right' cellpadding='0' cellspacing='0' bordercolor='#000000' bordercolordark='#FFFFFF' bgcolor='#000000' >";
                     $query = "SELECT `id`, `NZuba` FROM `nzuba` ORDER BY `id`";
@@ -674,7 +672,7 @@ ORDER BY `sostzubosm`.`NZuba` ASC
                             }
                             echo "</form>";
                             //include("footer.php");
-                            //exit;;
+                           break;
                         }
                     } else {
                         $klishe = 'N';
@@ -983,59 +981,59 @@ ORDER BY `an`.`an` ASC";
 
                         break;
                 }
-                
-                if ($_GET['act']!='next'){ 
+
+                if ($_GET['act'] != 'next') {
                     if (!(isset($_GET['preysk'])))
-                    $preysk = 1;
-                else
-                    $preysk = $_GET['preysk'];
-                $NZub = $_SESSION['NZub'][$_GET['count']];
-                //$NZub=$NZub1;
-                $dsZub = $_SESSION['dsZub'][$NZub];
-                //echo $_SESSION['NZub']." ".$NZub." ".$_SESSION['dsZub']." ".$dsZub." ".$_GET['count'];
-                //////////Заполнение лечения
-                echo "<form action='pat_tooday_work_full.php' method='get' id='lech' name='lech'>
+                        $preysk = 1;
+                    else
+                        $preysk = $_GET['preysk'];
+                    $NZub = $_SESSION['NZub'][$_GET['count']];
+                    //$NZub=$NZub1;
+                    $dsZub = $_SESSION['dsZub'][$NZub];
+                    //echo $_SESSION['NZub']." ".$NZub." ".$_SESSION['dsZub']." ".$dsZub." ".$_GET['count'];
+                    //////////Заполнение лечения
+                    echo "<form action='pat_tooday_work_full.php' method='get' id='lech' name='lech'>
 			<input name='count' type='hidden' value='" . $_GET['count'] . "' />
 			<div class='head3'>Пациент: " . $_SESSION['pat_name'] . "</div>
 			<div class='head2'>Диагноз: ";
-                for ($i = 1; $i <= $_SESSION['QZub']; $i++) {
-                    $NZub = $_SESSION['NZub'][$i];
-                    $dsZub = $_SESSION['dsZub'][$NZub];
-                    $query = "Select Nazv from ds where id=" . $dsZub;
-                    //echo $query."<br />";
-                    $result = sql_query($query, 'orto', 0);
-                    $count = mysqli_num_rows($result);
-                    $row = mysqli_fetch_array($result);
-                    if ($NZub == 1)
-                        $ds = $row['Nazv'];
-                    else
-                        $ds = $NZub . "-й зуб, " . $row['Nazv'];
-                    echo $ds;
-                }
+                    for ($i = 1; $i <= $_SESSION['QZub']; $i++) {
+                        $NZub = $_SESSION['NZub'][$i];
+                        $dsZub = $_SESSION['dsZub'][$NZub];
+                        $query = "Select Nazv from ds where id=" . $dsZub;
+                        //echo $query."<br />";
+                        $result = sql_query($query, 'orto', 0);
+                        $count = mysqli_num_rows($result);
+                        $row = mysqli_fetch_array($result);
+                        if ($NZub == 1)
+                            $ds = $row['Nazv'];
+                        else
+                            $ds = $NZub . "-й зуб, " . $row['Nazv'];
+                        echo $ds;
+                    }
 
-                echo "</div><hr width='100%' noshade='noshade' size='1'/>
+                    echo "</div><hr width='100%' noshade='noshade' size='1'/>
 			<table width='100%' border='0' cellspacing='0' cellpadding='1'>
 	  <tr>
 		<td><center><div class='head2'>Прейскуранты:</div><br />";
-                $query = "select * from preysk WHERE id <4001";
-                //echo $query."<br />";
-                $result = sql_query($query, 'orto', 0);
-                $count = mysqli_num_rows($result);
-                for ($i = 0; $i < $count; $i++) {
-                    $row = mysqli_fetch_array($result);
-                    if ($row['id'] == $preysk)
-                        echo "|<font color='#42929D'>" . $row['preysk'] . "</font>|";
-                    else
-                        echo "|<a class=menu2 href='pat_tooday_work_full.php?action=lech&step=4&count=" . $_GET['count'] . "&preysk=" . $row['id'] . "'>" . $row['preysk'] . "</a>|";
-                }
-                echo " </center></td>
+                    $query = "select * from preysk WHERE id <4001";
+                    //echo $query."<br />";
+                    $result = sql_query($query, 'orto', 0);
+                    $count = mysqli_num_rows($result);
+                    for ($i = 0; $i < $count; $i++) {
+                        $row = mysqli_fetch_array($result);
+                        if ($row['id'] == $preysk)
+                            echo "|<font color='#42929D'>" . $row['preysk'] . "</font>|";
+                        else
+                            echo "|<a class=menu2 href='pat_tooday_work_full.php?action=lech&step=4&count=" . $_GET['count'] . "&preysk=" . $row['id'] . "'>" . $row['preysk'] . "</a>|";
+                    }
+                    echo " </center></td>
 	  </tr>
 	  <tr>
 		<td><table width='100%' border='0' cellspacing='0' cellpadding='1'>
 	  <tr>";
 
-                //echo "<td width='60%' align='center' valign='top'>Выбирте манипуляцию: <br />";
-                //$query = "select * from manip WHERE preysk=".$preysk." order by manip";
+                    //echo "<td width='60%' align='center' valign='top'>Выбирте манипуляцию: <br />";
+                    //$query = "select * from manip WHERE preysk=".$preysk." order by manip";
 //echo $query."<br />";
 //$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 //
@@ -1074,25 +1072,23 @@ ORDER BY `an`.`an` ASC";
 //		<br />
 //	
 //		  <input type='submit' name='Submit' value='Добавить в список' />";
-                //echo " </td>";
+                    //echo " </td>";
 
-                echo "<td width='40%' valign='top' align='center'>Счёт:<br /> ";
-
-
+                    echo "<td width='40%' valign='top' align='center'>Счёт:<br /> ";
 
 
-                //echo $_SESSION['countm'];
-                if (($_SESSION['countm']) > 0)
-                //{
-                //	$query = "SELECT `id`,`manip`,`price` FROM `manip` WHERE `id` in (";
-                //		for($i=1;$i<=$_SESSION['countm'];$i++)
-                //		{
-                //			if ($i==1) $query = $query."'".$_SESSION['chek'][$i][1]."'";
-                //			else $query = $query.",'".$_SESSION['chek'][$i][1]."'";
-                //		}
-                //		$query = $query.")";
-                //echo $query."<br />";
-                //	$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
+                    //echo $_SESSION['countm'];
+                    if (($_SESSION['countm']) > 0)
+                        //{
+                        //	$query = "SELECT `id`,`manip`,`price` FROM `manip` WHERE `id` in (";
+                        //		for($i=1;$i<=$_SESSION['countm'];$i++)
+                        //		{
+                        //			if ($i==1) $query = $query."'".$_SESSION['chek'][$i][1]."'";
+                        //			else $query = $query.",'".$_SESSION['chek'][$i][1]."'";
+                        //		}
+                        //		$query = $query.")";
+                        //echo $query."<br />";
+                        //	$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 //			if ($count>15) echo "<select name='chek' size='15'>";
 //			else echo "<select name='chek' size='".$count."'>";
 //			$_SESSION['summ']=0;
@@ -1109,7 +1105,7 @@ ORDER BY `an`.`an` ASC";
 //				$_SESSION['summ']=$_SESSION['summ']+($row['price']*$_SESSION['chek'][$i][2]);
 //			}
 //			echo "</select> <br />";
-                    echo "<table width='100%' border='1' cellpadding='0' cellspacing='0' bordercolor='#000000'>
+                        echo "<table width='100%' border='1' cellpadding='0' cellspacing='0' bordercolor='#000000'>
 			  <tr>
 				<td width='6%'><div align='center' class='feature3'>№</div></td>
 				<td width='49%'><div align='center' class='feature3'>Наименование</div></td>
@@ -1117,9 +1113,9 @@ ORDER BY `an`.`an` ASC";
 				<td width='12%'><div align='center' class='feature3'>Цена</div></td>
 				<td width='16%'><div align='center' class='feature3'>Стоимость</div></td>
 			  </tr>";
-                unset($_SESSION['summ']);
-                for ($i = 1; $i <= $_SESSION['countm']; $i++) {
-                    echo "  <tr>
+                    unset($_SESSION['summ']);
+                    for ($i = 1; $i <= $_SESSION['countm']; $i++) {
+                        echo "  <tr>
 				<td width='6%' align='center'>" . $i . "</td>
 				<td width='62%' align='left'>" . $_SESSION['chek'][$i][3] . "<br />
 				<a href='pat_tooday_work_full.php?action=lech&step=4&count=" . $_GET['count'] . "&preysk=" . $preysk . "&chek=" . $_SESSION['chek'][$i][1] . "&act=del' class='niz2'>Удалить из списка</a>
@@ -1129,42 +1125,42 @@ ORDER BY `an`.`an` ASC";
 				<td width='12%' align='center'>" . $_SESSION['chek'][$i][4] . " руб.</td>
 				<td width='10%' align='center'>" . ($_SESSION['chek'][$i][2] * $_SESSION['chek'][$i][4]) . " руб.</td>
 			  </tr>";
-                    $_SESSION['summ'] += $_SESSION['chek'][$i][2] * $_SESSION['chek'][$i][4];
-                }
-                echo "</table>";
-                echo "<div align='right'>Итого: " . $_SESSION['summ'] . " руб. <br>";
+                        $_SESSION['summ'] += $_SESSION['chek'][$i][2] * $_SESSION['chek'][$i][4];
+                    }
+                    echo "</table>";
+                    echo "<div align='right'>Итого: " . $_SESSION['summ'] . " руб. <br>";
 ////скидка
-                if (!isset($_GET['skidka'])) {
-                    if (!isset($_SESSION['proc_sk'])) {
-                        $query = "SELECT `skidka`.`proc`, `skidka`.`id`, `klinikpat`.`id`
+                    if (!isset($_GET['skidka'])) {
+                        if (!isset($_SESSION['proc_sk'])) {
+                            $query = "SELECT `skidka`.`proc`, `skidka`.`id`, `klinikpat`.`id`
 		FROM skidka, klinikpat
 		WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSION['pat'] . "'))";
-                        //echo $query."<br>"; 
-                        //<a href='pat_tooday_work.php?action=lech&step=4&count=".$_GET['count']."&preysk=".$preysk."&manip=".$mat[$j]['id']."&act=add' class='small'>
-                        $result = sql_query($query, 'orto', 0);
-                        $count = mysqli_num_rows($result);
-                        if ($count > 0) {
-                            $row = mysqli_fetch_array($result);
-                            $ck = $row[1];
+                            //echo $query."<br>";
+                            //<a href='pat_tooday_work.php?action=lech&step=4&count=".$_GET['count']."&preysk=".$preysk."&manip=".$mat[$j]['id']."&act=add' class='small'>
+                            $result = sql_query($query, 'orto', 0);
+                            $count = mysqli_num_rows($result);
+                            if ($count > 0) {
+                                $row = mysqli_fetch_array($result);
+                                $ck = $row[1];
+                            } else {
+                                $ck = 0;
+                            }
+                            $_SESSION['proc_sk'] = $ck;
                         } else {
-                            $ck = 0;
+                            $ck = $_SESSION['proc_sk'];
                         }
-                        $_SESSION['proc_sk'] = $ck;
                     } else {
-                        $ck = $_SESSION['proc_sk'];
+                        $ck = $_GET['skidka'];
+                        $_SESSION['proc_sk'] = $ck;
                     }
-                } else {
-                    $ck = $_GET['skidka'];
-                    $_SESSION['proc_sk'] = $ck;
-                }
-                // msg ("$ck");
-                if (round(($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100), -1) == $_SESSION['summ']) {
-                    $summ_sk = (floor((($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100)) / 10)) * 10;
-                } else {
-                    $summ_sk = round(($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100), -1);
-                }
-                echo "Итого со скидкой (" . $ck . "%): " . $summ_sk . " руб.</div>";
-                /////конец скидки
+                    // msg ("$ck");
+                    if (round(($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100), -1) == $_SESSION['summ']) {
+                        $summ_sk = (floor((($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100)) / 10)) * 10;
+                    } else {
+                        $summ_sk = round(($_SESSION['summ'] - ($_SESSION['summ'] * $ck) / 100), -1);
+                    }
+                    echo "Итого со скидкой (" . $ck . "%): " . $summ_sk . " руб.</div>";
+                    /////конец скидки
 //			if ($_SESSION['QZub']>1)
 //			{
 //				$os=0;
@@ -1174,76 +1170,76 @@ ORDER BY `an`.`an` ASC";
 //				}
 //			echo "<div align='right'>Общая сумма: ".round(($os-($os*$ck)/100),-1)." руб.</div>";				
 //			}
-                //echo "<input name='' type='submit'  value='Удалить из списка' onclick='document.lech.act.value=\"del\"'/>
+                    //echo "<input name='' type='submit'  value='Удалить из списка' onclick='document.lech.act.value=\"del\"'/>
 //		  <input name='' type='submit'  value='Количество +1' onclick='document.lech.act.value=\"p1\"'/>
 //		  <input name='' type='submit'  value='Количество -1' onclick='document.lech.act.value=\"m1\"'/>";
-                //	}
-                //	else echo "&nbsp";
-                echo "<input name='act' type='hidden' value='add' />";
-                echo "<input name='step' type='hidden' value='4' />";
-                echo "<input name='action' type='hidden' value='lech' />
+                    //	}
+                    //	else echo "&nbsp";
+                    echo "<input name='act' type='hidden' value='add' />";
+                    echo "<input name='step' type='hidden' value='4' />";
+                    echo "<input name='action' type='hidden' value='lech' />
 		  </td>
 	  </tr>
 	</table>
 	</td>
 	  </tr>
 	</table>";
-                echo "<center><input name='' type='submit'  value='Дальше>>' onclick='document.lech.act.value=\"next\"'/></center>";
+                    echo "<center><input name='' type='submit'  value='Дальше>>' onclick='document.lech.act.value=\"next\"'/></center>";
 
 
 //$query = "select `id`, `manip`, `price`, `cat`, `UpId`,`range` from manip WHERE preysk=".$preysk." order by `range`";
-                $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=" . $preysk . " order by `range`, `manip`";
-                //echo $query."<br />";
-                $result = sql_query($query, 'orto', 0);
-                $count = mysqli_num_rows($result);
-                $cc = 0;
-                $cm = 0;
-                for ($i = 0; $i < $count; $i++) {
-                    $row = mysqli_fetch_array($result);
-                    if ($row['cat'] == 1) {
-                        $cc++;
-                        $cat[$cc]['id'] = $row['id'];
-                        $cat[$cc]['manip'] = $row['manip'];
-                    } else {
-                        $cm++;
-                        $mat[$cm]['id'] = $row['id'];
-                        $mat[$cm]['manip'] = $row['manip'];
-                        $mat[$cm]['price'] = $row['price'];
-                        $mat[$cm]['UpId'] = $row['UpId'];
+                    $query = "select `id`, `manip`, `price`, `cat`, `UpId` from manip WHERE preysk=" . $preysk . " order by `range`, `manip`";
+                    //echo $query."<br />";
+                    $result = sql_query($query, 'orto', 0);
+                    $count = mysqli_num_rows($result);
+                    $cc = 0;
+                    $cm = 0;
+                    for ($i = 0; $i < $count; $i++) {
+                        $row = mysqli_fetch_array($result);
+                        if ($row['cat'] == 1) {
+                            $cc++;
+                            $cat[$cc]['id'] = $row['id'];
+                            $cat[$cc]['manip'] = $row['manip'];
+                        } else {
+                            $cm++;
+                            $mat[$cm]['id'] = $row['id'];
+                            $mat[$cm]['manip'] = $row['manip'];
+                            $mat[$cm]['price'] = $row['price'];
+                            $mat[$cm]['UpId'] = $row['UpId'];
+                        }
                     }
-                }
-                echo "<script language=\"JavaScript\" type=\"text/javascript\">
+                    echo "<script language=\"JavaScript\" type=\"text/javascript\">
 			<!--document.onclick = clickHandler; -->
 			</script>";
-                for ($i = 1; $i <= $cc; $i++) {
-                    echo "
+                    for ($i = 1; $i <= $cc; $i++) {
+                        echo "
 			<SPAN id='Out" . $i . "' class='mmenuHand'>" . $cat[$i]['manip'] . "</SPAN><br />
 	<div id=Out" . $i . "details style=\"display:None; position:relative; left:12;\">
 		<table width='80%' border='0'>
     ";
 
-                    for ($j = 1; $j <= $cm; $j++) {
+                        for ($j = 1; $j <= $cm; $j++) {
 
-                        if ($cat[$i]['id'] == $mat[$j]['UpId'])
-                            echo "<tr>
+                            if ($cat[$i]['id'] == $mat[$j]['UpId'])
+                                echo "<tr>
         <td width='85%'><a href='pat_tooday_work_full.php?action=lech&step=4&count=" . $_GET['count'] . "&preysk=" . $preysk . "&manip=" . $mat[$j]['id'] . "&act=add' class='small'>" . $mat[$j]['manip'] . "</a></td>
         <td width='15%'>
 		" . $mat[$j]['price'] . "
 		</td>
       </tr>";
+                        }
+                        echo "</table></div>";
                     }
-                    echo "</table></div>";
-                }
 
-                echo "</form>";
-                
-                    }
+                    echo "</form>";
+
+                }
                 //include("footer.php");
-                //exit;;
+                //exit;
                 break;
-            
-                
-                case "5":
+
+
+            case "5":
                 $_SESSION['lech'][$_GET['count']] = $_GET['lech'];
                 echo "<div class='head3'>Пациент: " . $_SESSION['pat_name'] . "</div><hr width='100%' noshade='noshade' size='1'/>";
                 $zh = "";
@@ -1472,15 +1468,14 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
                 if ($count > 0) {
                     $row = mysqli_fetch_array($result);
                     echo "<div align='right'>Итого со скидкой: " .
-                    round(($s - ($s * $row[0]) / 100), -1) . " руб.</div>";
+                        round(($s - ($s * $row[0]) / 100), -1) . " руб.</div>";
                 }
 //		$query = "INSERT INTO `oplata` (`id`, `dnev`, `stoim`, `soimSoSk`, `vnes`, `dolg`, `VidOpl`) VALUES (NULL,'".$pr."','".$s."','".$ssk."',0,'".$ssk."',1)" ;
 //		//echo "Всатавка в Оплату<br>";
 //		//echo $query."<br>";
 //		$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 //	break;
-                echo "<a href='print.php?type=pat&card=" . $pr . "' target='_blank' class='mmenu'>Печать карты</a><br />"
-                ;
+                echo "<a href='print.php?type=pat&card=" . $pr . "' target='_blank' class='mmenu'>Печать карты</a><br />";
                 echo "<a href='pat_tooday.php'class='mmenu'>Закрыть</a>";
                 unset($_SESSION['chek']);
                 unset($_SESSION['countm']);

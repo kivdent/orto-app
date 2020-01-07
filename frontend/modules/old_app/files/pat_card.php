@@ -25,7 +25,8 @@ $row = mysqli_fetch_array($result);
 echo $row['surname'] . " " . $row['name'] . " " . $row['otch'] . " " . "</span></center>
           <center><a href='/patient/manage/view?patient_id=" . $_GET['id'] . "' class='mmenu'>Основные сведения</a>|
           <a href='/patient/plan/index?patient_id=" . $_GET['id'] . "' class='mmenu'>План лечения</a>| 
-		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=medcard' class='mmenu'>Медицинская карта</a>|
+          <a href='/patient/records/index?patient_id=" . $_GET['id'] . "' class='mmenu'>Медицинская карта</a>| 
+		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=medcard' class='mmenu'>Осмотры</a>|
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ter' class='mmenu'>Терапия </a>|
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortd'class='mmenu'>Ортодонтия</a>|
 		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortp' class='mmenu'>Ортопедия </a>

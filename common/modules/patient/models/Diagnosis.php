@@ -24,20 +24,29 @@ class Diagnosis extends \common\models\Diagnosis
         $diagnosisList=[];
         $diagnosis = ['Список диагнозов пуст'];
 
-//        $diagnosis = self::find()->where('KlassID=:classification',[':classification'=>$classification])->asArray()->all();
-        $diagnosis = self::find()
-            ->select(['id, CONCAT(code, \' \',Nazv ) AS name', 'upID'])
-            ->where('KlassID=:classification', [':classification' => $classification])->asArray()->all();
+        if ($classification =='all'){
+            $diagnosis = self::find()
+                ->select(['id','code','Nazv', 'upID'])
+                ->asArray()
+                ->all();
+        }else {
+            $diagnosis = self::find()
+                ->select(['id','code','Nazv', 'upID'])
+                ->where('KlassID=:classification', [':classification' => $classification])
+                ->asArray()
+                ->all();
+        }
+
+
         foreach ($diagnosis as $diagnosisItem) {
             foreach ($diagnosis as $diagnosisSub) {
                 if ($diagnosisItem['id'] == $diagnosisSub['upID']) {
-                    $diagnosisList[$diagnosisItem['name']][$diagnosisSub['id']] = $diagnosisSub['name'];
+
+                    $diagnosisList[$diagnosisItem['code']." ".$diagnosisItem['Nazv']][$diagnosisSub['id']] = $diagnosisSub['code']." ".$diagnosisSub['Nazv'];
                 }
             }
         }
-//        $diagnosis = ArrayHelper::map($diagnosis, 'id', 'name');
 
-//
         return $diagnosisList;
     }
 }

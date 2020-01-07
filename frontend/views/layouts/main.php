@@ -67,7 +67,7 @@ AppAsset::register($this);
                         }
                         ?>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-9">
                         <?=
                         Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -79,9 +79,7 @@ AppAsset::register($this);
                         <?php endif ?>
                         <?= $content ?>
                     </div>
-                    <div class="col-lg-3">
-                        <!--Виджеты -->
-                    </div>
+
                 </div>
             </div>
         </div>

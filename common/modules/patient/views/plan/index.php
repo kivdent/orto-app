@@ -10,17 +10,14 @@ use yii\helpers\Url;
 /* @var $searchModel common\modules\patient\models\SearchTreatmentPlan */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Планы лечения';
+$this->title = 'Планы лечения ';
 ?>
 <div class="treatment-plan-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?><?= Html::a('Новый план лечения', ['create', 'patient_id' => Yii::$app->request->get('patient_id')], ['class' => 'btn btn-success']) ?>
+    </h1>
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Новый план лечения', ['create', 'patient_id' => Yii::$app->request->get('patient_id')], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -40,7 +37,7 @@ $this->title = 'Планы лечения';
                 },
             ],
             [
-                'attribute' => 'diagnosis',
+                'attribute' => 'diagnosis_id',
                 'format' => 'raw',
                 'content' => function ($data) {
                     return $data->getDiagnosisTitle();

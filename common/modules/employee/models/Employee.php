@@ -31,6 +31,7 @@ class Employee extends \yii\db\ActiveRecord
     const STATUS_WORKED = 'Работает';
     const STATUS_NOT_WORKED = 'Не работает';
     const STATUS_TEMPORARILY_WORKED = 'Временно не работает';
+    const STATUS_ALL= 'Все';
 
     public static function tableName()
     {
@@ -128,11 +129,23 @@ class Employee extends \yii\db\ActiveRecord
     public static function getList($status = self::STATUS_WORKED)
     {
 
-        $list=self::find()->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
-            ->where(['status'=>$status])
-            ->orderBy('surname')
+//        $list=self::find()->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+//            ->where(['status'=>$status])
+//            ->orderBy('surname')
+//            ->asArray()
+//            ->all();
+//
+            $list=self::find()->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"]);
+
+            if($status!==self::STATUS_ALL) {
+                $list=$list->where(['status'=>$status]);
+
+            }
+            $list=$list->orderBy('surname')
             ->asArray()
             ->all();
+
+
         $list=ArrayHelper::map($list,'id','full_name');
 
         return $list;
