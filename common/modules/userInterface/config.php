@@ -15,7 +15,7 @@ return [
             'therapist' => '/old_app/pat_tooday.php',
             'orthopedist'=>'/old_app/pat_tooday.php',
              'surgeon'=>'/old_app/pat_tooday.php',
-            'orthodontist'=>'/old_app/pat_tooday.php',
+            'orthodontist'=>'/old_app/pat_tooday_orto.php',
             'recorder'=>'/old_app/pat_tooday_reg.php',
             'accountant'=>'/old_app/buhg_zp.php',
             'senior_nurse'=>'/employee/manage/index',
