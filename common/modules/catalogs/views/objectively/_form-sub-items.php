@@ -18,7 +18,7 @@ use yii\helpers\Html;
     'widgetContainer' => 'dynamicform_inner',
     'widgetBody' => '.container-rooms',
     'widgetItem' => '.room-item',
-    'limit' => 4,
+    'limit' => 100,
     'min' => 1,
     'insertButton' => '.add-room',
     'deleteButton' => '.remove-room',
@@ -36,14 +36,29 @@ use yii\helpers\Html;
                 <td class="vcenter">
                     <?php
                     // necessary for update action.
-                    if (! $modelObjectivelySubItems->isNewRecord) {
+                    if (!$modelObjectivelySubItems->isNewRecord) {
                         echo Html::activeHiddenInput($modelObjectivelySubItems, "[{$indexObjectivelyItems}][{$indexObjectivelySubItems}]id");
                     }
                     ?>
-                    <?= $form->field($modelObjectivelySubItems, "[{$indexObjectivelyItems}][{$indexObjectivelySubItems}]value")->label(false)->textInput(['maxlength' => true]) ?>
+
+                    <?php
+
+                    if ($type == 'template') {
+                        echo $form->field($modelObjectivelySubItems, "[{$indexObjectivelyItems}][{$indexObjectivelySubItems}]value")
+                            ->label(false)
+                            ->dropDownList(\common\modules\catalogs\models\Objectively::getTemplateList());
+                    } else {
+                        echo $form->field($modelObjectivelySubItems, "[{$indexObjectivelyItems}][{$indexObjectivelySubItems}]value")
+                            ->label(false)->
+                            textInput(['maxlength' => true]);
+                    }
+                    ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
-                    <button type="button" class="remove-room btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button><button type="button" class="add-room btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="remove-room btn btn-danger btn-xs"><span
+                                class="glyphicon glyphicon-minus"></span></button>
+                    <button type="button" class="add-room btn btn-success btn-xs"><span
+                                class="glyphicon glyphicon-plus"></span></button>
                 </td>
             </tr>
         <?php endforeach; ?>

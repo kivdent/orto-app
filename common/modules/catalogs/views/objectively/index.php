@@ -22,14 +22,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'name',
             [
-             'format' => 'raw',
-             'attribute' => 'type',
-             'content' => function($data){
-                return $data->getTypeName();
-             }
-],
+                'format' => 'text',
+                'attribute' => 'name',
+                'contentOptions' => ['style' => 'white-space: inherit;']
+            ],
+            [
+                'format' => 'raw',
+                'attribute' => 'type',
+                'content' => function ($data) {
+                    return $data->getTypeName();
+                }
+            ],
 //            'text:ntext',
             [
                 'format' => 'html',
@@ -37,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'content' => function ($data) {
                     return $data->renderForm();
                 },
+                'contentOptions' => ['style' => 'white-space: inherit;']
 
             ],
 

@@ -43,7 +43,7 @@ class ObjectivelyController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'update', 'create'],
+                        'actions' => ['index', 'view', 'update', 'create','delete'],
                         'roles' => ['admin',],
                     ],
 

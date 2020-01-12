@@ -12,12 +12,8 @@ $this->title = $model->fullName;
 ?>
 <div class="patient-view">
 
-    <h1>Карта № <?= Html::encode($model->getId()) ?></h1>
-    <h2><?= Html::encode($this->title) ?></h2>
-
     <p>
         <?= Html::a('Изменить', ['update', 'patient_id' => $model->id], ['class' => 'btn btn-primary']) ?>
-          <?= Html::a('Карта', ['/old_app/pat_card.php', 'id' => $model->id], ['class' => 'btn btn-info','target'=>'blank']) ?>
 
     </p>
   

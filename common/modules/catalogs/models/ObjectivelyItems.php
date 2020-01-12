@@ -4,14 +4,18 @@
 namespace common\modules\catalogs\models;
 
 
+use common\modules\catalogs\models\Objectively;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+
 class ObjectivelyItems extends \common\models\ObjectivelyItems
 {
+    private $typeObjectively;
     const OBJECTEVLY_ITEM_TYPE_TEXT = 'text';
     const OBJECTEVLY_ITEM_TYPE_LIST = 'list';
     const OBJECTEVLY_ITEM_TYPE_LIST_MULTIPLE = 'list_multiple';
+    const OBJECTEVLY_ITEM_TYPE_TEMPLATE = 'template';
 
     /**
      * {@inheritdoc}
@@ -33,6 +37,7 @@ class ObjectivelyItems extends \common\models\ObjectivelyItems
             self::OBJECTEVLY_ITEM_TYPE_TEXT => "Текстовая строка",
             self::OBJECTEVLY_ITEM_TYPE_LIST => "Выбор одной позиции из списка",
             self::OBJECTEVLY_ITEM_TYPE_LIST_MULTIPLE => "Выбор нескольких позиций из списка",
+            self::OBJECTEVLY_ITEM_TYPE_TEMPLATE => "Шаблон",
         ];
     }
 
@@ -46,13 +51,16 @@ class ObjectivelyItems extends \common\models\ObjectivelyItems
         $subItemsList = ArrayHelper::map($this->getSubItems()->asArray()->all(), 'value', 'value');
         $subItemsListModified=[];
         foreach ($subItemsList as $item){
-            $subItemsListModified[" ".$item]=$item;
+            $value=($item=="_")  ? "":$item;
+            $subItemsListModified[" ".$value]=$value;
         }
         return $subItemsListModified;
     }
 
-    public function getElement()
+    public function getElement($typeObjectecly)
+
     {
+        $this->typeObjectively=$typeObjectecly;
         $element = call_user_func([$this, $this->type . 'Element']);
         return $element;
     }
@@ -74,8 +82,16 @@ class ObjectivelyItems extends \common\models\ObjectivelyItems
         ]);
         return $element;
     }
+
+    public function templateElement(){
+        $element = '';
+        $objectively=$this->getTemplateObject();
+        $element=$objectively->renderFormItems($this->typeObjectively);
+        return $element;
+    }
+
     public function getListName(){
-        return 'list-'.$this->id;
+        return $this->typeObjectively.'-list-'.$this->id;
     }
 
     public function list_multipleElement()
@@ -86,28 +102,30 @@ class ObjectivelyItems extends \common\models\ObjectivelyItems
             'size' => '1',
             'id'=>$this->getMultipleListName(),
             'class'=>'objectively-multiple',
+            'onmouseover'=>'size:5',
         ]);
         return $element;
 
     }
 
     public function getMultipleListName(){
-        return 'multiple-list-'.$this->id;
+        return $this->typeObjectively.'-multiple-list-'.$this->id;
     }
 
-    public function getString()
+    public function getString($typeObjectecly)
     {
-
+        $this->typeObjectively=$typeObjectecly;
         $string = call_user_func([$this, $this->type . 'String']);
         return $string;
     }
 
     public function textString()
     {
-        $string = '';
+        $string = '"';
         foreach ($this->subItems as $subItem) {
-            $string .= '"'.$subItem->value . ' " ';
+            $string .= $subItem->value . ' ';
         }
+        $string .= '"';
         return $string;
     }
 
@@ -122,4 +140,22 @@ class ObjectivelyItems extends \common\models\ObjectivelyItems
         $string = '$("#'.$this->getMultipleListName().'").val()+" "';
         return $string;
     }
+    public function templateString()
+    {
+        $string = '';
+        $objectively=$this->getTemplateObject();
+
+        foreach ($objectively->objectivelyItems as $objectivelyItem) {
+            $string .= $objectivelyItem->getString($this->typeObjectively) . '+';
+        };
+        $string = mb_substr($string, 0, -1);
+        return $string;
+    }
+    private function getTemplateObject(){
+        $id=$this->subItems[0]->value;
+        $objectively=Objectively::findOne($id);
+
+        return $objectively;
+    }
+
 }
