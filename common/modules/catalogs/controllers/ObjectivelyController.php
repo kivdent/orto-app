@@ -2,6 +2,7 @@
 
 namespace common\modules\catalogs\controllers;
 
+use common\modules\catalogs\models\ObjectivelySearch;
 use Yii;
 use common\modules\catalogs\models\Objectively;
 use common\modules\catalogs\models\ObjectivelyItems;
@@ -56,13 +57,25 @@ class ObjectivelyController extends Controller
      * Lists all Objectively models.
      * @return mixed
      */
+//    public function actionIndex()
+//    {
+//        $dataProvider = new ActiveDataProvider([
+//            'query' => Objectively::find(),
+//        ]);
+//
+//        return $this->render('index', [
+//            'dataProvider' => $dataProvider,
+//        ]);
+//    }
+
+
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Objectively::find(),
-        ]);
+        $searchModel = new ObjectivelySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

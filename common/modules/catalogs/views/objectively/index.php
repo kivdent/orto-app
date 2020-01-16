@@ -2,9 +2,11 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\modules\catalogs\models\Objectively;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $searchModel \common\modules\catalogs\models\ObjectivelySearch */
 
 $this->title = 'Объективно';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -32,7 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'type',
                 'content' => function ($data) {
                     return $data->getTypeName();
-                }
+                },
+                'filter'=>Objectively::getTypeList(),
             ],
 //            'text:ntext',
             [
