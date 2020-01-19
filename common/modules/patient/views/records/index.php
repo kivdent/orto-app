@@ -68,12 +68,18 @@ $this->title = 'Записи';
             [
                 'format' => 'text',
                 'attribute' => 'objectively',
-                'contentOptions' => ['style' => 'white-space: inherit;']
+                'contentOptions' => ['style' => 'white-space: inherit;'],
+                'content' => function ($data) {
+                    return Html::encode(mb_substr($data->objectively,0,100));
+                },
             ],
             [
                 'format' => 'text',
                 'attribute' => 'therapy',
-                'contentOptions' => ['style' => 'white-space: inherit;']
+                'contentOptions' => ['style' => 'white-space: inherit;'],
+                'content' => function ($data) {
+                    return Html::encode(mb_substr($data->therapy,0,100));
+                },
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],

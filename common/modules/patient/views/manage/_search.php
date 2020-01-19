@@ -18,15 +18,15 @@ use yii\widgets\ActiveForm;
         ],
     ]); ?>
 
-    <?= $form->field($model, 'id') ?>
+    <?php echo$form->field($model, 'id') ?>
 
-    <?= $form->field($model, 'surname') ?>
+    <?php echo$form->field($model, 'surname') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?php //echo$form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'otch') ?>
+    <?php //echo$form->field($model, 'otch') ?>
 
-    <?= $form->field($model, 'dr') ?>
+    <?php //$form->field($model, 'dr') ?>
 
     <?php // echo $form->field($model, 'sex') ?>
 

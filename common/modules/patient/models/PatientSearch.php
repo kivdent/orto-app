@@ -64,7 +64,7 @@ class PatientSearch extends Patient
             'Skidka' => $this->Skidka,
         ]);
 
-        $query->andFilterWhere(['like', 'surname', $this->surname])
+        $query->andFilterWhere(['like', 'surname', $this->surname.'%',false])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'otch', $this->otch])
             ->andFilterWhere(['like', 'sex', $this->sex])
