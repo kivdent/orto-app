@@ -41,6 +41,7 @@ class PatientMenuWidget extends Widget
             ['label' => 'Ортопедия', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'ortp']],
             ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'disp']],
             ['label' => 'Статистика', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'stat']],
+            ['label' => 'Документы', 'url' => ['/documents/', 'patient_id' => $this->patient_id]],
 
 
         ];
@@ -49,6 +50,7 @@ class PatientMenuWidget extends Widget
             $menuItemAction = isset($routeArray[2]) ? $routeArray[2] : false;
             $currentAction = Yii::$app->controller->id;
             $menuItem['active'] = ($menuItemAction === $currentAction) ? true : false;
+
         }
 
 

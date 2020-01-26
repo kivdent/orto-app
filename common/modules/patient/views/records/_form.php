@@ -99,7 +99,7 @@ $this->registerJs(
                 'query' => Complaints::find()->addOrderBy('root, lft'),
                 'headingOptions' => ['label' => 'Жалобы'],
                 'rootOptions' => ['label' => '<i class="fas fa-tree text-success"></i>'],
-                'fontAwesome' => true,
+                'fontAwesome' => false,
                 'asDropdown' => false,
                 'multiple' => false,
                 'options' => ['disabled' => false,],

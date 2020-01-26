@@ -1,4 +1,7 @@
 <?php
+
+use common\modules\patient\widgets\PatientMenuWidget;
+
 //ini_set('error_reporting', E_ALL);
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
@@ -22,18 +25,20 @@ $query = "SELECT `surname`,`name`,`otch` FROM `klinikpat` WHERE `id`='" . $_GET[
 $result = sql_query($query, 'orto', 0);
 $count = mysqli_num_rows($result);
 $row = mysqli_fetch_array($result);
-echo $row['surname'] . " " . $row['name'] . " " . $row['otch'] . " " . "</span></center>
-          <center><a href='/patient/manage/view?patient_id=" . $_GET['id'] . "' class='mmenu'>Основные сведения</a>|
-          <a href='/patient/plan/index?patient_id=" . $_GET['id'] . "' class='mmenu'>План лечения</a>| 
-          <a href='/patient/records/index?patient_id=" . $_GET['id'] . "' class='mmenu'>Медицинская карта</a>| 
-		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=medcard' class='mmenu'>Осмотры</a>|
-		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ter' class='mmenu'>Терапия </a>|
-		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortd'class='mmenu'>Ортодонтия</a>|
-		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortp' class='mmenu'>Ортопедия </a>
-		  |<a href='pat_card.php?id=" . $_GET['id'] . "&action=disp' class='mmenu'>Диспансеризация</a>"
-    . "|<a href='pat_card.php?id=" . $_GET['id'] . "&action=stat' class='mmenu'>Статистика</a>";
-//if (($_SESSION['valid_user']=="ortoped") or ($_SESSION['valid_user']=="ortodont") or ($_SESSION['valid_user']=="administrator")) echo "| <a href='pat_card.php?id=".$_GET['id']."&action=orto_sh' class='mmenu'>Схема оплаты за ортодонтию</a>";
-echo "</center>";
+
+echo $row['surname'] . " " . $row['name'] . " " . $row['otch'] . " " . "</span></center>";
+echo PatientMenuWidget::widget(['patient_id' => $_GET['id']]);
+//echo " <center><a href='/patient/manage/view?patient_id=" . $_GET['id'] . "' class='mmenu'>Основные сведения</a>|
+//          <a href='/patient/plan/index?patient_id=" . $_GET['id'] . "' class='mmenu'>План лечения</a>|
+//          <a href='/patient/records/index?patient_id=" . $_GET['id'] . "' class='mmenu'>Медицинская карта</a>|
+//		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=medcard' class='mmenu'>Осмотры</a>|
+//		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ter' class='mmenu'>Терапия </a>|
+//		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortd'class='mmenu'>Ортодонтия</a>|
+//		  <a href='pat_card.php?id=" . $_GET['id'] . "&action=ortp' class='mmenu'>Ортопедия </a>
+//		  |<a href='pat_card.php?id=" . $_GET['id'] . "&action=disp' class='mmenu'>Диспансеризация</a>"
+//    . "|<a href='pat_card.php?id=" . $_GET['id'] . "&action=stat' class='mmenu'>Статистика</a>";
+////if (($_SESSION['valid_user']=="ortoped") or ($_SESSION['valid_user']=="ortodont") or ($_SESSION['valid_user']=="administrator")) echo "| <a href='pat_card.php?id=".$_GET['id']."&action=orto_sh' class='mmenu'>Схема оплаты за ортодонтию</a>";
+//echo "</center>";
 function ShowOsnSved($id, $ro)
 {
     $query = "select * from klinikpat where id='" . $id . "'";
@@ -801,32 +806,32 @@ switch ($_GET['action']) {
                                 echo "<option value='" . $row['nazv'] . " \n'>" . $row['nazv'] . "</option>";
                             }
                             ECHO " </select>";
-                           /* echo "<script type=\"text/javascript\">
-                 $('#add_work_list').dblclick(function(){
+                            /* echo "<script type=\"text/javascript\">
+                  $('#add_work_list').dblclick(function(){
 
-                                                         $('#work').val($('#work').val()+$('#add_work_list').val());
-                                                 });
-                 var month=[];
-                 var year=[];
-                 month[3]=$(\"#month option[value='" . date("n", strtotime("+3 month")) . "']\");
-                 year[3]=$(\"#year option[value='" . date("Y", strtotime("+3 month")) . "']\");
-                  month[4]=$(\"#month option[value='" . date("n", strtotime("+4 month")) . "']\");
-                 year[4]=$(\"#year option[value='" . date("Y", strtotime("+4 month")) . "']\");
-                  month[6]=$(\"#month option[value='" . date("n", strtotime("+6 month")) . "']\");
-                 year[6]=$(\"#year option[value='" . date("Y", strtotime("+12 month")) . "']\");
-                  month[12]=$(\"#month option[value='" . date("n", strtotime("+12 month")) . "']\");
-                 year[12]=$(\"#year option[value='" . date("Y", strtotime("+12 month")) . "']\");
-                  
-                month[6].prop('selected', true);
-               year[6].prop('selected', true);
-               $(\"#per\").change(function(){
-    
-                                        var p=Number.parseInt($(\"#per\").val());
-                                        alert(p+' '+  month[p]+' '+year[p]);
-                                         month[p].prop('selected', true);
-                                           year[p].prop('selected', true);
-                                      });
-              </script>";*/
+                                                          $('#work').val($('#work').val()+$('#add_work_list').val());
+                                                  });
+                  var month=[];
+                  var year=[];
+                  month[3]=$(\"#month option[value='" . date("n", strtotime("+3 month")) . "']\");
+                  year[3]=$(\"#year option[value='" . date("Y", strtotime("+3 month")) . "']\");
+                   month[4]=$(\"#month option[value='" . date("n", strtotime("+4 month")) . "']\");
+                  year[4]=$(\"#year option[value='" . date("Y", strtotime("+4 month")) . "']\");
+                   month[6]=$(\"#month option[value='" . date("n", strtotime("+6 month")) . "']\");
+                  year[6]=$(\"#year option[value='" . date("Y", strtotime("+12 month")) . "']\");
+                   month[12]=$(\"#month option[value='" . date("n", strtotime("+12 month")) . "']\");
+                  year[12]=$(\"#year option[value='" . date("Y", strtotime("+12 month")) . "']\");
+
+                 month[6].prop('selected', true);
+                year[6].prop('selected', true);
+                $(\"#per\").change(function(){
+
+                                         var p=Number.parseInt($(\"#per\").val());
+                                         alert(p+' '+  month[p]+' '+year[p]);
+                                          month[p].prop('selected', true);
+                                            year[p].prop('selected', true);
+                                       });
+               </script>";*/
 //                            $query = "SELECT * FROM `klishe_ko`";
 //                            $result = sql_query($query, 'orto', 0);
 //                            $count = mysqli_num_rows($result);
@@ -1371,8 +1376,7 @@ VALUES ";
                     //exit;
                     break;
             }
-        }
-        else {
+        } else {
             $query = "SELECT  
 		`disp_card`.`id`,
 		`sotr`.`surname`, 

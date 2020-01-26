@@ -25,8 +25,13 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <?= $content ?>
+<script>
+    window.print();
+</script>
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>

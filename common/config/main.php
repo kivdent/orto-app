@@ -70,7 +70,10 @@ return [
         ],
         'treemanager' =>  [
             'class' => '\kartik\tree\Module',
-            // other module settings, refer detailed documentation
-        ]
+
+        ],
+        'documents' => [
+            'class' => 'common\modules\documents\Module',
+        ],
     ],
 ];

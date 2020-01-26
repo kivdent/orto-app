@@ -48,6 +48,3 @@ $tooth=$model->region->isTooth()? $model->getRegionName():"";
     </div>
 </div>
 
-<script>
-    window.print();
-</script>

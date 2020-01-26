@@ -91,7 +91,3 @@ PrintAsset::register($this);
         <p>Врач:____________________________<br><?= $model->getAuthorName() ?></p>
     </div>
 </div>
-
-<script>
-    window.print();
-</script>
