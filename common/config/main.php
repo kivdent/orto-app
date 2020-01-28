@@ -75,5 +75,8 @@ return [
         'documents' => [
             'class' => 'common\modules\documents\Module',
         ],
+        'images' => [
+            'class' => 'common\modules\images\Module',
+        ],
     ],
 ];
