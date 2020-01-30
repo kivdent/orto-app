@@ -3,6 +3,7 @@
 namespace common\modules\images;
 
 use common\abstractClasses\WorkModule;
+use Yii;
 
 /**
  * images module definition class
