@@ -1,7 +1,7 @@
 <?php
 
 /**
- * clinic
+ * images
  */
 return [
     'params' => [

@@ -3,6 +3,7 @@
 namespace common\modules\images;
 
 use common\abstractClasses\WorkModule;
+use Yii;
 
 /**
  * images module definition class
@@ -15,6 +16,7 @@ class Module extends WorkModule
     public $controllerNamespace = 'common\modules\images\controllers';
     public $defaultRoute = 'manage';
     public $moduleName = "Изображения";
+
     /**
      * {@inheritdoc}
      */
@@ -22,6 +24,6 @@ class Module extends WorkModule
     {
         parent::init();
         Yii::configure($this, require __DIR__ . '/config.php');
-        // custom initialization code goes here
+
     }
 }
