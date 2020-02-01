@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'employe_id',
                 'format' => 'raw',
                 'value' => function($user) {
-                    return $user->employe_id ? $user->employe->getFullName() : 'Не указан';
+                    return $user->employe!==null ? $user->employe->getFullName() : 'Не указан';
                 }
             ],
             [

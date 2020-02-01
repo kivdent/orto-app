@@ -92,7 +92,7 @@ class ManageController extends Controller
     public function actionCreate($type)
     {
         $model = new Notes();
-        $model->author_id = Yii::$app->user->id;
+        $model->author_id = Yii::$app->user->identity->employe_id;
         $model->patient_id = Yii::$app->userInterface->params['patient_id'];
         $model->type = $type;
         $model->title = Notes::getTypesList()[$type];
