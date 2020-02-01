@@ -42,6 +42,7 @@ class PatientMenuWidget extends Widget
             ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'disp']],
             ['label' => 'Статистика', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'stat']],
             ['label' => 'Документы', 'url' => ['/documents/', 'patient_id' => $this->patient_id]],
+            ['label' => 'Фотографии', 'url' => ['/photos/', 'patient_id' => $this->patient_id]],
 
 
         ];

@@ -17,6 +17,9 @@ return [
         'userInterface' => [
             'class' => 'common\modules\userInterface\models\UserInterface',
         ],
+        'storage'=>[
+            'class'=>'\common\components\Storage',
+        ],
     ],
     'modules' => [
         'clinic' => [
@@ -75,7 +78,7 @@ return [
         'documents' => [
             'class' => 'common\modules\documents\Module',
         ],
-        'images' => [
+        'photos' => [
             'class' => 'common\modules\images\Module',
         ],
     ],
