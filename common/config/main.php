@@ -20,6 +20,15 @@ return [
         'storage'=>[
             'class'=>'\common\components\Storage',
         ],
+        'i18n' => [
+            'translations' => [
+                'file-input*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => dirname(__FILE__).'/../vendor/2amigos/yii2-file-input-widget/src/messages/',
+                    'basePath' =>  dirname(dirname(__DIR__)) . '/common/i18n/',
+                ],
+            ],
+        ],
     ],
     'modules' => [
         'clinic' => [

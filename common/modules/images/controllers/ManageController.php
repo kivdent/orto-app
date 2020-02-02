@@ -8,6 +8,7 @@ use common\modules\images\models\ImagesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ManageController implements the CRUD actions for Images model.
@@ -81,15 +82,9 @@ class ManageController extends Controller
         $model = new Images();
         $model->author_id = Yii::$app->user->identity->employe_id;
         $model->patient_id = Yii::$app->userInterface->params['patient_id'];
-        if ($model->load(Yii::$app->request->post())) {
 
-            echo "<pre>";
-            print_r(Yii::$app->request->post());
-            echo "</pre>";
-            die();
-        }
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id,
+            return $this->redirect(['index',
                 'patient_id' => $model->patient_id]);
         }
 
@@ -125,7 +120,7 @@ class ManageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id)//TODO Deleting from disk
     {
         $this->findModel($id)->delete();
 

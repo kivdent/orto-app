@@ -4,13 +4,18 @@
 namespace common\modules\images\models;
 
 
+use common\components\Storage;
+use common\modules\employee\models\Employee;
+use common\modules\patient\models\Patient;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use Yii;
+use yii\web\UploadedFile;
 
 class Images extends \common\models\Images
 {
     public $uploadedFile;
+
 
     public function behaviors()
     {
@@ -40,11 +45,11 @@ class Images extends \common\models\Images
     public function rules()
     {
         $rules = parent::rules();
-        $rules[] = [['uploadedFile'],  'file',
+        $rules[] = [['uploadedFile'], 'file',
             'skipOnEmpty' => false,
-            'extensions' => ['jpg', 'png'],
+            'extensions' => ['jpg', 'png', 'jpeg', 'JPG', 'PNG'],
             'checkExtensionByMimeType' => true,
-            'maxSize' => 1024*1024*10];
+            'maxSize' => 1024 * 1024 * 10];
 //        $rules[] = [['uploadedFile'], 'safe'];
 
         return $rules;
@@ -55,18 +60,33 @@ class Images extends \common\models\Images
         if (!parent::beforeSave($insert)) {
             return false;
         }
-        echo "<pre>";
-        print_r($this->uploadedFile);
-        echo "</pre>";
-        die();
+        if (!$this->isNewRecord) {
+            Yii::$app->storage->deleteFile($this->file_name, $this->getFilePath(), Storage::TYPE_PHOTO);
+        }
         return $this->saveUploadedFile();
+    }
+
+    public function beforeValidate()
+    {
+        $this->uploadedFile = UploadedFile::getInstance($this, 'uploadedFile');
+        return true;
+    }
+
+    public function beforeDelete()
+    {
+        if (!parent::beforeDelete()) {
+            return false;
+        }
+
+        return Yii::$app->storage->deleteFile($this->file_name, $this->getFilePath(), Storage::TYPE_PHOTO);
     }
 
     private function saveUploadedFile()
     {
 
-        $this->file_name = Yii::$app->storge->saveUploadedFile($this->uploadedFile, $this->getFilePath());
-        if (!$this->file_name){
+        $this->file_name = Yii::$app->storage->saveUploadedFile($this->uploadedFile, $this->getFilePath(), Storage::TYPE_PHOTO);
+
+        if (!$this->file_name) {
             return false;
         }
         return true;
@@ -74,7 +94,34 @@ class Images extends \common\models\Images
 
     private function getFilePath()
     {
-        return $this->author_id."/".$this->patient_id."/";
+        return $this->author_id . "/" . $this->patient_id . "/";
     }
 
+    public function getImageLink()
+    {
+        return (Yii::$app->storage->getFileLink($this->file_name, $this->getFilePath(), Storage::TYPE_PHOTO) !== null) ?
+            Yii::$app->storage->getFileLink($this->file_name, $this->getFilePath(), Storage::TYPE_PHOTO) : '';
+
+    }
+
+    public function getAuthorName()
+    {
+        return $this->employe->fullName;
+    }
+
+    public function getEmploye()
+    {
+        return $this->hasOne(Employee::className(), ['id' => 'author_id']);
+    }
+
+    public function getPatient()
+    {
+        return $this->hasOne(Patient::className(), ['id' => 'patient_id']);
+
+    }
+
+    public function getPatientName()
+    {
+        return $this->patient->fullName;
+    }
 }

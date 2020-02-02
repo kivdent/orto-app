@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'author_id') ?>
 
-    <?= $form->field($model, 'patient_id') ?>
+    <?= $form->field($model, 'patient_id')->hiddenInput(['value'=>Yii::$app->userInterface->params['patient_id']]) ?>
 
     <?= $form->field($model, 'description') ?>
 
