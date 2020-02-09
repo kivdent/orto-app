@@ -7,6 +7,7 @@ namespace console\controllers;
 use common\modules\patient\models\Region;
 use yii\console\Controller;
 use Yii;
+use common\models\Manipulations;
 
 class FillController extends Controller
 {
@@ -56,8 +57,6 @@ class FillController extends Controller
         $properties = array_keys($items[0]);
 
 
-//        print_r($this->items[$tableName]);
-//        exit;
         foreach ($this->items[$tableName] as $item) {
             $className = 'common\models\\' . ucfirst($tableName);
             $schema = new $className();
@@ -83,5 +82,63 @@ class FillController extends Controller
             echo "Заполнено. " . PHP_EOL;
         }
         echo "Выполнено." . PHP_EOL;
+    }
+
+    /*
+     *Формат данных array
+     *
+`id`('new'),
+`manip`,
+`preysk`,
+`zapis`,
+`price`,
+`cat`,
+`UpId`,
+`range`,
+`koef`
+     * */
+    public function actionFillManip()
+    {
+        echo "Обновление данных манипуляций начато." . PHP_EOL;
+        echo "Загрузка данных из файла manip_update.php";
+        try {
+            require 'tables_for_fill/manip_update.php';
+        } catch (Exception $e) {
+            echo 'Нет файла с данными для таблицы: manip_update.php', $e->getMessage(), "\n";
+        }
+        echo "Загрузка данных из файла..." . PHP_EOL;
+        $properties = array_keys($items[0]);
+        $UpId = (isset($items[0]['UpId'])) ? $items[0]['UpId'] : 0;
+        foreach ($items as $item) {
+
+
+            if ($item['id'] !== '') {
+                echo "Обновление данных для мнипуляции";
+                $manip = Manipulations::findOne($item['id']);
+
+            } else {
+                echo "Добавление мнипуляции ";
+                $manip = new Manipulations();
+
+            }
+
+
+            foreach ($properties as $property) {
+                if ($property !== 'id') {
+                    
+                    $manip->{$property} = $item[$property];
+                }
+            }
+            $manip->UpId=$UpId;
+
+            $manip->save('false');
+
+            if ($item['cat']=='1') {
+                $UpId = $manip->id;
+            }
+
+            echo "с кодом " . $manip->id . ' выполнено' . PHP_EOL;
+        }
+        echo "Обновление данных манипуляций окончено." . PHP_EOL;
     }
 }
