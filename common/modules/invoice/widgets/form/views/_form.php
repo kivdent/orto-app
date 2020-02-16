@@ -1,0 +1,129 @@
+<?php
+
+use common\modules\invoice\assets\InvoiceAsset;
+use yii\helpers\Html;
+
+InvoiceAsset::register($this);
+/* @var $priceLists \common\modules\catalogs\models\Pricelists */
+/* @var $beforeHtml string*/
+/* @var $afterHtml string*/
+?>
+<?=$beforeHtml?>
+<div class="row" name="control">
+    <div class="col-lg-12">
+
+
+
+    </div>
+</div>
+<div class="row" name="invoice-table">
+    <div class="col-lg-12">
+        <div id="invoice">
+            <table class="table table-bordered" id="invoice-table">
+                <caption>Счёт за услуги:</caption>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th class="text-right">Итого</th>
+                    <th id="summary">0 р</th>
+                    <td></td>
+
+                </tr>
+                </tfoot>
+                <tbody id="invoice-table-body">
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row" name="price-lists-navigation">
+    <div class="col-lg-12">
+        <div class="price-list-choose">
+
+            <ul class="nav nav-tabs" role="tablist">
+                <?php $flag = true;
+                foreach ($priceLists as $priceList): ?>
+
+                    <li role="presentation"
+                        class="<?php if ($flag) {
+                        echo 'active';
+                        $flag = false;
+                    } ?>">
+                        <?= Html::a($priceList->preysk, '#price_list_id_' . $priceList->id, [
+                            'aria-controls' => "price_list_id_".$priceList->id,
+                            'role' => "tab",
+                            'data-toggle' => "tab",
+
+
+
+                        ]) ?>
+
+                    </li>
+
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row" name="price-list-content">
+    <div class="col-lg-12">
+        <div class="tab-content price-list">
+            <?php
+            $flag = true;
+            foreach ($priceLists as $priceList): ?>
+
+                <div role="tabpanel"
+                     class="tab-pane <?php if ($flag) {
+                    echo 'active';
+                    $flag = false;
+                } ?>" id="<?= "price_list_id_".$priceList->id ?>">
+                    <ul class="nav nav-pills nav-stacked">
+
+
+                        <?php foreach ($priceList->categoryes as $category): ?>
+                            <li class="active">
+                                <a data-toggle="collapse"
+                                   href="#collapse-category-id-<?=$category->id?>"
+                                   aria-expanded="false"
+                                   aria-controls="collapse-category-id-<?=$category->id?>">
+                                    <?=$category->manip?>
+                                    <span class="caret"></span>
+                                </a>
+                                    <div class="collapse" id="collapse-category-id-<?=$category->id?>">
+                                        <table class="table">
+                                            <?php foreach ($category->manipulationsFromCategory as $manipulation): ?>
+                                                <tr>
+                                                    <td><a href="#" class="manipulation-item" id="<?=$manipulation->id?>" price="<?=$manipulation->price?>">
+                                                            <?=$manipulation->manip?>
+                                                        </a
+                                                    </td>
+                                                    <td><?=$manipulation->price?> р</td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </table>
+                                    </div>
+                            </li>
+                        <?php endforeach; ?>
+
+
+                    </ul>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+<?=$afterHtml?>

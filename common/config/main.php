@@ -82,13 +82,15 @@ return [
         ],
         'treemanager' =>  [
             'class' => '\kartik\tree\Module',
-
         ],
         'documents' => [
             'class' => 'common\modules\documents\Module',
         ],
         'photos' => [
             'class' => 'common\modules\images\Module',
+        ],
+        'invoice' => [
+            'class' => 'common\modules\invoice\Module',
         ],
     ],
 ];

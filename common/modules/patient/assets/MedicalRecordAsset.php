@@ -17,7 +17,7 @@ class MedicalRecordAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-        'common\assets\FontAwesomeAsset',
+        //'common\assets\FontAwesomeAsset',
     ];
 
 }

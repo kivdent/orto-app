@@ -7,6 +7,7 @@ use kartik\select2\Select2;
 use kidzen\dynamicform\DynamicFormWidget;
 use common\modules\patient\assets\TreatmentPlanAsset;
 use common\modules\catalogs\widgets\DiagnosisInputWidget;
+use common\modules\invoice\widgets\form\InvoiceFormWidget;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
@@ -97,10 +98,21 @@ $classification = 13;//9 id классификации МКБ-10
                                         ]);
                                     ?>
                                 </div>
+
                                 <div class="col-sm-2">
 
 
-                                    <?= $form->field($modelItem, "[{$i}]price_from")->textInput();
+                                    <?= $form->field($modelItem, "[{$i}]price_from")->textInput([
+                                      'class' => 'form-control price_from',
+                                    ])->label('Стоимость от '.Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>',[
+                                        'class'=>'btn btn-primary btn-xs',
+                                        'data-toggle'=>"modal",
+                                        'data-target'=>"#invoice_form",
+                                        'data-recipient'=>"find",
+                                        'data-recipient-item-class'=>".price_from",
+
+
+                                    ]));
                                     ?>
                                 </div>
                                 <div class="col-sm-2">
@@ -128,5 +140,9 @@ $classification = 13;//9 id классификации МКБ-10
 
 
     <?php ActiveForm::end(); ?>
+    <?= InvoiceFormWidget::widget([
+        'priceListIds' => ['1','3','4','6','7','8','10',],
+        'type' => 'modal',
 
+    ]) ?>
 </div>
