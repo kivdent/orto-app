@@ -53,10 +53,10 @@ $i = 1;
             <?php foreach ($model->planItems as $planlItem): ?>
                 <tr>
                     <th scope="row"><?= Html::encode($i++) ?></th>
-                    <td><?= Html::encode($planlItem->region->title) ?></td>
-                    <td><?= Html::encode($planlItem->operation->title) ?></td>
+                    <td><?= Html::encode($planlItem->regionTitle) ?></td>
+                    <td><?= Html::encode($planlItem->operationTitle) ?></td>
                     <td><?= Html::encode($planlItem->price_from) ?>-<?= Html::encode($planlItem->price_to) ?></td>
-                    <td><?= Html::encode($planlItem->comment) ?></td>
+                    <td><?= Html::encode($planlItem->commentText) ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

@@ -3,6 +3,7 @@
 namespace common\modules\documents\models;
 
 use common\modules\employee\models\Employee;
+use common\modules\patient\models\Patient;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use Yii;
@@ -68,13 +69,29 @@ class Notes extends \common\models\Notes
         }
         return $arrayScript;
     }
-    public function getAuthorName(){
+
+    public function getAuthorName()
+    {
         return $this->employee->fullName;
     }
-    public function getEmployee(){
-        return $this->hasOne(Employee::className(),['id'=>'author_id']);
+
+    public function getEmployee()
+    {
+        return $this->hasOne(Employee::className(), ['id' => 'author_id']);
     }
-    public function getCreatedDate(){
-        return Yii::$app->formatter->asDate($this->created_at,'php:d.m.Y');
+
+    public function getPatient()
+    {
+        return $this->hasOne(Patient::className(), ['id' => 'patient_id']);
+    }
+
+    public function getPatientName()
+    {
+        return $this->patient->fullName;
+    }
+
+    public function getCreatedDate()
+    {
+        return Yii::$app->formatter->asDate($this->created_at, 'php:d.m.Y');
     }
 }

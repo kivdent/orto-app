@@ -51,13 +51,13 @@ class BaseSchedules extends \yii\db\ActiveRecord
             'id' => 'ID',
             'DateD' => 'Начало',
             'vrachID' => 'Врач',
-            'prodpr' => 'Продолжительность приёма',
+            'prodpr' => 'Прод. приёма',
             'doctor_id' => 'Врач',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',
             'start_date' => 'Начало',
             'status' => 'Статус',
-            'appointment_duration' => 'Продолжительность приёма',
+            'appointment_duration' => 'Прод. приёма',
         ];
     }
 }

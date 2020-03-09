@@ -25,23 +25,53 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <div class='span12'>
+                <hr>
+            </div>
+        </div>
+    </div>
+
     <div class="raw text-center">
         <div class="col-xs-12">
             <b><?= Html::encode($this->title) ?></b>
         </div>
     </div>
 
-    </br>
+
     <div class="row">
         <div class="col-xs-12">
-        <?=
-        Yii::$app->formatter->format(Html::encode($model->text), 'ntext')
-        ?>
+            <br>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            Пациент: <?=
+            Yii::$app->formatter->format(Html::encode($model->patientName), 'ntext')
+            ?>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <?=
+            Yii::$app->formatter->format(Html::encode($model->text), 'ntext')
+            ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class='span12'>
+                <hr>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-6">
-          Дата: <?=$model->createdDate?>
+            Дата: <?= $model->createdDate ?>
         </div>
         <div class="col-xs-6">
             Врач________________<?=

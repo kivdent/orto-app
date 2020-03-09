@@ -43,12 +43,12 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'raspis_pack' => 'Raspis Pack',
-            'dayN' => 'Day N',
-            'rabmestoID' => 'Rabmesto I D',
-            'vih' => 'Vih',
-            'nachPr' => 'Nach Pr',
-            'okonchPr' => 'Okonch Pr',
+            'raspis_pack' => 'Базовое расписание',
+            'dayN' => 'День приёма',
+            'rabmestoID' => 'Рабочее место',
+            'vih' => 'Выходной',
+            'nachPr' => 'Начало прёма',
+            'okonchPr' => 'Окончание приёма',
         ];
     }
 }

@@ -33,6 +33,13 @@ class MedicalRecords extends \common\models\MedicalRecords
         return true;
     }
 
+    public function rules()
+    {
+        $rules=parent::rules();
+        $rules[]=[['region_id', 'diagnosis_id'], 'required'];
+        return $rules;
+    }
+
     public function attributeLabels()
     {
         return [

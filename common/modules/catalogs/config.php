@@ -13,6 +13,7 @@ return [
             ['label' => 'Объёктивно', 'url' => '/catalogs/objectively', 'roles' => ['admin',]],
             ['label' => 'Назначения', 'url' => '/catalogs/prescriptions', 'roles' => ['admin',]],
             ['label' => 'Направления', 'url' => '/catalogs/referral', 'roles' => ['admin',]],
+            ['label' => 'Операции плана лечения', 'url' => '/catalogs/operation', 'roles' => ['admin',]],
             ['label' => 'Реквизиты фирм', 'url' => '/old_app/spr_firm.php', 'roles' => ['admin',]],
             ['label' => 'Договора', 'url' => '/old_app/spr_dogovora.php', 'roles' => ['admin',]],
             ['label' => 'Клише', 'url' => '/old_app/klishe.php', 'roles' => ['admin',]],

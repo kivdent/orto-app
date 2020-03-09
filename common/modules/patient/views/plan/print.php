@@ -34,60 +34,83 @@ PrintAsset::register($this);
 </div>
 
 <div class="small">
-    <div class="col-xs-6">
-        Дата : <?= Yii::$app->formatter->asDate($model->created_at, 'php:d.m.Y') ?><br>
-        Пациент: <?= $model->getPatientName() ?>
-
+    <div class="row">
+        <div class="col-xs-12">
+            <div class='span12'>
+                <hr>
+            </div>
+        </div>
     </div>
-    <div class="col-xs-6">
-        Врач: <?= $model->getAuthorName() ?><br>
-        Диагноз: <?= Html::encode($model->diagnosis['Nazv']) ?>
+    <div class="raw">
+        <div class="col-xs-6">
+            Дата : <?= Yii::$app->formatter->asDate($model->created_at, 'php:d.m.Y') ?><br>
+            Пациент: <?= $model->getPatientName() ?>
+
+        </div>
+        <div class="col-xs-6">
+            Врач: <?= $model->getAuthorName() ?><br>
+            Диагноз: <?= Html::encode($model->diagnosis['Nazv']) ?>
+        </div>
     </div>
-</div>
 
+    <div class="raw ">
+        <div class="col-xs-12">
+            <?= Yii::$app->formatter->format(Html::encode($model->comments), 'ntext') ?>
 
-<p><?= Html::encode($model->comments) ?></p>
-
-
-<!-- Table -->
-<table class="table small">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Область</th>
-        <th scope="col">Рекомендация</th>
-        <th scope="col">Примерная стоимость</th>
-        <th scope="col">Комментарий</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>Примерная стоимость:</td>
-        <td><?= Html::encode($model->getPrice()) ?></td>
-        <td>&nbsp;</td>
-    </tr>
-    </tfoot>
-    <tbody>
-    <?php foreach ($model->planItems as $planlItem): ?>
-        <tr>
-            <th scope="row"><?= Html::encode($i++) ?></th>
-            <td><?= Html::encode($planlItem->region->title) ?></td>
-            <td><?= Html::encode($planlItem->operation->title) ?></td>
-            <td><?= Html::encode($planlItem->price_from) ?>-<?= Html::encode($planlItem->price_to) ?></td>
-            <td><?= Html::encode($planlItem->comment) ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-
-
-<div class="raw small">
-    <div class="col-xs-6">
-        <p>Пациент:_______________________<br><?= $model->getPatientName() ?> </p>
+        </div>
     </div>
-    <div class="col-xs-6">
-        <p>Врач:____________________________<br><?= $model->getAuthorName() ?></p>
+
+
+    <div class="raw">
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Область</th>
+                    <th scope="col">Рекомендация</th>
+                    <th scope="col">Примерная стоимость</th>
+                    <th scope="col">Комментарий</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>Примерная стоимость:</td>
+                    <td><?= Html::encode($model->getPrice()) ?></td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tfoot>
+                <tbody>
+                <?php foreach ($model->planItems as $planlItem): ?>
+                    <tr>
+                        <th scope="row"><?= Html::encode($i++) ?></th>
+                        <td><?= Html::encode($planlItem->regionTitle) ?></td>
+                        <td><?= Html::encode($planlItem->operationTitle) ?></td>
+                        <td><?= Html::encode($planlItem->price_from) ?>-<?= Html::encode($planlItem->price_to) ?></td>
+                        <td><?= Html::encode($planlItem->commentText) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class='span12'>
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    <div class="raw">
+        <div class="col-xs-6">
+            Пациент:_______________________<br><?= $model->getPatientName() ?>
+        </div>
+        <div class="col-xs-6">
+           Врач:____________________________<br><?= $model->getAuthorName() ?>
+        </div>
     </div>
 </div>

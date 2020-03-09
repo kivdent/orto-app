@@ -6,6 +6,8 @@ namespace common\modules\patient\models;
 
 class PlanItem extends \common\models\PlanItem
 {
+
+
     public function getRegion()
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
@@ -30,9 +32,25 @@ class PlanItem extends \common\models\PlanItem
         ];
     }
 
-    public function getRegionName()
+    public function getRegionTitle()
     {
-        return $this->region->name;
+        return $this->region->title;
+    }
+
+    public function fromComment()
+    {
+        return $this->operation_id === 1;
+    }
+
+    public function getOperationTitle()
+    {
+        $title = '';
+        $title = $this->fromComment() ? $this->comment : $this->operation->title;
+
+        return $title;
+    }
+    public function getCommentText(){
+        return $this->fromComment() ? '' :$this->comment ;
     }
 
 }

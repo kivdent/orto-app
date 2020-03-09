@@ -48,7 +48,9 @@ class BaseScheduleForm extends BaseSchedules
         $this->appointment_duration=15;
         $this->status=self::STATUS_ACTIVE;
         for($i=1;$i<=self::COUNT_DAYS;$i++){
-            $this->scheduleDays=new BaseScheduleDaysForm();
+            $this->scheduleDays[$i]=new BaseScheduleDaysForm();
+            $this->scheduleDays[$i]->dayN=$i;
+            $this->scheduleDays[$i]->vih=0;
         }
 
     }

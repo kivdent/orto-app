@@ -40,7 +40,7 @@ class Operation extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
+            'title' => 'Наименование',
             'price_from' => 'Стоимость от',
             'price_to' => 'Стоимость до',
         ];

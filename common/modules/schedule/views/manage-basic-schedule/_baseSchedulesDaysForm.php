@@ -6,13 +6,13 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\BaseSchedulesDays */
 /* @var $form ActiveForm */
+$weekDay = Yii::$app->userInterface->getNameDayWeek($model->dayN);
 ?>
+<h4><?= $weekDay ?></h4>
 <div class="baseSchedulesDaysForm">
 
     <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'raspis_pack') ?>
-        <?= $form->field($model, 'dayN') ?>
         <?= $form->field($model, 'rabmestoID') ?>
         <?= $form->field($model, 'vih') ?>
         <?= $form->field($model, 'nachPr') ?>
