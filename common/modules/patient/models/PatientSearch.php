@@ -2,15 +2,31 @@
 
 namespace common\modules\patient\models;
 
+use common\modules\invoice\models\SchemeOrthodontics;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\modules\patient\models\Patient;
+use yii\db\ActiveQuery;
 
 /**
  * PatientSearch represents the model behind the search form of `common\modules\patient\models\Patient`.
  */
 class PatientSearch extends Patient
 {
+    const TYPE_ALL = 'all';
+    const TYPE_ORTHODONTICS = 'orthodontics';
+
+
+    public $prepaymentAmount;
+    public $type = self::TYPE_ALL;
+    public $fullName;
+    public $orthodonticsPayPerMonth;
+
+    public function gatPrepaymentAmount()
+    {
+        return ($this->prepayment) ? $this->prepayment->avans : '0';
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -18,7 +34,7 @@ class PatientSearch extends Patient
     {
         return [
             [['id'], 'number'],
-            [['surname', 'name', 'otch', 'dr', 'sex', 'adres', 'MestRab', 'prof', 'email', 'DTel', 'RTel', 'MTel', 'FLech', 'Prim'], 'safe'],
+            [['orthodonticsPayPerMonth', 'fullName', 'surname', 'name', 'otch', 'dr', 'sex', 'adres', 'MestRab', 'prof', 'email', 'DTel', 'RTel', 'MTel', 'FLech', 'Prim', 'prepaymentAmount'], 'safe'],
             [['Skidka'], 'integer'],
         ];
     }
@@ -42,11 +58,23 @@ class PatientSearch extends Patient
     public function search($params)
     {
         $query = Patient::find();
-
+        $query = $this->modifyQueryByType($query);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'fullName' => [
+                    'asc' => ['surname' => SORT_ASC, 'name' => SORT_ASC],
+                    'desc' => ['surname' => SORT_DESC, 'name' => SORT_DESC],
+                    'label' => 'Имя',
+                    'default' => SORT_ASC
+                ],
+
+            ]
         ]);
 
         $this->load($params);
@@ -64,7 +92,7 @@ class PatientSearch extends Patient
             'Skidka' => $this->Skidka,
         ]);
 
-        $query->andFilterWhere(['like', 'surname', $this->surname.'%',false])
+        $query->andFilterWhere(['like', 'surname', $this->surname . '%', false])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'otch', $this->otch])
             ->andFilterWhere(['like', 'sex', $this->sex])
@@ -77,7 +105,22 @@ class PatientSearch extends Patient
             ->andFilterWhere(['like', 'MTel', $this->MTel])
             ->andFilterWhere(['like', 'FLech', $this->FLech])
             ->andFilterWhere(['like', 'Prim', $this->Prim]);
-
+        if ($this->fullName) {
+            $query->andFilterWhere(['like', 'surname', $this->fullName . '%', false]);
+        }
         return $dataProvider;
+    }
+
+    private function modifyQueryByType(ActiveQuery $query)
+    {
+        switch ($this->type) {
+            case self::TYPE_ORTHODONTICS:
+                $query->select('`klinikpat`.*,')
+                    ->leftJoin('`orto_sh`', '`orto_sh`.`pat` = `klinikpat`.`id`')
+                    ->where('`orto_sh`.`summ`>`orto_sh`.`vnes`');
+                break;
+        }
+        return $query;
+
     }
 }

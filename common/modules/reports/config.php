@@ -8,7 +8,8 @@ return [
         //'entities' => [],
         'menuItems' => [
 
-            ['label' => 'Финансовый отчёт за день', 'url' => '/old_app/reg_den_opl.php', 'roles' => ['recorder',]],
+            ['label' => 'Финансовый отчёт за день old', 'url' => '/old_app/reg_den_opl.php', 'roles' => ['recorder',]],
+            ['label' => 'Финансовый отчёт за день', 'url' => '/reports/financial/daily', 'roles' => ['recorder',]],
             ['label' => 'Отчёт за день (чеки)', 'url' => '/old_app/doc_den_ch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за период (чеки)', 'url' => '/old_app/doc_den_ch_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за день (оплаты)', 'url' => '/old_app/doc_den_opl.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],

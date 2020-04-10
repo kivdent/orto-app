@@ -3,8 +3,116 @@
 
 namespace common\modules\invoice\models;
 
-
+use common\modules\employee\models\Employee;
+use Yii;
+use common\modules\patient\models\Patient;
+use common\modules\pricelists\models\Pricelist;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use common\modules\catalogs\models\PaymentType;
+/**
+ * @property Employee $employee
+ * @property integer $amount_residual
+ * @property Patient $patient
+ * @property string $date
+ * @property string $patientFullName
+ *
+ */
 class Invoice extends \common\models\Invoice
 {
 
+    const TYPE_MANIPULATIONS = Pricelist::TYPE_MANIPULATIONS;
+    const TYPE_MATERIALS = Pricelist::TYPE_MATERIALS;
+    const TYPE_ORTHODONTICS = 'orthodontics';
+    const TYPE_PREPAYMENT = 'prepayment';
+
+    const SEARCH_TYPE_ALL='all';
+    const SEARCH_TYPE_DEBT='debt';
+    const SEARCH_TYPE_PAID='paid';
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'value' => new Expression('NOW()'),
+            ]
+        ];
+    }
+    public function getTypeList()
+    {
+        $paymentType = [
+            PaymentType::TYPE_CASH => 'Наличные',
+            PaymentType::TYPE_BANK_CARD => 'Банковская карта',
+            PaymentType::TYPE_GIFT_CARD => 'Подарочная карта'
+        ];
+        if ($this->patient->agreement != null) {
+            $paymentType[PaymentType::TYPE_AGREEMENT] = 'По договору';
+        }
+        if ($this->patient->prepayment != null) {
+            $paymentType[PaymentType::TYPE_PREPAYMENT] = 'Из аванса';
+        }
+        if ($this->patient->fullDiscountCard != null) {
+            $paymentType[PaymentType::TYPE_FULL_DISCOUNT] = 'По 10%  карте';
+        }
+
+        return $paymentType;
+    }
+    public function getPatient()
+    {
+        return $this->hasOne(Patient::className(), ['id' => 'patient_id']);
+    }
+
+    public function getPatientFullName()
+    {
+        return $this->patient ? $this->patient->fullNAme : 'Не определено';
+    }
+
+    public function getEmployee()
+    {
+        return $this->hasOne(Employee::className(), ['id' => 'doctor_id']);
+    }
+
+    public function getEmployeeFullName()
+    {
+        return $this->employee ? $this->employee->fullNAme : 'Не определено';
+    }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->created_at, 'php:d.m.Y');
+    }
+
+    public static function getPatientDebts($patient_id)
+    {
+        return self::find()
+            ->where(['patient_id' => $patient_id])
+            ->andWhere('amount_payable<>paid')
+            ->all();
+    }
+
+    public function getAmount_residual()
+    {
+        return $this->amount_payable - $this->paid;
+    }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'doctor_id' => 'Врач',
+            'patient_id' => 'Пациент',
+            'created_at' => 'Создан',
+            'updated_at' => 'Изменен',
+            'amount' => 'Выписано',
+            'amount_payable' => 'Сумма к оплате',
+            'paid' => 'Оплачено',
+            'discount_id' => 'Скидка',
+            'appointment_id' => 'Назначение',
+            'type' => 'Тип',
+            'amount_residual' => 'Остаток',
+            'date'=>'Дата',
+            'patientFullName'=>'Пациент',
+            'employeeFullName'=>'Врач',
+        ];
+    }
 }

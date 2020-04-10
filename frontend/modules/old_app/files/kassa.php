@@ -43,7 +43,7 @@ switch ($_GET['action'])
 VALUES (NULL,'".$_SESSION["UserID"]."','".date('Y-m-d')."','".date('H:i')."','00:00:00','".$_GET['summ']."')";
 				//echo $query."<br />";
 				$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
-				ret('pr_opl.php');
+				ret('/cash/payment/today');
 			break;
 		}
 	break;

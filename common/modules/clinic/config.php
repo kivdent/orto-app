@@ -13,6 +13,7 @@ return [
         ],
         'menuItems' => [
           ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/manage/index','roles'=>['admin', 'director', ]],
+       //   ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/financial-divisions','roles'=>['admin', 'director', ]],
         ],
         'moduleMenu' => [
             'file'=>'@common/modules/patient/components/ModuleMenu.php',

@@ -68,10 +68,10 @@ $(document).ready(function () {
     $('#invoice_form').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var recipient;
-        if (button.data('recipient')==='find'){
-            var recipient_class=button.data('recipient-item-class');
-            recipient='#'+button.parent().nextAll(recipient_class).first().attr('id');
-        }else{
+        if (button.data('recipient') === 'find') {
+            var recipient_class = button.data('recipient-item-class');
+            recipient = '#' + button.parent().nextAll(recipient_class).first().attr('id');
+        } else {
             recipient = button.data('recipient') // Extract info from data-* attributes
         }
 
@@ -80,12 +80,51 @@ $(document).ready(function () {
         var modal = $(this)
         modal.find('.calling_element').val(recipient)
     });
+
     $('button.submit-modal').on('click', function () {
         var modal = $('#invoice_form');
 
         var recipient = $(modal.find('.calling_element')).val();
         $(recipient).val(invoice_sum);
         modal.modal('hide')
+    });
+
+    $('button.submit-invoice').on('click', function () {
+        if (count_invoice_items > 0) {
+            let items = [];
+            for (let i = 1; i <= count_invoice_items; i++) {
+
+                let id = parseInt($('tr.' + i).attr('id'));
+                let count = parseInt($('#invoice-item-quantity-' + id).val());
+                items.push({'id':id,'quantity':count});
+            }
+            var action = "save-ajax";
+            var data = {
+                'patient_id': parseInt($("#patient_id").val()),
+                'appointment_id':  parseInt($("#appointment_id").val()),
+                'invoice_type':  $("#invoice_type").val(),
+                'items': items
+            };
+
+
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    alert('Счёт успешно сохранён');
+                    window.location='/';
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        } else {
+            alert('Выбирите хотя бы одну манипуляцию');
+
+        }
+
+
     });
 
     $('button.clear-modal').on('click', function () {

@@ -45,7 +45,6 @@ $this->title = 'Записи';
                     return $data->getEmployeName();
                 },
                 'filter' =>MedicalRecords::getDoctorListForPatient(Yii::$app->request->get('patient_id')),
-
             ],
             [
                 'format' => 'raw',

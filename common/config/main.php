@@ -58,6 +58,9 @@ return [
         'reports' => [
             'class' => 'common\modules\reports\Module',
         ],
+        'pricelists' => [
+            'class' => 'common\modules\pricelists\Module',
+        ],
         'catalogs' => [
             'class' => 'common\modules\catalogs\Module',
         ],

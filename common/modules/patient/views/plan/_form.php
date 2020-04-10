@@ -141,8 +141,6 @@ $classification = 13;//9 id классификации МКБ-10
 
     <?php ActiveForm::end(); ?>
     <?= InvoiceFormWidget::widget([
-        'priceListIds' => ['1','3','4','6','7','8','10',],
-        'type' => 'modal',
-
+        'type' => InvoiceFormWidget::TYPE_MODAL_CALCULATOR,
     ]) ?>
 </div>

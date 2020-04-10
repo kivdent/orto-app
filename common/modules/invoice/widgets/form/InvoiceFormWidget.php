@@ -3,28 +3,47 @@
 namespace common\modules\invoice\widgets\form;
 
 use common\modules\catalogs\models\Pricelists;
+use common\modules\invoice\models\Invoice;
+use common\modules\pricelists\models\Pricelist;
+use common\modules\patient\models\Patient;
+use common\modules\pricelists\widgets\PriceListsWidget;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class InvoiceFormWidget extends \yii\base\Widget
 {
     const TYPE_SIMPLE = 'simple';
-    const TYPE_MODAL = 'modal';
+    const TYPE_PAGE_INVOICE = 'page_invoice';
+    const TYPE_MODAL_CALCULATOR = 'modal';
     const TYPE_ACTIVE_FORM = 'active_form';
 
+    public $typePriceList;
     public $priceListIds = null;
     public $roles = null;
     public $type = self::TYPE_SIMPLE;
     public $id = 'invoice_form';
+    public $patient_id;
+    public $appointment_id;
+    public $invoice_type = Invoice::TYPE_MANIPULATIONS;
 
 
     public function run()
     {
+        $this->setTypePriceList();
         return $this->render('_form', [
-            'priceLists' => $this->getListOfPricelists(),
+
             'beforeHtml' => $this->getBeforeHtml(),
             'afterHtml' => $this->getAfterHTML(),
+            'typePriceList' => $this->typePriceList,
         ]);
+    }
+
+    public function setTypePriceList()
+    {
+        if ($this->typePriceList == null) {
+            $this->typePriceList = array_key_exists($this->invoice_type, Pricelist::getTypeList()) ? $this->invoice_type : PriceListsWidget::TYPE_PRICELIST_ALL;
+        }
     }
 
     public function getListOfPricelists()
@@ -51,14 +70,10 @@ class InvoiceFormWidget extends \yii\base\Widget
     {
         $html = '';
         switch ($this->type) {
-
-            case self::TYPE_SIMPLE:
-                $html = '';
-                break;
-            case self::TYPE_MODAL:
+            case self::TYPE_MODAL_CALCULATOR:
                 $html = '
                                     <!-- Modal -->
-                    <div class="modal fade" id="'.$this->getIdName().'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal fade" id="' . $this->getIdName() . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                       <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -73,7 +88,19 @@ class InvoiceFormWidget extends \yii\base\Widget
                           
                 ';
                 break;
-            case self::TYPE_ACTIVE_FORM:
+
+            case self::TYPE_PAGE_INVOICE:
+                $patient = Patient::findOne($this->patient_id)->getFullName();
+                $html = '<h4>Пациент ' . $patient . '</h4>';
+                $html .= '<h4 >Счёт за услуги. 
+                            <button type="button" class="btn btn-primary submit-invoice">Сохранить</button> 
+                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
+                           </h4>';
+                $html .= Html::input('hidden', 'patient_id', $this->patient_id, ['id' => 'patient_id']);
+                $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
+                $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
+                break;
+            default:
                 $html = '';
                 break;
         }
@@ -84,11 +111,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     {
         $html = '';
         switch ($this->type) {
-
-            case self::TYPE_SIMPLE:
-                $html = '';
-                break;
-            case self::TYPE_MODAL:
+            case self::TYPE_MODAL_CALCULATOR:
                 $html = '
                      </div>
                           <div class="modal-footer">
@@ -100,8 +123,8 @@ class InvoiceFormWidget extends \yii\base\Widget
                     </div>
                 ';
                 break;
-            case self::TYPE_ACTIVE_FORM:
-
+            default:
+                $html = '';
                 break;
         }
         return $html;
@@ -112,5 +135,79 @@ class InvoiceFormWidget extends \yii\base\Widget
         $id = $this->id;
 
         return $id;
+    }
+
+    public static function getInvoiceTable($invoice_id)
+    {
+        $invoice = Invoice::findOne($invoice_id);
+        $html = '<table class="table table-bordered">';
+        $html .= '<caption>Счёт за услуги:</caption>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Наименование</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                    
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <th class="text-right">Итого</th>
+                    <th id="summary">' . $invoice->amount_payable . ' р.</th>                   
+                </tr>
+                </tfoot>
+                <tbody>';
+        $html .=self::getRows($invoice);
+
+        $html .= '</tbody>
+</table>';
+        return $html;
+    }
+
+    public static function getRows($invoice)
+    {
+        $html = '';
+        switch ($invoice->type) {
+            case Invoice::TYPE_ORTHODONTICS:
+                $html .= '<tr>
+                    <td>1</td>
+                    <td>Оплата за ортодонтическое лечение</td>
+                    <td>' . $invoice->amount_payable . ' р.</td>
+                    <td>1</td>
+                    <td>' . $invoice->amount_payable . ' р.</td>
+                    
+                </tr>';
+                break;
+            case Invoice::TYPE_PREPAYMENT:
+                $html .= '<tr>
+                    <td>1</td>
+                    <td>Внесение аванса</td>
+                    <td>' . $invoice->amount_payable . ' р.</td>
+                    <td>1</td>
+                    <td>' . $invoice->amount_payable . ' р.</td>
+                    
+                </tr>';
+                break;
+            default:
+                $i = 1;
+                foreach ($invoice->invoiceItems as $invoiceItem) {
+                    $html .= '<tr>
+                    <td>' . $i . '</td>
+                    <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
+                    <td>' . $invoiceItem->prices->price . ' р.</td>
+                    <td>' . $invoiceItem->quantity . '</td>
+                    <td>' . $invoiceItem->summary . ' р.</td>
+                    
+                </tr>';
+                    $i++;
+                }
+                break;
+        }
+        return $html;
     }
 }

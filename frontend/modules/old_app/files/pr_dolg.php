@@ -434,7 +434,10 @@ for($i=0;$i<$count;$i++)
 {
 	$row = mysqli_fetch_array($result);
 	$dt=explode("-",$row['date']);
-	echo "<tr><td width='44%'><a href='pr_opl.php?dnev=".$row[0]."&action=pr&step=1&Pid=".$row[9]."&table1=".$tables[$j]."&type=".($j+1)."' class='menu2' title='Принять долг'>".$row[1]." ".$row[2]." ".$row[3]."</a></td>
+	echo "<tr><td width='44%'>";
+//<a href='pr_opl.php?dnev=".$row[0]."&action=pr&step=1&Pid=".$row[9]."&table1=".$tables[$j]."&type=".($j+1)."' class='menu2' title='Принять долг'>".$row[1]." ".$row[2]." ".$row[3]."</a>
+    echo "<a href='/cash/payment/pay?invoice_id=".$row[0]."' class='menu2' title='Принять долг'>".$row[1]." ".$row[2]." ".$row[3]."</a>
+</td>
 				<td width='10%' class='head2'>".$dt[2].".".$dt[1].".".$dt[0]."</td>
                 <td width='44%' class='head2'>".$row[4]." ".$row[5]." ".$row[6]."</td>
                 <td width='12%' class='head2'>".($row[7]-$row[8])." руб</td>

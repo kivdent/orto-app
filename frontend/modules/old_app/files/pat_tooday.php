@@ -1,5 +1,6 @@
 <?php
-
+use common\modules\invoice\widgets\form\InvoiceFormWidget;
+use common\modules\invoice\models\Invoice;
 include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Пациенты на сегодня";
@@ -67,9 +68,11 @@ else
 		echo "<a href='pat_tooday.php?action=del&Nid=".$rowB[2]."' class='menu2'>Вычеркнуть</a><br>";
 
 //		старый		echo "<a href='pat_tooday_work.php?perv=".$rowB[3]."&SodNazn=".$rowB['16']."&step=1&pat=".$rowB['11']."' class='menu2'>Начать приём</a>";
-echo "<a href='pat_tooday_work.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Начать приём</a><br>";
-echo "<a href='pat_tooday_work_full.php?step=1&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Полный приём </a>";
-echo "<a href='pat_tooday_work_mat.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Материалы</a>";	
+//echo "<a href='pat_tooday_work.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Начать приём</a><br>";
+echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MANIPULATIONS."' class='menu2'>Начать приём</a><br>";
+echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MATERIALS."' class='menu2'>Материалы</a><br>";
+//echo "<a href='pat_tooday_work_full.php?step=1&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Полный приём </a>";
+//echo "<a href='pat_tooday_work_mat.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Материалы</a>";
 	
 			echo "</td></tr>";
 		}
@@ -81,4 +84,6 @@ echo " <script language=\"JavaScript\" type=\"text/javascript\">
 						setTimeout(\"javascript:location.href='pat_tooday.php'\", 60000);
 						</script>";	
 ////include("footer.php");
+
 ?>
+

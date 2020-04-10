@@ -1,0 +1,52 @@
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Прейскуранты';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="pricelist-index">
+
+    <h1><?= Html::encode($this->title) ?><?= Html::a('Новый', ['create'], ['class' => 'btn btn-success']) ?></h1>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'title',
+            [
+                'attribute' => 'active',
+                'format' => 'raw',
+                'content' => function ($data) {
+                    return $data->statusName;
+                }
+            ],
+
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'delete' => function ($url, $data) {
+                        $glyphicon = $data->active ? 'glyphicon-remove' : 'glyphicon-ok';
+                        $title = $data->active ? 'Деактивировать' : 'Активировать';
+                        return Html::a(
+                            '<span class="glyphicon ' . $glyphicon . '"></span>',
+                            $url, [
+                            'title' => $title,
+                            'aria-label' => $title,
+                            'data' => [
+                                //'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    },
+                ],
+            ],
+        ],
+    ]); ?>
+</div>

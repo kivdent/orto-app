@@ -2,16 +2,19 @@
 
 namespace common\modules\invoice;
 
+use common\abstractClasses\WorkModule;
+
 /**
  * invoice module definition class
  */
-class Module extends \yii\base\Module
+class Module extends WorkModule
 {
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'common\modules\invoice\controllers';
-
+    public $defaultRoute = 'manage';
+    public $moduleName = "Счёт";
     /**
      * {@inheritdoc}
      */

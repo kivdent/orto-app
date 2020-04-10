@@ -4,6 +4,8 @@ namespace common\modules\clinic\models;
 
 use Yii;
 use common\modules\userInterface\models\Requisites;
+use yii\helpers\ArrayHelper;
+use common\models\FinancialDivisions as Old;
 
 /**
  * This is the model class for table "financial_divisions".
@@ -77,6 +79,10 @@ class FinancialDivisions extends \yii\db\ActiveRecord {
 
     public function getRequisites() {
         return $this->hasOne(Requisites::className(), ['id' => 'requisites_id']);
+    }
+
+    public static function getDivisionList(){
+        return ArrayHelper::map(Old::find()->asArray()->orderBy('id')->all(),'id','nazv');
     }
 
 }
