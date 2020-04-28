@@ -10,9 +10,11 @@ use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\InvoiceSearch;
 use common\modules\patient\models\Patient;
 use common\modules\patient\models\PatientSearch;
+use common\modules\sale\models\GiftCard;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\web\Response;
 
 class PaymentController extends \yii\web\Controller
@@ -24,7 +26,7 @@ class PaymentController extends \yii\web\Controller
         }
         $cashbox = Cashbox::getCurrentCashBox();
         if ($cashbox == null or $cashbox->isClosed()) {
-            $this->redirect('/old_app/kassa.php?action=nach&step=1');
+            $this->redirect('/cash/manage/start');
         }
 
         return true; // or false to not run the action
@@ -45,8 +47,8 @@ class PaymentController extends \yii\web\Controller
     {
         $invoice = new Invoice();
         $patient = Patient::findOne($patient_id);
-        $schemeOrthodontics=$patient->schemeOrthodontics;
-        $invoice->doctor_id =  $schemeOrthodontics->sotr;
+        $schemeOrthodontics = $patient->schemeOrthodontics;
+        $invoice->doctor_id = $schemeOrthodontics->sotr;
         $invoice->patient_id = $patient_id;
         $invoice->type = Invoice::TYPE_ORTHODONTICS;
         $invoice->amount = $schemeOrthodontics->summ_month;
@@ -62,7 +64,7 @@ class PaymentController extends \yii\web\Controller
             $invoice->save(false);
             $payment->dnev = $invoice->id;
             $payment->makePayment();
-            $this->redirect('today');
+            return $this->render('redirect_after_pay', ['payment' => $payment,]);
         }
         return $this->render('pay', [
             'payment' => $payment,
@@ -100,7 +102,7 @@ class PaymentController extends \yii\web\Controller
             $invoice->save(false);
             $payment->dnev = $invoice->id;
             $payment->makePayment();
-            $this->redirect('today');
+            return $this->render('redirect_after_pay', ['payment' => $payment,]);
         }
         return $this->render('pay', [
             'payment' => $payment,
@@ -137,13 +139,49 @@ class PaymentController extends \yii\web\Controller
         $payment->date = date('Y-m-d');
         $payment->time = date('h:i:s');
         $invoice = Invoice::findOne($invoice_id);
-        if ($payment->load(Yii::$app->request->post()) && $payment->validate() && $payment->makePayment()) {
+        $isValidate = true;
+        if ($invoice->type == Invoice::TYPE_GIFT_CARDS) {
+            $giftCard = new GiftCard();
+            $giftCard->type = GiftCard::TYPE_CASH;
+            $giftCard->cliniс_gift = 0;
+            $giftCard->balance = 0;
+            if (!($giftCard->load(Yii::$app->request->post()) && $giftCard->validate())) {
 
-            $this->redirect('today');
+                $isValidate = false;
+            }
+        } else {
+            $giftCard = null;
         }
+
+        $payment->load($payment->load(Yii::$app->request->post()));
+        $giftCardForPay=null;
+        if ($payment->VidOpl == PaymentType::TYPE_GIFT_CARD) {
+            $giftCardForPay = GiftCard::findOne(['number' => Yii::$app->request->post('gift_card_number')]);
+            if (!$giftCardForPay) {
+                Yii::$app->session->setFlash('error', 'Подарочная карта с номером '.Yii::$app->request->post('gift_card_number').' не найдена');
+                $isValidate = false;
+            }elseif ($giftCardForPay->balance < $payment->vnes) {
+                Yii::$app->session->setFlash('error', 'Сумма не может быть больше остатка баланса карты  ' . $giftCard->balance . ' р.');
+                $isValidate = false;
+            }
+        }
+
+        if ($isValidate && $payment->load(Yii::$app->request->post()) && $payment->validate() && $payment->makePayment()) {
+            if ($giftCard) {
+                $giftCard->balance = $payment->vnes;
+                $giftCard->save(false);
+            }
+            if ($giftCardForPay) {
+                $giftCardForPay->balance -= $payment->vnes;
+                $giftCardForPay->save(false);
+            }
+            return $this->render('redirect_after_pay', ['payment' => $payment,]);
+        }
+
         return $this->render('pay', [
             'payment' => $payment,
-            'invoice' => $invoice
+            'invoice' => $invoice,
+            'giftCard' => $giftCard,
         ]);
 
     }
@@ -168,7 +206,6 @@ class PaymentController extends \yii\web\Controller
                     $html = 'Номер карты: ' . $patient->fullDiscountCard->num;
                     break;
                 case PaymentType::TYPE_GIFT_CARD:
-
                     $html = 'Номер карты: ' . Html::input('text', 'gift_card_number', '', ['id' => 'gift_card_number']);
                     break;
 
@@ -178,8 +215,11 @@ class PaymentController extends \yii\web\Controller
             return $html;
         }
     }
-    public function actionPrint($payment_id){
-        return $this->render('payment_print',['payment'=>Payment::findOne($payment_id)]);
+
+    public function actionPrint($payment_id)
+    {
+        $this->layout = '@frontend/views/layouts/print';
+        return $this->render('payment_print', ['payment' => Payment::findOne($payment_id)]);
     }
 
 }

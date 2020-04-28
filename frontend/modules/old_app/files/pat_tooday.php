@@ -65,7 +65,7 @@ else
 			echo " <span class='bottom'>".$rowB['19']."</span></td>";
 			echo "<td class='alltext'>".$rowB['20']."</td>";
 			echo "<td class='alltext' align=center>";
-		echo "<a href='pat_tooday.php?action=del&Nid=".$rowB[2]."' class='menu2'>Вычеркнуть</a><br>";
+	//	echo "<a href='pat_tooday.php?action=del&Nid=".$rowB[2]."' class='menu2'>Вычеркнуть</a><br>";
 
 //		старый		echo "<a href='pat_tooday_work.php?perv=".$rowB[3]."&SodNazn=".$rowB['16']."&step=1&pat=".$rowB['11']."' class='menu2'>Начать приём</a>";
 //echo "<a href='pat_tooday_work.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Начать приём</a><br>";

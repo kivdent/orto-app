@@ -7,11 +7,13 @@ use common\modules\pricelists\models\Pricelist;
 /* @var $appointment_id string*/
 /* @var $patient_id string*/
 /* @var $invoice_type string*/
+/* @var $employee_choice boolean*/
 ?>
 
 <?= InvoiceFormWidget::widget([
     'type' => 'page_invoice',
     'patient_id' => $patient_id,
     'appointment_id' => $appointment_id,
-    'invoice_type' => $invoice_type
+    'invoice_type' => $invoice_type,
+    'employee_choice'=>$employee_choice
 ]) ?>

@@ -64,13 +64,15 @@ if ($_GET['action'] == 'del') {
             echo "<td class='alltext'>" . $rowB['20'] . "</td>";
             echo "<td class='alltext' align=center>";
             if ($flag == 0) {
-                echo "
-         <a href=naznach.php?action=del&Nid=" . $rowB[2] . " class='menu2'>Вычеркнуть</a><br>";
-                echo "
-		<a href='naznach.php?IDN=" . $rowB[2] . "&action=naznezh&step=1&pred=pat_tooday_orto.php&vrach=" . $_SESSION['UserID'] . "' class='menu2'>Назначить</a><br />
-		<a href='pat_tooday_work_orto.php?action=oplata&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Оплата old</a><br />";//TODO Удалить
-                echo "<a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MANIPULATIONS . "' class='menu2'>Оплата</a><br />
-		<a href='pat_tooday_work_orto.php?action=Sozd_ZN&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Создать заказ-наряд</a><br />";
+//                echo "
+//         <a href=naznach.php?action=del&Nid=" . $rowB[2] . " class='menu2'>Вычеркнуть</a><br>";
+//                echo "
+//		<a href='naznach.php?IDN=" . $rowB[2] . "&action=naznezh&step=1&pred=pat_tooday_orto.php&vrach=" . $_SESSION['UserID'] . "' class='menu2'>Назначить</a><br />
+//		<a href='pat_tooday_work_orto.php?action=oplata&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Оплата old</a><br />";//TODO Удалить
+//                echo "<a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MANIPULATIONS . "' class='menu2'>Оплата</a><br />
+//		<a href='pat_tooday_work_orto.php?action=Sozd_ZN&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Создать заказ-наряд</a><br />";
+                echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MANIPULATIONS."' class='menu2'>Оплата</a><br>";
+                echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MATERIALS."' class='menu2'>Материалы</a><br>";
 
                 $patient = Patient::findOne($rowB['13']);
                 if ($patient->schemeOrthodontics == null) {
@@ -82,9 +84,9 @@ if ($_GET['action'] == 'del') {
                 }
 
 
-                echo "<a href='pat_tooday_work_mat.php?step=4&pat=" . $rowB['13'] . "&count=1&Nid=" . $rowB[2] . "' class='menu2'>Материалы old</a><br>";//TODO Удалить
+//                echo "<a href='pat_tooday_work_mat.php?step=4&pat=" . $rowB['13'] . "&count=1&Nid=" . $rowB[2] . "' class='menu2'>Материалы old</a><br>";//TODO Удалить
 
-                echo " <a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MANIPULATIONS . "' class='menu2'>Материалы</a>";
+//                echo " <a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MANIPULATIONS . "' class='menu2'>Материалы</a>";
 
             } else echo "Приём закончен";
 

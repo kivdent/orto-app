@@ -13,6 +13,7 @@ class Pricelist extends \common\models\Pricelist
 
     const TYPE_MANIPULATIONS='manipulations';
     const TYPE_MATERIALS='materials';
+    const TYPE_GIFT_CARDS='gift_cards';
 
 
 
@@ -42,6 +43,7 @@ class Pricelist extends \common\models\Pricelist
         return [
             self::TYPE_MANIPULATIONS=>'Манипуляции',
             self::TYPE_MATERIALS=>'Материалы',
+            self::TYPE_GIFT_CARDS=>'Подарочные сертификаты',
         ];
     }
 
@@ -55,7 +57,7 @@ class Pricelist extends \common\models\Pricelist
     }
     public static function getActiveList($type){
         $list=self::find()->where(['active'=>1]);
-        if ($type==self::TYPE_MATERIALS or $type==self::TYPE_MANIPULATIONS){
+        if (array_key_exists($type,self::getTypeList())){
             $list=$list->andWhere(['type'=>$type]);
         }
        $list=$list->all();
@@ -69,5 +71,8 @@ class Pricelist extends \common\models\Pricelist
     public function getActiveCategoryes()
     {
         return PricelistItems::find()->where(['pricelist_id' => $this->id, 'category' => 1,'active'=>1])->all();
+    }
+    public static function getListArray(){
+        return ArrayHelper::map(self::getList(),'id','title');
     }
 }

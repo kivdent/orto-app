@@ -1,5 +1,5 @@
 <?php
-
+use common\modules\invoice\models\Invoice;
 include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Пациенты на сегодня";
@@ -202,11 +202,13 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 							<span class='bottom2'>".$Perv."</span>
 							<span class='bottom'>".$row['SoderzhNaz']."</span>
 </td>";
-							echo "<td>
-						<center>
-						<a href='pat_tooday_work_rentgen.php?step=4&pat=".$PatID."&count=1' class='small'>Оплата</a></center>";
-//						echo "|Изменить продолжительность";
-						echo "</td>";
+//							echo "
+//						<center>
+//						<a href='pat_tooday_work_rentgen.php?step=4&pat=".$PatID."&count=1' class='small'>Оплата</a></center>";
+////						echo "|Изменить продолжительность";
+                            echo "<td><a href='/invoice/manage/create?patient_id=".$PatID."&appointment_id=".$IDN."&invoice_type=".Invoice::TYPE_MANIPULATIONS."&employee_choice=true' class='menu2'>Оплата</a>";
+
+                            echo "</td>";
 echo "</tr>";
 						 		
 						 while ($tmd<=$OkonchNaz)

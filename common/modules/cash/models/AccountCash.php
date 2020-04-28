@@ -33,4 +33,16 @@ class AccountCash extends \common\models\AccountCash
     {
         return $this->type->naim;
     }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'smena' => 'Смена',
+            'znak' => 'Znak',
+            'summ' => 'Сумма',
+            'oper' => 'Операция',
+            'otv' => 'Ответственный',
+            'podr' => 'Подразделение',
+        ];
+    }
 }

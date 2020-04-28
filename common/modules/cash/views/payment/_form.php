@@ -8,6 +8,8 @@ use \common\modules\cash\assets\CashAsset;
 /* @var $this yii\web\View */
 /* @var $payment \common\modules\cash\models\Payment */
 /* @var $invoice  \common\modules\invoice\models\Invoice */
+/* @var $giftCard  \common\modules\sale\models\GiftCard */
+
 CashAsset::register($this);
 ?>
 <h4>
@@ -19,7 +21,10 @@ CashAsset::register($this);
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal',],]); ?>
 
 <?= $form->errorSummary($payment); ?>
-<?=Html::input('hidden','patient_id', $invoice->patient_id, ['id'=>'patient_id'])?>
+<?php if ($invoice->type == \common\modules\invoice\models\Invoice::TYPE_GIFT_CARDS): ?>
+    <?= $form->field($giftCard, 'number')->textInput() ?>
+<?php endif; ?>
+<?= Html::input('hidden', 'patient_id', $invoice->patient_id, ['id' => 'patient_id']) ?>
 <?= $form->field($payment, 'vnes')->textInput(); ?>
 <?= $form->field($payment, 'podr')->dropDownList(FinancialDivisions::getDivisionList()); ?>
 <div id="payment-type-form">

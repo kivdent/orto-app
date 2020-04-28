@@ -24,6 +24,7 @@ class InvoiceSearch extends Invoice
     public $patientFullName;
     public $employeeFullName;
     public $date;
+    public $patient_card_id;
 
     public static function getEmployeeListWithInvoice()
     {
@@ -46,6 +47,9 @@ class InvoiceSearch extends Invoice
         switch ($this->searchType) {
             case self::SEARCH_TYPE_DEBT:
                 $query->where('amount_payable>paid')->orderBy('created_at DESC');
+                break;
+            case self::SEARCH_TYPE_FOR_PATIENT_CARD:
+                $query->where(['patient_id'=>$this->patient_card_id])->orderBy('created_at DESC');
                 break;
         }
         return $query;
@@ -96,9 +100,11 @@ class InvoiceSearch extends Invoice
         $query->joinWith(['patient' => function ($q) {
             $q->where('klinikpat.surname LIKE "' . $this->patientFullName . '%"');
         }]);
-        $query->joinWith(['employee' => function ($q) {
-            $q->where('sotr.id LIKE "' . $this->employeeFullName . '%"');
-        }]);
+        if ($this->employeeFullName){
+            $query->joinWith(['employee' => function ($q) {
+                $q->where('sotr.id = ' . $this->employeeFullName );
+            }]);
+        }
         // grid filtering conditions
 //        $query->andFilterWhere([
 //            'id' => $this->id,
@@ -119,7 +125,6 @@ class InvoiceSearch extends Invoice
 //            ->andFilterWhere(['like', 'MTel', $this->MTel])
 //            ->andFilterWhere(['like', 'FLech', $this->FLech])
 //            ->andFilterWhere(['like', 'Prim', $this->Prim]);
-
         return $dataProvider;
     }
 

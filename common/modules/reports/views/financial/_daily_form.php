@@ -77,7 +77,7 @@ use yii\helpers\Html;
             <?php foreach ($financial_report->getEmployeeWithInvoices($division_id) as $employee_id => $payments): ?>
                 <?php $summ = 0; ?>
                 <div class="panel panel-default">
-                    <div class="panel-heading"><?= Employee::findOne($employee_id)->getFullName() ?> Сумма: <?=$financial_report->getSummEmployeeWithInvoices($employee_id,$division_id)?></div>
+                    <div class="panel-heading"><strong><?= Employee::findOne($employee_id)->getFullName() ?></strong> Сумма: <?=$financial_report->getSummEmployeeWithInvoices($employee_id,$division_id)?></div>
                     <table class="table table-bordered table-striped table-condensed">
                         <thead>
                         <tr>

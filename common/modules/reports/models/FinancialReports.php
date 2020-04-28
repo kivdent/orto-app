@@ -65,20 +65,21 @@ class FinancialReports extends Model
                 $employee[$payment->invoice->doctor_id][] = $payment;
             }
         }
-      // echo "<pre>". print_r($employee)."</pre>";die();
+        // echo "<pre>". print_r($employee)."</pre>";die();
         return $employee;
     }
-    public function getSummEmployeeWithInvoices($employee_id,$division_id = 'all')
+
+    public function getSummEmployeeWithInvoices($employee_id, $division_id = 'all')
     {
-        $summ=0;
-        $summ+=array_sum(ArrayHelper::getColumn($this->getEmployeeWithInvoices($division_id)[$employee_id],'vnes'));
+        $summ = 0;
+        $summ += array_sum(ArrayHelper::getColumn($this->getEmployeeWithInvoices($division_id)[$employee_id], 'vnes'));
         return $summ;
     }
 
     public function getAccountCash($cashbox, $division_id)
     {
         $accountCashArray = [];
-        if ($cashbox->accountCash!=null) {
+        if ($cashbox->accountCash != null) {
 
             foreach ($cashbox->accountCash as $accountCash) {
                 if ($accountCash->podr == $division_id) {
@@ -92,11 +93,16 @@ class FinancialReports extends Model
     public function getAccountCashSumm($cashbox, $division_id)
     {
         $summ = 0;
-        if ($this->getAccountCash($cashbox,$division_id) != null) {
+        if ($this->getAccountCash($cashbox, $division_id) != null) {
             foreach ($this->getAccountCash($cashbox, $division_id) as $accountCash) {
                 $summ += $accountCash->summ;
             }
         }
         return $summ;
+    }
+
+    public static function getEmployeeDailyReport($employee_id)
+    {
+
     }
 }

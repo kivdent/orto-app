@@ -24,6 +24,25 @@ class Cashbox extends \common\models\Cashbox
         return self::find()->where("`date`='" . date('Y-m-d') . "'")->one();
     }
 
+    public static function hasUnclosed()
+    {
+        return self::find()->where(['timeO' => '00:00:00'])->count();
+    }
+
+    public function getBalanceFinancialDivisions()
+    {
+        $financial_divisions_balance = [];
+        foreach (FinancialDivisions::getDivisions() as $division) {
+            $financial_divisions_balance['table'][$division->id]['title'] = $division->name;
+            $financial_divisions_balance['table'][$division->id]['sum'] = $division->getCash($this);
+            $financial_divisions_balance['labels'] = [
+                'title' => 'Подразделение',
+                'sum' => 'Максимальная сумма'
+            ];
+        }
+        return $financial_divisions_balance;
+    }
+
     public function isClosed()
     {
         return $this->timeO != '00:00:00';
@@ -42,5 +61,26 @@ class Cashbox extends \common\models\Cashbox
     public function getAccountCash()
     {
         return $this->hasMany(AccountCash::className(), ['smena' => 'id']);
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'sotr' => 'Сотрудник',
+            'date' => 'Дата',
+            'timeN' => 'Начало',
+            'timeO' => 'Окончание',
+            'summ' => 'Сумма',
+        ];
+    }
+
+    public function getPreviousBalance()
+    {
+        return self::find()
+            ->where(['<>', 'id', $this->id])
+            ->orderBy('date DESC')
+            ->one()
+            ->summ;
     }
 }

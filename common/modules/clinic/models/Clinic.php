@@ -32,6 +32,11 @@ class Clinic extends Clinics implements ClinicInterface {
         return $clinics !== NULL ? $clinics : false;
     }
 
+    public static function getMain()
+    {
+        return self::find()->one();
+    }
+
     /**
      * получение идентификатора
      */

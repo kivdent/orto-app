@@ -17,7 +17,8 @@ use yii\web\NotFoundHttpException;
  *
  * @author kivdent
  */
-class CreateForm extends Model {
+class CreateForm extends Model
+{
     /**
      * {@inheritdoc}
      */
@@ -60,7 +61,8 @@ class CreateForm extends Model {
         'addresses',
     ];
 
-    public function rules() {
+    public function rules()
+    {
         return [
             [['name'], 'required'],
             [['address_id', 'requisites_id'], 'integer'],
@@ -78,7 +80,8 @@ class CreateForm extends Model {
         ];
     }
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $this->clinic = Yii::$app->controller->module->getEntity('clinic');
         $this->address = Yii::$app->controller->module->getEntity('addresses');
@@ -88,7 +91,8 @@ class CreateForm extends Model {
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'name' => 'Название',
@@ -117,7 +121,8 @@ class CreateForm extends Model {
         ];
     }
 
-    public static function getById($id) {
+    public static function getById($id)
+    {
         $createForm = new CreateForm();
 
         $createForm->clinic = $createForm->getEntitysById($id, 'clinic');
@@ -128,7 +133,7 @@ class CreateForm extends Model {
 
             if ($createForm->address !== null) {
                 $createForm->setAttributes($createForm->address->attributes);
-            } 
+            }
 //            else {
 //                $createForm->address = Yii::$app->controller->module->getEntity('addresses');
 //            }
@@ -138,7 +143,7 @@ class CreateForm extends Model {
             if ($createForm->requisites !== null) {
 
                 $createForm->setAttributes($createForm->requisites->attributes);
-            } 
+            }
 //            else {
 //                $createForm->requisites = Yii::$app->controller->module->getEntity('requisites');
 //            }
@@ -151,26 +156,39 @@ class CreateForm extends Model {
         return $createForm;
     }
 
-    public function delete() {
+    public function delete()
+    {
+        FinancialDivisions::deleteAll(['clinic_id' => $this->clinic->id]);
         $this->clinic->delete();
         unset($this->clinic);
         $this->address->delete();
         unset($this->address);
         $this->requisites->delete();
         unset($this->requisites);
-        
         return true;
     }
 
-    public function save() {
+    public function save()
+    {
 
         $this->clinic->setAttributes($this->attributes);
         $this->address->setAttributes($this->attributes);
         $this->requisites->setAttributes($this->attributes);
-        if ($this->address->save()&&$this->requisites->save()) {
+        if ($this->address->save() && $this->requisites->save()) {
             $this->clinic->address_id = $this->address->id;
-            $this->clinic->requisites_id= $this->requisites->id;
+            $this->clinic->requisites_id = $this->requisites->id;
             if ($this->clinic->save()) {
+                $financial_division = FinancialDivisions::findOne($this->requisites_id);
+                if ($financial_division && $financial_division->requisites_id == $this->requisites_id) {
+                    $financial_division->name = $this->clinic->name;
+                } else {
+                    $financial_division = new FinancialDivisions();
+                    $financial_division->name = $this->clinic->name;
+                    $financial_division->requisites_id = $this->requisites->id;
+                    $financial_division->clinic_id = $this->clinic->id;
+                    $financial_division->requisites = $this->requisites;
+                    $financial_division->save(false);
+                }
                 $result = true;
             }
         } else {
@@ -179,7 +197,8 @@ class CreateForm extends Model {
         return $result;
     }
 
-    public function getEntitysById($id, $entity) {
+    public function getEntitysById($id, $entity)
+    {
         $entitieClass = Yii::$app->controller->module->getEntitysClass($entity);
         $model = $entitieClass::getById($id);
 

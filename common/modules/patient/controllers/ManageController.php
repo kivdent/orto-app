@@ -138,7 +138,6 @@ class ManageController extends Controller
         if (($model = PatientForm::findOne($patient_id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('Страница не найдена.');
     }
 }

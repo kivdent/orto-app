@@ -3,6 +3,7 @@
 namespace common\modules\invoice\controllers;
 
 use common\modules\invoice\models\InvoiceForSchemeOrthodontics;
+use common\modules\invoice\models\InvoiceSearch;
 use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\invoice\models\InvoiceItems;
 use common\modules\invoice\models\Invoice;
@@ -12,13 +13,14 @@ use Yii;
 
 class ManageController extends \yii\web\Controller
 {
-    public function actionCreate($patient_id, $appointment_id = 0, $invoice_type = Invoice::TYPE_MANIPULATIONS)
+    public function actionCreate($patient_id, $appointment_id = 0, $invoice_type = Invoice::TYPE_MANIPULATIONS,$employee_choice=false)
     {
 
         return $this->render('create', [
             'patient_id' => $patient_id,
             'appointment_id' => $appointment_id,
             'invoice_type' => $invoice_type,
+            'employee_choice' => $employee_choice,
         ]);
     }
 
@@ -89,7 +91,8 @@ class ManageController extends \yii\web\Controller
 
             $invoice_items = [];
             $invoice = new Invoice();
-            $invoice->doctor_id = Yii::$app->user->identity->employe_id;
+
+            $invoice->doctor_id = Yii::$app->request->post('doctor_id');
 
             $invoice->patient_id = Yii::$app->request->post('patient_id');
             $invoice->type = Yii::$app->request->post('invoice_type');
@@ -114,6 +117,7 @@ class ManageController extends \yii\web\Controller
                     $invoice_item->save(false);
                 }
                 $transaction->commit();
+                    Yii::$app->session->setFlash('success','Счёт успешно сохранён.');
             } catch (\Throwable $e) {
                 $transaction->rollBack();
                 throw $e;
@@ -127,5 +131,4 @@ class ManageController extends \yii\web\Controller
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('print', ['invoice' => Invoice::findOne($invoice_id)]);
     }
-
 }

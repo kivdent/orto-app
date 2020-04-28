@@ -30,6 +30,21 @@ class UserInterface
     public $roleName;
     public $params = [];
 
+    const MONTHS = [
+        '1' => 'Январь',
+        '2' => 'Февраль',
+        '3' => 'Март',
+        '4' => 'Апрель',
+        '5' => 'Май',
+        '6' => 'Июнь',
+        '7' => 'Июль',
+        '8' => 'Август',
+        '9' => 'Сентябрь',
+        '10' => 'Октябрь',
+        '11' => 'Ноябрь',
+        '12' => 'Декабрь',
+    ];
+
     /**
      *
      * @param int $user_id
@@ -46,6 +61,21 @@ class UserInterface
             $this->roleName = $this->getRoleName($user_id);
             $this->menuItems = $this->getMenuItems();
         }
+    }
+
+    public static function getVar($var, $die = true)
+    {
+        echo "<pre>";
+        print_r($var);
+        echo "</pre>";
+        if ($die) {
+            die();
+        }
+    }
+
+    public static function getMonthList()
+    {
+        return self::MONTHS;
     }
 
     /**
@@ -118,8 +148,8 @@ class UserInterface
         foreach ($modules as $moduleName => $module) {
             $moduleMenuItems = $module->getMenuItems();
             if (!empty($moduleMenuItems)) {
-               $hasMenuItemsForUser=false;
-                $subMenuItems=[];
+                $hasMenuItemsForUser = false;
+                $subMenuItems = [];
                 foreach ($moduleMenuItems as $moduleMenuItem) {
                     if (ArrayHelper::isIn($roleName, $moduleMenuItem['roles'])) {
                         $subMenuItems[] = [
@@ -127,16 +157,16 @@ class UserInterface
                             'url' => $moduleMenuItem['url'],
 
                         ];
-                        $hasMenuItemsForUser=true;
+                        $hasMenuItemsForUser = true;
                     }
                 }
-                if($hasMenuItemsForUser) {
+                if ($hasMenuItemsForUser) {
                     $menuItems[] = [
                         'label' => $module->getModuleLabel(),
                         'url' => '#',
                         'options' => ['class' => 'active'],];
 
-                    $menuItems=array_merge($menuItems,$subMenuItems);
+                    $menuItems = array_merge($menuItems, $subMenuItems);
                 }
 
             };
@@ -179,15 +209,47 @@ class UserInterface
     public function hasModuleMenu()
     {
         $module = Yii::$app->controller->module;
-        $result = (Isset($module->params['moduleMenu'])) ? true : false;
+        $result = (isset($module->params['moduleMenu'])) ? true : false;
         return $result;
     }
 
     public function renderModuleMenu()
     {
         $module = Yii::$app->controller->module;
-        $result = (Isset($module->params['moduleMenu'])) ? $module->params['moduleMenu']['file'] : false;
+        $result = (isset($module->params['moduleMenu'])) ? $module->params['moduleMenu']['file'] : false;
         return $result;
     }
 
+    public static function getFormatedDate($date)
+    {
+        return Yii::$app->formatter->asDate($date, 'php:d.m.Y');
+    }
+
+    public static function SecondsToHours($time)
+    {
+        $hours = intdiv($time, 3600);
+        $minutes = intdiv($time % 3600, 60);
+        $minutes = $minutes < 10 ? "0" . $minutes : $minutes;
+        return $hours . ":" . $minutes;
+    }
+
+
+    public static function getDayWeekName($numberDayWeek)
+    {
+        $week_day = [
+            '1' => 'Понедельник',
+            '2' => 'Вторник',
+            '3' => 'Среда',
+            '4' => 'Четверг',
+            '5' => 'Пятница',
+            '6' => 'Суббота',
+            '7' => 'Воскресенье',
+        ];
+        return $week_day[$numberDayWeek];
+    }
+
+    public static function getMonthName($numberMonth)
+    {
+        return self::MONTHS[$numberMonth];
+    }
 }

@@ -38,6 +38,16 @@ class Employee extends \yii\db\ActiveRecord
         return 'sotr';
     }
 
+    public static function getNursesList()
+    {
+        return ArrayHelper::map(Employee::find()
+           ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh'=>5,'status'=>self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(),'id','full_name');
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -67,11 +67,15 @@ abstract class WorkModule extends Module implements WorkModuleInterface
 
     public function beforeAction($action)
     {
-        if (Yii::$app->user->isGuest) {
-            Yii::$app->controller->redirect(['site/login']);
-
+        if (!parent::beforeAction($action)) {
+            return false;
         }
-        return parent::beforeAction($action);
+        if (Yii::$app->user->isGuest){
+
+            Yii::$app->controller->redirect(['/site/login']);
+            return false;
+        }
+        return true;
     }
 
 }

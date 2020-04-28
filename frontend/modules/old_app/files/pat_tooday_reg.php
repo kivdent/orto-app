@@ -360,6 +360,11 @@ for ($i=0;$i<$dt_count;$i++)
 <a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=pat_tooday_reg.php' class='small'>Изменить время приёма</a>|
 <a href='naznach.php?IDN=".$IDN."&action=del&pred=pat_tooday_reg.php' class='small'>Отменить</a>";
 if ($Yavka==0) echo "|<a href='pat_tooday_reg.php?IDN=".$IDN."&action=yavka' class='small'>Явка</a></center>";
+echo "|".\yii\helpers\Html::a(
+    'Счёт',
+        ['/invoice/manage/create','patient_id'=>$PatID,'appointment_id'=>$IDN,'invoice_type'=>\common\modules\invoice\models\Invoice::TYPE_MATERIALS],
+        ['class'=>'small']
+    );
 //						echo "|Изменить продолжительность";
 echo "</td>";
 						echo "<td width='90' ";

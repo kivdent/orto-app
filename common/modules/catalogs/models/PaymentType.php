@@ -16,6 +16,7 @@ class PaymentType extends \common\models\PaymentType
     const TYPE_GIFT_CARD=6;//'6', 'Подарочная карта'
 
 
+
     public static function getList()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'vid');

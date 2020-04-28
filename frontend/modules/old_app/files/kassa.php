@@ -196,7 +196,7 @@ VALUES (NULL,'".$_GET['id']."','-1','".$sn[1]."',0,1)";
 VALUES (NULL,'".$_GET['id']."','-1','".$sn[2]."',0,2)";
 			//echo $query."<br />";
 			$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
-			ret('reg_den_opl.php');
+			ret('/reports/financial/daily');
 			//include("footer.php");
 			exit;
 		break;

@@ -6,6 +6,7 @@ namespace common\modules\cash\models;
 
 use common\modules\catalogs\models\PaymentType;
 use common\modules\invoice\models\Invoice;
+use common\modules\sale\models\GiftCard;
 use Yii;
 
 use Throwable;
@@ -109,7 +110,12 @@ class Payment extends \common\models\Payment
                     $this->invoice->patient->prepayment->avans -= $this->vnes;
                     $this->invoice->patient->prepayment->save(false);
                     break;
+                case PaymentType::TYPE_GIFT_CARD:
+
+
+                    break;
             }
+
 
 
             switch ($this->invoice->type) {
@@ -146,4 +152,5 @@ class Payment extends \common\models\Payment
         }
         return false;
     }
+
 }

@@ -16,7 +16,7 @@ return [
        //   ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/financial-divisions','roles'=>['admin', 'director', ]],
         ],
         'moduleMenu' => [
-            'file'=>'@common/modules/patient/components/ModuleMenu.php',
+            'file'=>'@common/modules/clinic/components/ModuleMenu.php',
             'forRouts'=>[
 
             ]

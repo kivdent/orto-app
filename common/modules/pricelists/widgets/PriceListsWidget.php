@@ -52,7 +52,6 @@ class PriceListsWidget extends Widget
                 $priceLists = Pricelist::getList();
                 break;
             case self::TYPE_INVOICE:
-
                 $priceLists = Pricelist::getActiveList($this->typePriceLists);
                 break;
         }

@@ -185,7 +185,6 @@ class RecordsController extends Controller
                     "form_name"=>$formName,
 
                 ];
-
             }
             return [
                 "data" => "Error",

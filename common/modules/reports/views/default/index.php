@@ -1,12 +1,12 @@
-<div class="reports-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
+<?php
+/* @var $this \yii\web\View*/
+
+use common\widgets\tableWidget\TableWidget;
+
+/* @var $table array*/
+?>
+<h2><?=$table->summary?></h2>
+<?php if (isset($table->summaryByPricelist)):?>
+    <?= TableWidget::widget(['table' => $table->summaryByPricelist]);?>
+<?php endif;?>
+<?= TableWidget::widget(['table' => $table->table])?>

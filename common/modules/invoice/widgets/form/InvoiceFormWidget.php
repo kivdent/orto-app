@@ -3,6 +3,7 @@
 namespace common\modules\invoice\widgets\form;
 
 use common\modules\catalogs\models\Pricelists;
+use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\patient\models\Patient;
@@ -22,6 +23,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     public $priceListIds = null;
     public $roles = null;
     public $type = self::TYPE_SIMPLE;
+    public $employee_choice;
     public $id = 'invoice_form';
     public $patient_id;
     public $appointment_id;
@@ -31,11 +33,13 @@ class InvoiceFormWidget extends \yii\base\Widget
     public function run()
     {
         $this->setTypePriceList();
+
         return $this->render('_form', [
 
             'beforeHtml' => $this->getBeforeHtml(),
             'afterHtml' => $this->getAfterHTML(),
             'typePriceList' => $this->typePriceList,
+            'employee_choice' => $this->employee_choice,
         ]);
     }
 
@@ -99,6 +103,12 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= Html::input('hidden', 'patient_id', $this->patient_id, ['id' => 'patient_id']);
                 $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
+                if ($this->employee_choice) {
+                    Врач: $html .= Html::dropDownList('doctor_id', '', Employee::getNursesList(),['id' => 'doctor_id']);
+                }
+                else{
+                    $html .= Html::input('hidden', 'doctor_id', Yii::$app->user->identity->employe_id, ['id' => 'doctor_id']);
+                }
                 break;
             default:
                 $html = '';
@@ -107,7 +117,8 @@ class InvoiceFormWidget extends \yii\base\Widget
         return $html;
     }
 
-    private function getAfterHTML()
+    private
+    function getAfterHTML()
     {
         $html = '';
         switch ($this->type) {
@@ -130,14 +141,16 @@ class InvoiceFormWidget extends \yii\base\Widget
         return $html;
     }
 
-    public function getIdName()
+    public
+    function getIdName()
     {
         $id = $this->id;
 
         return $id;
     }
 
-    public static function getInvoiceTable($invoice_id)
+    public
+    static function getInvoiceTable($invoice_id)
     {
         $invoice = Invoice::findOne($invoice_id);
         $html = '<table class="table table-bordered">';
@@ -162,14 +175,15 @@ class InvoiceFormWidget extends \yii\base\Widget
                 </tr>
                 </tfoot>
                 <tbody>';
-        $html .=self::getRows($invoice);
+        $html .= self::getRows($invoice);
 
         $html .= '</tbody>
 </table>';
         return $html;
     }
 
-    public static function getRows($invoice)
+    public
+    static function getRows($invoice)
     {
         $html = '';
         switch ($invoice->type) {

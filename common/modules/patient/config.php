@@ -14,7 +14,7 @@ return [
         'menuItems' => [
             ['label' => 'Работа с пациентами', 'url' => '/patient', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', ]],
             ['label' => 'Добавить нового пациента', 'url' => '/patient/manage/create','roles'=>['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', ]],
-            ['label' => 'Работа с пациентами ортодонтия', 'url' => '/old_app/pat_card_orto.php', 'roles' => ['admin', 'orthodontist', 'recorder',]],
+//            ['label' => 'Работа с пациентами ортодонтия', 'url' => '/old_app/pat_card_orto.php', 'roles' => ['admin', 'orthodontist',]],
 
         ],
         'moduleMenu' => [

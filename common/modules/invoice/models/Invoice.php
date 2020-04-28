@@ -3,19 +3,27 @@
 
 namespace common\modules\invoice\models;
 
+use common\modules\cash\models\Payment;
 use common\modules\employee\models\Employee;
+use common\modules\pricelists\models\Prices;
+use common\modules\reports\models\FinancialPeriods;
 use Yii;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\models\Pricelist;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use common\modules\catalogs\models\PaymentType;
+
 /**
  * @property Employee $employee
+ * @property Payment $payments
  * @property integer $amount_residual
  * @property Patient $patient
  * @property string $date
  * @property string $patientFullName
+ * @property string $lastPaymentDate
+ * @property Prices $prices
+ * @property float $coefficientSummary
  *
  */
 class Invoice extends \common\models\Invoice
@@ -23,12 +31,14 @@ class Invoice extends \common\models\Invoice
 
     const TYPE_MANIPULATIONS = Pricelist::TYPE_MANIPULATIONS;
     const TYPE_MATERIALS = Pricelist::TYPE_MATERIALS;
+    const TYPE_GIFT_CARDS = Pricelist::TYPE_GIFT_CARDS;
     const TYPE_ORTHODONTICS = 'orthodontics';
     const TYPE_PREPAYMENT = 'prepayment';
 
-    const SEARCH_TYPE_ALL='all';
-    const SEARCH_TYPE_DEBT='debt';
-    const SEARCH_TYPE_PAID='paid';
+    const SEARCH_TYPE_ALL = 'all';
+    const SEARCH_TYPE_DEBT = 'debt';
+    const SEARCH_TYPE_PAID = 'paid';
+    const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
 
     public function behaviors()
     {
@@ -39,6 +49,7 @@ class Invoice extends \common\models\Invoice
             ]
         ];
     }
+
     public function getTypeList()
     {
         $paymentType = [
@@ -58,6 +69,7 @@ class Invoice extends \common\models\Invoice
 
         return $paymentType;
     }
+
     public function getPatient()
     {
         return $this->hasOne(Patient::className(), ['id' => 'patient_id']);
@@ -95,6 +107,7 @@ class Invoice extends \common\models\Invoice
     {
         return $this->amount_payable - $this->paid;
     }
+
     public function attributeLabels()
     {
         return [
@@ -110,9 +123,72 @@ class Invoice extends \common\models\Invoice
             'appointment_id' => 'Назначение',
             'type' => 'Тип',
             'amount_residual' => 'Остаток',
-            'date'=>'Дата',
-            'patientFullName'=>'Пациент',
-            'employeeFullName'=>'Врач',
+            'date' => 'Дата',
+            'patientFullName' => 'Пациент',
+            'employeeFullName' => 'Врач',
         ];
+    }
+
+    public static function getDateExpression($date, $comparison = '=')
+    {
+        //$date = new Expression("DATE(created_at)" . $comparison . "'" . $date . "'");
+        $date = new Expression("created_at" . $comparison . "'" . $date . "'");
+        return $date;
+
+    }
+
+    public function getPayments()
+    {
+        return $this->hasMany(Payment::className(), ['dnev' => 'id']);
+    }
+
+    public function getLastPaymentDate()
+    {
+        $date = Payment::find()->select('date')->where(['dnev' => $this->id])->orderBy(['date' => SORT_DESC])->one()->date;
+        return $date;
+    }
+
+    public function isLastPaymentDateInPeriod(FinancialPeriods $financialPeriod)
+    {
+        return strtotime($this->getLastPaymentDate()) >= strtotime($financialPeriod->nach)
+            && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
+    }
+
+    public function getSalarySumByPriceList()
+    {
+        $salarySumm = [];
+        if ($this->type == self::TYPE_ORTHODONTICS) {
+            $salarySumm[self::TYPE_ORTHODONTICS] = $this->paid;
+            return $salarySumm;
+        }
+
+        foreach ($this->invoiceItems as $invoiceItem) {
+            $pricelist_id = $invoiceItem->prices->pricelistItems->pricelist_id;
+            $uet = FinancialPeriods::getUETForDate($this->created_at);
+            if (isset($salarySumm[$pricelist_id])) {
+                $salarySumm[$pricelist_id] += $invoiceItem->coefficientSummary * $uet;
+            } else {
+                $salarySumm[$pricelist_id] = $invoiceItem->coefficientSummary * $uet;
+            }
+        }
+        return $salarySumm;
+
+    }
+
+    public function getCoefficientSummary()
+    {
+        $sum = 0;
+        foreach ($this->invoiceItems as $invoiceItem) {
+            $sum += $invoiceItem->coefficientSummary;
+        }
+        return $sum;
+    }
+
+    public function getSalarySum()
+    {
+        $sum = 0;
+        $uet = FinancialPeriods::getUETForDate($this->created_at);
+        $sum += $this->coefficientSummary * $uet;
+        return $sum;
     }
 }

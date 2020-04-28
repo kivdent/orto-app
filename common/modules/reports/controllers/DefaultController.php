@@ -2,6 +2,12 @@
 
 namespace common\modules\reports\controllers;
 
+use common\modules\employee\models\Employee;
+use common\modules\invoice\models\Invoice;
+use common\modules\reports\models\FinancialPeriods;
+use common\modules\reports\models\InvoiceReport;
+use common\modules\reports\models\PaymentReport;
+use Yii;
 use yii\web\Controller;
 
 /**
@@ -15,6 +21,18 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $employee=Employee::findOne(Yii::$app->user->identity->employe_id);
+        $financialPeriod=FinancialPeriods::getPeriodForCurrentDate();
+        $table=PaymentReport::getAllForPeriod($employee,$financialPeriod);
+
+        return $this->render('index',['table'=>$table]);
+    }
+    public function actionInvoices()
+    {
+        $employee=Employee::findOne(Yii::$app->user->identity->employe_id);
+        $financialPeriod=FinancialPeriods::getPeriodForCurrentDate();
+        $table=InvoiceReport::getAllPaidForPeriod($employee,$financialPeriod);
+
+        return $this->render('index',['table'=>$table]);
     }
 }

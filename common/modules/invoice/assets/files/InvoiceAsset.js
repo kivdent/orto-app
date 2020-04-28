@@ -101,6 +101,7 @@ $(document).ready(function () {
             var action = "save-ajax";
             var data = {
                 'patient_id': parseInt($("#patient_id").val()),
+                'doctor_id': parseInt($("#doctor_id").val()),
                 'appointment_id':  parseInt($("#appointment_id").val()),
                 'invoice_type':  $("#invoice_type").val(),
                 'items': items
@@ -112,7 +113,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                    alert('Счёт успешно сохранён');
+
                     window.location='/';
                 },
                 error: function () {
