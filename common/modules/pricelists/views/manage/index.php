@@ -12,7 +12,12 @@ $this->title = 'Прейскуранты';
 ?>
 <div class="pricelist-index">
 
-    <h1><?= Html::encode($this->title) ?><?= Html::a('Новый прейскурант', ['create'], ['class' => 'btn btn-success']) ?></h1>
+    <h1><?= Html::encode($this->title) ?>
+
+        <?= Html::a('Новый прейскурант', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Сохранить в формате Excel', ['xls-save'], ['class' => 'btn btn-success']) ?>
+
+    </h1>
     <?= PriceListsWidget::widget([
         'type'=>PriceListsWidget::TYPE_EDIT,
         'activePriceList'=>$priceListId

@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
  */
 class ManageController extends Controller
 {
-    public $priceListId='none';
+    public $priceListId = 'none';
 
     public function beforeAction($action)
     {
@@ -24,13 +24,14 @@ class ManageController extends Controller
             return false;
         }
 
-        if (($id=Yii::$app->request->get('priceListId'))!=null){
-            $this->priceListId=Yii::$app->request->get('priceListId');
+        if (($id = Yii::$app->request->get('priceListId')) != null) {
+            $this->priceListId = Yii::$app->request->get('priceListId');
         }
 
 
         return true;
     }
+
     /**
      * {@inheritdoc}
      */
@@ -50,6 +51,11 @@ class ManageController extends Controller
      * Lists all Pricelist models.
      * @return mixed
      */
+    public function actionXlsSave()
+    {
+        return true;
+    }
+
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
@@ -58,7 +64,7 @@ class ManageController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'priceListId'=>$this->priceListId
+            'priceListId' => $this->priceListId
         ]);
     }
 
@@ -85,7 +91,7 @@ class ManageController extends Controller
         $model = new Pricelist();
         $model->active = $model::STATUS_ACTIVE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index',['priceListId'=>$model->id]]);
+            return $this->redirect(['index', ['priceListId' => $model->id]]);
         }
 
         return $this->render('create', [
@@ -105,7 +111,7 @@ class ManageController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index','priceListId'=>$model->id]);
+            return $this->redirect(['index', 'priceListId' => $model->id]);
         }
 
         return $this->render('update', [
@@ -123,9 +129,9 @@ class ManageController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        $model->active =  !($model->active);
+        $model->active = !($model->active);
         $model->save(false);
-        return $this->redirect(['index','priceListId'=>$model->id]);
+        return $this->redirect(['index', 'priceListId' => $model->id]);
     }
 
     /**
