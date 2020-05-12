@@ -12,12 +12,17 @@ $this->title = 'Прейскуранты';
 ?>
 <div class="pricelist-index">
 
-    <h1><?= Html::encode($this->title) ?>
+    <h1><?= Html::encode($this->title) ?> </h1>
+<div class="row" name="control">
+    <div class="col-lg-12">
+        <?= Html::a('Новый прейскурант', ['create'], ['class' => 'btn btn-success btn-xs']) ?>
+        <?= Html::a('Сохранить без баллов', ['xls-save'], ['class' => 'btn btn-primary btn-xs','target'=>'_blank']) ?>
+        <?= Html::a('Сохранить c баллами', ['xls-save', 'coefficient' => 'true'], ['class' => 'btn btn-primary btn-xs','target'=>'_blank']) ?>
+    </div>
+</div>
 
-        <?= Html::a('Новый прейскурант', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Сохранить в формате Excel', ['xls-save'], ['class' => 'btn btn-success']) ?>
 
-    </h1>
+
     <?= PriceListsWidget::widget([
         'type'=>PriceListsWidget::TYPE_EDIT,
         'activePriceList'=>$priceListId

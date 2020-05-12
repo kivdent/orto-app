@@ -2,6 +2,7 @@
 
 namespace common\modules\pricelists\controllers;
 
+
 use Yii;
 use common\modules\pricelists\models\Pricelist;
 use yii\data\ActiveDataProvider;
@@ -47,15 +48,15 @@ class ManageController extends Controller
         ];
     }
 
+
+    public function actionXlsSave($coefficient = false)
+    {
+        return $this->redirect('/' . Pricelist::getXlsxPriceList($coefficient));
+    }
     /**
      * Lists all Pricelist models.
      * @return mixed
      */
-    public function actionXlsSave()
-    {
-        return true;
-    }
-
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
