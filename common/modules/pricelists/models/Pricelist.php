@@ -116,9 +116,7 @@ class Pricelist extends \common\models\Pricelist
                         $diap =$coefficient? 'A' . ($a) . ':D' . $a:'A' . ($a) . ':C' . $a;
                         $sheet->getStyle($diap)->applyFromArray($styleArray);
                         $a++;
-
                     }
-
                 }
             }
         }

@@ -17,15 +17,18 @@ return [
         'userInterface' => [
             'class' => 'common\modules\userInterface\models\UserInterface',
         ],
-        'storage'=>[
-            'class'=>'\common\components\Storage',
+        'storage' => [
+            'class' => '\common\components\Storage',
+        ],
+        'smsNotifier' => [
+            'class' => '\common\components\SmsNotifier',
         ],
         'i18n' => [
             'translations' => [
                 'file-input*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
                     //'basePath' => dirname(__FILE__).'/../vendor/2amigos/yii2-file-input-widget/src/messages/',
-                    'basePath' =>  dirname(dirname(__DIR__)) . '/common/i18n/',
+                    'basePath' => dirname(dirname(__DIR__)) . '/common/i18n/',
                 ],
             ],
         ],
@@ -83,7 +86,7 @@ return [
         'old_app' => [
             'class' => 'frontend\modules\old_app\Module',
         ],
-        'treemanager' =>  [
+        'treemanager' => [
             'class' => '\kartik\tree\Module',
         ],
         'documents' => [
@@ -94,6 +97,9 @@ return [
         ],
         'invoice' => [
             'class' => 'common\modules\invoice\Module',
+        ],
+        'notifier' => [
+            'class' => 'common\modules\notifier\Module',
         ],
     ],
 ];

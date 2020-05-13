@@ -78,6 +78,11 @@ class UserInterface
         return self::MONTHS;
     }
 
+    public static function getFormatedDateTime($date)
+    {
+        return Yii::$app->formatter->asDate($date, 'php:d.m.Y H:i');
+    }
+
     /**
      *
      * @param int $user_id
@@ -251,5 +256,10 @@ class UserInterface
     public static function getMonthName($numberMonth)
     {
         return self::MONTHS[$numberMonth];
+    }
+    public static function getNormalizedPhone($phone){
+        $phone = preg_replace("/[^0-9]/", '', $phone);
+        $phone='+7'.substr($phone,1,10);
+        return $phone;
     }
 }

@@ -1,8 +1,13 @@
 <?php
+/* @var $this View*/
+
+use common\modules\notifier\assets\NotifierAsset;
+use yii\web\View;
 
 include('mysql_fuction.php');
 $ThisVU="all";
 $this->title="Пациенты на сегодня";
+NotifierAsset::register($this);
 //include("header.php");
 switch ($_GET['action'])
 {
@@ -378,7 +383,8 @@ echo "</td>";
 						else echo "class='small2'";
 						echo ">Окончание</a></td>";
 						;
-						echo "<td width='90' class='bottom'>".$mt."</td>";
+						echo "<td width='90' class='bottom'>".$mt." ".\yii\helpers\Html::button('CMC',['appointment'=>$IDN,'class'=>'btn btn-info btn-xs send_sms'])."
+</td>";
 						echo "<td width='90' class='bottom'>".$dt."</td>";
 						echo "<td width='90' class='bottom'>".$rt."</td>";
 						echo "<td width='90' class='bottom'>";
