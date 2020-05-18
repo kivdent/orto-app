@@ -4,7 +4,6 @@ namespace common\modules\cash\controllers;
 
 use common\modules\cash\models\Cashbox;
 use common\modules\cash\models\Payment;
-
 use common\modules\catalogs\models\PaymentType;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\InvoiceSearch;
@@ -125,7 +124,6 @@ class PaymentController extends \yii\web\Controller
     {
         $invoices = Cashbox::getTodayInvoices();
 
-
         return $this->render('today', [
             "invoices" => $invoices,
         ]);
@@ -221,5 +219,4 @@ class PaymentController extends \yii\web\Controller
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('payment_print', ['payment' => Payment::findOne($payment_id)]);
     }
-
 }

@@ -42,6 +42,7 @@ class Patient extends \yii\db\ActiveRecord
     const SEX_MALE = 'Муж';
     const SEX_FEMALE = 'Жен';
     const SEX_NOT_SET = '';
+    const DEFAULT_ID=1; //TO_DO При установке создавать пациента с id=1 и id=0
 
     public function getPrepaymentAmount()
     {
