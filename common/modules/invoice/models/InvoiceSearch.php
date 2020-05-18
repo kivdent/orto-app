@@ -51,6 +51,11 @@ class InvoiceSearch extends Invoice
             case self::SEARCH_TYPE_FOR_PATIENT_CARD:
                 $query->where(['patient_id'=>$this->patient_card_id])->orderBy('created_at DESC');
                 break;
+            case self::SEARCH_TYPE_EMPLOYEE_DEBT:
+                $query->where('amount_payable>paid')
+                    ->andWhere(['doctor_id'=>\Yii::$app->user->identity->employe_id])
+                    ->orderBy('created_at DESC');
+                break;
         }
         return $query;
     }

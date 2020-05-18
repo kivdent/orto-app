@@ -37,6 +37,7 @@ class Invoice extends \common\models\Invoice
 
     const SEARCH_TYPE_ALL = 'all';
     const SEARCH_TYPE_DEBT = 'debt';
+    const SEARCH_TYPE_EMPLOYEE_DEBT = 'employee_debt';
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
 

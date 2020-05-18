@@ -4,6 +4,7 @@ namespace common\modules\reports\controllers;
 
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\models\InvoiceSearch;
 use common\modules\reports\models\FinancialPeriods;
 use common\modules\reports\models\InvoiceReport;
 use common\modules\reports\models\PaymentReport;
@@ -34,5 +35,14 @@ class DefaultController extends Controller
         $table=InvoiceReport::getAllPaidForPeriod($employee,$financialPeriod);
 
         return $this->render('index',['table'=>$table]);
+    }
+    public function actionEmployeeDebt(){
+        $searchModel = new InvoiceSearch(['searchType' => InvoiceSearch::SEARCH_TYPE_EMPLOYEE_DEBT]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('employee-debt', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
+        ]);
+
     }
 }

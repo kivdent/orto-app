@@ -17,7 +17,7 @@ return [
 //            ['label' => 'Отчёт за период (чеки)', 'url' => '/old_app/doc_den_ch_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за день (оплаты)', 'url' => '/old_app/doc_den_opl.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за период (оплаты)', 'url' => '/old_app/doc_den_opl_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
-            ['label' => 'Должники', 'url' => '/old_app/dolzh.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+            ['label' => 'Должники', 'url' => '/reports/default/employee-debt', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за месяц', 'url' => '/old_app/month_otch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Все пациенты', 'url' => '/old_app/doc_den_ch_per2.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Финансовый отчёт за день директор', 'url' => '/old_app/dir_den_opl.php', 'roles' => ['director',]],
