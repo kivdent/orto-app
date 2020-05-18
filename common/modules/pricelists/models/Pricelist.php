@@ -4,6 +4,7 @@
 namespace common\modules\pricelists\models;
 
 
+use common\modules\userInterface\models\UserInterface;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use yii\helpers\ArrayHelper;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -17,6 +18,7 @@ class Pricelist extends \common\models\Pricelist
     const TYPE_MANIPULATIONS = 'manipulations';
     const TYPE_MATERIALS = 'materials';
     const TYPE_GIFT_CARDS = 'gift_cards';
+
 
     public static function getXlsxPriceList($coefficient)
     {
@@ -54,7 +56,7 @@ class Pricelist extends \common\models\Pricelist
                         'bold' => true,
                     ]
                 ];
-                $diap =$coefficient? 'A' . ($a) . ':D' . $a:'A' . ($a) . ':C' . $a;
+                $diap = $coefficient ? 'A' . ($a) . ':D' . $a : 'A' . ($a) . ':C' . $a;
                 $sheet->getStyle($diap)->applyFromArray($styleArray);
 
                 $a++;
@@ -71,7 +73,7 @@ class Pricelist extends \common\models\Pricelist
                             'bold' => true,
                         ]
                     ];
-                    $diap =$coefficient? 'A' . ($a) . ':D' . $a:'A' . ($a) . ':C' . $a;
+                    $diap = $coefficient ? 'A' . ($a) . ':D' . $a : 'A' . ($a) . ':C' . $a;
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $a++;
 
@@ -87,7 +89,7 @@ class Pricelist extends \common\models\Pricelist
                             ],
                         ],
                     ];
-                    $diap =$coefficient? 'A' . ($a) . ':D' . $a:'A' . ($a) . ':C' . $a;
+                    $diap = $coefficient ? 'A' . ($a) . ':D' . $a : 'A' . ($a) . ':C' . $a;
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $sheet->fromArray(
                         $arrayData,  // The data to set
@@ -97,8 +99,10 @@ class Pricelist extends \common\models\Pricelist
                     );
                     $a++;
                     foreach ($categorye->activeItemsFromCategory as $item) {
-                        $arrayData = [$item->id, $item->title, $item->price . ' руб.', ];
-                        if ($coefficient){$arrayData[]=$item->Coefficient;}
+                        $arrayData = [$item->id, $item->title, $item->price . ' руб.',];
+                        if ($coefficient) {
+                            $arrayData[] = $item->Coefficient;
+                        }
                         $sheet->fromArray(
                             $arrayData,  // The data to set
                             NULL,        // Array values with this value will not be set
@@ -113,7 +117,7 @@ class Pricelist extends \common\models\Pricelist
                                 ],
                             ],
                         ];
-                        $diap =$coefficient? 'A' . ($a) . ':D' . $a:'A' . ($a) . ':C' . $a;
+                        $diap = $coefficient ? 'A' . ($a) . ':D' . $a : 'A' . ($a) . ':C' . $a;
                         $sheet->getStyle($diap)->applyFromArray($styleArray);
                         $a++;
                     }
@@ -125,7 +129,7 @@ class Pricelist extends \common\models\Pricelist
         );
         $spreadsheet->removeSheetByIndex($sheetIndex);
         $writer = new Xlsx($spreadsheet);
-        $fileName='pricelist.xlsx';
+        $fileName = 'pricelist.xlsx';
         $writer->save($fileName);
         return $fileName;
     }
@@ -176,11 +180,26 @@ class Pricelist extends \common\models\Pricelist
 
     public static function getActiveList($type)
     {
-        $list = self::find()->where(['active' => 1]);
-        if (array_key_exists($type, self::getTypeList())) {
-            $list = $list->andWhere(['type' => $type]);
+//        $list = self::find()->where(['active' => Pricelist::STATUS_ACTIVE]);
+
+        if (is_array($type)) {
+            $where = ['and', 'active =' . Pricelist::STATUS_ACTIVE,];
+            $types = ['or'];
+            foreach ($type as $item) {
+                if (array_key_exists($item, self::getTypeList())) {
+                    $types[] = 'type=\'' . $item . '\'';
+//                    $list = $list->andWhere(['type' => $item]);
+                }
+            }
+            $where[] = $types;
+        } elseif (array_key_exists($type, self::getTypeList())) {
+            $where = ['active' => Pricelist::STATUS_ACTIVE, 'type' => $type];
+//            $list = $list->andWhere(['type' => $type]);
+        } else {
+            $where = ['active' => Pricelist::STATUS_ACTIVE];
         }
-        $list = $list->all();
+  
+        $list = self::find()->where($where)->all();
         return $list;
     }
 

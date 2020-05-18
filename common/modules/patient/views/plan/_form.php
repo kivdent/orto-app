@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\modules\pricelists\models\Pricelist;
+
 //use wbraganca\dynamicform\DynamicFormWidget заменён на kidzen\dynamicform\DynamicFormWidget, для совместимости с kartik\select2\Select2;
 use kartik\select2\Select2;
 use kidzen\dynamicform\DynamicFormWidget;
@@ -13,6 +15,7 @@ use common\modules\invoice\widgets\form\InvoiceFormWidget;
 /* @var $model common\modules\patient\models\TreatmentPlanForm */
 /* @var $modelsPlanItem common\modules\patient\models\PlanItem */
 /* @var $form yii\widgets\ActiveForm */
+
 TreatmentPlanAsset::register($this);
 $classification = 13;//9 id классификации МКБ-10
 ?>
@@ -21,7 +24,7 @@ $classification = 13;//9 id классификации МКБ-10
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <div class="row">
         <div class="col-lg-6">
-            <?= $form->field($model, 'diagnosis_id')->widget(DiagnosisInputWidget::classname());?>
+            <?= $form->field($model, 'diagnosis_id')->widget(DiagnosisInputWidget::classname()); ?>
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'comments')->textarea(['rows' => 2]) ?>
@@ -65,7 +68,7 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="panel-body" >
+                        <div class="panel-body">
                             <?php
                             // necessary for update action.
                             if (!$modelItem->isNewRecord) {
@@ -91,7 +94,7 @@ $classification = 13;//9 id классификации МКБ-10
                                     <?= $form->field($modelItem, "[{$i}]operation_id")
                                         ->widget(Select2::classname(), [
                                             'data' => \common\modules\patient\models\Operation::getList(),
-                                            'options' => ['placeholder' => 'Выберете рекомендацию ...','class'=>'operation',],
+                                            'options' => ['placeholder' => 'Выберете рекомендацию ...', 'class' => 'operation',],
                                             'pluginOptions' => [
                                                 'allowClear' => true
                                             ],
@@ -103,16 +106,16 @@ $classification = 13;//9 id классификации МКБ-10
 
 
                                     <?= $form->field($modelItem, "[{$i}]price_from")->textInput([
-                                      'class' => 'form-control price_from',
-                                    ])->label('Стоимость от '.Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>',[
-                                        'class'=>'btn btn-primary btn-xs',
-                                        'data-toggle'=>"modal",
-                                        'data-target'=>"#invoice_form",
-                                        'data-recipient'=>"find",
-                                        'data-recipient-item-class'=>".price_from",
+                                        'class' => 'form-control price_from',
+                                    ])->label('Стоимость от ' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
+                                            'class' => 'btn btn-primary btn-xs',
+                                            'data-toggle' => "modal",
+                                            'data-target' => "#invoice_form",
+                                            'data-recipient' => "find",
+                                            'data-recipient-item-class' => ".price_from",
 
 
-                                    ]));
+                                        ]));
                                     ?>
                                 </div>
                                 <div class="col-sm-2">
@@ -142,5 +145,6 @@ $classification = 13;//9 id классификации МКБ-10
     <?php ActiveForm::end(); ?>
     <?= InvoiceFormWidget::widget([
         'type' => InvoiceFormWidget::TYPE_MODAL_CALCULATOR,
+        'typePriceList' => [Pricelist::TYPE_MANIPULATIONS, Pricelist::TYPE_MATERIALS],
     ]) ?>
 </div>
