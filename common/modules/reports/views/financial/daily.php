@@ -31,7 +31,7 @@ foreach ($divisions as $division_id => $division_title) {
         'id' => 'date_picker',
     ],
     'pluginEvents' => [
-        "changeDate" => <<<JS
+        "changeDate" => "
  function(e) {
     var d = $('.date_picker').kvDatepicker('getDate');
        var month = '' + (d.getMonth() + 1);
@@ -44,12 +44,9 @@ foreach ($divisions as $division_id => $division_title) {
         day = '0' + day
     var date=[year, month, day].join('-');
     window.location.href='/reports/financial/daily?date='+date;
- }
-JS,
+ }",
     ]
 ]); ?>
-
-
 
 <?= $this->render('_daily_form', [
     'cashbox' => $cashbox,
@@ -57,5 +54,3 @@ JS,
     'divisions' => $divisions,
     'print' => $print,
 ]) ?>
-
-
