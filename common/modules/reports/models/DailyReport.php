@@ -137,6 +137,7 @@ class DailyReport extends Model
         return Invoice::find()
             ->where(['doctor_id' => $this->employee->id])
             ->andWhere(Invoice::getDateExpression($this->date))
+            ->andWhere(['<>','type',Invoice::TYPE_MATERIALS])
             ->all();
     }
 

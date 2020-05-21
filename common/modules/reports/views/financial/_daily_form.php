@@ -113,3 +113,40 @@ use yii\helpers\Html;
         </div>
     <?php endforeach; ?>
 </div>
+<div id="division-report"><h4>Отчёт по оплатам материалов</h4>
+
+        <?php $summ = 0; ?>
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th>Пациент</th>
+                    <th>Сотрудник</th>
+                    <th>Сумма</th>
+                    <th>Вид оплаты</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($financial_report->getMaterialInvoices() as $payment): ?>
+                    <tr>
+                        <td>
+                            <?=$payment->invoice->patient->fullName?><?=
+                            ($print)?'':Html::a(
+                                '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
+                                ['/patient/manage/view', 'patient_id' => $payment->invoice->patient_id],
+                                ['class' => 'btn btn-xs btn-primary']
+                            ) ?></td>
+                        <td>
+                            <?= $payment->invoice->employee->fullName?>
+                        </td>
+                        <td><?= $payment->vnes?> р.
+                            <?=($print)?'':InvoiceModalWidget::widget(['invoice_id' => $payment->dnev]) ?>
+                            <?=($print)?'':Html::a('<span class="glyphicon glyphicon-print"></span>',['/cash/payment/print','payment_id'=>$payment->id],['class'=>'btn btn-xs btn-primary','target'=>'_blank']) ?>
+                        </td>
+                        <td><?= $payment->typeName ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+
+            </table>
+
+</div>

@@ -5,6 +5,7 @@ namespace common\modules\reports\models;
 
 
 use common\modules\cash\models\Payment;
+use common\modules\invoice\models\Invoice;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
@@ -21,16 +22,24 @@ class FinancialReports extends Model
 
     public static function getToday()
     {
-        $report = new FinancialReports();
-        $report->type = self::TYPE_DAILY;
-        $report->start_date = date('Y-m-d');
-        $report->end_date = date('Y-m-d');
+        $report = self::getForDate(date('Y-m-d'));
+        return $report;
+    }
+
+    public static function getForDate($date)
+    {
+        $report = new FinancialReports([
+            'type' => self::TYPE_DAILY,
+            'start_date' => $date,
+            'end_date' => $date,
+        ]);
+
         return $report;
     }
 
     public function getSummaryPerPaymentType($paymentType_id, $division_id)
     {
-        /* @var $payment \common\modules\cash\models\Payment */
+        /* @var $payment Payment */
         $summary = 0;
         foreach ($this->payments as $payment) {
             if ($payment->VidOpl == $paymentType_id && $payment->podr == $division_id) {
@@ -61,12 +70,27 @@ class FinancialReports extends Model
         $employee = [];
 
         foreach ($this->getPayments() as $payment) {
-            if ($payment->podr == $division_id) {
+            /* @var $payment Payment */
+            if ($payment->podr == $division_id && $payment->invoice->type!=Invoice::TYPE_MATERIALS) {
                 $employee[$payment->invoice->doctor_id][] = $payment;
             }
         }
         // echo "<pre>". print_r($employee)."</pre>";die();
         return $employee;
+    }
+
+    public function getMaterialInvoices(){
+        $payments = [];
+
+
+        foreach ($this->getPayments() as $payment) {
+            /* @var $payment Payment */
+            if ($payment->invoice->type==Invoice::TYPE_MATERIALS) {
+                $payments[] = $payment;
+            }
+        }
+
+        return $payments;
     }
 
     public function getSummEmployeeWithInvoices($employee_id, $division_id = 'all')

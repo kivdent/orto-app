@@ -2,6 +2,7 @@
 
 namespace common\modules\clinic\models;
 
+use common\modules\cash\models\Cashbox;
 use common\modules\cash\models\Payment;
 use common\modules\catalogs\models\PaymentType;
 use common\modules\userInterface\models\UserInterface;
@@ -107,6 +108,7 @@ class FinancialDivisions extends \yii\db\ActiveRecord
 
     public function getCash($cashbox)
     {
+        /* @var $cashbox Cashbox*/
         $sum = 0;
         $payments = Payment::find()
             ->where(['date' => $cashbox->date])
@@ -118,6 +120,8 @@ class FinancialDivisions extends \yii\db\ActiveRecord
         if ($this->isMain()) {
             $sum += $cashbox->getPreviousBalance();
         }
+
+        $sum-=$cashbox->getAccountCashSummForDivision($this);
 
         return $sum;
     }

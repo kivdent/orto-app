@@ -4,6 +4,7 @@ use common\modules\clinic\models\FinancialDivisions;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\patient\models\Patient;
+use kartik\date\DatePicker;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -13,17 +14,48 @@ use yii\helpers\Html;
 /* @var $divisions array */
 
 $this->title = "Финансовый отчёт за " . date('d.m.Y');
-foreach ($divisions as $division_id=>$division_title){
-    echo Html::a('Печать отчёта '.$division_title,['daily-print','division_id'=>$division_id],['class'=>'btn bth-xs btn-primary','target'=>'_blank']);
+
+foreach ($divisions as $division_id => $division_title) {
+    echo Html::a('Печать отчёта ' . $division_title, ['daily-print', 'division_id' => $division_id], ['class' => 'btn bth-xs btn-primary', 'target' => '_blank']);
 }
 
 ?>
+<?= DatePicker::widget([
+    'name' => 'date_picker',
+    'type' => DatePicker::TYPE_BUTTON,
+    'value' => date('Y-m-d'),
+    'pluginOptions' => [
+        'format' => 'yyyy-mm-dd',
+    ],
+    'options' => [
+        'id' => 'date_picker',
+    ],
+    'pluginEvents' => [
+        "changeDate" => <<<JS
+ function(e) {
+    var d = $('.date_picker').kvDatepicker('getDate');
+       var month = '' + (d.getMonth() + 1);
+        var day = '' + d.getDate();
+       var year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day
+    var date=[year, month, day].join('-');
+    window.location.href='/reports/financial/daily?date='+date;
+ }
+JS,
+    ]
+]); ?>
+
+
 
 <?= $this->render('_daily_form', [
     'cashbox' => $cashbox,
     'financial_report' => $financial_report,
     'divisions' => $divisions,
-    'print'=>$print,
+    'print' => $print,
 ]) ?>
 
 

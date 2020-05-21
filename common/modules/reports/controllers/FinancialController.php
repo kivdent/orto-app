@@ -16,14 +16,14 @@ use yii\web\Response;
 
 class FinancialController extends \yii\web\Controller
 {
-    public function actionDaily()
+    public function actionDaily($date='today')
     {
         $cashbox = Cashbox::getCurrentCashBox();
         if ($cashbox == null) {
             return $this->redirect('/cash/manage/start');
         }
         $divisions = FinancialDivisions::getDivisionList();
-        $financial_report = FinancialReports::getToday();
+        $financial_report = $date=='today'?FinancialReports::getToday():FinancialReports::getForDate($date);
         return $this->render('daily', [
             'cashbox' => $cashbox,
             'financial_report' => $financial_report,

@@ -7,7 +7,9 @@ namespace common\modules\cash\models;
 use common\modules\catalogs\models\PaymentType;
 use common\modules\clinic\models\FinancialDivisions;
 use common\modules\invoice\models\Invoice;
+use common\modules\userInterface\models\UserInterface;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 class Cashbox extends \common\models\Cashbox
 {
@@ -63,6 +65,7 @@ class Cashbox extends \common\models\Cashbox
         return $this->hasMany(AccountCash::className(), ['smena' => 'id']);
     }
 
+
     public function attributeLabels()
     {
         return [
@@ -82,5 +85,17 @@ class Cashbox extends \common\models\Cashbox
             ->orderBy('date DESC')
             ->one()
             ->summ;
+    }
+
+    public function getAccountCashSummForDivision(FinancialDivisions $division)
+    {
+//        ArrayHelper::getColumn()
+//        UserInterface::getVar(ArrayHelper::toArray($this->getAccountCashForDivision($division)));
+        return array_sum(ArrayHelper::getColumn($this->getAccountCashForDivision($division), 'summ'));
+    }
+
+    public function getAccountCashForDivision(FinancialDivisions $division)
+    {
+        return AccountCash::find()->where(['smena' => $this->id, 'podr' => $division->id,])->all();
     }
 }

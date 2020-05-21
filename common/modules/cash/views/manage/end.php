@@ -27,8 +27,8 @@ $form = ActiveForm::begin(['id' => 'account-end-form']);
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4"> <?= $form->field($accountCash, "[$i]summ")->textInput() ?></div>
-        <div class="col-lg-8"><?= $form->field($accountCash, "[$i]otv")->dropDownList(Employee::getList()) ?></div>
+        <div class="col-lg-4"> <?= $form->field($accountCash, "[$i]summ")->textInput(['value'=>$financial_divisions_balance['table'][$accountCash->podr]['sum']]) ?></div>
+        <div class="col-lg-8"><?= $form->field($accountCash, "[$i]otv")->dropDownList(Employee::getList(),['value'=>Yii::$app->user->identity->employe_id]) ?></div>
     </div>
 <?php endforeach; ?>
 <div class="form-group">
