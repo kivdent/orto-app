@@ -57,9 +57,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-xs-12">
-            <?=
-            Yii::$app->formatter->format(Html::encode($model->text), 'ntext')
-            ?>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?=
+                    Yii::$app->formatter->format(Html::encode($model->text), 'ntext')
+                    ?>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="row">
@@ -69,6 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
+
+
+
     <div class="row">
         <div class="col-xs-6">
             Дата: <?= $model->createdDate ?>
