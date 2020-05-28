@@ -11,6 +11,7 @@ use common\modules\employee\models\Employee;
  * @package common\modules\salary\models
  * @property Employee $employee
  * @property string $employeeName
+
  */
 
 class SalaryCard extends \common\models\SalaryCard
@@ -30,5 +31,18 @@ class SalaryCard extends \common\models\SalaryCard
 
     public function getEmployeeName(){
         return $this->employee->fullName;
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'sotr' => 'Сотрудник',
+            'type' => 'Тип',
+            'stavka' => 'Ставка',
+            'ps' => 'Процентная ставка',
+            'ph' => 'Оплата в час',
+            'pn' => 'Подоходный налог',
+        ];
     }
 }
