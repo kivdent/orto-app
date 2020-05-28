@@ -5,6 +5,7 @@ namespace common\modules\salary\controllers;
 use Yii;
 use common\modules\salary\models\SalaryCard;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +25,16 @@ class SalaryCardController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => [],
+                        'roles' => ['admin', 'director','accountant' ],
+                    ],
                 ],
             ],
         ];
