@@ -9,7 +9,7 @@ return [
         'menuItems' => [
 
        //     ['label' => 'Финансовый отчёт за день old', 'url' => '/old_app/reg_den_opl.php', 'roles' => ['recorder',]],
-            ['label' => 'Финансовый отчёт за день', 'url' => '/reports/financial/daily', 'roles' => ['recorder',]],
+            ['label' => 'Финансовый отчёт за день', 'url' => '/reports/financial/daily', 'roles' => ['recorder','director','accountant',]],
 //            ['label' => 'Отчёт за день (чеки)', 'url' => '/old_app/doc_den_ch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за день', 'url' => '/reports/financial/employee-daily', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],

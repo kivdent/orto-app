@@ -31,7 +31,7 @@ class AccountCash extends \common\models\AccountCash
 
     public function getTypeName()
     {
-        return $this->type->naim;
+        return isset($this->type->naim)?$this->type->naim:'Не определён';
     }
     public function attributeLabels()
     {

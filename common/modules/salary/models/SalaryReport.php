@@ -18,6 +18,7 @@ use common\modules\schedule\models\TimeSheet;
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class SalaryReport extends Model
 {
@@ -30,7 +31,7 @@ class SalaryReport extends Model
 
     public $table = [];
     public $labels = [];
-    public $printable=false;
+    public $printable = false;
 
 
     public $setSalaryTableFunction = [
@@ -40,7 +41,7 @@ class SalaryReport extends Model
         SalaryCardType::TYPE_PERCENTAGE_FULL => 'setFullPercentageTable',
     ];
 
-    public static function getForPeriod(FinancialPeriods $financial_period,$printable=false)
+    public static function getForPeriod(FinancialPeriods $financial_period, $printable = false)
     {
         $salaryReports = [];
         foreach (SalaryCardType::getTypeList() as $type_id => $type) {
@@ -71,6 +72,11 @@ class SalaryReport extends Model
         return $salaryReports;
     }
 
+    public static function getReportForEmplyee($employee, $start, $end, $type)
+    {
+        $table = [];
+    }
+
     private function setPercentageTable()
     {
 
@@ -82,14 +88,21 @@ class SalaryReport extends Model
         if ($salaryCards) {
             foreach ($salaryCards as $salaryCard) {
                 $table = [];
-                $table['employee'] = $salaryCard->employeeName;
+
+                $table['employee'] = Html::a(
+                    $salaryCard->employeeName,
+                    [
+                        'salary-report/report',
+                        'employee_id' => $salaryCard->sotr,
+                        'type_id' => $salaryCard->type,
+                        'financial_period_id' => $this->financial_period->defined?$this->financial_period->id:'current',
+                    ]);
                 $table += $this->getPriceListsSummsForPeriod($salaryCard->employee);
                 //$table['orthodontics'] = $this->getOrthodonticsSumm($salaryCard->employee);
                 $this->table[] = $table;
             }
 
         }
-
         $this->setEmptyColumns();
 
     }
@@ -112,7 +125,7 @@ class SalaryReport extends Model
                 $table['per_hour'] = $salaryCard->ph;
                 $duration = TimeSheet::getPeriodDuration($this->financial_period, $salaryCard->employee) + self::CLEAR_UP_DURATION;
                 $table['duration'] = UserInterface::SecondsToHours($duration);
-               // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
+                // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
                 $table['salary_per_hour'] = $table['per_hour'] * $duration / 3600;
                 $table['revenue_for_services'] = $this->getAllPaidInvoicesSumm($salaryCard->employee);
                 $this->table[] = $table;
@@ -158,6 +171,7 @@ class SalaryReport extends Model
                 }
             }
         }
+
         return $sum;
     }
 
@@ -269,15 +283,20 @@ class SalaryReport extends Model
 
         $this->labels = [
             'employee' => 'Сотрудник',
-
         ];
         $type = SalaryCardType::TYPE_PERCENTAGE_FULL;
         $salaryCards = SalaryCard::getTypeSelection($type);
         if ($salaryCards) {
-
             foreach ($salaryCards as $salaryCard) {
                 $table = [];
-                $table['employee'] = $salaryCard->employeeName;
+                $table['employee'] =Html::a(
+                    $salaryCard->employeeName,
+                    [
+                        'salary-report/report',
+                        'employee_id' => $salaryCard->sotr,
+                        'type_id' => $salaryCard->type,
+                        'financial_period_id' => $this->financial_period->defined?$this->financial_period->id:'current',
+                    ]);
                 $table += $this->getPaymentByTypes($salaryCard->employee);
                 $table += $this->getPaymentByDivision($salaryCard->employee);
                 $this->table[] = $table;
@@ -289,12 +308,9 @@ class SalaryReport extends Model
     private function getPaymentByTypes($employee)
     {
         $table = [];
-        $payments = Payment::find()
-            ->where(['>=', 'date', $this->financial_period->nach])
-            ->andWhere(['<=', 'date', $this->financial_period->okonch])
-            ->joinWith('invoice')
-            ->andWhere(['invoice.doctor_id' => $employee->id])
-            ->all();
+
+        $payments = $this->getEmployeePaymetsForPeriod($employee);
+
         if ($payments) {
             foreach ($payments as $payment) {
                 $columnName = $this->getPriceListColumnName($payment->VidOpl);
@@ -306,7 +322,6 @@ class SalaryReport extends Model
                         $this->labels[$columnName] = PaymentType::getList()[$payment->VidOpl];
                     }
                 }
-
             }
         }
         return $table;
@@ -321,12 +336,7 @@ class SalaryReport extends Model
     private function getPaymentByDivision($employee)
     {
         $table = [];
-        $payments = Payment::find()
-            ->where(['>=', 'date', $this->financial_period->nach])
-            ->andWhere(['<=', 'date', $this->financial_period->okonch])
-            ->joinWith('invoice')
-            ->andWhere(['invoice.doctor_id' => $employee->id])
-            ->all();
+        $payments = $this->getEmployeePaymetsForPeriod($employee);
         if ($payments) {
             foreach ($payments as $payment) {
                 $columnName = $this->getPriceListColumnName('div-' . $payment->podr);
@@ -342,4 +352,54 @@ class SalaryReport extends Model
         }
         return $table;
     }
+
+    private function getEmployeePaymetsForPeriod(Employee $employee)
+    {
+        $payments = Payment::find()
+            ->where(['>=', 'date', $this->financial_period->nach])
+            ->andWhere(['<=', 'date', $this->financial_period->okonch])
+            ->joinWith('invoice')
+            ->andWhere(['invoice.doctor_id' => $employee->id])
+            ->all();
+        return $payments;
+    }
+
+    public function getEmployeeReportForPeriod($employee_id)
+    {
+        /* @var $payment \common\modules\cash\models\Payment */
+        /* @var $invoice Invoice */
+        $table = [];
+        $table['table'] = [];
+        $table['labels'] = [];
+        $employee = Employee::findOne($employee_id);
+        switch ($this->type) {
+            case SalaryCardType::TYPE_PERCENTAGE_FULL:
+                $table['labels']['patient'] = 'Пациент';
+                $table['labels']['sum'] = 'Сумма';
+                $table['labels']['date'] = 'Дата';
+                $table['labels']['payment_type'] = 'Вид оплаты';
+                foreach ($this->getEmployeePaymetsForPeriod($employee) as $payment) {
+                    $raw['patient'] = $payment->invoice->patient->fullName.Html::a(
+                        '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
+                        ['/patient/manage/view', 'patient_id' => $payment->invoice->patient_id],
+                        ['class' => 'btn btn-xs btn-primary']);
+                    $raw['sum'] = $payment->vnes;
+                    $raw['date'] = UserInterface::getFormatedDate($payment->date);
+                    $raw['payment_type'] = PaymentType::getList()[$payment->VidOpl];
+                    $table['table'][] = $raw;
+                }
+                break;
+            case SalaryCardType::TYPE_PERCENTAGE:
+                $report = InvoiceReport::getAllPaidForPeriod($employee, $this->financial_period);
+                $table['labels']['patient']='Пациент';
+                $table['labels']['date']='Дата выписки чека';
+                $table['labels']['coef_price_list']='Сумма коффициентов по прейскурантам';
+                $table['labels']['last_date']='Оплаты по чеку';
+                $table['table'] = $report->table;
+                break;
+        };
+        return $table;
+    }
+
+
 }

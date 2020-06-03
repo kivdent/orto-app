@@ -1,9 +1,11 @@
 <?php
 
+
 use common\modules\clinic\models\FinancialDivisions;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\patient\models\Patient;
+use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -11,7 +13,7 @@ use yii\helpers\Html;
 /* @var $financial_report \common\modules\reports\models\FinancialReports */
 /* @var $divisions array*/
 /* @var $print boolean*/
-
+$this->title = "Финансовый отчёт за " . UserInterface::getFormatedDate($cashbox->date);
 ?>
 <h4><?= $this->title ?></h4>
 <div id="total-cash">
@@ -60,6 +62,7 @@ use yii\helpers\Html;
                     <tbody>
                     <?php foreach ($financial_report->getAccountCash($cashbox, $division_id) as $accountCash): ?>
                         <tr>
+
                             <td><?= $accountCash->employee->fullName ?></td>
                             <td><?= $accountCash->summ ?></td>
                             <td><?= $accountCash->typeName ?></td>

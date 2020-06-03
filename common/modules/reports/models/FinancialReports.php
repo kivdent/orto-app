@@ -89,7 +89,6 @@ class FinancialReports extends Model
                 $payments[] = $payment;
             }
         }
-
         return $payments;
     }
 

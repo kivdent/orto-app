@@ -11,7 +11,7 @@ use Yii;
  * @property int $sotr
  * @property int $type
  * @property double $stavka
- * @property int $ps
+ * @property double $ps
  * @property double $ph
  * @property double $pn
  */
@@ -31,8 +31,8 @@ class SalaryCard extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sotr', 'type', 'ps'], 'integer'],
-            [['stavka', 'ph', 'pn'], 'number'],
+            [['sotr', 'type'], 'integer'],
+            [['stavka', 'ps', 'ph', 'pn'], 'number'],
         ];
     }
 

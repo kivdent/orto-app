@@ -18,7 +18,10 @@ class FinancialController extends \yii\web\Controller
 {
     public function actionDaily($date='today')
     {
-        $cashbox = Cashbox::getCurrentCashBox();
+        $cashbox = $date=='today'?Cashbox::getCurrentCashBox():Cashbox::findOne(['date'=>$date]);
+        if (!$cashbox){
+            throw new NotFoundHttpException('Отчёт не найден.');
+        }
         if ($cashbox == null) {
             return $this->redirect('/cash/manage/start');
         }
@@ -32,13 +35,18 @@ class FinancialController extends \yii\web\Controller
         ]);
     }
 
-    public function actionDailyPrint($division_id)
+    public function actionDailyPrint($division_id,$date='today')
     {
-        $cashbox = Cashbox::getCurrentCashBox();
+
+        $cashbox = $date=='today'?Cashbox::getCurrentCashBox():Cashbox::findOne(['date'=>$date]);
+        if (!$cashbox){
+            throw new NotFoundHttpException('Отчёт не найден.');
+        }
         if ($cashbox == null) {
             return $this->redirect('/cash/manage/start');
         }
-        $financial_report = FinancialReports::getToday();
+        $financial_report = $date=='today'?FinancialReports::getToday():FinancialReports::getForDate($date);
+
 
         $divisions = [];
         $divisions[$division_id] = FinancialDivisions::getDivisionList()[$division_id];

@@ -16,7 +16,7 @@ use yii\helpers\Html;
 $this->title = "Финансовый отчёт за " . date('d.m.Y');
 
 foreach ($divisions as $division_id => $division_title) {
-    echo Html::a('Печать отчёта ' . $division_title, ['daily-print', 'division_id' => $division_id], ['class' => 'btn bth-xs btn-primary', 'target' => '_blank']);
+    echo Html::a('Печать отчёта ' . $division_title, ['daily-print', 'division_id' => $division_id,'date'=>Yii::$app->request->get('date')], ['class' => 'btn bth-xs btn-primary', 'target' => '_blank']);
 }
 
 ?>
@@ -33,16 +33,21 @@ foreach ($divisions as $division_id => $division_title) {
     'pluginEvents' => [
         "changeDate" => "
  function(e) {
-    var d = $('.date_picker').kvDatepicker('getDate');
-       var month = '' + (d.getMonth() + 1);
+ $.fn.kvDatepicker.defaults.todayHighlight = true;
+$.fn.kvDatepicker.defaults.format = 'yyyy-mm-dd';
+        var d = $('#date_picker').kvDatepicker('getDate');
+       
+        console.log(d);
+        var month = '' + (d.getMonth() + 1);
         var day = '' + d.getDate();
-       var year = d.getFullYear();
+        var year = d.getFullYear();
 
     if (month.length < 2) 
         month = '0' + month;
     if (day.length < 2) 
         day = '0' + day
     var date=[year, month, day].join('-');
+     console.log(date);
     window.location.href='/reports/financial/daily?date='+date;
  }",
     ]

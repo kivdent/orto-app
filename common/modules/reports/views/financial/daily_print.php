@@ -6,8 +6,10 @@
  **/
 
 /* @var $print boolean*/
-$this->title = "Финансовый отчёт за " . date('d.m.Y');
+
 use common\modules\clinic\models\FinancialDivisions;
+use common\modules\userInterface\models\UserInterface;
+$this->title = "Финансовый отчёт за " . UserInterface::getFormatedDate($cashbox->date);
 ?>
 <div class="small">
 <?= $this->render('_daily_form', [
