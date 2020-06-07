@@ -11,6 +11,7 @@ use common\modules\catalogs\models\PaymentType;
 use common\modules\clinic\models\FinancialDivisions;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\reports\models\FinancialPeriods;
 use common\modules\reports\models\InvoiceReport;
@@ -360,6 +361,7 @@ class SalaryReport extends Model
             ->andWhere(['<=', 'date', $this->financial_period->okonch])
             ->joinWith('invoice')
             ->andWhere(['invoice.doctor_id' => $employee->id])
+            ->andWhere(['invoice.type' => Invoice::TYPE_MANIPULATIONS])
             ->all();
         return $payments;
     }
@@ -383,7 +385,7 @@ class SalaryReport extends Model
                         '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
                         ['/patient/manage/view', 'patient_id' => $payment->invoice->patient_id],
                         ['class' => 'btn btn-xs btn-primary']);
-                    $raw['sum'] = $payment->vnes;
+                    $raw['sum'] = $payment->vnes.InvoiceModalWidget::widget(['invoice_id' =>  $payment->invoice->id]);;
                     $raw['date'] = UserInterface::getFormatedDate($payment->date);
                     $raw['payment_type'] = PaymentType::getList()[$payment->VidOpl];
                     $table['table'][] = $raw;

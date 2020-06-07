@@ -8,6 +8,7 @@ use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\widgets\PriceListsWidget;
+use kartik\date\DatePicker;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -16,6 +17,7 @@ class InvoiceFormWidget extends \yii\base\Widget
 {
     const TYPE_SIMPLE = 'simple';
     const TYPE_PAGE_INVOICE = 'page_invoice';
+    const TYPE_PAGE_TECHNICAL_ORDER = 'technical order';
     const TYPE_MODAL_CALCULATOR = 'modal';
     const TYPE_ACTIVE_FORM = 'active_form';
 
@@ -104,12 +106,45 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
                 if ($this->employee_choice) {
-                    Врач: $html .= Html::dropDownList('doctor_id', '', Employee::getNursesList(),['id' => 'doctor_id']);
-                }
-                else{
+                    Врач:
+                    $html .= Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
+                } else {
                     $html .= Html::input('hidden', 'doctor_id', Yii::$app->user->identity->employe_id, ['id' => 'doctor_id']);
                 }
                 break;
+
+            case self::TYPE_PAGE_TECHNICAL_ORDER:
+                $patient = Patient::findOne($this->patient_id)->getFullName();
+                $html = '<h4>Пациент ' . $patient . '</h4>';
+                $html .= '<h4 >Создание заказ-наряда 
+                            <button type="button" class="btn btn-primary submit-invoice">Сохранить</button> 
+                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
+                           </h4>';
+                $html .= Html::input('hidden', 'patient_id', $this->patient_id, ['id' => 'patient_id']);
+                $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
+                $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
+                $html .= Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id']);
+                if ($this->employee_choice) {
+                    $html .= 'Врач:' . Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
+                } else {
+                    $html .= Html::input('hidden', 'doctor_id', Yii::$app->user->identity->employe_id, ['id' => 'doctor_id']);
+                }
+                $html .= 'Техник: ' . Html::dropDownList('doctor_id', '', Employee::getTechniciansList(), ['id' => 'technicians_id']) . '<br>';
+                $html .= 'Дата сдачи: ';
+                $html .= DatePicker::widget([
+                    'name' => 'date_picker',
+                    'type' => DatePicker::TYPE_INPUT,
+                    'value' => date('Y-m-d'),
+                    'pluginOptions' => [
+                        'format' => 'yyyy-mm-dd',
+                    ],
+                    'options' => [
+                        'id' => 'date_picker',
+                    ],
+                ]);
+
+                break;
+
             default:
                 $html = '';
                 break;

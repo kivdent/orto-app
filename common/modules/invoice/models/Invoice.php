@@ -34,6 +34,7 @@ class Invoice extends \common\models\Invoice
     const TYPE_GIFT_CARDS = Pricelist::TYPE_GIFT_CARDS;
     const TYPE_ORTHODONTICS = 'orthodontics';
     const TYPE_PREPAYMENT = 'prepayment';
+    const TYPE_TECHNICAL_ORDER = 'technical order';
 
     const SEARCH_TYPE_ALL = 'all';
     const SEARCH_TYPE_DEBT = 'debt';

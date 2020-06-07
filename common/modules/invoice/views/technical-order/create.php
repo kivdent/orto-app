@@ -8,11 +8,11 @@ use common\modules\pricelists\models\Pricelist;
 /* @var $patient_id string*/
 /* @var $invoice_type string*/
 /* @var $employee_choice boolean*/
-$this->title='Создание счёта';
+$this->title='Создание заказ-наряда';
 ?>
 
 <?= InvoiceFormWidget::widget([
-    'type' => 'page_invoice',
+    'type' => InvoiceFormWidget::TYPE_PAGE_TECHNICAL_ORDER,
     'patient_id' => $patient_id,
     'appointment_id' => $appointment_id,
     'invoice_type' => $invoice_type,

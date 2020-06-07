@@ -33,6 +33,20 @@ class Employee extends \yii\db\ActiveRecord
     const STATUS_TEMPORARILY_WORKED = 'Временно не работает';
     const STATUS_ALL= 'Все';
 
+    const POSITION_NURSE=5;
+    const POSITION_TECHNICIANS=8;
+
+//'1', 'Врач стоматолог-терапевт'
+//'2', 'Врач стоматолог-ортопед'
+//'3', 'Врач стоматолог-ортодонт'
+//'4', 'Администратор'
+//'5', 'Ассистент врача стоматолога'
+//'6', 'Санитар'
+//'7', 'Бухгалтер'
+//'8', 'Зубной техник'
+//'9', 'Гигиенист'
+
+
     public static function tableName()
     {
         return 'sotr';
@@ -42,7 +56,17 @@ class Employee extends \yii\db\ActiveRecord
     {
         return ArrayHelper::map(Employee::find()
            ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
-            ->where(['dolzh'=>5,'status'=>self::STATUS_WORKED])
+            ->where(['dolzh'=>self::POSITION_NURSE,'status'=>self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(),'id','full_name');
+    }
+
+    public static function getTechniciansList()
+    {
+        return ArrayHelper::map(Employee::find()
+            ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh'=>self::POSITION_TECHNICIANS,'status'=>self::STATUS_WORKED])
             ->orderBy('surname')
             ->asArray()
             ->all(),'id','full_name');
@@ -86,7 +110,7 @@ class Employee extends \yii\db\ActiveRecord
     public function getPosition()
     {
 
-        return $this->hasOne(Positions::class, ['id' => 'dolzh']);
+        return $this->hasOne(Positions::className(), ['id' => 'dolzh']);
     }
 
     public function getPositionName()
@@ -124,7 +148,7 @@ class Employee extends \yii\db\ActiveRecord
     public function getAddress()
     {
 
-        return $this->hasOne(Addresses::class, ['id' => 'address_id']);
+        return $this->hasOne(Addresses::className(), ['id' => 'address_id']);
     }
 
     public function getStatusList()
