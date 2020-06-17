@@ -56,6 +56,11 @@ class InvoiceSearch extends Invoice
                     ->andWhere(['doctor_id'=>\Yii::$app->user->identity->employe_id])
                     ->orderBy('created_at DESC');
                 break;
+            case self::SEARCH_TYPE_TECHNICAL_ORDER:
+                $query->where(['type'=>Invoice::TYPE_TECHNICAL_ORDER])
+                    ->andWhere(['doctor_id'=>\Yii::$app->user->identity->employe_id])
+                    ->orderBy('created_at DESC');
+                break;
         }
         return $query;
     }

@@ -29,6 +29,7 @@ class Module extends WorkModule {
         'director' => '13',
         'radiologist' => '14',
         'surgeon' => '17',
+        'technician' => '4',
     ];
    /**
      * {@inheritdoc}

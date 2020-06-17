@@ -18,6 +18,7 @@ $tooth=$model->region->isTooth()? $model->getRegionName():"";
 
         <?= Html::a('Изменить', ['update', 'patient_id' => $patient_id, 'id' => $model->id,], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Печать', ['print', 'patient_id' => $patient_id, 'id' => $model->id, []], ['class' => 'btn btn-info', 'target' => '_blank']) ?>
+        <?= Html::a('Создать', ['create', 'patient_id' => $patient_id, ], ['class' => 'btn btn-success',]) ?>
         <?= Html::a('Все записи', ['index', 'patient_id' => $patient_id, 'id' => $model->id,], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Удалить', ['delete', 'patient_id' => $patient_id, 'id' => $model->id,], [
             'class' => 'btn btn-danger',

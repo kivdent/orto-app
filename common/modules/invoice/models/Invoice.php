@@ -41,6 +41,7 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_EMPLOYEE_DEBT = 'employee_debt';
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
+    const SEARCH_TYPE_TECHNICAL_ORDER = 'technical order';
 
     public function behaviors()
     {
@@ -193,4 +194,24 @@ class Invoice extends \common\models\Invoice
         $sum += $this->coefficientSummary * $uet;
         return $sum;
     }
+
+    public function getTechnicalOrder()
+    {
+        return $this->hasOne(TechnicalOrder::className(), ['technical_order_invoice_id' => 'id']);
+    }
+
+    public function getTechnicalOrderForInvoice()
+    {
+        return $this->hasOne(TechnicalOrder::className(), ['invoice_id' => 'id']);
+    }
+
+    public function getTechnicalOrderInvoice()
+    {
+        return $this->technicalOrderForInvoice->technicalOrderInvoice;
+    }
+    public function getDoctorInvoiceForTechnicalOrder()
+    {
+        return $this->technicalOrder->invoice;
+    }
+
 }

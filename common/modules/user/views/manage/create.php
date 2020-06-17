@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model common\modules\user\models\CreateUserForm */
 
 $this->title = 'Новый пользователь';
-$this->params['breadcrumbs'][] = ['label' => 'Плдьзователи', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Пльзователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

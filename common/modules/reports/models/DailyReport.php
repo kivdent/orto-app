@@ -11,12 +11,20 @@ namespace common\modules\reports\models;
 use common\modules\cash\models\Payment;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\models\TechnicalOrder;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
+use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-
+/**
+ * Class DailyReport
+ * @package common\modules\reports\models
+ *
+ * @property Employee $employee
+ */
 class DailyReport extends Model
 {
 
@@ -68,6 +76,7 @@ class DailyReport extends Model
                     'invoice_sum' => 'Сумма чека(Долг)',
                     'payment_sum' => 'Сумма оплаты за дату',
                     'payment_type' => 'Вид оплаты:',
+                    'actions' => 'Действия',
                 ]
             ],
             'labels' => [
@@ -82,6 +91,7 @@ class DailyReport extends Model
     private function setTable()
     {
         /* @var $invoice Invoice */
+
         foreach ($this->getInvoices() as $invoice) {
             $payments = $this->getPaymentsForInvoice($invoice->id);
             if ($payments) {
@@ -91,18 +101,38 @@ class DailyReport extends Model
             } else {
                 $row = [
                     'patient' => Html::a(
-                        '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
-                        ['/patient/manage/view', 'patient_id' => $invoice->patient_id],
-                        ['class' => 'btn btn-xs btn-primary']
-                    ). $invoice->getPatientFullName(),
+                            '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
+                            ['/patient/manage/view', 'patient_id' => $invoice->patient_id],
+                            ['class' => 'btn btn-xs btn-primary']
+                        ) . $invoice->getPatientFullName(),
                     'date' => $invoice->date,
                 ];
                 $row['invoice_sum'] = InvoiceModalWidget::widget(['invoice_id' => $invoice->id]);
+                switch ($this->employee->dolzh) {
+                    case Employee::POSITION_TECHNICIANS:
+                        $row['invoice_sum'] .= $invoice->coefficientSummary . '';
+                        break;
+                    default:
+                        $row['invoice_sum'] .= $invoice->amount_payable . ' р. ';
+                        break;
+                }
 
-                $row['invoice_sum'] .= $invoice->amount_payable . ' р. ';
-                $row['invoice_sum'] .= $invoice->amount_residual != 0 ? '(' . $invoice->amount_residual . ' р.)' : '';
+                switch ($this->employee->dolzh) {
+                    case Employee::POSITION_TECHNICIANS:
+                        $row['invoice_sum'] .= $invoice->doctorInvoiceForTechnicalOrder->amount_residual != 0 ? ' Не оплачен' : ' Оплачен';
+                        break;
+
+                    default:
+                        $row['invoice_sum'] .= $invoice->amount_residual != 0 ? '(' . $invoice->amount_residual . ' р.)' : '';
+                        break;
+                }
                 $row['payment_sum'] = 0;
                 $row['payment_type'] = '';
+                if ($this->employee->dolzh !== Employee::POSITION_TECHNICIANS) {
+                    $row['actions'] = Html::a('Создать заказ наряд',
+                        ['/invoice/manage/create', 'patient_id' => $invoice->patient_id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
+                    );
+                }
                 $this->table[] = $row;
             }
         }
@@ -124,20 +154,42 @@ class DailyReport extends Model
             'date' => $invoice->date,
         ];
         $row['invoice_sum'] = InvoiceModalWidget::widget(['invoice_id' => $invoice->id]);
-        $row['invoice_sum'] .= $invoice->amount_payable . ' р. ';
-        $row['invoice_sum'] .= $invoice->amount_residual != 0 ? '(' . $invoice->amount_residual . ' р.)' : '';
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $row['invoice_sum'] .= $invoice->coefficientSummary . '';
+                break;
+            default:
+                $row['invoice_sum'] .= $invoice->amount_payable . ' р. ';
+                break;
+        }
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $row['invoice_sum'] .= $invoice->doctorInvoiceForTechnicalOrder->amount_residual != 0 ? ' Не оплачен' : ' Оплачен';
+                break;
+            default:
+                $row['invoice_sum'] .= $invoice->amount_residual != 0 ? '(' . $invoice->amount_residual . ' р.)' : '';
+                break;
+        }
 
+//        $row['invoice_sum'] .= $invoice->amount_residual != 0 ? '(' . $invoice->amount_residual . ' р.)' : '';
         $row['payment_sum'] = $payment->vnes;
         $row['payment_type'] = $payment->typeName;
+        if ($this->employee->dolzh !== Employee::POSITION_TECHNICIANS) {
+            $row['actions'] = Html::a('Создать заказ наряд',
+                ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
+            );
+        }
         $this->table[] = $row;
     }
 
     public function getInvoices()
     {
+
+
         return Invoice::find()
             ->where(['doctor_id' => $this->employee->id])
             ->andWhere(Invoice::getDateExpression($this->date))
-            ->andWhere(['<>','type',Invoice::TYPE_MATERIALS])
+            ->andWhere(['type' => $this->setInvoicesType()])
             ->all();
     }
 
@@ -173,13 +225,16 @@ class DailyReport extends Model
 
     public function getPaymentsNotToday()
     {
+        $this->setInvoicesType();
         $payments = Payment::find()
             ->select('`oplata`.`*`')
             ->where(['date' => $this->date])
             ->innerJoinWith(['invoice' => function ($query) {
                 $query->onCondition(Invoice::getDateExpression($this->date, '<>'));
+
             }])
-            ->andWhere(['invoice.doctor_id' => $this->employee->id])->all();
+            ->andWhere(['invoice.doctor_id' => $this->employee->id])
+            ->andWhere(['invoice.type' => $this->setInvoicesType()])->all();
         return $payments;
     }
 
@@ -195,7 +250,17 @@ class DailyReport extends Model
 
     public function getInvoiceSummary()
     {
-        return array_sum(array_column($this->getInvoices(), 'amount_payable'));
+        $sum = 0;
+
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $sum=array_sum(array_column($this->getInvoices(), 'salarySum'));
+                break;
+            default:
+                $sum = array_sum(array_column($this->getInvoices(), 'amount_payable'));
+                break;
+        }
+        return $sum;
     }
 
     public function getPaymentSummary()
@@ -207,21 +272,61 @@ class DailyReport extends Model
     {
         $sum = 0;
         /* @var $payment Payment */
-        $payments = Payment::find()
-            ->select('oplata.dnev')
-            ->where(['oplata.date' => $this->date])
-            ->joinWith('invoice')
-            ->andWhere(['invoice.doctor_id' => $this->employee->id])
-            ->groupBy('oplata.dnev')
-            ->all();
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $payments = Payment::find()
+                    ->select('oplata.dnev')
+                    ->where(['oplata.date' => $this->date])
+                    ->innerJoinWith(['invoice' => function ($query) {
+                        $query->innerJoinWith(['technicalOrderForInvoice' => function ($q) {
+                            $q->onCondition([TechnicalOrder::tableName() . '.employee_id' => $this->employee->id]);
+                        }]);
+                    }])
+                    ->groupBy('oplata.dnev')
+                    ->all();
+                break;
+            default:
+                $payments = Payment::find()
+                    ->select('oplata.dnev')
+                    ->where(['oplata.date' => $this->date])
+                    ->joinWith('invoice')
+                    ->andWhere(['invoice.doctor_id' => $this->employee->id])
+                    ->andWhere([Invoice::tableName() . '.type' => $this->setInvoicesType()])
+                    ->groupBy('oplata.dnev')
+                    ->all();
+                break;
+        }
+
         if ($payments) {
             foreach ($payments as $payment) {
                 if ($this->date == $payment->invoice->getLastPaymentDate()
                     && $payment->invoice->amount_residual == 0) {
-                    $sum += $payment->invoice->salarySum;
-                };
+                    switch ($this->employee->dolzh) {
+                        case Employee::POSITION_TECHNICIANS:
+                            $sum += $payment->invoice->technicalOrderInvoice->salarySum;
+
+                            break;
+                        default:
+                            $sum += $payment->invoice->salarySum;
+                            break;
+                    }
+                }
             }
         }
         return $sum;
+    }
+
+    private function setInvoicesType()
+    {
+        $type = [];
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $type = Invoice::TYPE_TECHNICAL_ORDER;
+                break;
+            default:
+                $type = [Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS];
+                break;
+        }
+        return $type;
     }
 }

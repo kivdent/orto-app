@@ -20,7 +20,8 @@ return [
             'accountant' => '/salary/manage/index',
             'senior_nurse' => '/employee/manage/index',
             'director' => '/old_app/dir_den_opl.php',
-            'radiologist' => '/old_app/rentgen.php?type=today'
+            'radiologist' => '/old_app/rentgen.php?type=today',
+            'technician' => '/reports/financial/employee-period',
         ],
         'widgets' => [
             'addressFormFields' => 'common\modules\userInterface\widgets\AddressFormWidget'

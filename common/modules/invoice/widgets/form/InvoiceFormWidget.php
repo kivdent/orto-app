@@ -115,33 +115,37 @@ class InvoiceFormWidget extends \yii\base\Widget
 
             case self::TYPE_PAGE_TECHNICAL_ORDER:
                 $patient = Patient::findOne($this->patient_id)->getFullName();
-                $html = '<h4>Пациент ' . $patient . '</h4>';
-                $html .= '<h4 >Создание заказ-наряда 
-                            <button type="button" class="btn btn-primary submit-invoice">Сохранить</button> 
-                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
-                           </h4>';
+                $html = '<h3>Создание заказ-наряда</h3>';
+                $html .= '<h4 > Пациент ' . $patient . '
+                            </h4>';
                 $html .= Html::input('hidden', 'patient_id', $this->patient_id, ['id' => 'patient_id']);
                 $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
-                $html .= Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id']);
+                $html .= Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']);
                 if ($this->employee_choice) {
                     $html .= 'Врач:' . Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
                 } else {
                     $html .= Html::input('hidden', 'doctor_id', Yii::$app->user->identity->employe_id, ['id' => 'doctor_id']);
                 }
-                $html .= 'Техник: ' . Html::dropDownList('doctor_id', '', Employee::getTechniciansList(), ['id' => 'technicians_id']) . '<br>';
-                $html .= 'Дата сдачи: ';
-                $html .= DatePicker::widget([
-                    'name' => 'date_picker',
-                    'type' => DatePicker::TYPE_INPUT,
-                    'value' => date('Y-m-d'),
-                    'pluginOptions' => [
-                        'format' => 'yyyy-mm-dd',
-                    ],
-                    'options' => [
-                        'id' => 'date_picker',
-                    ],
-                ]);
+                $html .= '<div class="row">
+                            <div class="col-lg-6">Техник:<br> ' . Html::dropDownList('doctor_id', '', Employee::getTechniciansList(), ['id' => 'employee_id', 'class' => 'form-control required-property']) . '</div>';
+                $html .= '<div class="col-lg-6">Дата сдачи: ' . DatePicker::widget([
+                        'name' => 'date_picker',
+                        'type' => DatePicker::TYPE_INPUT,
+                        'value' => date('Y-m-d'),
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                        ],
+                        'options' => [
+                            'id' => 'delivery_date',
+                            'class' => 'required-property',
+                        ],
+                    ]) . '</div>
+                        </div>';
+                $html .= '<br>';
+                $html .= '<button type="button" class="btn btn-primary submit-technical-order">Сохранить</button> 
+                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
+                          ';
 
                 break;
 
@@ -168,6 +172,9 @@ class InvoiceFormWidget extends \yii\base\Widget
                       </div>
                     </div>
                 ';
+                break;
+            case Invoice::TYPE_TECHNICAL_ORDER:
+                $html = '';
                 break;
             default:
                 $html = '';
@@ -205,9 +212,17 @@ class InvoiceFormWidget extends \yii\base\Widget
                     <td></td>
                     <td></td>
                     <td></td>
-                    <th class="text-right">Итого</th>
-                    <th id="summary">' . $invoice->amount_payable . ' р.</th>                   
-                </tr>
+                    <th class="text-right">Итого</th>';
+        switch ($invoice->type){
+            case Invoice::TYPE_TECHNICAL_ORDER:
+                $html .= '<th id="summary">' . $invoice->coefficientSummary . '</th>';
+                break;
+            default:
+                $html .= '<th id="summary">' . $invoice->amount_payable . ' р.</th>';
+                break;
+        }
+
+        $html .= '</tr>
                 </tfoot>
                 <tbody>';
         $html .= self::getRows($invoice);
@@ -241,6 +256,20 @@ class InvoiceFormWidget extends \yii\base\Widget
                     <td>' . $invoice->amount_payable . ' р.</td>
                     
                 </tr>';
+                break;
+            case Invoice::TYPE_TECHNICAL_ORDER:
+                $i = 1;
+                foreach ($invoice->invoiceItems as $invoiceItem) {
+                    $html .= '<tr>
+                    <td>' . $i . '</td>
+                    <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
+                    <td>' . $invoiceItem->prices->coefficient . '</td>
+                    <td>' . $invoiceItem->quantity . '</td>
+                    <td>' . $invoiceItem->CoefficientSummary . '</td>
+                    
+                </tr>';
+                    $i++;
+                }
                 break;
             default:
                 $i = 1;

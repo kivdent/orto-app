@@ -21,7 +21,11 @@ class SalaryCard extends \common\models\SalaryCard
 
     public static function getTypeSelection($type)
     {
-        $cards=self::find()->where(['type'=>$type])->all();
+        $cards=self::find()
+            ->where(['type'=>$type])
+            ->joinWith('employee')
+            ->andWhere(['sotr.status'=>Employee::STATUS_WORKED])
+            ->all();
         return $cards;
     }
 

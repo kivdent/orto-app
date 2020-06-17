@@ -78,7 +78,7 @@ class SmsNotifier extends Component
 
     private static function getAppointmentNotificationText(Appointment $appointment)
     {
-        $text = 'Здравствуйте, напоминаем, что вы назначены в приём '
+        $text = 'Здравствуйте, напоминаем, что вы назначены на приём '
             . UserInterface::getFormatedDate($appointment->appointments_day->date)
             . ' в '
             . substr($appointment->NachNaz, 0, 5)

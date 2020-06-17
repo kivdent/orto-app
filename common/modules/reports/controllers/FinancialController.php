@@ -5,28 +5,31 @@ namespace common\modules\reports\controllers;
 use common\modules\cash\models\Cashbox;
 use common\modules\clinic\models\FinancialDivisions;
 use common\modules\employee\models\Employee;
+use common\modules\invoice\models\InvoiceSearch;
+use common\modules\invoice\models\TechnicalOrder;
 use common\modules\reports\models\DailyReport;
 use common\modules\reports\models\FinancialPeriods;
 use common\modules\reports\models\FinancialReports;
 use common\modules\reports\models\PeriodReport;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class FinancialController extends \yii\web\Controller
 {
-    public function actionDaily($date='today')
+    public function actionDaily($date = 'today')
     {
-        $cashbox = $date=='today'?Cashbox::getCurrentCashBox():Cashbox::findOne(['date'=>$date]);
-        if (!$cashbox){
+        $cashbox = $date == 'today' ? Cashbox::getCurrentCashBox() : Cashbox::findOne(['date' => $date]);
+        if (!$cashbox) {
             throw new NotFoundHttpException('Отчёт не найден.');
         }
         if ($cashbox == null) {
             return $this->redirect('/cash/manage/start');
         }
         $divisions = FinancialDivisions::getDivisionList();
-        $financial_report = $date=='today'?FinancialReports::getToday():FinancialReports::getForDate($date);
+        $financial_report = $date == 'today' ? FinancialReports::getToday() : FinancialReports::getForDate($date);
         return $this->render('daily', [
             'cashbox' => $cashbox,
             'financial_report' => $financial_report,
@@ -35,17 +38,17 @@ class FinancialController extends \yii\web\Controller
         ]);
     }
 
-    public function actionDailyPrint($division_id,$date='today')
+    public function actionDailyPrint($division_id, $date = 'today')
     {
 
-        $cashbox = $date=='today'?Cashbox::getCurrentCashBox():Cashbox::findOne(['date'=>$date]);
-        if (!$cashbox){
+        $cashbox = $date == 'today' ? Cashbox::getCurrentCashBox() : Cashbox::findOne(['date' => $date]);
+        if (!$cashbox) {
             throw new NotFoundHttpException('Отчёт не найден.');
         }
         if ($cashbox == null) {
             return $this->redirect('/cash/manage/start');
         }
-        $financial_report = $date=='today'?FinancialReports::getToday():FinancialReports::getForDate($date);
+        $financial_report = $date == 'today' ? FinancialReports::getToday() : FinancialReports::getForDate($date);
 
 
         $divisions = [];
@@ -107,6 +110,16 @@ class FinancialController extends \yii\web\Controller
         return $this->render('employee_period', [
             'period_report' => $period_report,
             'employee_selectable' => $employee_selectable
+        ]);
+    }
+
+    public function actionEmployeeTechnicalOrder()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => TechnicalOrder::find(),
+        ]);
+        return $this->render('employee-technical-order', [
+            'dataProvider' => $dataProvider,
         ]);
     }
 }

@@ -15,6 +15,7 @@ $(document).ready(function () {
         $("#summary").text(invoice_sum + ' руб');
     }
 
+
     $(".manipulation-item").click(function () {
 
         let id = $(this).attr('id');
@@ -96,18 +97,52 @@ $(document).ready(function () {
 
                 let id = parseInt($('tr.' + i).attr('id'));
                 let count = parseInt($('#invoice-item-quantity-' + id).val());
-                items.push({'id':id,'quantity':count});
+                items.push({'id': id, 'quantity': count});
             }
             var action = "save-ajax";
             var data = {
                 'patient_id': parseInt($("#patient_id").val()),
                 'doctor_id': parseInt($("#doctor_id").val()),
-                'appointment_id':  parseInt($("#appointment_id").val()),
-                'invoice_type':  $("#invoice_type").val(),
+                'appointment_id': parseInt($("#appointment_id").val()),
+                'invoice_type': $("#invoice_type").val(),
                 'items': items
             };
 
 
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    window.location = '/';
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        } else {
+            alert('Выбирите хотя бы одну манипуляцию');
+
+        }
+
+
+    });
+    $('button.submit-technical-order').on('click', function () {
+        if (count_invoice_items > 0) {
+            let items = [];
+            for (let i = 1; i <= count_invoice_items; i++) {
+
+                let id = parseInt($('tr.' + i).attr('id'));
+                let count = parseInt($('#invoice-item-quantity-' + id).val());
+                items.push({'id': id, 'quantity': count});
+            }
+            var action = "save-ajax";
+            var data = {};
+            $('.required-property').each(function (index,value) {
+                data[$(this).attr('id')]=$(this).val();
+            })
+            data['items']=items;
+            console.log(data);
             $.ajax({
                 url: action,
                 type: 'POST',

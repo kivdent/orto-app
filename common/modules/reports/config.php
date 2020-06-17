@@ -12,7 +12,8 @@ return [
             ['label' => 'Финансовый отчёт за день', 'url' => '/reports/financial/daily', 'roles' => ['recorder','director','accountant',]],
 //            ['label' => 'Отчёт за день (чеки)', 'url' => '/old_app/doc_den_ch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за день', 'url' => '/reports/financial/employee-daily', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
-            ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+            ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['technician','therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+
 //            ['label' => 'Отчёт за период оплаты', 'url' => '/reports/default/index', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за период (чеки)', 'url' => '/old_app/doc_den_ch_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за день (оплаты)', 'url' => '/old_app/doc_den_opl.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
@@ -24,6 +25,7 @@ return [
             ['label' => 'Финансовый отчёт по врачам за период', 'url' => '/old_app/dir_den_opl_per.php', 'roles' => ['director',]],
             ['label' => 'Финансовый отчёт по клинике за период', 'url' => '/old_app/dir_den_opl_per_clin.php', 'roles' => ['director',]],
             ['label' => 'Отчёт по договорам', 'url' => '/old_app/dir_dog.php', 'roles' => ['director',]],
+            ['label' => 'Заказ-наряды', 'url' => '/reports/financial/employee-technical-order', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёты', 'url' => '/old_app/doc_den_opl_xray_per.php', 'roles' => ['radiologist',]],
             ['label' => 'Отчёты', 'url' =>[
                 '/reports/financial/employee-period',

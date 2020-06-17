@@ -111,8 +111,9 @@ class ManageController extends Controller {
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
+        $employee=$this->findModel($id);
+        $employee->status=Employee::STATUS_NOT_WORKED;
+        $employee->save(false);
         return $this->redirect(['index']);
     }
 
