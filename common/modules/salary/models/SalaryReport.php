@@ -89,7 +89,6 @@ class SalaryReport extends Model
         if ($salaryCards) {
             foreach ($salaryCards as $salaryCard) {
                 $table = [];
-
                 $table['employee'] = Html::a(
                     $salaryCard->employeeName,
                     [

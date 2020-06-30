@@ -8,6 +8,7 @@ use common\modules\cash\models\Payment;
 use common\modules\catalogs\models\PaymentType;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\models\TechnicalOrder;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
@@ -24,21 +25,54 @@ class InvoiceReport extends Model
     {
         $report = new self();
         $table = [];
-        $invoices = Invoice::find()
-            ->select('invoice.*')
-            ->where(['doctor_id' => $employee->id])
-            ->andWhere('amount_payable=paid')
-            ->joinWith('payments')
-            ->andWhere(['>=', 'oplata.date', $financialPeriod->nach])
-            ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
-            ->groupBy('invoice.id')
-            ->all();
+        switch ($employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+//                $invoices = Invoice::find()
+//                    ->select(TechnicalOrder::tableName().'.technical_order_invoice_id')
+//                    ->where(['>=', 'oplata.date', $financialPeriod->nach])
+//                    ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
+//                    ->innerJoinWith(['invoice' => function ($query) use ($employee) {
+//                        $query->innerJoinWith(['technicalOrderForInvoice' => function ($q) use ($employee) {
+//                            $q->onCondition([TechnicalOrder::tableName() . '.employee_id' => $employee->id]);
+//                        }]);
+//                    }])
+//                    ->andWhere('invoice.amount_payable=invoice.paid')
+//                    ->groupBy(TechnicalOrder::tableName().'.technical_order_invoice_id')
+//                    ->all();
+                $invoices = Invoice::find()
+                    ->select(TechnicalOrder::tableName() . '.technical_order_invoice_id')
+                    ->andWhere('invoice.amount_payable=invoice.paid')
+                    ->joinWith('payments')
+                    ->innerJoinWith(['technicalOrderForInvoice' => function ($q) use ($employee) {
+                        $q->onCondition([TechnicalOrder::tableName() . '.employee_id' => $employee->id]);
+                    }])
+                    ->andWhere(['>=', 'oplata.date', $financialPeriod->nach])
+                    ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
+                    ->groupBy(TechnicalOrder::tableName() . '.technical_order_invoice_id')
+                    ->all();
+                break;
+            default:
+                $invoices = Invoice::find()
+                    ->select('invoice.*')
+                    ->where(['doctor_id' => $employee->id])
+                    ->andWhere('amount_payable=paid')
+                    ->joinWith('payments')
+                    ->andWhere(['>=', 'oplata.date', $financialPeriod->nach])
+                    ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
+                    ->groupBy('invoice.id')
+                    ->all();
+                break;
+        }
+
+
         if (!$invoices) {
             return $table;
         }
 
-
+//        UserInterface::getVar($invoices->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+        //UserInterface::getVar($invoices);
         foreach ($invoices as $invoice) {
+//            UserInterface::getVar($invoice->getLastPaymentDate(),false);
             if ($invoice->isLastPaymentDateInPeriod($financialPeriod)) {
                 $row['patient'] = $invoice->patient->fullName;
                 $row['date'] = $invoice->date;
@@ -69,8 +103,8 @@ class InvoiceReport extends Model
                 $report->table[] = $row;
             }
         }
-        $report->summaryByPricelist['summary']['sum'] =$report->summary;
-        $report->summaryByPricelist['summary']['price_list']='Итого';
+        $report->summaryByPricelist['summary']['sum'] = $report->summary;
+        $report->summaryByPricelist['summary']['price_list'] = 'Итого';
         return $report;
     }
 

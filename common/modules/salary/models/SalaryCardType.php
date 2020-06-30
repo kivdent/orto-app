@@ -15,6 +15,7 @@ class SalaryCardType extends \common\models\SalaryCardType
     const TYPE_HOURLY = 3;
     const TYPE_PERCENTAGE_FULL = 4;
 
+
     public $type_list = [
         self::TYPE_PERCENTAGE => 'Процент от выручки',
         self::TYPE_HOURLY => 'Почасовая оплата',

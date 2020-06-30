@@ -26,7 +26,7 @@ class FinancialPeriods extends \common\models\FinancialPeriods
         if (!$period) {
             $period = new FinancialPeriods([
                 'defined' => false,
-                'nach' => date("Y-m") . "-1",
+                'nach' => date("Y-m") . "-01",
                 'okonch' => date("Y-m") . "-" . date("t"),
                 'uet' => self::DEFAULT_UET,
             ]);

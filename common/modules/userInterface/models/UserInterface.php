@@ -9,6 +9,7 @@ namespace common\modules\userInterface\models;
 
 use frontend\models\User;
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use common\modules\userInterface\helpers\FormatHelper;
 
@@ -261,5 +262,8 @@ class UserInterface
         $phone = preg_replace("/[^0-9]/", '', $phone);
         $phone='+7'.substr($phone,1,10);
         return $phone;
+    }
+    public static function getRawSql(ActiveRecord $model,$die=true){
+        UserInterface::getVar($model->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql,$die);
     }
 }

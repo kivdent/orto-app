@@ -304,7 +304,6 @@ class DailyReport extends Model
                     switch ($this->employee->dolzh) {
                         case Employee::POSITION_TECHNICIANS:
                             $sum += $payment->invoice->technicalOrderInvoice->salarySum;
-
                             break;
                         default:
                             $sum += $payment->invoice->salarySum;

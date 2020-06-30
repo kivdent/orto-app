@@ -7,6 +7,7 @@ use common\modules\cash\models\Payment;
 use common\modules\employee\models\Employee;
 use common\modules\pricelists\models\Prices;
 use common\modules\reports\models\FinancialPeriods;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\models\Pricelist;
@@ -147,13 +148,19 @@ class Invoice extends \common\models\Invoice
 
     public function getLastPaymentDate()
     {
-        $date = Payment::find()->select('date')->where(['dnev' => $this->id])->orderBy(['date' => SORT_DESC])->one()->date;
-        return $date;
+
+        $lastPayment = Payment::find()->
+        select('date')->
+        where(['dnev' => $this->getPaidInvoiceId()])->
+        orderBy(['date' => SORT_DESC])->
+        one();
+        return $lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+
     }
 
     public function isLastPaymentDateInPeriod(FinancialPeriods $financialPeriod)
     {
-        return strtotime($this->getLastPaymentDate()) >= strtotime($financialPeriod->nach)
+         return strtotime($this->getLastPaymentDate()) >= strtotime($financialPeriod->nach)
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
@@ -209,9 +216,24 @@ class Invoice extends \common\models\Invoice
     {
         return $this->technicalOrderForInvoice->technicalOrderInvoice;
     }
+
     public function getDoctorInvoiceForTechnicalOrder()
     {
         return $this->technicalOrder->invoice;
+    }
+
+    private function getPaidInvoiceId()
+    {
+
+        switch ($this->employee->dolzh) {
+            case Employee::POSITION_TECHNICIANS:
+                $id=$this->technicalOrderInvoice->id;
+                break;
+            default:
+                $id=$this->id;
+                break;
+        }
+        return $id;
     }
 
 }

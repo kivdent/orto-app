@@ -75,7 +75,11 @@ class SalaryCardController extends Controller
      */
     public function actionCreate()
     {
-        $model = new SalaryCard();
+        $model = new SalaryCard([
+            'ph' => 0,
+            'pn' => 0,
+            'stavka' => 10000
+        ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
