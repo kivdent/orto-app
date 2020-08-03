@@ -64,7 +64,6 @@ class InvoiceReport extends Model
                 break;
         }
 
-
         if (!$invoices) {
             return $table;
         }

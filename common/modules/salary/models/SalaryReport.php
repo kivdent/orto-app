@@ -99,6 +99,7 @@ class SalaryReport extends Model
                     ]);
                 $table += $this->getPriceListsSummsForPeriod($salaryCard->employee);
                 //$table['orthodontics'] = $this->getOrthodonticsSumm($salaryCard->employee);
+
                 $this->table[] = $table;
             }
 
@@ -182,6 +183,7 @@ class SalaryReport extends Model
         if (!$report) {
             return $table;
         }
+        unset($report->summaryByPricelist['summary']);
         foreach ($report->summaryByPricelist as $pricelist_id => $summary) {
             $table[$this->getPriceListColumnName($pricelist_id)] = $summary['sum'];
             if (!isset($this->labels[$this->getPriceListColumnName($pricelist_id)])) {
@@ -360,7 +362,7 @@ class SalaryReport extends Model
             ->andWhere(['<=', 'date', $this->financial_period->okonch])
             ->joinWith('invoice')
             ->andWhere(['invoice.doctor_id' => $employee->id])
-            ->andWhere(['invoice.type' => Invoice::TYPE_MANIPULATIONS])
+            ->andWhere(['invoice.type' => [Invoice::TYPE_MANIPULATIONS,Invoice::TYPE_ORTHODONTICS,]])
             ->all();
         return $payments;
     }
