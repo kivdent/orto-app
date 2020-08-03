@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use common\modules\invoice\models\InvoiceSearch;
 use yii\helpers\Html;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
+use common\modules\invoice\models\Invoice;
 
 /* @var $this yii\web\View */
 /* @var ActiveDataProvider $dataProvider */
@@ -36,7 +37,10 @@ use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
             'attribute' => 'amount_residual',
             'format' => 'raw',
             'content' => function ($data) {
-                return InvoiceModalWidget::widget(['invoice_id' =>$data->id]).$data->amount_residual;
+                $material= $data->type === Invoice::TYPE_MATERIALS ? '<span class="label label-info ">
+                            <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+                         </span>' : '';
+                return InvoiceModalWidget::widget(['invoice_id' =>$data->id]).$data->amount_residual.$material;
             }
         ],
         'date',
