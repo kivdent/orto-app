@@ -31,7 +31,7 @@ class PatientMenuWidget extends Widget
 //            ['label' => 'Медицинская карта', 'url' => ['/patient/examination/index','patient_id' => $this->patient_id]],
 //           ['label' => 'Дневник', 'url' => ['/patient/journal/index','patient_id' => $this->patient_id]],
 //            ['label' => 'Диспансеризация', 'url' => ['/patient/recall/index','patient_id' => $this->patient_id]],
-//            ['label' => 'Статистика', 'url' => ['/patient/statistics/index','patient_id' => $this->patient_id]],
+          ['label' => 'Статистика', 'url' => ['/patient/statistics/index','patient_id' => $this->patient_id]],
             ['label' => 'План лечения', 'url' => ['/patient/plan/index', 'patient_id' => $this->patient_id]],
             ['label' => 'Медицинская карта', 'url' => ['/patient/records/index', 'patient_id' => $this->patient_id]],
 
