@@ -27,18 +27,18 @@ class ManageController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-             'access' => [
+            'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
                         'actions' => ['delete'],
-                        'roles' => ['admin', ],
+                        'roles' => ['admin',],
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index','view','update','create'],
-                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse','accountant', ],
+                        'actions' => ['index', 'view', 'update', 'create'],
+                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', 'accountant',],
                     ],
                 ],
             ],
@@ -81,9 +81,9 @@ class ManageController extends Controller
     public function actionCreate()
     {
         $model = new PatientForm();
-        
 
-        if ($model->load(Yii::$app->request->post())&& $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
+
+        if ($model->load(Yii::$app->request->post()) && $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'patient_id' => $model->id]);
         }
 
@@ -102,10 +102,14 @@ class ManageController extends Controller
     public function actionUpdate($patient_id)
     {
         $model = $this->findModel($patient_id);
-     
-        if ($model->load(Yii::$app->request->post())&& $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'patient_id' => $model->id]);
+
+        if ($model->load(Yii::$app->request->post()) && $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success','Карта сохранена');
+            $this->render('update', [
+                'model' => $model,
+            ]);
         }
+
 
         return $this->render('update', [
             'model' => $model,

@@ -33,6 +33,11 @@ $this->title="Статистика пациента"
         <td><?=$statistics->orthopedicsDate?></td>
         <td><?=$statistics->orthopedicsEmployee?></td>
     </tr>
+    <tr>
+        <td>Ортодонтия</td>
+        <td><?=$statistics->orthodonticsDate?></td>
+        <td><?=$statistics->orthodonticsEmployee?></td>
+    </tr>
 
 </table>
 

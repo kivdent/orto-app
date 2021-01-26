@@ -31,7 +31,6 @@ use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
             'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
 
         ],
-
         [
             'attribute' => 'amount_payable',
             'format' => 'raw',

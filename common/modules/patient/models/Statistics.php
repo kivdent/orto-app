@@ -24,6 +24,8 @@ use yii\helpers\ArrayHelper;
  * @property string $vectorEmployee
  * @property string $orthopedicsDate
  * @property string $orthopedicsEmployee
+ * @property string $orthodonticsEmployee
+ * @property string $orthodonticsDate
  */
 class Statistics extends Model
 {
@@ -136,11 +138,31 @@ class Statistics extends Model
     }
 
 
-
     public function getOrthopedicsDate()
     {
         $invoice = $this->getInvoicesByPricelistItems($this->getOrthopedicsPrices());
         return $invoice ? $invoice->date : "Не проводилась";
+    }
+
+    public function getOrthodonticsDate()
+    {
+        //$invoice = $this->getInvoicesByPricelistItems($this->getOrthopedicsPrices());
+        $invoice = $this->getInvoiceByType(Invoice::TYPE_ORTHODONTICS);
+        return $invoice ? $invoice->date : "Не проводилась";
+    }
+
+    public function getOrthodonticsEmployee()
+    {
+        $invoice = $this->getInvoiceByType(Invoice::TYPE_ORTHODONTICS);
+        return $invoice ? $invoice->employeeFullName : "Не проводилась";
+    }
+
+    public function getInvoiceByType($type)
+    {
+        return Invoice::find()
+            ->where(['type' => $type])
+            ->orderBy('created_at DESC')
+            ->one();
     }
 
     public function getOrthopedicsEmployee()
@@ -151,12 +173,13 @@ class Statistics extends Model
 
     public function getOrthopedicsPrices()
     {
-        $priceListItems=$this->getPriceListItemsFromPriceLists(self::MANIPULATIONS_ORTHOPEDICS);
+        $priceListItems = $this->getPriceListItemsFromPriceLists(self::MANIPULATIONS_ORTHOPEDICS);
         return $this->getPricesIdConditions($priceListItems);
     }
 
     private function getPriceListItemsFromPriceLists($pricelistIds)
     {
-        return implode(ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in ('.$pricelistIds.')')->all(),'id'),',');
+        return implode(ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in (' . $pricelistIds . ')')->all(), 'id'), ',');
     }
+
 }

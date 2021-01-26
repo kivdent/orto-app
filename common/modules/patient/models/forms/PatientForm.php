@@ -35,10 +35,10 @@ class PatientForm extends Patient {
             $this->addressForm = Addresses::FindOne($this->address_id);
         } else {
             $this->addressForm = new Addresses();
-            $this->addressForm->street = $this->adres;
-            $this->addressForm->save(false);
-            $this->address_id= $this->addressForm->id;
-            $this->save(false);
+//            $this->addressForm->street = $this->adres;
+//            $this->addressForm->save(false);
+//            $this->address_id= $this->addressForm->id;
+//            $this->save(false);
         }
     }
 
@@ -58,7 +58,6 @@ class PatientForm extends Patient {
         if (!parent::beforeSave($insert)) {
             return false;
         }
-
         if ($this->addressForm->save()) {
             $this->address_id = $this->addressForm->id;
         } else {

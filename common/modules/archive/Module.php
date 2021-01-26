@@ -1,24 +1,27 @@
 <?php
 
-namespace common\modules\invoice;
+namespace common\modules\archive;
 
 use common\abstractClasses\WorkModule;
 use Yii;
 
 /**
- * invoice module definition class
+ * archive module definition class
  */
 class Module extends WorkModule
 {
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'common\modules\invoice\controllers';
-    public $defaultRoute = 'manage';
-    public $moduleName = "Счета";
+    public $controllerNamespace = 'common\modules\archive\controllers';
+
     /**
      * {@inheritdoc}
      */
+
+    public $defaultRoute = 'manage';
+    public $moduleName = "Работа с архивом";
+
     public function init()
     {
         parent::init();

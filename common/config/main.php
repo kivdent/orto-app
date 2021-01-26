@@ -102,5 +102,8 @@ return [
         'notifier' => [
             'class' => 'common\modules\notifier\Module',
         ],
+        'archive' => [
+            'class' => 'common\modules\archive\Module',
+        ],
     ],
 ];

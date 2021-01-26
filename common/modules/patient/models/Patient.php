@@ -6,8 +6,10 @@ use common\modules\cash\models\Prepayment;
 use common\modules\catalogs\models\Agreement;
 use common\modules\discounts\models\DiscountCard;
 use common\modules\invoice\models\SchemeOrthodontics;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\userInterface\models\Addresses;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "klinikpat".
@@ -35,6 +37,8 @@ use common\modules\userInterface\models\Addresses;
  * @property SchemeOrthodontics $schemeOrthodontics
  * @property string $fullName
  * @property integer $orthodonticsPayPerMonth
+ * @property string $statusName
+ * @property string $status
  */
 class Patient extends \yii\db\ActiveRecord
 {
@@ -42,11 +46,27 @@ class Patient extends \yii\db\ActiveRecord
     const SEX_MALE = 'Муж';
     const SEX_FEMALE = 'Жен';
     const SEX_NOT_SET = '';
-    const DEFAULT_ID=1; //TO_DO При установке создавать пациента с id=1 и id=0
+    const DEFAULT_ID = 1; //TO_DO При установке создавать пациента с id=1 и id=0
+
+    const STATUS_ARCHIVE_IN_ARCHIVE = 'in_archive';
+    const STATUS_ARCHIVE_NOT_FOUND = 'not_found';
+    const STATUS_ARCHIVE_IN_CARD_INDEX = 'in_card_index';
+    const STATUS_ARCHIVE_IN_THE_OFFICE = 'in_the_office';
+    const STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE = 'requested_from_archive';
 
     public function getPrepaymentAmount()
     {
         return ($this->prepayment) ? $this->prepayment->avans : '0';
+    }
+
+    public static function getStatusNameList()
+    {
+        return [
+            self::STATUS_ARCHIVE_IN_ARCHIVE => 'В архиве',
+            self::STATUS_ARCHIVE_NOT_FOUND => 'Карта не найдена',
+            self::STATUS_ARCHIVE_IN_CARD_INDEX => 'В картотеке',
+            self::STATUS_ARCHIVE_IN_THE_OFFICE => 'У врача',
+            self::STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE => 'Запрошена из архива',];
     }
 
     /**
@@ -65,7 +85,7 @@ class Patient extends \yii\db\ActiveRecord
         return [
             [['dr'], 'safe'],
             [['Skidka', 'address_id'], 'integer'],
-
+            [['status'], 'string'],
             [['Prim'], 'string'],
             [['surname'], 'string', 'max' => 20],
             [['name', 'otch', 'MestRab', 'prof', 'DTel', 'RTel', 'MTel', 'FLech'], 'string', 'max' => 15],
@@ -98,7 +118,8 @@ class Patient extends \yii\db\ActiveRecord
             'Skidka' => 'Скидка',
             'Prim' => 'Примечание',
             'fullName' => 'Имя',
-            'orthodonticsPayPerMonth'=>'Оплата за месяц'
+            'orthodonticsPayPerMonth' => 'Оплата за месяц',
+            'status' => 'Статус карты'
         ];
     }
 
@@ -106,6 +127,16 @@ class Patient extends \yii\db\ActiveRecord
     {
 
         $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:d.m.Y');
+    }
+
+    public function beforeSave($insert)
+    {
+
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:Y-m-d');
+        return true;
     }
 
     public function getSex()
@@ -124,7 +155,6 @@ class Patient extends \yii\db\ActiveRecord
 
     public function getAddress()
     {
-
         return $this->hasOne(Addresses::class, ['id' => 'address_id']);
     }
 
@@ -171,6 +201,26 @@ class Patient extends \yii\db\ActiveRecord
 
     public function getOrthodonticsPayPerMonth()
     {
-        return ($this->schemeOrthodontics)?$this->schemeOrthodontics->summ_month:null;
+        return ($this->schemeOrthodontics) ? $this->schemeOrthodontics->summ_month : null;
+    }
+
+    public function getDuplicate()
+    {
+        return Patient::find()
+            ->where([
+                'surname' => $this->surname,
+                'name' => $this->name,
+                'otch' => $this->otch])
+            ->andWhere(['<>', 'id', $this->id])
+            ->one();
+    }
+
+    public function hasAddress()
+    {
+
+        return $this->address_id === null ? false : true;
+    }
+    public function getStatusName(){
+        return self::getStatusNameList()[$this->status];
     }
 }

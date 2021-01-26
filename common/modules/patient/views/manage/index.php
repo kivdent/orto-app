@@ -15,7 +15,7 @@ $this->title = 'Пациенты';
 <div class="patient-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php Pjax::begin(); ?>
+    <?php //Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -27,12 +27,13 @@ $this->title = 'Пациенты';
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
             [
                 'attribute' => 'id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a($model->id, ['update', 'patient_id' => $model->id], ['target' => '_blank']);
+                    $text = Html::a($model->id . ' <span class="label label-default">' . $model->statusName . '</span>', ['update', 'patient_id' => $model->id], ['target' => '_blank']);
+
+                    return $text;
                 },
 
             ],
@@ -43,7 +44,6 @@ $this->title = 'Пациенты';
                 'attribute' => 'dr',
                 'format' => ['date', 'dd.MM.Y'],
             ],
-
             'MTel',
             'DTel',
             [
@@ -51,13 +51,30 @@ $this->title = 'Пациенты';
                 'template' => '{update}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('', ['/old_app/pat_card.php', 'id' => $model->id], ['class' => 'glyphicon glyphicon-pencil', 'target' => '_blank']);
+                        return Html::a('',
+                            ['/patient/manage/update', 'patient_id' => $model->id],
+                            ['class' => 'glyphicon glyphicon-pencil', 'target' => '_blank']);
 
                     },
                 ]
             ],
+            [
+                'attribute' => 'Prim',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $text = '';
+                    if (isset($model->duplicate)) {
+                        $text .= Html::a(
+                            'Дубликат с картой #' . $model->duplicate->id,
+                            ['/archive/manage/duplicate-delete', 'patient_id' => $model->id],
+                            ['target' => '_blank',
+                                'class' => 'btn btn-warning btn-xs']);
+                    }
+                    return $text;
+                }
+            ]
         ],
     ]);
     ?>
-    <?php Pjax::end(); ?>
+    <?php //Pjax::end(); ?>
 </div>
