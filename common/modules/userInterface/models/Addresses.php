@@ -28,7 +28,7 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
      */
     public function rules() {
         return [
-            [[ 'street', 'house'], 'required'],
+            [[ 'street', 'house'], 'safe'],
             [['postcode'], 'integer'],
             [['city'], 'string', 'max' => 25],
             [['street'], 'string', 'max' => 100],

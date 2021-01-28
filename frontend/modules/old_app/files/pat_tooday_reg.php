@@ -2,6 +2,7 @@
 /* @var $this View*/
 
 use common\modules\notifier\assets\NotifierAsset;
+use yii\helpers\Html;
 use yii\web\View;
 
 include('mysql_fuction.php');
@@ -67,7 +68,9 @@ for ($z=0;$z<$countZ;$z++)
 { 
 $rowZ = mysqli_fetch_array($resultZ);
 $vrach=$rowZ['id'];
-$query="select `id`,`vrachID`,`prodpr` from`raspis_pack` where 
+$query="select `id`,`vrachID`,`prodpr` 
+from`raspis_pack` 
+where 
 ((`DateD`='".date("Y-m-d",$DayPr)."' or 
 `DateD`<'".date("Y-m-d",$DayPr)."')) and
 `vrachID`='".$vrach."'
@@ -83,7 +86,8 @@ for ($i=0;$i<$countA;$i++)
 									//////////Выбор из дня приёма
 			$query = "SELECT `daypr`.*
 	FROM daypr
-	WHERE ((`daypr`.`date` ='".date("Y-m-d",$DayPr)."') AND (`daypr`.`vrachID` ='".$rowA['vrachID']."'))";
+	WHERE ((`daypr`.`date` ='".date("Y-m-d",$DayPr)."') 
+	AND (`daypr`.`vrachID` ='".$rowA['vrachID']."'))";
 //	//echo $query."</br>";
 			$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 			$countD=$count;
@@ -231,9 +235,10 @@ WHERE (`soderzhnaz`.`id` ='".$SoderzhNaz."')";
 							else echo "<tr bgcolor='#CCCCFF'>";
 							echo "<td class='alltext'>".date('G:i',$NachNaz)."</td>";
 							echo "<td title='".$PatID."'>
-							<span class='bottom'>Карта №".$PatID."</span></br>							
-							<a href='pat_card.php?id=".$PatID."&ro=0' class='menu2' target='_blank'>".$PAT." </a><br />
-							<span class='bottom2'>".$Perv."</span>
+							<span class='bottom'>Карта №".$PatID."</span></br>";
+                           echo Html::a($PAT,'/patient/manage/update?patient_id='.$PatID,['target'=>'_blank']);
+							//echo "<a href='pat_card.php?id=".$PatID."&ro=0' class='menu2' target='_blank'>".$PAT." </a><br />";
+                            echo "</br><span class='bottom2'>".$Perv."</span>
 							<span class='bottom'>".$row['SoderzhNaz']."</span>";
 							
 						
@@ -365,7 +370,7 @@ for ($i=0;$i<$dt_count;$i++)
 <a href='naznach.php?IDN=".$IDN."&action=ctime&step=1&pred=pat_tooday_reg.php' class='small'>Изменить время приёма</a>|
 <a href='naznach.php?IDN=".$IDN."&action=del&pred=pat_tooday_reg.php' class='small'>Отменить</a>";
 if ($Yavka==0) echo "|<a href='pat_tooday_reg.php?IDN=".$IDN."&action=yavka' class='small'>Явка</a></center>";
-echo "|".\yii\helpers\Html::a(
+echo "|". Html::a(
     'Счёт',
         ['/invoice/manage/create','patient_id'=>$PatID,'appointment_id'=>$IDN,'invoice_type'=>\common\modules\invoice\models\Invoice::TYPE_MATERIALS],
         ['class'=>'small']
@@ -383,7 +388,7 @@ echo "</td>";
 						else echo "class='small2'";
 						echo ">Окончание</a></td>";
 						;
-						echo "<td width='90' class='bottom'>".$mt." ".\yii\helpers\Html::button('CMC',['appointment'=>$IDN,'class'=>'btn btn-info btn-xs send_sms'])."
+						echo "<td width='90' class='bottom'>".$mt." ". Html::button('CMC',['appointment'=>$IDN,'class'=>'btn btn-info btn-xs send_sms'])."
 </td>";
 						echo "<td width='90' class='bottom'>".$dt."</td>";
 						echo "<td width='90' class='bottom'>".$rt."</td>";

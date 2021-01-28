@@ -101,16 +101,18 @@ class ManageController extends Controller
      */
     public function actionUpdate($patient_id)
     {
+        /* @var PatientForm $model */
         $model = $this->findModel($patient_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success','Карта сохранена');
+            Yii::$app->session->setFlash('success', 'Карта сохранена');
+            $model->dr = Yii::$app->formatter->asDate($model->dr, 'php:d.m.Y');
             $this->render('update', [
                 'model' => $model,
             ]);
         }
 
-
+        $model->addressForm->city = $model->addressForm->city == '' ? 'Новокузнецк' : $model->addressForm->city;
         return $this->render('update', [
             'model' => $model,
         ]);

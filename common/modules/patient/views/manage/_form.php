@@ -30,9 +30,7 @@ use common\modules\userInterface\widgets\AddressFormWidget;
             </h4>
         </div>
         <div class="col-lg-4">
-
         </div>
-
     </div>
     <div class="row">
         <div class="col-lg-4">

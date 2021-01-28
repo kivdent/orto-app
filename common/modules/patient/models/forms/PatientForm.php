@@ -18,6 +18,7 @@ use Yii;
  * @author kivde
  */
 /* @var  $forms['patient'] common\modules\patient\models\Patient */
+/* @var  $addressForm Addresses */
 
 class PatientForm extends Patient {
 

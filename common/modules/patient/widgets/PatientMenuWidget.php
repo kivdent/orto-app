@@ -27,7 +27,7 @@ class PatientMenuWidget extends Widget
     {
         $this->menuItems = [
 
-            ['label' => 'Основные сведения', 'url' => ['/patient/manage/view', 'patient_id' => $this->patient_id]],
+            ['label' => 'Основные сведения', 'url' => ['/patient/manage/update', 'patient_id' => $this->patient_id]],
 //            ['label' => 'Медицинская карта', 'url' => ['/patient/examination/index','patient_id' => $this->patient_id]],
 //           ['label' => 'Дневник', 'url' => ['/patient/journal/index','patient_id' => $this->patient_id]],
 //            ['label' => 'Диспансеризация', 'url' => ['/patient/recall/index','patient_id' => $this->patient_id]],
