@@ -2,6 +2,8 @@
 
 namespace common\modules\patient\controllers;
 
+use common\modules\patient\models\Patient;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\patient\models\forms\PatientForm;
 use common\modules\patient\models\PatientSearch;
@@ -103,15 +105,19 @@ class ManageController extends Controller
     {
         /* @var PatientForm $model */
         $model = $this->findModel($patient_id);
+        $oldStatus = $model->status;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->status != Patient::STATUS_ARCHIVE_IN_ARCHIVE) {
+                if ($model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
+                    Yii::$app->session->setFlash('success', 'Карта сохранена');
+                    $model->dr = Yii::$app->formatter->asDate($model->dr, 'php:d.m.Y');
+                }
+            } else {
+                Yii::$app->session->setFlash('danger', 'Статус \"В архиве\" установить не нельзя');
+                $model->status = $oldStatus;
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->addressForm->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Карта сохранена');
-            $model->dr = Yii::$app->formatter->asDate($model->dr, 'php:d.m.Y');
-            $this->render('update', [
-                'model' => $model,
-            ]);
         }
-
         $model->addressForm->city = $model->addressForm->city == '' ? 'Новокузнецк' : $model->addressForm->city;
         return $this->render('update', [
             'model' => $model,
@@ -125,7 +131,8 @@ class ManageController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($patient_id)
+    public
+    function actionDelete($patient_id)
     {
         $this->findModel($patient_id)->delete();
 
@@ -139,7 +146,8 @@ class ManageController extends Controller
      * @return Patient the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($patient_id)
+    protected
+    function findModel($patient_id)
     {
         if (($model = PatientForm::findOne($patient_id)) !== null) {
             return $model;
