@@ -3,12 +3,18 @@
 namespace common\modules\pricelists\controllers;
 
 
+use common\modules\pricelists\models\PricelistItems;
+use common\modules\pricelists\models\Prices;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\pricelists\models\Pricelist;
 use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * ManageController implements the CRUD actions for Pricelist model.
@@ -53,6 +59,7 @@ class ManageController extends Controller
     {
         return $this->redirect('/' . Pricelist::getXlsxPriceList($coefficient));
     }
+
     /**
      * Lists all Pricelist models.
      * @return mixed
@@ -149,5 +156,76 @@ class ManageController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionBatchEditing()
+    {
+        return $this->render('batch_editing', [
+            'priceListId' => $this->priceListId
+        ]);
+    }
+
+    public function actionUploadDraft()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $file = UploadedFile::getInstancesByName('upload-draft');
+            $newPriceArray = Pricelist::getBatchEditingDataFromXls($file);
+        }
+        return $newPriceArray;
+    }
+
+    public function actionSaveDraft()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $newPricesArray = [];
+            foreach (Yii::$app->request->post('newPricesArray') as $value) {
+                $newPricesArray[$value['id']]['price'] = $value['price'];
+                $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
+            }
+        }
+        return ['url' => '/' . Pricelist::getBatchEditingXls($newPricesArray)];
+    }
+
+    public function actionBatchEditingSave()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $transaction = Prices::getDb()->beginTransaction();
+            try {
+                foreach (Yii::$app->request->post('newPricesArray') as $value) {
+
+                    $modelPricelistItems = PricelistItems::findOne($value['id']);
+                    $modelPrices = Prices::findOne($modelPricelistItems->priceForItem->id);
+                    if ($modelPrices->price !== $value['price'] or $modelPrices->coefficient !== $value['coefficient']) {
+
+                        $newModelPrices = new Prices();
+
+                        $newModelPrices->price = $value['price'];
+                        $newModelPrices->coefficient = $value['coefficient'];
+                        $newModelPrices->active = 1;
+                        $newModelPrices->pricelist_items_id = $modelPricelistItems->id;
+
+
+                        $modelPrices->active = 0;
+                        $modelPrices->save(false);
+                        $newModelPrices->save(false);
+
+
+                    }
+                }
+                $transaction->commit();
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
+        }
+        return 'success';
+    }
+    public function actionSaveToYandexDisk(){
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        Pricelist::saveToYandexDisk();
+        return 'success';
     }
 }

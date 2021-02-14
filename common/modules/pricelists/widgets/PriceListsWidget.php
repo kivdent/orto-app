@@ -13,14 +13,40 @@ class PriceListsWidget extends Widget
     const TYPE_EDIT = 'edit';
     const TYPE_INVOICE = 'invoice';
     const ACTIVE_NONE = 'none';
-    const TYPE_PRICELIST_ALL='all';
+    const TYPE_BATCH_EDITING = 'batch-editing';
+    const TYPE_PRICELIST_ALL = 'all';
 
     public $type = self::TYPE_INVOICE;
     public $activePriceList = self::ACTIVE_NONE;
     public $activeLabel = [0 => '<span class="label label-danger">Не активно</span>',
         1 => ''];
     public $activateBtnClass = [0 => 'btn btn-info btn-xs', 1 => 'btn btn-warning btn-xs'];
-    public $typePriceLists=self::TYPE_PRICELIST_ALL;
+    public $typePriceLists = self::TYPE_PRICELIST_ALL;
+
+    public static function getAriaExpanded($type)
+    {
+        $ariaExpandedString = 'aria-expanded=';
+        switch ($type) {
+            case self::TYPE_BATCH_EDITING:
+                $ariaExpandedString.='"true"';
+                break;
+            default:
+                $ariaExpandedString.='"false"';
+                break;
+        }
+        return $ariaExpandedString;
+    }
+
+    public static function getCollapseIn($type)
+    {
+        $collapseInString = '';
+        switch ($type) {
+            case self::TYPE_BATCH_EDITING:
+                $collapseInString.='in';
+                break;
+        }
+        return  $collapseInString;
+    }
 
     public function run()
     {
@@ -51,6 +77,7 @@ class PriceListsWidget extends Widget
             case self::TYPE_EDIT:
                 $priceLists = Pricelist::getList();
                 break;
+            case self::TYPE_BATCH_EDITING:
             case self::TYPE_INVOICE:
                 $priceLists = Pricelist::getActiveList($this->typePriceLists);
                 break;
@@ -58,13 +85,16 @@ class PriceListsWidget extends Widget
 
         return $priceLists;
     }
-    public static function getCategoryes($priceListId,$widgetType){
+
+    public static function getCategoryes($priceListId, $widgetType)
+    {
         $categoryes = [];
         $priceList = Pricelist::findOne($priceListId);
         switch ($widgetType) {
             case self::TYPE_EDIT:
                 $categoryes = $priceList->getCategoryes();
                 break;
+            case self::TYPE_BATCH_EDITING:
             case self::TYPE_INVOICE:
                 $categoryes = $priceList->getActiveCategoryes();
                 break;
@@ -72,13 +102,16 @@ class PriceListsWidget extends Widget
 
         return $categoryes;
     }
-    public static function getItemsFromCategory($categoryId,$widgetType){
+
+    public static function getItemsFromCategory($categoryId, $widgetType)
+    {
         $items = [];
         $category = PricelistItems::findOne($categoryId);
         switch ($widgetType) {
             case self::TYPE_EDIT:
                 $items = $category->getItemsFromCategory();
                 break;
+            case self::TYPE_BATCH_EDITING:
             case self::TYPE_INVOICE:
                 $items = $category->getActiveItemsFromCategory();
                 break;

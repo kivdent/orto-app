@@ -122,7 +122,6 @@ $(document).ready(function () {
             });
         } else {
             alert('Выбирите хотя бы одну манипуляцию');
-
         }
 
 

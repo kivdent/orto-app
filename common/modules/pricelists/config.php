@@ -13,6 +13,7 @@ return [
         ],
         'menuItems' => [
             ['label' => 'Прейскуранты', 'url' => '/pricelists/manage', 'roles' => ['admin','senior_nurse', ]],
+            ['label' => 'Пакетное редактирование', 'url' => '/pricelists/manage/batch-editing', 'roles' => ['admin','director', ]],
 
         ],
         //'moduleMenu' => [],

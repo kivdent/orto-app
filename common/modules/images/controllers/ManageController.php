@@ -87,7 +87,6 @@ class ManageController extends Controller
             return $this->redirect(['index',
                 'patient_id' => $model->patient_id]);
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);

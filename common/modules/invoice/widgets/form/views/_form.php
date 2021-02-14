@@ -12,9 +12,6 @@ InvoiceAsset::register($this);
 <?=$beforeHtml?>
 <div class="row" name="control">
     <div class="col-lg-12">
-
-
-
     </div>
 </div>
 <div class="row" name="invoice-table">

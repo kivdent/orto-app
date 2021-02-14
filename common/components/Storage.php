@@ -8,13 +8,28 @@ use yii\base\Component;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use Yii;
+use Arhitector\Yandex\Disk;
 
 class Storage extends Component
 {
     const TYPE_PHOTO = 'photo';
-
+    const TYPE_PRICELIST = 'pricelist';
     private $fileName;
 
+    public function saveToYandexDisk($filename, $resourceName)
+    {
+        $disk = new Disk( $this->getYandexDiskToken());
+        $resource = $disk->getResource($resourceName);
+        $resource->upload($filename,true);
+        return true;
+    }
+    public function getPublicUrl($resourceName)
+    {
+        $disk = new Disk( $this->getYandexDiskToken());
+        $resource = $disk->getResource($resourceName);
+        $resource->getPublicKey();
+        return $resource->getPublicKey()?$resource->getPublicKey():'';
+    }
 
     public function saveUploadedFile(UploadedFile $file, $path = '', $type)
     {
@@ -25,7 +40,6 @@ class Storage extends Component
         } else {
             return false;
         }
-
     }
 
     protected function preparePath(UploadedFile $file, $path, $type)
@@ -64,8 +78,15 @@ class Storage extends Component
     {
         return $this->getStorageUri($type) . $path . $fileName;
     }
-    public function deleteFile($fileName, $path, $type){
 
-        return unlink( $this->getStoragePath($type) . $path . $fileName);
+    public function deleteFile($fileName, $path, $type)
+    {
+
+        return unlink($this->getStoragePath($type) . $path . $fileName);
+    }
+
+    private function getYandexDiskToken()//TODO переделать сохранение токена
+    {
+        return 'AgAEA7qjRX9xAAbgeELdtF8Zlk24sL2TK0Gobjo';
     }
 }
