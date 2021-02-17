@@ -80,7 +80,6 @@ class SalaryReport extends Model
 
     private function setPercentageTable()
     {
-
         $this->labels = [
             'employee' => 'Сотрудник',
         ];
@@ -114,8 +113,10 @@ class SalaryReport extends Model
         $this->labels = [
             'employee' => 'Сотрудник',
             'per_hour' => 'Ставка в час',
-            'duration' => 'Отработано часов',
-            'salary_per_hour' => 'Зарплата по часам',
+//            'duration_weekdays' => 'Отработано часов в будни',
+//            'duration_weekends' => 'Отработано часов в выходные',
+//            'salary_per_hour_weekends' => 'Зарплата за выходные',
+//            'salary_per_hour_weekdays' => 'Зарплата за будни',
             'revenue_for_services' => 'Сумма выручки за услуги'
         ];
         $type = SalaryCardType::TYPE_HOURLY;
@@ -124,10 +125,14 @@ class SalaryReport extends Model
             foreach ($salaryCards as $salaryCard) {
                 $table['employee'] = $salaryCard->employeeName;
                 $table['per_hour'] = $salaryCard->ph;
-                $duration = TimeSheet::getPeriodDuration($this->financial_period, $salaryCard->employee) + self::CLEAR_UP_DURATION;
-                $table['duration'] = UserInterface::SecondsToHours($duration);
-                // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
-                $table['salary_per_hour'] = $table['per_hour'] * $duration / 3600;
+//                $duration_weekends = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee,TimeSheet::TYPE_WEEKENDS) + self::CLEAR_UP_DURATION;
+//                $table['duration_weekends'] = UserInterface::SecondsToHours($duration_weekends);
+//                $duration_weekdays = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee,TimeSheet::TYPE_WEEKDAYS);
+//                $table['duration_weekdays'] = UserInterface::SecondsToHours($duration_weekdays);
+//               // $table['duration'] = UserInterface::SecondsToHours($duration);
+//                // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
+//                $table['salary_per_hour_weekends'] = $table['per_hour']*2 * $duration_weekends / 3600;
+//                $table['salary_per_hour_weekdays'] = $table['per_hour'] * $duration_weekdays / 3600;
                 $table['revenue_for_services'] = $this->getAllPaidInvoicesSumm($salaryCard->employee);
                 $this->table[] = $table;
             }

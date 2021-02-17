@@ -15,6 +15,7 @@ class FinancialPeriods extends ActiveRecord
      * @property int $id
      * @property string $nach
      * @property string $okonch
+     * @property string $weekends
      * @property int $uet
      */
 
@@ -27,8 +28,9 @@ class FinancialPeriods extends ActiveRecord
     {
         return [
             [['uet'], 'integer'],
-            [['nach', 'okonch'], 'string'],
-            [['uet','nach', 'okonch'], 'required'],
+            [['nach', 'okonch','weekends'], 'string'],
+            [['uet', 'nach', 'okonch'], 'required'],
+            [['weekends'], 'safe'],
         ];
     }
     public function attributeLabels()
@@ -38,7 +40,7 @@ class FinancialPeriods extends ActiveRecord
             'uet' => 'Коэффициент',
             'nach' => 'Начало периода',
             'okonch' => 'Окончание периода',
-
+            'weekends' => 'Выходные',
         ];
     }
 }
