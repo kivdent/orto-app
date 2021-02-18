@@ -46,11 +46,13 @@ class SalaryReport extends Model
     {
         $salaryReports = [];
         foreach (SalaryCardType::getTypeList() as $type_id => $type) {
+
             $salaryReport = new SalaryReport([
                 'financial_period' => $financial_period,
                 'type' => $type_id,
                 'printable' => $printable
             ]);
+
             call_user_func([$salaryReport, $salaryReport->setSalaryTableFunction[$type_id]]);
             $salaryReports[] = $salaryReport;
         }
@@ -80,6 +82,7 @@ class SalaryReport extends Model
 
     private function setPercentageTable()
     {
+
         $this->labels = [
             'employee' => 'Сотрудник',
         ];
@@ -104,7 +107,7 @@ class SalaryReport extends Model
 
         }
         $this->setEmptyColumns();
-
+        UserInterface::getVar($this->type);
     }
 
     private function setHourlyTable()
@@ -113,10 +116,8 @@ class SalaryReport extends Model
         $this->labels = [
             'employee' => 'Сотрудник',
             'per_hour' => 'Ставка в час',
-//            'duration_weekdays' => 'Отработано часов в будни',
-//            'duration_weekends' => 'Отработано часов в выходные',
-//            'salary_per_hour_weekends' => 'Зарплата за выходные',
-//            'salary_per_hour_weekdays' => 'Зарплата за будни',
+            'duration' => 'Отработано часов',
+            'salary_per_hour' => 'Зарплата по часам',
             'revenue_for_services' => 'Сумма выручки за услуги'
         ];
         $type = SalaryCardType::TYPE_HOURLY;
@@ -125,14 +126,10 @@ class SalaryReport extends Model
             foreach ($salaryCards as $salaryCard) {
                 $table['employee'] = $salaryCard->employeeName;
                 $table['per_hour'] = $salaryCard->ph;
-//                $duration_weekends = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee,TimeSheet::TYPE_WEEKENDS) + self::CLEAR_UP_DURATION;
-//                $table['duration_weekends'] = UserInterface::SecondsToHours($duration_weekends);
-//                $duration_weekdays = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee,TimeSheet::TYPE_WEEKDAYS);
-//                $table['duration_weekdays'] = UserInterface::SecondsToHours($duration_weekdays);
-//               // $table['duration'] = UserInterface::SecondsToHours($duration);
-//                // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
-//                $table['salary_per_hour_weekends'] = $table['per_hour']*2 * $duration_weekends / 3600;
-//                $table['salary_per_hour_weekdays'] = $table['per_hour'] * $duration_weekdays / 3600;
+                $duration = TimeSheet::getPeriodDuration($this->financial_period, $salaryCard->employee) + self::CLEAR_UP_DURATION;
+                $table['duration'] = UserInterface::SecondsToHours($duration);
+                // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
+                $table['salary_per_hour'] = $table['per_hour'] * $duration / 3600;
                 $table['revenue_for_services'] = $this->getAllPaidInvoicesSumm($salaryCard->employee);
                 $this->table[] = $table;
             }
@@ -388,9 +385,9 @@ class SalaryReport extends Model
                 $table['labels']['payment_type'] = 'Вид оплаты';
                 foreach ($this->getEmployeePaymetsForPeriod($employee) as $payment) {
                     $raw['patient'] = $payment->invoice->patient->fullName.Html::a(
-                        '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
-                        ['/patient/manage/view', 'patient_id' => $payment->invoice->patient_id],
-                        ['class' => 'btn btn-xs btn-primary']);
+                            '<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>',
+                            ['/patient/manage/view', 'patient_id' => $payment->invoice->patient_id],
+                            ['class' => 'btn btn-xs btn-primary']);
                     $raw['sum'] = $payment->vnes.InvoiceModalWidget::widget(['invoice_id' =>  $payment->invoice->id]);;
                     $raw['date'] = UserInterface::getFormatedDate($payment->date);
                     $raw['payment_type'] = PaymentType::getList()[$payment->VidOpl];

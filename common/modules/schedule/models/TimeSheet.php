@@ -46,7 +46,7 @@ class TimeSheet extends \common\models\TimeSheet
 
     private static function getTableSheetsForPeriod($financial_period, $employee)
     {
-        $duration = 0;
+
         $tableSheets = self::find()
             ->where(['sotr' => $employee->id])
             ->andWhere(['>=', 'date', $financial_period->nach])
