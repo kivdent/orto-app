@@ -19,4 +19,3 @@ use common\widgets\tableWidget\TableWidget;
         ]) ?>
 
 <?php endforeach; ?>
-
