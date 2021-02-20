@@ -107,7 +107,7 @@ class SalaryReport extends Model
 
         }
         $this->setEmptyColumns();
-        UserInterface::getVar($this->type);
+//        UserInterface::getVar($this->type);
     }
 
     private function setHourlyTable()
