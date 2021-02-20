@@ -25,6 +25,7 @@ class InvoiceReport extends Model
     {
         $report = new self();
         $table = [];
+
         switch ($employee->dolzh) {
             case Employee::POSITION_TECHNICIANS:
 //                $invoices = Invoice::find()
@@ -69,9 +70,9 @@ class InvoiceReport extends Model
         }
 
 //        UserInterface::getVar($invoices->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql);
-        //UserInterface::getVar($invoices);
+//        UserInterface::getVar($invoices->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql);
+
         foreach ($invoices as $invoice) {
-//            UserInterface::getVar($invoice->getLastPaymentDate(),false);
             if ($invoice->isLastPaymentDateInPeriod($financialPeriod)) {
                 $row['patient'] = $invoice->patient->fullName;
                 $row['date'] = $invoice->date;
@@ -104,6 +105,7 @@ class InvoiceReport extends Model
         }
         $report->summaryByPricelist['summary']['sum'] = $report->summary;
         $report->summaryByPricelist['summary']['price_list'] = 'Итого';
+
         return $report;
     }
 

@@ -128,6 +128,15 @@ class Employee extends \yii\db\ActiveRecord
 
         $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:d.m.Y');
     }
+    public function beforeSave($insert) {
+
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+
+        $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:Y-m-d');
+        return true;
+    }
 
     public function getPositionsList()
     {

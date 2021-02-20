@@ -92,6 +92,8 @@ class FinancialPeriodsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->nach = Yii::$app->formatter->asDate($model->nach, 'php:d.m.Y');
+        $model->okonch = Yii::$app->formatter->asDate($model->okonch, 'php:d.m.Y');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

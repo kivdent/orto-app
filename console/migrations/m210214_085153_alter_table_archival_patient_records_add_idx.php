@@ -10,8 +10,9 @@ class m210214_085153_alter_table_archival_patient_records_add_idx extends Migrat
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
-    {
+    public function safeUp(){
+
+
         $this->createIndex('idx-archival_patient_records-patient_id', 'archival_patient_records', 'patient_id');
 
     }

@@ -46,6 +46,7 @@ class FinancialPeriods extends \common\models\FinancialPeriods
                 'nach' => date("Y-m") . "-01",
                 'okonch' => date("Y-m") . "-" . date("t"),
                 'uet' => self::DEFAULT_UET,
+                'weekends'=>self::getDefaultWeekends(),
             ]);
         }
         return $period;
@@ -62,11 +63,11 @@ class FinancialPeriods extends \common\models\FinancialPeriods
         return self::getPeriodForDate(date('Y-m-d'));
     }
 
-    public function afterFind()
-    {
-        $this->nach = Yii::$app->formatter->asDate($this->nach, 'php:d.m.Y');
-        $this->okonch = Yii::$app->formatter->asDate($this->okonch, 'php:d.m.Y');
-    }
+//    public function afterFind()
+//    {
+//        $this->nach = Yii::$app->formatter->asDate($this->nach, 'php:d.m.Y');
+//        $this->okonch = Yii::$app->formatter->asDate($this->okonch, 'php:d.m.Y');
+//    }
 
     public function beforeSave($insert)
     {
