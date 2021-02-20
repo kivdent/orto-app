@@ -5,6 +5,7 @@ namespace common\modules\pricelists\models;
 
 
 use common\modules\userInterface\models\UserInterface;
+use DOMDocument;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -23,8 +24,8 @@ class Pricelist extends \common\models\Pricelist
 
     public static function saveToYandexDisk()
     {
-        $filename=self::getXlsxPriceList(false);
-        $resourceName='/pricelist/pricelist.xlsx';
+        $filename = self::getXlsxPriceList(false);
+        $resourceName = '/pricelist/pricelist.xlsx';
         Yii::$app->storage->saveToYandexDisk($filename, $resourceName);
     }
 
@@ -285,6 +286,103 @@ class Pricelist extends \common\models\Pricelist
         }
         unlink($path);
         return $newPriceArray;
+    }
+
+    public static function getXml()
+    {
+        $fileName = 'price_csv_orto_premier.xml';
+        $dom = new domDocument("1.0", "utf-8"); // Создаём XML-документ версии 1.0 с кодировкой utf-8
+        $data = $dom->createElement("Data"); // Создаём корневой
+        $dom->appendChild($data);
+
+        /// $config='EcrConfigStoreHdr_T ="Windows-1251" FileDataType="8" FileVerFormat="256';
+        $config = $dom->createElement('EcrConfigStoreHdr_T');
+        $config->setAttribute('CodePageStr', 'Windows-1251');
+        $config->setAttribute('FileDataType', '8');
+        $config->setAttribute('FileVerFormat', '256');
+        $data->appendChild($config);
+
+        $box = $dom->createElement('box');
+        $box->setAttribute('Name', 'PriceCodes');
+
+
+        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE])->all() as $pricelist) {
+//            $a = 1;
+            if ($pricelist->activeCategoryes) {
+                foreach ($pricelist->activeCategoryes as $categorye) {
+                    foreach ($categorye->activeItemsFromCategory as $item) {
+
+                        $priceItem = $dom->createElement('PrItemPriceCode_T');
+                        $priceItem->setAttribute('Plu', $item->id); // Plu="1"
+                        $priceItem->setAttribute('Price', $item->price.'00');// Price="10000"
+                        $priceItem->setAttribute('Section', '0');// Section="0"
+                        $priceItem->setAttribute('Tax', '0');// Tax="0"
+                        $priceItem->setAttribute('Flags', '1');// Flags="1"
+                        $priceItem->setAttribute('Name', mb_substr($item->title,0,56,'utf-8'));// Name="Анестезия"
+                        $priceItem->setAttribute('PayAgent', '0');//  PayAgent="0"
+                        $priceItem->setAttribute('SysTax', '0');//  SysTax="0"/>
+                        $box->appendChild($priceItem);
+                    }
+                }
+            }
+        }
+        $data->appendChild($box);
+        $dom->save($fileName);
+        return $fileName;
+
+    }
+
+    public static function getCsv()
+
+    {
+        /* @var $pricelist Pricelist */
+        $letterCode = 'A';
+        $letterPrice = 'C';
+        $letterD = '0';
+        $letterE = '1';
+        $letterG = '0';
+        $letterTitle = 'H';
+        $letterJ = '0';
+
+        $spreadsheet = new Spreadsheet();
+        $sheet_name = 'price_csv_orto_premier';
+        $mysheet = new Worksheet($spreadsheet, $sheet_name);
+        $spreadsheet->addSheet($mysheet, 0);
+        $sheet = $spreadsheet->getSheetByName($sheet_name);
+        $sheet->setTitle($sheet_name);
+        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE])->all() as $pricelist) {
+            $a = 1;
+            if ($pricelist->activeCategoryes) {
+                foreach ($pricelist->activeCategoryes as $categorye) {
+                    foreach ($categorye->activeItemsFromCategory as $item) {
+                        $sheet->setCellValue($letterCode . $a, $item->id);
+                        $sheet->setCellValue($letterPrice . $a, $item->price);
+                        $sheet->setCellValue('D' . $a, $letterD);
+                        $sheet->setCellValue('E' . $a, $letterE);
+                        $sheet->setCellValue($letterTitle . $a, substr($item->title, 0, 56));
+                        $sheet->setCellValue('J' . $a, $letterJ);
+                        $a++;
+                    }
+                }
+            }
+        }
+        $sheetIndex = $spreadsheet->getIndex(
+            $spreadsheet->getSheetByName('Worksheet')
+        );
+        $spreadsheet->removeSheetByIndex($sheetIndex);
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Csv($spreadsheet);
+        $writer->setDelimiter(';');
+        $writer->setEnclosure('"');
+        $writer->setLineEnding("\r\n");
+        $writer->setSheetIndex(0);
+        $fileName = $sheet_name . '.csv';
+        $writer->save($fileName);
+
+//        $writer = new Xlsx($spreadsheet);
+//        $fileName = 'pricelist_batch_editing.xlsx';
+//        $writer->save($fileName);
+        return $fileName;
     }
 
 
