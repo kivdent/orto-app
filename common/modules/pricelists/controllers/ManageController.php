@@ -228,4 +228,9 @@ class ManageController extends Controller
         Pricelist::saveToYandexDisk();
         return 'success';
     }
+    public function actionCsvSave(){
+        return $this->redirect('/' . Pricelist::getXml());
+//        return $this->redirect('/' . Pricelist::getCsv());
+
+    }
 }
