@@ -200,6 +200,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 <thead>
                 <tr>
                     <th>#</th>
+                    <th>Код</th>
                     <th>Наименование</th>
                     <th>Цена</th>
                     <th>Количество</th>
@@ -209,6 +210,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 </thead>
                 <tfoot>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -240,6 +242,7 @@ class InvoiceFormWidget extends \yii\base\Widget
             case Invoice::TYPE_ORTHODONTICS:
                 $html .= '<tr>
                     <td>1</td>
+                    <td></td>
                     <td>Оплата за ортодонтическое лечение</td>
                     <td>' . $invoice->amount_payable . ' р.</td>
                     <td>1</td>
@@ -250,6 +253,7 @@ class InvoiceFormWidget extends \yii\base\Widget
             case Invoice::TYPE_PREPAYMENT:
                 $html .= '<tr>
                     <td>1</td>
+                    <td></td>
                     <td>Внесение аванса</td>
                     <td>' . $invoice->amount_payable . ' р.</td>
                     <td>1</td>
@@ -262,6 +266,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 foreach ($invoice->invoiceItems as $invoiceItem) {
                     $html .= '<tr>
                     <td>' . $i . '</td>
+                    <td>' . $invoiceItem->prices->pricelistItems->id . '</td>
                     <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
                     <td>' . $invoiceItem->prices->coefficient . '</td>
                     <td>' . $invoiceItem->quantity . '</td>
@@ -276,6 +281,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 foreach ($invoice->invoiceItems as $invoiceItem) {
                     $html .= '<tr>
                     <td>' . $i . '</td>
+                     <td>' . $invoiceItem->prices->pricelistItems->id . '</td>
                     <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
                     <td>' . $invoiceItem->prices->price . ' р.</td>
                     <td>' . $invoiceItem->quantity . '</td>

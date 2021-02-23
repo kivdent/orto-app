@@ -7,9 +7,9 @@ use common\widgets\tableWidget\TableWidget;
 
 /* @var $this yii\web\View */
 /* @var $salaryReports array|SalaryReport */
-/* @var $salaryReport SalaryReport */$this->title = 'Расчёт зарплаты за период ' . UserInterface::getFormatedDate($salaryReports[0]->financial_period->nach) . "-" . UserInterface::getFormatedDate($salaryReports[0]->financial_period->okonch);
+/* @var $salaryReport SalaryReport */
+$this->title = 'Расчёт зарплаты за период ' . UserInterface::getFormatedDate($salaryReports[0]->financial_period->nach) . "-" . UserInterface::getFormatedDate($salaryReports[0]->financial_period->okonch);
 ?>
-
 
 <?php foreach ($salaryReports as $salaryReport): ?>
 
