@@ -1,6 +1,6 @@
 <?php
-
-use kartik\widgets\DatePicker;
+use kartik\date\DatePicker;
+//use kartik\widgets\DatePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
