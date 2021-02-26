@@ -20,9 +20,7 @@ $this->title = 'Карты для архивирования';
     <h1><?= Html::encode($this->title) ?></h1>
     <?php //Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
-
     <h2>
         Текущий короб: <?= ArchiveBoxes::getCurrentBox() ?>
         <?= Html::a('Новый короб', ['create-archive-box'], [
@@ -56,14 +54,14 @@ $this->title = 'Карты для архивирования';
                 'attribute' => 'fullName',
                 'format' => 'raw',
                 'content' => function ($model) {
-                    $text=$model->fullName;
-                    If (isset($model->duplicate)){
-                        $text.=Html::a(
-                            'Дубликат с картой #' .$model->duplicate->id,
+                    $text = $model->fullName;
+                    if (isset($model->duplicate)) {
+                        $text .= Html::a(
+                            'Дубликат с картой #' . $model->duplicate->id,
                             ['duplicate-delete', 'patient_id' => $model->id],
                             ['target' => '_blank',
-                                'class'=>'btn btn-warning btn-xs']);
-                        }
+                                'class' => 'btn btn-warning btn-xs']);
+                    }
                     return $text;
                 }
             ],

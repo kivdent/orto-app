@@ -52,7 +52,7 @@ class ManageController extends \yii\web\Controller
     {
         {
             $searchModel = new ArchivePatientSearch([
-                'type' => $type
+                'type' => $type,
             ]);
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [

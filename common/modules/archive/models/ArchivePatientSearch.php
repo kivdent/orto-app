@@ -24,8 +24,6 @@ class ArchivePatientSearch extends Patient
     public $orthodonticsPayPerMonth;
 
 
-
-
     /**
      * {@inheritdoc}
      */
@@ -59,8 +57,8 @@ class ArchivePatientSearch extends Patient
         $query = Patient::find();
         $query = $this->modifyQueryByType($query);
         // add conditions that should always apply here
-        $query->leftJoin('archival_patient_records','archival_patient_records.patient_id=klinikpat.id')
-        ->andWhere('archival_patient_records.patient_id IS NULL');
+        $query->leftJoin('archival_patient_records', 'archival_patient_records.patient_id=klinikpat.id')
+            ->andWhere('archival_patient_records.patient_id IS NULL');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -115,11 +113,12 @@ class ArchivePatientSearch extends Patient
     {
         switch ($this->type) {
             case self::TYPE_OLD:
+                $date = (date('Y') - 5) . '-' . date('m') . '-1';
                 $query->select('klinikpat.*, invoice.patient_id, max(invoice.created_at) as last_invoice_date')
                     ->from('invoice')
                     ->leftJoin('klinikpat', 'klinikpat.id=invoice.patient_id')
                     ->groupBy('patient_id')
-                    ->having("max(invoice.created_at)<'2015-01-02'");
+                    ->having("max(invoice.created_at)<'" . $date . "'");
                 break;
             case self::TYPE_EMPTY:
                 $query->leftJoin('invoice', 'invoice.patient_id=klinikpat.id')
@@ -131,12 +130,12 @@ class ArchivePatientSearch extends Patient
 
     public static function getEmptyCount()//Не работает
     {
-        $query = Patient::find() -> select('count(patient_id) as cards_count,max(created_at)')
-                ->from('invoice')
-                ->leftJoin('klinikpat', 'klinikpat.id=invoice.patient_id')
-                ->groupBy('patient_id')
-                ->having("max(created_at)<'2015-01-02'")
-                ->one();
+        $query = Patient::find()->select('count(patient_id) as cards_count,max(created_at)')
+            ->from('invoice')
+            ->leftJoin('klinikpat', 'klinikpat.id=invoice.patient_id')
+            ->groupBy('patient_id')
+            ->having("max(created_at)<'2015-01-02'")
+            ->one();
         UserInterface::getVar($query->cards_count);
         return $query->cards_count;
     }
