@@ -162,6 +162,7 @@ class Statistics extends Model
         return Invoice::find()
             ->where(['type' => $type])
             ->orderBy('created_at DESC')
+            ->andWhere(['patient_id'=>$this->patientId])
             ->one();
     }
 
