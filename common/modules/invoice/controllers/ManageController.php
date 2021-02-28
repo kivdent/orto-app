@@ -13,7 +13,7 @@ use Yii;
 
 class ManageController extends \yii\web\Controller
 {
-    public function actionCreate($patient_id, $appointment_id = 0, $invoice_type = Invoice::TYPE_MANIPULATIONS,$employee_choice=false)
+    public function actionCreate($patient_id, $appointment_id = 0, $invoice_type = Invoice::TYPE_MANIPULATIONS, $employee_choice = false)
     {
 
         return $this->render('create', [
@@ -65,18 +65,22 @@ class ManageController extends \yii\web\Controller
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="myModalLabel">Счёт №' . $invoice->id . ' от ' . $invoice->date . '</h4>
-                                <p>
-                                Врач: ' . $invoice->getEmployeeFullName() . '</br>
-                                Пациент: ' . $invoice->getPatientFullName() . '
-                                </p>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        Врач: ' . $invoice->getEmployeeFullName() . '</br>
+                                        Пациент: ' . $invoice->getPatientFullName() . '
+                                    </div>
+                                    <div class="col-lg-6">
+                                        ' . InvoiceFormWidget::getEarlyPaymentTable($invoice->id) . '
+                                    </div>        
+                                </div>
                             </div>
                             <div class="modal-body">
                                 ' . InvoiceFormWidget::getInvoiceTable($invoice->id) . '
                             </div>
                             <div class="modal-footer">
                                 <a href="/invoice/manage/print?invoice_id=' . $invoice->id . '" class="btn btn-success" target="_blank">Печать</a>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>                               
                             </div>
                         </div>
                     </div>';
@@ -117,7 +121,7 @@ class ManageController extends \yii\web\Controller
                     $invoice_item->save(false);
                 }
                 $transaction->commit();
-                    Yii::$app->session->setFlash('success','Счёт успешно сохранён.');
+                Yii::$app->session->setFlash('success', 'Счёт успешно сохранён.');
             } catch (\Throwable $e) {
                 $transaction->rollBack();
                 throw $e;

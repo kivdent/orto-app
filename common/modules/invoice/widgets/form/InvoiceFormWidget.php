@@ -31,6 +31,28 @@ class InvoiceFormWidget extends \yii\base\Widget
     public $appointment_id;
     public $invoice_type = Invoice::TYPE_MANIPULATIONS;
 
+    public static function getEarlyPaymentTable($id)
+    {
+        $invoice = Invoice::findOne($id);
+        $html = "";
+        if ($invoice->payments) {
+            $html .= '<table class="table">';
+            $html.='<caption>Оплаты по счёту</caption>';
+            foreach ($invoice->payments as $early_payment) {
+                $html .= '<tr>';
+                $html .= '<td>' . $early_payment->id . '</td>';
+                $html .= '<td>' . date('d.m.Y', strtotime($early_payment->date)) . '</td>';
+                $html .= '<td>' . $early_payment->vnes . '</td>';
+                $html .= '<td>' . $early_payment->typeName . '</td>';
+                $html .= '</tr>';
+            }
+            $html .= '</table>';
+        } else {
+            $html .= 'Нет оплат.';
+        }
+        return $html;
+    }
+
 
     public function run()
     {
@@ -192,7 +214,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     }
 
     public
-    static function getInvoiceTable($invoice_id)
+    static function getInvoiceTable($invoice_id,$print=false)
     {
         $invoice = Invoice::findOne($invoice_id);
         $html = '<table class="table table-bordered">';
@@ -215,7 +237,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                     <td></td>
                     <td></td>
                     <th class="text-right">Итого</th>';
-        switch ($invoice->type){
+        switch ($invoice->type) {
             case Invoice::TYPE_TECHNICAL_ORDER:
                 $html .= '<th id="summary">' . $invoice->coefficientSummary . '</th>';
                 break;

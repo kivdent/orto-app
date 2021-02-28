@@ -12,7 +12,6 @@ $this->title="Статистика пациента"
         <td><?=$statistics->discountCardNumber?></td>
         <td><?=$statistics->discountCardType?></td>
     </tr>
-
     <tr>
         <td>Профессиональная гигиена</td>
         <td><?=$statistics->professionalHygieneDate?></td>
@@ -40,4 +39,3 @@ $this->title="Статистика пациента"
     </tr>
 
 </table>
-

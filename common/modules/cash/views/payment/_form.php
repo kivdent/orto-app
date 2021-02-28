@@ -1,5 +1,6 @@
 <?php
 
+use common\modules\invoice\widgets\form\InvoiceFormWidget;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\modules\clinic\models\FinancialDivisions;
@@ -12,12 +13,21 @@ use \common\modules\cash\assets\CashAsset;
 
 CashAsset::register($this);
 ?>
-<h4>
-    Пациент: <?= $invoice->patientFullName ?><br>
-    Врач: <?= $invoice->employeeFullName ?><br>
-    Сумма чека: <?= $invoice->amount_payable ?> рублей.<br>
-    Остаток: <?= $invoice->amount_residual ?> рублей.
-</h4>
+<div class="row">
+    <div class="col-lg-6">
+        <h4>
+            Пациент: <?= $invoice->patientFullName ?><br>
+            Врач: <?= $invoice->employeeFullName ?><br>
+            Сумма чека: <?= $invoice->amount_payable ?> рублей.<br>
+            Остаток: <?= $invoice->amount_residual ?> рублей.
+        </h4>
+    </div>
+
+    <div class="col-lg-6">
+       <?= InvoiceFormWidget::getEarlyPaymentTable($invoice->id)?>
+    </div>
+</div>
+
 <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal',],]); ?>
 
 <?= $form->errorSummary($payment); ?>
