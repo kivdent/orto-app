@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use common\modules\pricelists\widgets\PriceListsWidget;
-use kartik\widgets\FileInput;
+use kartik\file\FileInput;
 use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
@@ -68,6 +68,7 @@ $this->title = 'Пакетное изменение прейскурантов';
                     ],
 
                 ]); ?>
+
                 <?php
                                 Modal::end();
                 ?>

@@ -1,6 +1,9 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $statistics \common\modules\patient\models\Statistics*/
+
+use common\modules\userInterface\models\UserInterface;
+
 $this->title="Статистика пациента"
 ?>
 <h3>
@@ -39,3 +42,21 @@ $this->title="Статистика пациента"
     </tr>
 
 </table>
+
+<?php if (UserInterface::getRoleName(Yii::$app->user->id)=== UserInterface::ROLE_SENIOR_NURSE):?>
+
+<table class="table table-bordered">
+    <tr>
+        <td>Год</td>
+        <td>Сумма</td>
+        <td>Даты оплат</td>
+    </tr>
+    <?php foreach ($statistics->yearStatistics as $year=>$statistic):?>
+        <tr>
+            <td><?=$year?></td>
+            <td><?=$statistic['total']?></td>
+            <td><?=$statistic['paymentDates']?></td>
+        </tr>
+    <?php endforeach;?>
+</table>
+<?php endif;?>

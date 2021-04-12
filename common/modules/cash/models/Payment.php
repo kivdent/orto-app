@@ -12,9 +12,19 @@ use Yii;
 use Throwable;
 
 /* @property Invoice $invoice */
+
 /* @property string $typeName */
 class Payment extends \common\models\Payment
 {
+
+    public static function getRealPaymentsForPatient($patientId)
+    {
+        return self::find()->
+        leftJoin(Invoice::tableName(), 'invoice.id=' . 'oplata.dnev')
+            ->where(['invoice.patient_id' => $patientId])
+            ->orderBy('oplata.date')
+            ->all();
+    }
 
     public function getInvoice()
     {
@@ -58,7 +68,7 @@ class Payment extends \common\models\Payment
 
     public function getTypeName()
     {
-       return $this->fullTypeList[$this->VidOpl];
+        return $this->fullTypeList[$this->VidOpl];
     }
 
     public function rules()
@@ -115,7 +125,6 @@ class Payment extends \common\models\Payment
 
                     break;
             }
-
 
 
             switch ($this->invoice->type) {

@@ -24,6 +24,17 @@ class UserInterface
     const DEFAULT_ROUTE = '/old_app/pat_tooday.php';
     const DEFAULT_MENU_ITEM = ['label' => 'Главная', 'url' => '/'];
 
+    const ROLE_ADMIN='admin';
+    const ROLE_THERAPIST='therapist';
+    const ROLE_ORTHOPEDIST='orthopedist';
+    const ROLE_SURGEON='surgeon';
+    const ROLE_ORTHODONTIST='orthodontist';
+    const ROLE_RECORDER='recorder';
+    const ROLE_ACCOUNTANT='accountant';
+    const ROLE_SENIOR_NURSE='senior_nurse';
+    const ROLE_DIRECTOR='director';
+    const ROLE_RADIOLOGIST='radiologist';
+
     public $user_id;
     public $employe_id;
     public $user_full_name;

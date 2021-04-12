@@ -4,6 +4,7 @@
 namespace common\modules\patient\models;
 
 
+use common\modules\cash\models\Payment;
 use common\modules\discounts\models\DiscountCard;
 use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\PricelistItems;
@@ -26,6 +27,7 @@ use yii\helpers\ArrayHelper;
  * @property string $orthopedicsEmployee
  * @property string $orthodonticsEmployee
  * @property string $orthodonticsDate
+ * @property array $yearStatistics
  */
 class Statistics extends Model
 {
@@ -181,6 +183,23 @@ class Statistics extends Model
     private function getPriceListItemsFromPriceLists($pricelistIds)
     {
         return implode(ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in (' . $pricelistIds . ')')->all(), 'id'), ',');
+    }
+    public function getYearStatistics(){
+        $yearStatistics=[];
+        $payments=Payment::getRealPaymentsForPatient($this->patientId);
+        foreach ($payments as $payment){
+            $year=date('Y',strtotime($payment->date));
+            $date=date('d.m.Y',strtotime($payment->date)).' ';
+           if(isset($yearStatistics[$year])){
+               $yearStatistics[$year]['total']+=$payment->vnes;
+               $yearStatistics[$year]['paymentDates'].=$date;
+           }else{
+               $yearStatistics[$year]['total']=$payment->vnes;
+               $yearStatistics[$year]['paymentDates']=$date;
+           }
+        }
+
+        return $yearStatistics;
     }
 
 }
