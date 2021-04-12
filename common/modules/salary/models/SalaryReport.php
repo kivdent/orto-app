@@ -23,7 +23,7 @@ use yii\helpers\Html;
 
 class SalaryReport extends Model
 {
-    const CLEAR_UP_DURATION = 21600;
+    const CLEAR_UP_DURATION = 0;
 
 
     public $financial_period;
