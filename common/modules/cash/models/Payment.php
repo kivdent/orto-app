@@ -22,6 +22,7 @@ class Payment extends \common\models\Payment
         return self::find()->
         leftJoin(Invoice::tableName(), 'invoice.id=' . 'oplata.dnev')
             ->where(['invoice.patient_id' => $patientId])
+            ->andWhere('oplata.VidOpl in ('.PaymentType::TYPE_BANK_CARD.', '.PaymentType::TYPE_CASH.')')
             ->orderBy('oplata.date')
             ->all();
     }
