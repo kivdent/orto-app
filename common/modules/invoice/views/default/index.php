@@ -12,5 +12,4 @@ use yii\helpers\ArrayHelper;
 <?= InvoiceFormWidget::widget([
     'priceListIds' => ['1','3','4','6','7','8','10',],
     'type' => 'modal',
-
 ]) ?>

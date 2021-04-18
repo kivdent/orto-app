@@ -160,7 +160,7 @@ class Invoice extends \common\models\Invoice
 
     public function isLastPaymentDateInPeriod(FinancialPeriods $financialPeriod)
     {
-         return strtotime($this->getLastPaymentDate()) >= strtotime($financialPeriod->nach)
+        return strtotime($this->getLastPaymentDate()) >= strtotime($financialPeriod->nach)
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
@@ -227,13 +227,20 @@ class Invoice extends \common\models\Invoice
 
         switch ($this->employee->dolzh) {
             case Employee::POSITION_TECHNICIANS:
-                $id=$this->technicalOrderInvoice->id;
+                $id = $this->technicalOrderInvoice->id;
                 break;
             default:
-                $id=$this->id;
+                $id = $this->id;
                 break;
         }
         return $id;
     }
 
+    /**
+     * @return bool
+     */
+    public function hasPayments()
+    {
+        return $this->payments ? true : false;
+    }
 }

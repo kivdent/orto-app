@@ -18,13 +18,13 @@ $this->title='Счета пациента';
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
-//        [
-//            'format' => 'raw',
-//            'attribute' => 'patientFullName',
-//            'content' => function ($data) {
-//                return Html::a($data->patientFullName, ['/patient/manage/view', 'patient_id' => $data->patient_id], ['target' => '_blank']);
-//            }
-//        ],
+        [
+            'format' => 'raw',
+            'attribute' => 'patientFullName',
+            'content' => function ($data) {
+                return Html::a($data->patientFullName, ['/patient/manage/update', 'patient_id' => $data->patient_id], ['target' => '_blank']);
+            }
+        ],
         'date',
         [
             'format' => 'raw',
@@ -44,7 +44,7 @@ $this->title='Счета пациента';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{view}',
+            'template' => '{view} {delete}',
             'buttons' => [
                 'view' => function ($url, $model, $key) {
                     return InvoiceModalWidget::widget(['invoice_id' => $model->id]);

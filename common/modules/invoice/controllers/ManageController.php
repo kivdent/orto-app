@@ -8,6 +8,7 @@ use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\invoice\models\InvoiceItems;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\widgets\form\InvoiceFormWidget;
+use common\modules\userInterface\models\UserInterface;
 use yii\web\Response;
 use Yii;
 
@@ -134,5 +135,30 @@ class ManageController extends \yii\web\Controller
     {
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('print', ['invoice' => Invoice::findOne($invoice_id)]);
+    }
+
+    public function actionIndex()
+    {
+
+        $searchModel = new InvoiceSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
+        ]);
+    }
+
+    public function actionDelete($id)
+    {
+        $invoice = Invoice::findOne($id);
+//        UserInterface::getVar($invoice->hasPayments());
+
+        if ($invoice->hasPayments()) {
+            Yii::$app->session->setFlash('danger','По счету имеется оплата, поэтому удаление невозможно.');
+        }else {
+            Yii::$app->session->setFlash('success','Счёт успешно удалён');
+            $invoice->delete();
+        }
+        return $this->redirect('index');
     }
 }

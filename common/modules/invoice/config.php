@@ -8,6 +8,7 @@ return [
         'menuItems' => [
 ////            ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist','radiologist',]],
                 ['label' => 'Схемы за ортодонтию', 'url' => '/invoice/scheme-orthodontics/', 'roles' => ['admin',]],
+                ['label' => 'Счета пациентов', 'url' => '/invoice/manage/index', 'roles' => ['admin',]],
 //            ['label' => 'Назначение пациентов', 'url' => '/old_app/naznach_pat.php', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder',]],
 //            ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday_reg.php', 'roles' => ['recorder',]],
 //            ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday_orto.php', 'roles' => ['orthodontist','orthopedist',]],
