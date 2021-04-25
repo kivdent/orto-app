@@ -35,6 +35,9 @@ class Employee extends \yii\db\ActiveRecord
 
     const POSITION_NURSE=5;
     const POSITION_TECHNICIANS=8;
+    const POSITION_THERAPIST=1;//Dentist-therapist
+    const POSITION_ORTHOPEDIST=2;//Dentist-orthopedist
+    const POSITION_ORTHODONTIST=3;//Dentist-orthodontist
 
 //'1', 'Врач стоматолог-терапевт'
 //'2', 'Врач стоматолог-ортопед'
@@ -67,6 +70,16 @@ class Employee extends \yii\db\ActiveRecord
         return ArrayHelper::map(Employee::find()
             ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
             ->where(['dolzh'=>self::POSITION_TECHNICIANS,'status'=>self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(),'id','full_name');
+    }
+
+    public static function getDoctorsList(){
+
+        return ArrayHelper::map(Employee::find()
+            ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh'=>[self::POSITION_THERAPIST,self::POSITION_ORTHOPEDIST,self::POSITION_ORTHODONTIST],'status'=>self::STATUS_WORKED])
             ->orderBy('surname')
             ->asArray()
             ->all(),'id','full_name');

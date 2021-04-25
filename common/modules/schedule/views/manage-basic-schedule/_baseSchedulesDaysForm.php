@@ -1,26 +1,36 @@
 <?php
 
+use common\modules\clinic\models\Workplaces;
+use common\modules\schedule\models\BaseSchedules;
+use common\modules\schedule\models\BaseSchedulesDays;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\BaseSchedulesDays */
 /* @var $form ActiveForm */
+/* @var $i integer*/
 $weekDay = Yii::$app->userInterface->getNameDayWeek($model->dayN);
 ?>
+
 <h4><?= $weekDay ?></h4>
-<div class="baseSchedulesDaysForm">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-        <?= $form->field($model, 'rabmestoID') ?>
-        <?= $form->field($model, 'vih') ?>
-        <?= $form->field($model, 'nachPr') ?>
-        <?= $form->field($model, 'okonchPr') ?>
-    
-        <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+<div class="row baseSchedulesDaysForm">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-3">
+                <?= $form->field($model, "[$i]rabmestoID")->dropDownList(Workplaces::getWorkplacesList()) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, "[$i]vih")->dropDownList(BaseSchedulesDays::getHolidayList()) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, "[$i]nachPr")->dropDownList(BaseSchedules::getTimeList()) ?>
+            </div>
+            <div class="col-lg-3">
+                <?= $form->field($model, "[$i]okonchPr")->dropDownList(BaseSchedules::getTimeList()) ?>
+            </div>
         </div>
-    <?php ActiveForm::end(); ?>
-
-</div><!-- _baseSchedulesDaysForm -->
+    </div>
+</div>
+<!-- _baseSchedulesDaysForm -->

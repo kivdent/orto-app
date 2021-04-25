@@ -2,6 +2,9 @@
 
 namespace common\modules\schedule\controllers;
 
+use common\modules\schedule\models\BaseSchedulesDays;
+use common\modules\schedule\models\forms\BaseScheduleDaysForm;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\schedule\models\BaseSchedules;
 use yii\data\ActiveDataProvider;
@@ -51,13 +54,10 @@ class ManageBasicScheduleController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => BaseSchedules::find(),
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
 
     /**
      * Creates a new BaseSchedules model.
@@ -72,13 +72,24 @@ class ManageBasicScheduleController extends Controller
 //
 //        }
 //        print_r($model->errors);die();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if (BaseSchedulesDays::loadMultiple($model->scheduleDays, Yii::$app->request->post())
+                && BaseSchedulesDays::validateMultiple($model->scheduleDays)) {
+                $model->save();
+                foreach ($model->scheduleDays as $scheduleDay){
+                    $scheduleDay->raspis_pack=$model->id;
+                    $scheduleDay->save(false);
+                }
+
+                return $this->redirect(['index']);
+            }
+
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+
     }
 
     /**
@@ -92,9 +103,20 @@ class ManageBasicScheduleController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if (BaseSchedulesDays::loadMultiple($model->scheduleDays, Yii::$app->request->post())
+                && BaseSchedulesDays::validateMultiple($model->scheduleDays)) {
+
+                $model->save();
+
+                foreach ($model->scheduleDays as $scheduleDay){
+                    $scheduleDay->save(false);
+                }
+
+                return $this->redirect(['index']);
+            }
         }
+
 
         return $this->render('update', [
             'model' => $model,
@@ -124,10 +146,19 @@ class ManageBasicScheduleController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = BaseSchedules::findOne($id)) !== null) {
-            return $model;
-        }
+        $model = BaseSchedules::findOne($id);
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        if (isset($model)) {
+            return $model;
+        } else throw new NotFoundHttpException('Невозможно найти страницу.');
+    }
+
+    private function findModelForm($id)
+    {
+        $model = BaseScheduleForm::findOne($id);
+
+        if (isset($model)) {
+            return $model;
+        } else throw new NotFoundHttpException('Невозможно найти страницу.');
     }
 }

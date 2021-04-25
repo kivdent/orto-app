@@ -13,7 +13,6 @@ return [
 //            ['label' => 'Отчёт за день (чеки)', 'url' => '/old_app/doc_den_ch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за день', 'url' => '/reports/financial/employee-daily', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['technician','therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
-
 //            ['label' => 'Отчёт за период оплаты', 'url' => '/reports/default/index', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за период (чеки)', 'url' => '/old_app/doc_den_ch_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за день (оплаты)', 'url' => '/old_app/doc_den_opl.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],

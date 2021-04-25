@@ -3,6 +3,7 @@
 namespace common\modules\clinic\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "rabmesto".
@@ -45,5 +46,10 @@ class Workplaces extends \common\abstractClasses\ActiveRecordEntity
             'nazv' => 'Название',
             'clinic_id' => 'Клиника',
         ];
+    }
+    public static function getWorkplacesList(){
+        $list=self::find()->asArray()->all();
+        $list=ArrayHelper::map($list,'id','nazv');
+        return $list;
     }
 }

@@ -5,10 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\BaseSchedules */
 
-$this->title = 'Update Base Schedules: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Base Schedules', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Изменение расписания';
+
 ?>
 <div class="base-schedules-update">
 

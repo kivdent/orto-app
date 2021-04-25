@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\modules\employee\models\Employee;
 use Yii;
 
 /**
@@ -15,6 +16,7 @@ use Yii;
  * @property string $Okonch
  * @property int $TimePat
  * @property int $vrachID
+ * @property Employee doctor
  */
 class AppointmentsDay extends \yii\db\ActiveRecord
 {
@@ -52,5 +54,8 @@ class AppointmentsDay extends \yii\db\ActiveRecord
             'TimePat' => 'Time Pat',
             'vrachID' => 'Vrach ID',
         ];
+    }
+    public function getDoctor(){
+        return $this->hasOne(Employee::className(),['id'=>'vrachID']);
     }
 }
