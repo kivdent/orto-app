@@ -5,6 +5,7 @@ namespace common\modules\schedule\controllers;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
 use common\modules\schedule\models\ScheduleManager;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\schedule\models\AppointmentsDay;
 use yii\base\Model;
@@ -72,10 +73,17 @@ class ScheduleController extends Controller
         if ($date == 'now') {
             $date = strtotime('now');
         }
+
+        $doctor_id = Yii::$app->request->post('AppointmentsDay')['vrachID'] ? Yii::$app->request->post('AppointmentsDay')['vrachID'] : $doctor_id;
+        $date = Yii::$app->request->post('AppointmentsDay')['date'] ? strtotime(Yii::$app->request->post('AppointmentsDay')['date']) : $date;
+
         if ($doctor_id == 'all') {
             $model = new AppointmentsDay([
                 'date' => date('d.m.Y', $date),
                 'vrachID' => $doctor_id,
+                'Nach' => '09:00:00',
+                'Okonch' => '20:00:00',
+                'TimePat' => 15
             ]);
         } else {
             $model = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);

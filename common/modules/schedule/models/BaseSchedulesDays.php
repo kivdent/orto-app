@@ -34,15 +34,19 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
 
     public static function getAppointmentsDayForDoctor($doctor_id, $date)
     {
-        $appointmentsDay=BaseSchedulesDays::find()
-            ->where(['dayN' => date('N', $date)])
-            ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
-            ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
-            ->andWhere(['raspis_pack.doctor_id' => $doctor_id])
-            ->andWhere('raspis_pack.start_date<=\''.date('Y-m-d',$date).'\'')
-            ->orderBy('raspis_pack.start_date DESC')
-            ->one();
-        return $appointmentsDay->getAppointmentsDay($date);
+
+
+            $appointmentsDay = BaseSchedulesDays::find()
+                ->where(['dayN' => date('N', $date)])
+                ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
+                ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
+                ->andWhere(['raspis_pack.doctor_id' => $doctor_id])
+                ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $date) . '\'')
+                ->orderBy('raspis_pack.start_date DESC')
+                ->one()
+                ->getAppointmentsDay($date);
+
+        return $appointmentsDay;
 
     }
 
@@ -83,17 +87,17 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
 
     public function getAppointmentsDay($date)
     {
-        $appointmentsDay=AppointmentsDay::find()
+        $appointmentsDay = AppointmentsDay::find()
             ->where(['date' => date('Y-m-d', $date)])
-            ->andWhere(['vrachID'=>$this->baseSchedules->doctor_id])
+            ->andWhere(['vrachID' => $this->baseSchedules->doctor_id])
             ->one();
-        if(!isset($appointmentsDay)){
-            $appointmentsDay=new AppointmentsDay([
+        if (!isset($appointmentsDay)) {
+            $appointmentsDay = new AppointmentsDay([
                 'vrachID' => $this->baseSchedules->doctor_id,
                 'date' => date('Y-m-d', $date),
                 'rabmestoID' => $this->rabmestoID,
                 'TimePat' => $this->baseSchedules->appointment_duration,
-                'vih' =>$this->vih,
+                'vih' => $this->vih,
                 'Okonch' => $this->okonchPr,
                 'Nach' => $this->nachPr,
 
@@ -101,8 +105,10 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
         }
         return $appointmentsDay;
     }
-    public function getBaseSchedules(){
-        return $this->hasOne(BaseSchedules::className(),['id'=>'raspis_pack']);
+
+    public function getBaseSchedules()
+    {
+        return $this->hasOne(BaseSchedules::className(), ['id' => 'raspis_pack']);
     }
 
     public function getWorkplace()
