@@ -7,7 +7,7 @@ use Yii;
 use yii\console\Controller;
 use common\models\User;
 
-class RbacController extends Controller
+class RbacController extends Controller //TODO Добавить разрешения из миграции m210506_063028_add_role_senior_recorder.php
 {
 
     public function actionInit()

@@ -30,10 +30,13 @@ class UserInterface
     const ROLE_SURGEON='surgeon';
     const ROLE_ORTHODONTIST='orthodontist';
     const ROLE_RECORDER='recorder';
+    const ROLE_SENIOR_RECORDER='senior_recorder';
     const ROLE_ACCOUNTANT='accountant';
     const ROLE_SENIOR_NURSE='senior_nurse';
     const ROLE_DIRECTOR='director';
     const ROLE_RADIOLOGIST='radiologist';
+
+    const PERMISSION_EDIT_SCHEDULE='editSchedule';
 
     public $user_id;
     public $employe_id;
@@ -42,7 +45,7 @@ class UserInterface
     public $roleName;
     public $params = [];
 
-    const MONTHS = [
+    const MONTHS = array(
         '1' => 'Январь',
         '2' => 'Февраль',
         '3' => 'Март',
@@ -55,7 +58,7 @@ class UserInterface
         '10' => 'Октябрь',
         '11' => 'Ноябрь',
         '12' => 'Декабрь',
-    ];
+    );
 
     /**
      *

@@ -31,13 +31,13 @@ class Employee extends \yii\db\ActiveRecord
     const STATUS_WORKED = 'Работает';
     const STATUS_NOT_WORKED = 'Не работает';
     const STATUS_TEMPORARILY_WORKED = 'Временно не работает';
-    const STATUS_ALL= 'Все';
+    const STATUS_ALL = 'Все';
 
-    const POSITION_NURSE=5;
-    const POSITION_TECHNICIANS=8;
-    const POSITION_THERAPIST=1;//Dentist-therapist
-    const POSITION_ORTHOPEDIST=2;//Dentist-orthopedist
-    const POSITION_ORTHODONTIST=3;//Dentist-orthodontist
+    const POSITION_NURSE = 5;
+    const POSITION_TECHNICIANS = 8;
+    const POSITION_THERAPIST = 1;//Dentist-therapist
+    const POSITION_ORTHOPEDIST = 2;//Dentist-orthopedist
+    const POSITION_ORTHODONTIST = 3;//Dentist-orthodontist
 
 //'1', 'Врач стоматолог-терапевт'
 //'2', 'Врач стоматолог-ортопед'
@@ -58,31 +58,32 @@ class Employee extends \yii\db\ActiveRecord
     public static function getNursesList()
     {
         return ArrayHelper::map(Employee::find()
-           ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
-            ->where(['dolzh'=>self::POSITION_NURSE,'status'=>self::STATUS_WORKED])
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh' => self::POSITION_NURSE, 'status' => self::STATUS_WORKED])
             ->orderBy('surname')
             ->asArray()
-            ->all(),'id','full_name');
+            ->all(), 'id', 'full_name');
     }
 
     public static function getTechniciansList()
     {
         return ArrayHelper::map(Employee::find()
-            ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
-            ->where(['dolzh'=>self::POSITION_TECHNICIANS,'status'=>self::STATUS_WORKED])
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh' => self::POSITION_TECHNICIANS, 'status' => self::STATUS_WORKED])
             ->orderBy('surname')
             ->asArray()
-            ->all(),'id','full_name');
+            ->all(), 'id', 'full_name');
     }
 
-    public static function getDoctorsList(){
+    public static function getDoctorsList()
+    {
 
         return ArrayHelper::map(Employee::find()
-            ->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
-            ->where(['dolzh'=>[self::POSITION_THERAPIST,self::POSITION_ORTHOPEDIST,self::POSITION_ORTHODONTIST],'status'=>self::STATUS_WORKED])
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh' => [self::POSITION_THERAPIST, self::POSITION_ORTHOPEDIST, self::POSITION_ORTHODONTIST], 'status' => self::STATUS_WORKED])
             ->orderBy('surname')
             ->asArray()
-            ->all(),'id','full_name');
+            ->all(), 'id', 'full_name');
     }
 
     /**
@@ -141,7 +142,9 @@ class Employee extends \yii\db\ActiveRecord
 
         $this->dr = Yii::$app->formatter->asDate($this->dr, 'php:d.m.Y');
     }
-    public function beforeSave($insert) {
+
+    public function beforeSave($insert)
+    {
 
         if (!parent::beforeSave($insert)) {
             return false;
@@ -191,23 +194,24 @@ class Employee extends \yii\db\ActiveRecord
 //            ->asArray()
 //            ->all();
 //
-            $list=self::find()->select(["id","CONCAT(surname, ' ', name, ' ',otch) AS full_name"]);
+        $list = self::find()->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"]);
 
-            if($status!==self::STATUS_ALL) {
-                $list=$list->where(['status'=>$status]);
+        if ($status !== self::STATUS_ALL) {
+            $list = $list->where(['status' => $status]);
 
-            }
-            $list=$list->orderBy('surname')
+        }
+        $list = $list->orderBy('surname')
             ->asArray()
             ->all();
 
 
-        $list=ArrayHelper::map($list,'id','full_name');
+        $list = ArrayHelper::map($list, 'id', 'full_name');
 
         return $list;
     }
+
     public static function getEmployeeFullName($id)
     {
-
+        return self::findOne($id)->getFullName();
     }
 }

@@ -26,8 +26,9 @@ class TimeSheet extends \common\models\TimeSheet
 
     public function getDuration()
     {
+        $duration = 0;
         $duration = strtotime($this->date . " " . $this->out) - strtotime($this->date . " " . $this->in);
-        return $duration;
+        return $duration > 0 ? $duration : 0;
     }
 
     public static function getPeriodDuration($financial_period, $employee)
@@ -70,7 +71,17 @@ class TimeSheet extends \common\models\TimeSheet
             }
         }
 
-       return $dayOfWeek === self::TYPE_WEEKDAYS ? $durationWeekdays : $durationWeekends;
+        return $dayOfWeek === self::TYPE_WEEKDAYS ? $durationWeekdays : $durationWeekends;
+    }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'sotr' => 'Сотрудник',
+            'in' => 'Начало смены',
+            'out' => 'Окончание смены',
+            'date' => 'Дата',
+        ];
     }
 
 }
