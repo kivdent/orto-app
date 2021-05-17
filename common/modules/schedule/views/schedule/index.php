@@ -40,7 +40,7 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><?= date('d.m.Y', $days->date) ?></h3>
                                     <?= UserInterface::getDayWeekName(date('N', $days->date)) ?>
-                                    <a class="btn btn-default btn-xs" href="create?date=<?= $days->date ?>"
+                                    <a class="btn btn-default btn-xs" href="schedule/create?date=<?= $days->date ?>"
                                        role="button"><span
                                                 class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
 
@@ -54,7 +54,7 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                                     <?= $appointmentDay->workplace->nazv ?>
                                                     <?php if ($appointmentDay->isNewRecord): ?>
                                                         <a class="btn btn-default btn-xs"
-                                                           href="create?date=<?= $days->date ?>&doctor_id=<?= $appointmentDay->doctor->id ?>"
+                                                           href="schedule/create?date=<?= $days->date ?>&doctor_id=<?= $appointmentDay->doctor->id ?>"
                                                            role="button"><span
                                                                     class="glyphicon glyphicon-pencil"
                                                                     aria-hidden="true"></span></a>

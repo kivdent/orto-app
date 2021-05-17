@@ -2,18 +2,21 @@
 
 namespace common\modules\schedule\controllers;
 
-use common\modules\schedule\models\TimeSheetManager;
+use common\modules\employee\models\Employee;
+use common\modules\schedule\models\AppointmentManager;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
-use common\modules\schedule\models\TimeSheet;
-
+use common\modules\schedule\models\Appointment;
+use common\modules\schedule\models\AppointmentSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TimeSheetController implements the CRUD actions for TimeSheet model.
+ * AppointmentController implements the CRUD actions for Appointment model.
  */
-class TimeSheetController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,25 +33,41 @@ class TimeSheetController extends Controller
         ];
     }
 
-    /**
-     * Lists all TimeSheet models.
-     * @param string $start_date
-     * @return mixed
-     */
-    public function actionIndex($start_date = 'now')
+    public function actionIndex($doctor_ids='all',$start_date='now',$duration=AppointmentManager::DURATION_ONE_DAY)
     {
-        $start_date = strtotime(date('01.m.Y', strtotime($start_date)));
-        $timeSheetManager = new TimeSheetManager([
-            'startDate' => $start_date
-        ]);
+        if ($doctor_ids==='all'){
+            $doctor_ids=array_keys(Employee::getDoctorsList());
 
-        return $this->render('index', [
-            'timeSheetManager' => $timeSheetManager,
+        }
+        if (is_int($doctor_ids)){
+            $id=$doctor_ids;
+            $doctor_ids=[$id];
+        }
+
+        $appointmentsDays=AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids,$start_date,$duration);
+        UserInterface::getVar($appointmentsDays);
+        return $this->render('index',[
+            'appointmentsDays'=>$appointmentsDays
         ]);
     }
 
     /**
-     * Displays a single TimeSheet model.
+     * Lists all Appointment models.
+     * @return mixed
+     */
+    public function actionEdit()
+    {
+        $searchModel = new AppointmentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('edit', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Displays a single Appointment model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -61,21 +80,16 @@ class TimeSheetController extends Controller
     }
 
     /**
-     * Creates a new TimeSheet model.
+     * Creates a new Appointment model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @param $date
-     * @param $employee_id
      * @return mixed
      */
-    public function actionCreate($date,$employee_id)
+    public function actionCreate()
     {
-        $model = new TimeSheet([
-            'date' => date('Y-m-d',$date),
-            'sotr' => $employee_id
-        ]);
+        $model = new Appointment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('create', [
@@ -84,7 +98,7 @@ class TimeSheetController extends Controller
     }
 
     /**
-     * Updates an existing TimeSheet model.
+     * Updates an existing Appointment model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -95,7 +109,7 @@ class TimeSheetController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+            return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('update', [
@@ -104,7 +118,7 @@ class TimeSheetController extends Controller
     }
 
     /**
-     * Deletes an existing TimeSheet model.
+     * Deletes an existing Appointment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -118,38 +132,18 @@ class TimeSheetController extends Controller
     }
 
     /**
-     * Finds the TimeSheet model based on its primary key value.
+     * Finds the Appointment model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TimeSheet the loaded model
+     * @return Appointment the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TimeSheet::findOne($id)) !== null) {
+        if (($model = Appointment::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    public function actionIn($employee_id)
-    {
-        $timeSheet = new TimeSheet([
-            'date' => date('Y-m-d'),
-            'in' => date('H:i:s'),
-            'out' => '00:00:00',
-            'sotr' => $employee_id,
-        ]);
-        $timeSheet->save(false);
-        return $this->redirect(['index']);
-    }
-
-    public function actionOut($id)
-    {
-        $timeSheet = $this->findModel($id);
-        $timeSheet->out = date('H:i:s');
-        $timeSheet->save(false);
-        return $this->redirect(['index']);
     }
 }

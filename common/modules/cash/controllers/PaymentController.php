@@ -58,7 +58,7 @@ class PaymentController extends \yii\web\Controller
 
         $payment->type = 1;
         $payment->date = date('Y-m-d');
-        $payment->time = date('h:i:s');
+        $payment->time = date('H:i:s');
         if ($payment->load(Yii::$app->request->post()) && $payment->validate()) {
             $invoice->save(false);
             $payment->dnev = $invoice->id;
@@ -96,7 +96,7 @@ class PaymentController extends \yii\web\Controller
 
         $payment->type = 1;
         $payment->date = date('Y-m-d');
-        $payment->time = date('h:i:s');
+        $payment->time = date('H:i:s');
         if ($payment->load(Yii::$app->request->post()) && $payment->validate()) {
             $invoice->save(false);
             $payment->dnev = $invoice->id;
@@ -135,7 +135,7 @@ class PaymentController extends \yii\web\Controller
         $payment->dnev = $invoice_id;
         $payment->type = 1;
         $payment->date = date('Y-m-d');
-        $payment->time = date('h:i:s');
+        $payment->time = date('H:i:s');
         $invoice = Invoice::findOne($invoice_id);
         $isValidate = true;
         if ($invoice->type == Invoice::TYPE_GIFT_CARDS) {

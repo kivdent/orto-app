@@ -8,6 +8,7 @@ use common\modules\clinic\models\Workplaces;
 /**
  * @property string $title
  ** @property Workplaces $workplace
+ ** @property Appointment[] $appointments
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
 {
@@ -43,5 +44,9 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             'TimePat' => 'Время',
             'vrachID' => 'Врач',
         ];
+    }
+    public function getAppointments()
+    {
+        return $this->hasMany(Appointment::className(),['dayPR'=>'id']);
     }
 }

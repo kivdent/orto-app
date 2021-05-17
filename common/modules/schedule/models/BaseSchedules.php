@@ -22,21 +22,30 @@ use Yii;
  * @property int $status
  * @property int $appointment_duration
  * @property BaseSchedulesDays[] scheduleDays
-
  */
 class BaseSchedules extends \yii\db\ActiveRecord
 {
     const STATUS_ACTIVE = '1';
     const STATUS_INACTIVE = '0';
 
-    const START_TIME='08:00:00';
-    const END_TIME='20:00:00';
+    const START_TIME = '08:00:00';
+    const END_TIME = '20:00:00';
+
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'raspis_pack';
+    }
+
+    public static function DoctorHas($doctor_id,$date)
+
+    {
+        return self::find()->where(['doctor_id' => $doctor_id])
+            ->andWhere(['status'=>self::STATUS_ACTIVE])
+            ->andWhere('start_date<=\''.date('Y-m-d',$date).'\'')
+            ->one();
     }
 
     /**

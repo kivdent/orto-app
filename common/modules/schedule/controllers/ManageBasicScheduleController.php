@@ -3,8 +3,7 @@
 namespace common\modules\schedule\controllers;
 
 use common\modules\schedule\models\BaseSchedulesDays;
-use common\modules\schedule\models\forms\BaseScheduleDaysForm;
-use common\modules\userInterface\models\UserInterface;
+
 use Yii;
 use common\modules\schedule\models\BaseSchedules;
 use yii\data\ActiveDataProvider;
