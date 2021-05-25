@@ -1,9 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
 use common\modules\pricelists\widgets\PriceListsWidget;
-use kartik\file\FileInput;
+use kartik\widgets\FileInput;
 use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
@@ -11,7 +10,6 @@ use yii\bootstrap\Modal;
 /* @var $priceListId string */
 
 $this->title = 'Пакетное изменение прейскурантов';
-
 ?>
 <div class="pricelist-index">
     <h1><?= Html::encode($this->title) ?> </h1>
