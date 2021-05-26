@@ -28,15 +28,25 @@ $(document).ready(function () {
 
                 let coefficientId = "#price-list-item-new-coefficient-" + $(element).attr('id').split('-')[5];
                 let percent = $('#percent').val() / 100 + 1;
-                let price = Math.ceil($(element).attr('old-price') * 100 * percent) / 100;
-
+                let oldPrice=$(element).attr('old-price');
+                let price = Math.ceil(oldPrice * 100 * percent) / 100;
+                let oldCoefficientId = "#price-list-item-old-coefficient-" + $(this).attr('id').split('-')[5];
                 if (price === Math.ceil(price / 10) * 10) {
                     price = price + 10;
                 } else {
                     price = Math.ceil(price / 10) * 10;
                 }
                 $(element).val(price);
-                $(coefficientId).val(price / 100);
+                if ($(oldCoefficientId).val() != '0') {
+                    if(oldPrice/100==$(oldCoefficientId).val()){
+                        $(coefficientId).val(price / 100);
+                    }else {
+                        $(coefficientId).val(Math.ceil($(oldCoefficientId).val() * 100 * percent) / 100);
+                    }
+
+                } else {
+                    $(coefficientId).val(0);
+                }
 
             }
         )
@@ -44,7 +54,12 @@ $(document).ready(function () {
 
     $('.price-list-item-new-price').on('change', function () {
         let coefficientId = "#price-list-item-new-coefficient-" + $(this).attr('id').split('-')[5];
-        $(coefficientId).val($(this).val() / 100);
+        let oldCoefficientId = "#price-list-item-old-coefficient-" + $(this).attr('id').split('-')[5];
+        if ($(oldCoefficientId).val() != '0') {
+            $(coefficientId).val($(this).val() / 100);
+        } else {
+            $(coefficientId).val(0);
+        }
     });
 
     $('.price-remove').on('click', function () {

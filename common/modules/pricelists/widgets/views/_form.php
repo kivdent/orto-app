@@ -184,6 +184,11 @@ if ($type == PriceListsWidget::TYPE_BATCH_EDITING) {
                                                                    size="2"
                                                                    id="price-list-item-new-coefficient-<?= $pricelistItem->id ?>"
                                                                    value="<?= $pricelistItem->coefficient ?>">
+                                                            <input type="hidden"
+                                                                   class="form-control"
+                                                                   size="2"
+                                                                   id="price-list-item-old-coefficient-<?= $pricelistItem->id ?>"
+                                                                   value="<?= $pricelistItem->coefficient ?>">
                                                         <?php endif; ?>
                                                     </td>
                                                 <?php endif; ?>
