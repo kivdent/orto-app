@@ -12,6 +12,16 @@ use common\modules\clinic\models\Workplaces;
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
 {
+    public static function getAppointmentsDayForDoctor($doctor_id, $date)
+    {
+        return self::find()->where(['vrachID'=>$doctor_id,'date'=>date('Y-m-d', $date)])->one();
+    }
+
+    public static function getAppointmentsDayForDate($date)
+    {
+        return self::find()->where(['date'=>date('Y-m-d', $date)])->all();
+    }
+
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {

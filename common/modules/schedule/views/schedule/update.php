@@ -5,10 +5,6 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\AppointmentsDay */
 
-$this->title = 'Update Appointments Day: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Appointments Days', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="appointments-day-update">
 
@@ -16,6 +12,7 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'disabled'=>'',
     ]) ?>
 
 </div>

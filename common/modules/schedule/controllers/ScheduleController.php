@@ -73,7 +73,7 @@ class ScheduleController extends Controller
         if ($date == 'now') {
             $date = strtotime('now');
         }
-
+        $disabled = $doctor_id == 'all' ? false : true;
         $doctor_id = Yii::$app->request->post('AppointmentsDay')['vrachID'] ? Yii::$app->request->post('AppointmentsDay')['vrachID'] : $doctor_id;
         $date = Yii::$app->request->post('AppointmentsDay')['date'] ? strtotime(Yii::$app->request->post('AppointmentsDay')['date']) : $date;
 
@@ -96,6 +96,7 @@ class ScheduleController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'disabled' => $disabled
         ]);
     }
 
@@ -111,12 +112,10 @@ class ScheduleController extends Controller
         $model = $this->findModel($id);
         $model->date = date('d.m.Y', strtotime($model->date));
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect('index');
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['update', 'model' => $model, 'disabled' => true]);
     }
 
     /**

@@ -5,6 +5,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\AppointmentsDay */
+/* @var $disabled string*/
 
 $this->title = 'Создание расписания '.date('d.m.Y',strtotime($model->date)).' '. UserInterface::getDayWeekName(date('N',strtotime($model->date)));
 
@@ -15,6 +16,7 @@ $this->title = 'Создание расписания '.date('d.m.Y',strtotime($
 
     <?= $this->render('_form', [
         'model' => $model,
+        'disabled'=>$disabled
     ]) ?>
 
 </div>

@@ -40,12 +40,39 @@ class ScheduleDayManager extends Model
 
     public function getAppointmentDays()
     {
-        $appointmentDays=[];
-        foreach ($this->baseSchedulesDays as $baseSchedulesDay){
+        $appointmentDays = [];
+        $appointmentDays = $this->getAppointmentDaysFromBaseSchedules();
+        $appointmentDays=$this->setAppointmentDaysWithoutBaseSchedules($appointmentDays);
+        return $appointmentDays;
+    }
 
-            $appointmentDays[]=$baseSchedulesDay->getAppointmentsDay($this->date);
+    private function setAppointmentDaysWithoutBaseSchedules($appointmentDaysFromBaseSchedules)
+    {
+        $appointmentDays = AppointmentsDay::getAppointmentsDayForDate($this->date);
+        $appointmentDaysExistArray = ArrayHelper::toArray($appointmentDaysFromBaseSchedules, [
+            AppointmentsDay::className() => [
+                'id',
+            ]
+        ]);
+        $appointmentDaysExistArray = ArrayHelper::map($appointmentDaysExistArray, 'id', 'id');
+        foreach ($appointmentDays as $appointmentDay) {
+            if (!ArrayHelper::keyExists($appointmentDay -> id, $appointmentDaysExistArray)) {
+                $appointmentDaysFromBaseSchedules[]=$appointmentDay;
+            }
         }
-        return$appointmentDays;
+        return $appointmentDaysFromBaseSchedules;
+    }
+
+    private function getAppointmentDaysFromBaseSchedules()
+    {
+
+        $appointmentDays = [];
+
+        foreach ($this->baseSchedulesDays as $baseSchedulesDay) {
+            $appointmentDays[] = $baseSchedulesDay->getAppointmentsDay($this->date);
+        }
+
+        return $appointmentDays;
     }
 
     public function setAppointmentTimeTable()
@@ -66,7 +93,6 @@ class ScheduleDayManager extends Model
             $this->addAppointmentDaysToTable($appointmentDay);
         }
     }
-
 
 
     private function getAppointmentDaysForTime()
@@ -107,7 +133,7 @@ class ScheduleDayManager extends Model
             ->where(['dayN' => date('N', $this->date)])
             ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
             ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
-            ->andWhere('raspis_pack.start_date<=\''.date('Y-m-d',$this->date).'\'')
+            ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $this->date) . '\'')
             ->orderBy('raspis_pack.start_date DESC')
             ->all();
     }

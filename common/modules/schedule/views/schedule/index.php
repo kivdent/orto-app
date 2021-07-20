@@ -40,9 +40,9 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><?= date('d.m.Y', $days->date) ?></h3>
                                     <?= UserInterface::getDayWeekName(date('N', $days->date)) ?>
-                                    <a class="btn btn-default btn-xs" href="schedule/create?date=<?= $days->date ?>"
-                                       role="button"><span
-                                                class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                    <?=Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+                                    ['create','date'=>$days->date],
+                                    ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
 
                                 </div>
                                 <table class="table">
@@ -53,16 +53,16 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                                 <td>
                                                     <?= $appointmentDay->workplace->nazv ?>
                                                     <?php if ($appointmentDay->isNewRecord): ?>
-                                                        <a class="btn btn-default btn-xs"
-                                                           href="schedule/create?date=<?= $days->date ?>&doctor_id=<?= $appointmentDay->doctor->id ?>"
-                                                           role="button"><span
-                                                                    class="glyphicon glyphicon-pencil"
-                                                                    aria-hidden="true"></span></a>
+                                                        <?=Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                            ['create','date'=>$days->date,'doctor_id'=>$appointmentDay->doctor->id],
+                                                            ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
+
                                                     <?php else: ?>
-                                                        <a class="btn btn-default btn-xs"
-                                                           href="update?id=<?= $appointmentDay->id ?>"
-                                                           role="button"><span class="glyphicon glyphicon-pencil"
-                                                                               aria-hidden="true"></span></a>
+
+                                                        <?=Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                            ['update','id'=>$appointmentDay->id],
+                                                            ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
+
 
                                                     <?php endif; ?>
                                                     <?= $appointmentDay->doctor->fullName; ?>

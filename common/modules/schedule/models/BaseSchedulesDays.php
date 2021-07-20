@@ -34,15 +34,22 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
 
     public static function getAppointmentsDayForDoctor($doctor_id, $date)
     {
-        $baseSchedulesDay=BaseSchedulesDays::find()
-            ->where(['dayN' => date('N', $date)])
-            ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
-            ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
-            ->andWhere(['raspis_pack.doctor_id' => $doctor_id])
-            ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $date) . '\'')
-            ->orderBy('raspis_pack.start_date DESC')
-            ->one();
-            $appointmentsDay =new ? $baseSchedulesDay->getAppointmentsDay($date) : null;
+        $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($doctor_id, $date);
+
+        if (!$appointmentsDay) {
+            $baseSchedulesDay = BaseSchedulesDays::find()
+                ->where(['dayN' => date('N', $date)])
+                ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
+                ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
+                ->andWhere(['raspis_pack.doctor_id' => $doctor_id])
+                ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $date) . '\'')
+                ->orderBy('raspis_pack.start_date DESC')
+                ->one();
+        }
+        $appointmentsDay = $baseSchedulesDay ? $baseSchedulesDay->getAppointmentsDay($date) : new AppointmentsDay([
+            'vrachID' => $doctor_id,
+            'date' => date('Y-m-d', $date)
+        ]);
         return $appointmentsDay;
 
     }
@@ -84,10 +91,7 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
 
     public function getAppointmentsDay($date)
     {
-        $appointmentsDay = AppointmentsDay::find()
-            ->where(['date' => date('Y-m-d', $date)])
-            ->andWhere(['vrachID' => $this->baseSchedules->doctor_id])
-            ->one();
+        $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($this->baseSchedules->doctor_id,$date);
         if (!isset($appointmentsDay)) {
             $appointmentsDay = new AppointmentsDay([
                 'vrachID' => $this->baseSchedules->doctor_id,
