@@ -10,8 +10,8 @@ return [
     'params' => [
         //'entities' => [],
         'menuItems' => [
-            ['label' => 'Карты в архив (старые)', 'url' => '/archive/manage/index?type='. ArchivePatientSearch::TYPE_OLD,'roles'=>['admin', 'recorder', 'senior nurse', ]],
-            ['label' => 'Карты в архив (пустые)', 'url' => '/archive/manage/index?type='. ArchivePatientSearch::TYPE_EMPTY,'roles'=>['admin', 'recorder', 'senior nurse', ]],
+            ['label' => 'Карты в архив (старые)', 'url' => '/archive/manage/index?type='. ArchivePatientSearch::TYPE_OLD,'roles'=>['admin', 'recorder','senior_recorder', 'senior nurse', ]],
+            ['label' => 'Карты в архив (пустые)', 'url' => '/archive/manage/index?type='. ArchivePatientSearch::TYPE_EMPTY,'roles'=>['admin', 'recorder', 'senior nurse','senior_recorder', ]],
 //            ['label' => 'Карты в архив', 'url' => '/archive/manage/index','roles'=>['admin', 'recorder', 'senior nurse', ]],
 //            ['label' => 'Переместить а архив', 'url' => '/archive/manage/send-to-archive','roles'=>['admin', 'recorder', 'senior nurse', ]],
 //            ['label' => 'Отчёт за день (оплаты)', 'url' => '/archive/manage/change-status','roles'=>['admin', 'recorder', 'senior nurse', ]],
