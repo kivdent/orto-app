@@ -4,6 +4,8 @@ namespace common\modules\schedule\controllers;
 
 use common\modules\employee\models\Employee;
 use common\modules\schedule\models\AppointmentManager;
+use common\modules\schedule\models\BaseSchedules;
+use common\modules\schedule\models\BaseSchedulesDays;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\schedule\models\Appointment;
@@ -33,22 +35,23 @@ class AppointmentController extends Controller
         ];
     }
 
-    public function actionIndex($doctor_ids='all',$start_date='now',$duration=AppointmentManager::DURATION_ONE_DAY)
+    public function actionIndex($doctor_ids='all',$start_date='now',$duration=AppointmentManager::DURATION_SIX_DAYS)
     {
         if ($doctor_ids==='all'){
-            $doctor_ids=array_keys(Employee::getDoctorsList());
-
+            $doctor_ids=array_keys(BaseSchedules::getActiveDoctorsList());
         }
+
         if (is_int($doctor_ids)){
             $id=$doctor_ids;
             $doctor_ids=[$id];
         }
 
-        $appointmentsDays=AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids,$start_date,$duration);
-        UserInterface::getVar($appointmentsDays);
+        $appointmentManager=AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids,$start_date,$duration);
+//        UserInterface::getVar($appointmentManager);
         return $this->render('index',[
-            'appointmentsDays'=>$appointmentsDays
+            'appointmentManager'=>$appointmentManager
         ]);
+
     }
 
     /**
@@ -83,17 +86,20 @@ class AppointmentController extends Controller
      * Creates a new Appointment model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     *
      */
-    public function actionCreate()
+    public function actionCreate($appointment_day_id,$doctor_id,$date,$time)
     {
         $model = new Appointment();
-
+        $model->NachNaz=date('H:i',$time);
+        $appointment_day=BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $time);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->Id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'appointment_day'=>$appointment_day,
         ]);
     }
 

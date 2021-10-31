@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\Appointment */
+/* @var $appointment_day AppointmentsDay */
 
-$this->title = 'Create Appointment';
-$this->params['breadcrumbs'][] = ['label' => 'Appointments', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Назначение пациента';
+
 ?>
 <div class="appointment-create">
 
@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'appointment_day'=>$appointment_day,
     ]) ?>
 
 </div>

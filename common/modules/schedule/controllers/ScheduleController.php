@@ -83,7 +83,8 @@ class ScheduleController extends Controller
                 'vrachID' => $doctor_id,
                 'Nach' => '09:00:00',
                 'Okonch' => '20:00:00',
-                'TimePat' => 15
+                'TimePat' => 15,
+                'vih'=>0
             ]);
         } else {
             $model = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
@@ -115,7 +116,7 @@ class ScheduleController extends Controller
             return $this->redirect('index');
         }
 
-        return $this->redirect(['update', 'model' => $model, 'disabled' => true]);
+        return $this->render('update', ['model' => $model, 'disabled' => true]);
     }
 
     /**

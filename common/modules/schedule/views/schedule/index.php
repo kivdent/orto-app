@@ -62,8 +62,6 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                                         <?=Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                             ['update','id'=>$appointmentDay->id],
                                                             ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
-
-
                                                     <?php endif; ?>
                                                     <?= $appointmentDay->doctor->fullName; ?>
                                                     <?= $appointmentDay->Nach ?>-

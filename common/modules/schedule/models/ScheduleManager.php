@@ -29,7 +29,6 @@ class ScheduleManager extends Model
         $endDate = date('d.m.Y', strtotime(date('t.m.Y', $this->start_date) . '+1 day'));
         $j = 1;
 
-
         while (date('d.m.Y', $date) != $endDate) {
             $week = [];
             if (date('d', $date) == 1) {

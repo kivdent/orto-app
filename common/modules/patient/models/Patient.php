@@ -9,6 +9,7 @@ use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\userInterface\models\Addresses;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /**
@@ -53,6 +54,13 @@ class Patient extends \yii\db\ActiveRecord
     const STATUS_ARCHIVE_IN_CARD_INDEX = 'in_card_index';
     const STATUS_ARCHIVE_IN_THE_OFFICE = 'in_the_office';
     const STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE = 'requested_from_archive';
+
+    public static function getListForWidget()
+    {
+        $list=self::find()->select(["id", "CONCAT(surname,' ',name,' ',otch)  as full_name"])->orderBy('surname')->asArray()->all();
+        $list=ArrayHelper::map($list,'id','full_name');
+        return $list;
+    }
 
     public function getPrepaymentAmount()
     {

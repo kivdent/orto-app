@@ -45,13 +45,13 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
                 ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $date) . '\'')
                 ->orderBy('raspis_pack.start_date DESC')
                 ->one();
-        }
-        $appointmentsDay = $baseSchedulesDay ? $baseSchedulesDay->getAppointmentsDay($date) : new AppointmentsDay([
-            'vrachID' => $doctor_id,
-            'date' => date('Y-m-d', $date)
-        ]);
-        return $appointmentsDay;
 
+            $appointmentsDay = $baseSchedulesDay ? $baseSchedulesDay->getAppointmentsDay($date) : new AppointmentsDay([
+                'vrachID' => $doctor_id,
+                'date' => date('Y-m-d', $date)
+            ]);
+        }
+        return $appointmentsDay;
     }
 
     /**
@@ -91,7 +91,7 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
 
     public function getAppointmentsDay($date)
     {
-        $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($this->baseSchedules->doctor_id,$date);
+        $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($this->baseSchedules->doctor_id, $date);
         if (!isset($appointmentsDay)) {
             $appointmentsDay = new AppointmentsDay([
                 'vrachID' => $this->baseSchedules->doctor_id,

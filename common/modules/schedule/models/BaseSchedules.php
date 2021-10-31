@@ -7,6 +7,7 @@ use common\modules\employee\models\Employee;
 use common\modules\schedule\models\forms\BaseScheduleDaysForm;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "raspis_pack".
@@ -47,6 +48,15 @@ class BaseSchedules extends \yii\db\ActiveRecord
             ->andWhere('start_date<=\''.date('Y-m-d',$date).'\'')
             ->one();
     }
+
+    public static function getActiveDoctorsList()
+    {
+        return ArrayHelper::map(self::find()
+            ->Where(['status'=>self::STATUS_ACTIVE])
+            ->asArray()
+            ->all(),'doctor_id','doctor_id');
+    }
+
 
     /**
      * {@inheritdoc}

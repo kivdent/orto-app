@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 
 class AppointmentDayManager extends Model
 {
+    const TIME_EMPTY='empty';
     public $date;
     public $doctor_id;
     /**
@@ -23,12 +24,14 @@ class AppointmentDayManager extends Model
      *
      */
     public $grid;
+    public $isHoliday=false;
 
     public function __construct($config = [])
     {
         parent::__construct($config);
         if (BaseSchedules::DoctorHas($this->doctor_id,$this->date)) {
             $this->appointmentsDay = BaseSchedulesDays::getAppointmentsDayForDoctor($this->doctor_id, $this->date);
+//            UserInterface::getVar($this->appointmentsDay,false);
             $this->setGrid();
         } else {
             $this->appointmentsDay = null;
@@ -42,16 +45,24 @@ class AppointmentDayManager extends Model
         $end_time = strtotime(date('d.m.Y', $this->date) . ' ' . $this->appointmentsDay->Okonch);
         $duration = $this->appointmentsDay->TimePat * 60;
 //        UserInterface::getVar($start_time,false);
-//        UserInterface::getVar($end_time,true);
+//        UserInterface::getVar($end_time);
         if (!$this->appointmentsDay or $this->appointmentsDay->vih == 1) {
             $this->grid = 'holiday';
+            $this->isHoliday =true;
+
         } else {
             $this->grid = [];
-            for ($time = $start_time; $time <= $end_time; $time += $duration) {
+            for ($time = $start_time; $time < $end_time; $time += $duration) {
+//                echo $time."<br>";
+//                echo $end_time."<br>";
+//                echo $time + $duration."<br>";
+//                echo $duration."<br>";
                 if ($this->appointmentsDay->isNewRecord) {
-                    $this->grid[$time] = 'new';
+                    $this->grid[$time] = self::TIME_EMPTY;
+
                 } else {
                     $this->grid[$time] = 'ok';
+
 //                    $appointment = $this->getAppointmentForTime($time);
 //                    $this->grid[] = $appointment;
 //                    if ($appointment instanceof Appointment) {
