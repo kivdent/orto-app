@@ -28,19 +28,27 @@ $(document).ready(function () {
 
                 let coefficientId = "#price-list-item-new-coefficient-" + $(element).attr('id').split('-')[5];
                 let percent = $('#percent').val() / 100 + 1;
-                let oldPrice=$(element).attr('old-price');
+                let oldPrice = $(element).attr('old-price');
                 let price = Math.ceil(oldPrice * 100 * percent) / 100;
                 let oldCoefficientId = "#price-list-item-old-coefficient-" + $(this).attr('id').split('-')[5];
-                if (price === Math.ceil(price / 10) * 10) {
-                    price = price + 10;
-                } else {
-                    price = Math.ceil(price / 10) * 10;
+                if (price < 1000) {
+                    if (price === Math.ceil(price / 10) * 10) {
+                        price = price + 10;
+                    } else {
+                        price = Math.ceil(price / 10) * 10;
+                    }
+                }else{
+                    if (price === Math.ceil(price / 100) * 100) {
+                        price = price + 100;
+                    } else {
+                        price = Math.ceil(price / 100) * 100;
+                    }
                 }
                 $(element).val(price);
                 if ($(oldCoefficientId).val() != '0') {
-                    if(oldPrice/100==$(oldCoefficientId).val()){
+                    if (oldPrice / 100 == $(oldCoefficientId).val()) {
                         $(coefficientId).val(price / 100);
-                    }else {
+                    } else {
                         $(coefficientId).val(Math.ceil($(oldCoefficientId).val() * 100 * percent) / 100);
                     }
 

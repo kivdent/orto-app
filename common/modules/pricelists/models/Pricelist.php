@@ -177,13 +177,13 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->setCellValue('A1', $pricelist->id);//A1-id прейскуранта
 
                 $sheet->setCellValue('A' . $a, $preysk_name); //Название прайса на листе
-                $sheet->mergeCells('A' . $a . ':F' . $a);
+                $sheet->mergeCells('A' . $a . ':G' . $a);
                 $styleArray = [
                     'font' => [
                         'bold' => true,
                     ]
                 ];
-                $diap = 'A' . ($a) . ':F' . $a;
+                $diap = 'A' . ($a) . ':G' . $a;
                 $sheet->getStyle($diap)->applyFromArray($styleArray);
                 $a++;
                 $sheet->getColumnDimension('A')->setWidth(7);
@@ -192,10 +192,11 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->getColumnDimension('D')->setWidth(7);
                 $sheet->getColumnDimension('E')->setWidth(14);
                 $sheet->getColumnDimension('F')->setWidth(7);
+                $sheet->getColumnDimension('G')->setWidth(7);
                 foreach ($pricelist->activeCategoryes as $categorye) {
 
                     $sheet->setCellValue('A' . $a, $categorye->title);
-                    $sheet->mergeCells('A' . ($a) . ':F' . $a);
+                    $sheet->mergeCells('A' . ($a) . ':G' . $a);
                     $styleArray = [
                         'font' => [
                             'bold' => true,
@@ -205,7 +206,7 @@ class Pricelist extends \common\models\Pricelist
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $a++;
 
-                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф',];
+                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф','Посл. Исп.'];
                     $styleArray = [
 
                         'borders' => [
@@ -231,6 +232,7 @@ class Pricelist extends \common\models\Pricelist
                             $item->Coefficient,
                             isset($newPricesArray[$item->id]['price']) ? $newPricesArray[$item->id]['price'] : $item->price,
                             isset($newPricesArray[$item->id]['coefficient']) ? $newPricesArray[$item->id]['coefficient'] : $item->Coefficient,
+                            $item->lastUse,
                         ];
                         $sheet->fromArray(
                             $arrayData,  // The data to set

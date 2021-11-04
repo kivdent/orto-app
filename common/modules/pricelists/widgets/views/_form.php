@@ -121,7 +121,7 @@ if ($type == PriceListsWidget::TYPE_BATCH_EDITING) {
                                             <tr>
                                                 <td>
                                                     <?php if ($type == PriceListsWidget::TYPE_EDIT): ?>
-                                                        <?= $pricelistItem->title . $activeLabel[$pricelistItem->active] ?>
+                                                        <?= $pricelistItem->title . $activeLabel[$pricelistItem->active].' '.$pricelistItem->getLastUse() ?>
                                                         <br>
                                                         <?= Html::a('Изменить позицию',
                                                             [
