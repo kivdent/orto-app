@@ -21,6 +21,7 @@ class Pricelist extends \common\models\Pricelist
     const TYPE_MANIPULATIONS = 'manipulations';
     const TYPE_MATERIALS = 'materials';
     const TYPE_GIFT_CARDS = 'gift_cards';
+    const TYPE_HYGIENE_PRODUCTS = 'hygiene_products';
 
     public static function saveToYandexDisk()
     {
@@ -206,7 +207,7 @@ class Pricelist extends \common\models\Pricelist
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $a++;
 
-                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф','Посл. Исп.'];
+                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф', 'Посл. Исп.'];
                     $styleArray = [
 
                         'borders' => [
@@ -313,16 +314,16 @@ class Pricelist extends \common\models\Pricelist
             if ($pricelist->activeCategoryes) {
                 foreach ($pricelist->activeCategoryes as $categorye) {
                     foreach ($categorye->activeItemsFromCategory as $item) {
-
+                        $flag = $item->pricelist->type == Pricelist::TYPE_HYGIENE_PRODUCTS ? 0 : 1;
                         $priceItem = $dom->createElement('PrItemPriceCode_T');
                         $priceItem->setAttribute('Plu', $item->id); // Plu="1"
-                        $priceItem->setAttribute('Price', $item->price.'00');// Price="10000"
+                        $priceItem->setAttribute('Price', $item->price . '00');// Price="10000"
                         $priceItem->setAttribute('Section', '0');// Section="0"
                         $priceItem->setAttribute('Tax', '0');// Tax="0"
-                        $priceItem->setAttribute('Flags', '1');// Flags="1"
-                        $priceItem->setAttribute('Name', mb_substr($item->title,0,56,'utf-8'));// Name="Анестезия"
+                        $priceItem->setAttribute('Flags', $flag);// Flags="1" 1 - услуга, 0 - товар
+                        $priceItem->setAttribute('Name', mb_substr($item->title, 0, 56, 'utf-8'));// Name="Анестезия"
                         $priceItem->setAttribute('PayAgent', '0');//  PayAgent="0"
-                        $priceItem->setAttribute('SysTax', '0');//  SysTax="0"/>
+                        $priceItem->setAttribute('SysTax', '2');//  SysTax="2" усн - 2/>
                         $box->appendChild($priceItem);
                     }
                 }
@@ -421,6 +422,7 @@ class Pricelist extends \common\models\Pricelist
             self::TYPE_MANIPULATIONS => 'Манипуляции',
             self::TYPE_MATERIALS => 'Материалы',
             self::TYPE_GIFT_CARDS => 'Подарочные сертификаты',
+            self::TYPE_HYGIENE_PRODUCTS=>'Средства гигиены',
         ];
     }
 
