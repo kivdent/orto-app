@@ -8,6 +8,7 @@ use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\widgets\PriceListsWidget;
+use common\modules\userInterface\models\UserInterface;
 use kartik\date\DatePicker;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -17,7 +18,7 @@ class InvoiceFormWidget extends \yii\base\Widget
 {
     const TYPE_SIMPLE = 'simple';
     const TYPE_PAGE_INVOICE = 'page_invoice';
-    const TYPE_PAGE_TECHNICAL_ORDER = 'technical order';
+    const TYPE_PAGE_TECHNICAL_ORDER = Pricelist::TYPE_TECHNICAL_ORDER;
     const TYPE_MODAL_CALCULATOR = 'modal';
     const TYPE_ACTIVE_FORM = 'active_form';
 
@@ -154,9 +155,9 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= '<div class="col-lg-6">Дата сдачи: ' . DatePicker::widget([
                         'name' => 'date_picker',
                         'type' => DatePicker::TYPE_INPUT,
-                        'value' => date('Y-m-d'),
+                        'value' => date('d.m.Y'),
                         'pluginOptions' => [
-                            'format' => 'yyyy-mm-dd',
+                            'format' => 'dd.mm.yyyy',
                         ],
                         'options' => [
                             'id' => 'delivery_date',

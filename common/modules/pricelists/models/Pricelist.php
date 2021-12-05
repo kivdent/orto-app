@@ -22,6 +22,7 @@ class Pricelist extends \common\models\Pricelist
     const TYPE_MATERIALS = 'materials';
     const TYPE_GIFT_CARDS = 'gift_cards';
     const TYPE_HYGIENE_PRODUCTS = 'hygiene_products';
+    const TYPE_TECHNICAL_ORDER = 'technical_order';
 
     public static function saveToYandexDisk()
     {
@@ -423,6 +424,7 @@ class Pricelist extends \common\models\Pricelist
             self::TYPE_MATERIALS => 'Материалы',
             self::TYPE_GIFT_CARDS => 'Подарочные сертификаты',
             self::TYPE_HYGIENE_PRODUCTS=>'Средства гигиены',
+            self::TYPE_TECHNICAL_ORDER=>'Зуботехнический прайс',
         ];
     }
 

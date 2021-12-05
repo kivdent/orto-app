@@ -15,6 +15,7 @@ use yii\web\View;
 /* @var $period_report PeriodReport */
 /* @var $daily_report DailyReport */
 /* @var $employee_selectable boolean */
+\common\modules\invoice\assets\InvoiceAsset::register($this);
 $this->title = 'Отчёт за период ' . $period_report->startDate . '-' . $period_report->endDate;
 $this->title .= $period_report->defined ? '' : '<span class="label label-warning">Период не установлен</span>';
 $this->registerJs("
@@ -32,6 +33,7 @@ window.location=href;
     'period_month' => date("n", strtotime($period_report->financial_period->nach)),
     'period_year' => date("Y", strtotime($period_report->financial_period->nach)),
 ]) ?>
+
 <br>
 <?php if ($employee_selectable == 1): ?>
     <?= Html::dropDownList('employee_id', $period_report->employee->id, Employee::getNursesList(),
@@ -40,7 +42,8 @@ window.location=href;
 <h3><?= $this->title ?></h3>
 <h4>Выписано чеков: <?= $period_report->invoice_summary ?> р.</h4>
 <h4>Сумма для зарплаты: <?= $period_report->coefficient_summary ?>р.</h4>
-<h4>Отработано часов: <?= UserInterface::SecondsToHours(TimeSheet::getPeriodDuration($period_report->financial_period,$period_report->employee))?></h4>
+<h4>Отработано
+    часов: <?= UserInterface::SecondsToHours(TimeSheet::getPeriodDuration($period_report->financial_period, $period_report->employee)) ?></h4>
 
 <?php foreach ($period_report->daily_reports as $daily_report): ?>
     <?php if (count($daily_report->table)): ?>

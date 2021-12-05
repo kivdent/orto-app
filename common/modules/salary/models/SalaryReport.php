@@ -46,7 +46,6 @@ class SalaryReport extends Model
     {
         $salaryReports = [];
         foreach (SalaryCardType::getTypeList() as $type_id => $type) {
-
             $salaryReport = new SalaryReport([
                 'financial_period' => $financial_period,
                 'type' => $type_id,

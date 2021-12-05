@@ -11,18 +11,31 @@ use yii\web\Response;
 
 class TechnicalOrderController extends \yii\web\Controller
 {
-    public function actionCreate($invoice_id, $employee_choice = false)
+    public function actionCreate($invoice_id, $employee_choice = false, $invoice_type = 'technical_order')
     {
         $invoice = Invoice::findOne($invoice_id);
 
         return $this->render('create', [
             'patient_id' => $invoice->patient_id,
             'appointment_id' => $invoice->appointment_id,
-            'invoice_type' => $invoice->type,
+            'invoice_type' => $invoice_type,
             'employee_choice' => $employee_choice,
 //            'invoice_id'=>$invoice->id,
         ]);
+    }
 
+    public function actionAjaxComplete()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+
+            //echo Yii::$app->request->post('technicalOrderId');
+            $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
+            $technicalOrder->completed = !$technicalOrder->completed;
+            $technicalOrder->completed_date = $technicalOrder->completed ? date('Y-m-d') : NULL;
+                $technicalOrder->save(false);
+        }
+        return $technicalOrder->completed;
     }
 
     public function actionGetAjaxTable()
@@ -49,7 +62,7 @@ class TechnicalOrderController extends \yii\web\Controller
                 [
                     'invoice_id' => Yii::$app->request->post('invoice_id'),
                     'employee_id' => Yii::$app->request->post('employee_id'),
-                    'delivery_date' => Yii::$app->request->post('delivery_date'),
+                    'delivery_date' => date('Y-m-d',strtotime(Yii::$app->request->post('delivery_date'))),
                     'completed' => false
                 ]
             );
@@ -57,9 +70,9 @@ class TechnicalOrderController extends \yii\web\Controller
             $invoice = new Invoice([
                 'patient_id' => $technicalOrder->invoice->patient_id,
                 'doctor_id' => $technicalOrder->employee_id,
-                'type' =>  Invoice::TYPE_TECHNICAL_ORDER,
+                'type' => Invoice::TYPE_TECHNICAL_ORDER,
                 'amount' => 0,
-                'appointment_id' => (Yii::$app->request->post('appointment_id') !== null)? Yii::$app->request->post('appointment_id'):0,
+                'appointment_id' => (Yii::$app->request->post('appointment_id') !== null) ? Yii::$app->request->post('appointment_id') : 0,
 
             ]);
 

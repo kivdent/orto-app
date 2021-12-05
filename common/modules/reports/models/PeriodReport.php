@@ -5,6 +5,7 @@ namespace common\modules\reports\models;
 
 
 use common\modules\employee\models\Employee;
+use common\modules\invoice\models\Invoice;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 use yii\base\Model;
@@ -24,6 +25,8 @@ class PeriodReport extends Model
     public $payment_summary = 0;
     public $coefficient_summary = 0;
 
+    public $invoice_type=Invoice::TYPE_MANIPULATIONS;
+
     public function getStartDate()
     {
         return $this->getFormatedDate($this->start);
@@ -34,17 +37,22 @@ class PeriodReport extends Model
         return $this->getFormatedDate($this->end);
     }
 
-    public static function getCurrentPeriodReport($employee)
+    public static function getCurrentPeriodReport($employee,$invoice_type)
     {
 
         $period = FinancialPeriods::getPeriodForDate(date('Y-m-d'));
-        return self::getPeriodReportForDate($employee, $period);
+        return self::getPeriodReportForDate($employee, $period, $invoice_type);
     }
 
-    public static function getPeriodReportForDate($employee, $period)
+    public static function getPeriodReportForDate($employee, $period,$invoice_type)
     {
+
+
+
         $period_report = new PeriodReport([
             'employee' => $employee,
+//            'period_report'=>$period,
+            'invoice_type'=>$invoice_type
         ]);
         $period_report->defined = $period->defined;
         $period_report->start = $period->nach;
@@ -54,7 +62,9 @@ class PeriodReport extends Model
         $period_report->financial_period=$period;
 
         while (strtotime($date) <= strtotime($period_report->end)) {
-            $daily_report = DailyReport::getReportForDate($period_report->employee->id, $date);
+            $daily_report = $period_report->invoice_type==Invoice::TYPE_TECHNICAL_ORDER ?
+                DailyReportTechnicalOrder::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type):
+                DailyReport::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type);
             $period_report->invoice_summary += $daily_report->invoice_summary;
             $period_report->coefficient_summary += $daily_report->coefficient_summary;
             $period_report->daily_reports[] = $daily_report;

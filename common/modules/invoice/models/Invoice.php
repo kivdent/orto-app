@@ -25,6 +25,10 @@ use common\modules\catalogs\models\PaymentType;
  * @property string $lastPaymentDate
  * @property Prices $prices
  * @property float $coefficientSummary
+ * @property TechnicalOrder $technicalOrder
+ * @property Invoice $technicalOrderInvoice
+ * @property TechnicalOrder $technicalOrderForInvoice
+ * @property Invoice $doctorInvoiceForTechnicalOrder
  *
  */
 class Invoice extends \common\models\Invoice
@@ -35,7 +39,8 @@ class Invoice extends \common\models\Invoice
     const TYPE_GIFT_CARDS = Pricelist::TYPE_GIFT_CARDS;
     const TYPE_ORTHODONTICS = 'orthodontics';
     const TYPE_PREPAYMENT = 'prepayment';
-    const TYPE_TECHNICAL_ORDER = 'technical order';
+    const TYPE_TECHNICAL_ORDER = Pricelist::TYPE_TECHNICAL_ORDER;
+    const TYPE_HYGIENE_PRODUCTS = Pricelist::TYPE_HYGIENE_PRODUCTS;
 
     const SEARCH_TYPE_ALL = 'all';
     const SEARCH_TYPE_DEBT = 'debt';
@@ -43,6 +48,7 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
     const SEARCH_TYPE_TECHNICAL_ORDER = 'technical order';
+
 
     public function behaviors()
     {
@@ -148,13 +154,19 @@ class Invoice extends \common\models\Invoice
 
     public function getLastPaymentDate()
     {
+        if ($this->type == self::TYPE_TECHNICAL_ORDER) {
+            $lastPayment = $this->technicalOrder->completed_date;
+            $lastPayment=$lastPayment !== null ? $lastPayment : 'Нет оплат';
+        } else {
+            $lastPayment = Payment::find()->
+            select('date')->
+            where(['dnev' => $this->getPaidInvoiceId()])->
+            orderBy(['date' => SORT_DESC])->
+            one();
+            $lastPayment=$lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+        }
 
-        $lastPayment = Payment::find()->
-        select('date')->
-        where(['dnev' => $this->getPaidInvoiceId()])->
-        orderBy(['date' => SORT_DESC])->
-        one();
-        return $lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+        return $lastPayment;
 
     }
 
@@ -219,6 +231,7 @@ class Invoice extends \common\models\Invoice
 
     public function getDoctorInvoiceForTechnicalOrder()
     {
+
         return $this->technicalOrder->invoice;
     }
 

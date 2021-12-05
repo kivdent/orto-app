@@ -12,6 +12,7 @@ use common\modules\invoice\models\Invoice;
  * @property int $invoice_id
  * @property int $employee_id
  * @property string $delivery_date
+ * @property string $completed_date
  * @property int $technical_order_invoice_id
  * @property int $completed
  *

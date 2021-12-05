@@ -21,6 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property int $dolzh
  * @property int $address_id
  * @property int $status
+ * @property string $fullName
  */
 class Employee extends \yii\db\ActiveRecord
 {

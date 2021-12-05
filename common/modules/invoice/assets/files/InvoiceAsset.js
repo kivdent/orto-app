@@ -160,6 +160,24 @@ $(document).ready(function () {
         }
 
 
+    })
+    $('button.technical-order-complete').on('click', function () {
+        if (confirm('Вы действительно хотите изменить статус заказ-наряда?')) {
+            var action = "/invoice/technical-order/ajax-complete";
+            var data = {'technicalOrderId':$(this).attr('id')};
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        }
+
     });
 
     $('button.clear-modal').on('click', function () {

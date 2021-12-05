@@ -73,6 +73,7 @@ if ($_GET['action'] == 'del') {
 //echo "<a href='pat_tooday_work.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Начать приём</a><br>";
             echo "<a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MANIPULATIONS . "' class='menu2'>Начать приём</a><br>";
             echo "<a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_MATERIALS . "' class='menu2'>Материалы</a><br>";
+            echo "<a href='/invoice/manage/create?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "&invoice_type=" . Invoice::TYPE_HYGIENE_PRODUCTS . "' class='menu2'>Средства гигиены</a><br>";
             echo "<a href='/patient/records/create?patient_id=" . $rowB['13'] . "' class='menu2' target='_blank'>Запись в карту</a><br>";
 //echo "<a href='pat_tooday_work_full.php?step=1&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Полный приём </a>";
 //echo "<a href='pat_tooday_work_mat.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Материалы</a>";

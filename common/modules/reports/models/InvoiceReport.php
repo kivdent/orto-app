@@ -40,16 +40,22 @@ class InvoiceReport extends Model
 //                    ->andWhere('invoice.amount_payable=invoice.paid')
 //                    ->groupBy(TechnicalOrder::tableName().'.technical_order_invoice_id')
 //                    ->all();
+//                $invoices = Invoice::find()
+//                    ->select(TechnicalOrder::tableName() . '.technical_order_invoice_id')
+//                    ->andWhere('invoice.amount_payable=invoice.paid')
+//                    ->joinWith('payments')
+//                    ->innerJoinWith(['technicalOrderForInvoice' => function ($q) use ($employee) {
+//                        $q->onCondition([TechnicalOrder::tableName() . '.employee_id' => $employee->id]);
+//                    }])
+//                    ->andWhere(['>=', 'oplata.date', $financialPeriod->nach])
+//                    ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
+//                    ->groupBy(TechnicalOrder::tableName() . '.technical_order_invoice_id')
+//                    ->all();
                 $invoices = Invoice::find()
-                    ->select(TechnicalOrder::tableName() . '.technical_order_invoice_id')
-                    ->andWhere('invoice.amount_payable=invoice.paid')
-                    ->joinWith('payments')
-                    ->innerJoinWith(['technicalOrderForInvoice' => function ($q) use ($employee) {
-                        $q->onCondition([TechnicalOrder::tableName() . '.employee_id' => $employee->id]);
-                    }])
-                    ->andWhere(['>=', 'oplata.date', $financialPeriod->nach])
-                    ->andWhere(['<=', 'oplata.date', $financialPeriod->okonch])
-                    ->groupBy(TechnicalOrder::tableName() . '.technical_order_invoice_id')
+                    ->leftJoin('technical_order', 'technical_order.technical_order_invoice_id=invoice.id')
+                    ->where(['technical_order.employee_id' => $employee->id, 'technical_order.completed' => 1])
+                    ->andWhere(['>=', 'technical_order.completed_date', $financialPeriod->nach])
+                    ->andWhere(['<=', 'technical_order.completed_date', $financialPeriod->okonch])
                     ->all();
                 break;
             default:
