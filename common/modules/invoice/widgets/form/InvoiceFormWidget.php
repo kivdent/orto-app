@@ -5,6 +5,7 @@ namespace common\modules\invoice\widgets\form;
 use common\modules\catalogs\models\Pricelists;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\models\TechnicalOrder;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\widgets\PriceListsWidget;
@@ -22,6 +23,9 @@ class InvoiceFormWidget extends \yii\base\Widget
     const TYPE_MODAL_CALCULATOR = 'modal';
     const TYPE_ACTIVE_FORM = 'active_form';
 
+    public $invoice_id = 'new';
+    public $technical_order_id = 'new';
+
     public $typePriceList;
     public $priceListIds = null;
     public $roles = null;
@@ -38,7 +42,7 @@ class InvoiceFormWidget extends \yii\base\Widget
         $html = "";
         if ($invoice->payments) {
             $html .= '<table class="table">';
-            $html.='<caption>Оплаты по счёту</caption>';
+            $html .= '<caption>Оплаты по счёту</caption>';
             foreach ($invoice->payments as $early_payment) {
                 $html .= '<tr>';
                 $html .= '<td>' . $early_payment->id . '</td>';
@@ -64,6 +68,7 @@ class InvoiceFormWidget extends \yii\base\Widget
             'beforeHtml' => $this->getBeforeHtml(),
             'afterHtml' => $this->getAfterHTML(),
             'typePriceList' => $this->typePriceList,
+            'invoice_id' => $this->invoice_id,
             'employee_choice' => $this->employee_choice,
         ]);
     }
@@ -144,18 +149,20 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= Html::input('hidden', 'patient_id', $this->patient_id, ['id' => 'patient_id']);
                 $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
-                $html .= Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']);
+
+                $html .=$this->invoice_id=='new' ? Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']):'';
+
                 if ($this->employee_choice) {
                     $html .= 'Врач:' . Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
                 } else {
                     $html .= Html::input('hidden', 'doctor_id', Yii::$app->user->identity->employe_id, ['id' => 'doctor_id']);
                 }
                 $html .= '<div class="row">
-                            <div class="col-lg-6">Техник:<br> ' . Html::dropDownList('doctor_id', '', Employee::getTechniciansList(), ['id' => 'employee_id', 'class' => 'form-control required-property']) . '</div>';
+                            <div class="col-lg-6">Техник:<br> ' . Html::dropDownList('doctor_id', $this->technical_order_id == 'new' ? '' : TechnicalOrder::findOne($this->technical_order_id)->employee_id, Employee::getTechniciansList(), ['id' => 'employee_id', 'class' => 'form-control required-property']) . '</div>';
                 $html .= '<div class="col-lg-6">Дата сдачи: ' . DatePicker::widget([
                         'name' => 'date_picker',
                         'type' => DatePicker::TYPE_INPUT,
-                        'value' => date('d.m.Y'),
+                        'value' => $this->technical_order_id == 'new' ? date('d.m.Y') : date('d.m.Y', strtotime(TechnicalOrder::findOne($this->technical_order_id)->delivery_date)),
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
                         ],
@@ -167,8 +174,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                         </div>';
                 $html .= '<br>';
                 $html .= '<button type="button" class="btn btn-primary submit-technical-order">Сохранить</button> 
-                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
-                          ';
+                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button>';
 
                 break;
 
@@ -176,6 +182,9 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html = '';
                 break;
         }
+        $html .= Html::input('hidden', 'invoice_id', $this->invoice_id, ['id' => 'invoice_id']);
+        $html .= Html::input('hidden', 'technical_order_id', $this->technical_order_id, ['id' => 'technical_order_id']);
+
         return $html;
     }
 
@@ -215,7 +224,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     }
 
     public
-    static function getInvoiceTable($invoice_id,$print=false)
+    static function getInvoiceTable($invoice_id, $print = false)
     {
         $invoice = Invoice::findOne($invoice_id);
         $html = '<table class="table table-bordered">';

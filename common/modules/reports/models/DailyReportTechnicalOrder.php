@@ -115,6 +115,11 @@ class DailyReportTechnicalOrder extends Model
 
                 ]);
             }
+            $row['actions'] .= '<br>'.Html::a('Редактировать',
+                    ['/invoice/technical-order/update','technical_order_id' => $invoice->technicalOrder->id,],[
+                    'class' => 'btn btn-primary btn-xs technical-order-complete',
+
+                ]);
             $this->table[] = $row;
         }
     }
@@ -146,6 +151,11 @@ class DailyReportTechnicalOrder extends Model
             $row['delivery_date'] = UserInterface::getFormatedDate($invoice->technicalOrder->delivery_date);
             $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
+            $row['actions'] = Html::a('Редактировать',
+                    ['/invoice/technical-order/update','technical_order_id' => $invoice->technicalOrder->id,],[
+                        'class' => 'btn btn-primary btn-xs technical-order-complete',
+
+                    ]);
 
             $this->table[] = $row;
         }

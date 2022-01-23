@@ -138,6 +138,9 @@ class DailyReport extends Model
                     $row['actions'] = Html::a('Создать заказ наряд',
                         ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
                     );
+                    $row['actions'].='<br>'.Html::a('Редактировать',
+                        ['/invoice/manage/update', 'invoice_id' => $invoice->id]
+                    );
                 }
                 $this->table[] = $row;
             }
@@ -183,6 +186,9 @@ class DailyReport extends Model
         if ($this->employee->dolzh !== Employee::POSITION_TECHNICIANS) {
             $row['actions'] = Html::a('Создать заказ наряд',
                 ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
+            );
+            $row['actions']=Html::a('Редактировать',
+                ['/invoice/manage/update', 'invoice_id' => $invoice->id]
             );
         }
         $this->table[] = $row;

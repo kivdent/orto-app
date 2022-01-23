@@ -24,6 +24,20 @@ class TechnicalOrderController extends \yii\web\Controller
         ]);
     }
 
+    public function actionUpdate($technical_order_id, $employee_choice = false, $invoice_type = 'technical_order')
+    {
+        $technical_order = TechnicalOrder::findOne($technical_order_id);
+
+        return $this->render('update', [
+            'patient_id' => $technical_order->invoice->patient_id,
+            'appointment_id' => $technical_order->invoice->appointment_id,
+            'invoice_type' => $invoice_type,
+            'employee_choice' => $employee_choice,
+            'technical_order_id' => $technical_order_id,
+            'invoice_id' => $technical_order->technical_order_invoice_id,
+        ]);
+    }
+
     public function actionAjaxComplete()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -33,7 +47,7 @@ class TechnicalOrderController extends \yii\web\Controller
             $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
             $technicalOrder->completed = !$technicalOrder->completed;
             $technicalOrder->completed_date = $technicalOrder->completed ? date('Y-m-d') : NULL;
-                $technicalOrder->save(false);
+            $technicalOrder->save(false);
         }
         return $technicalOrder->completed;
     }
@@ -62,7 +76,7 @@ class TechnicalOrderController extends \yii\web\Controller
                 [
                     'invoice_id' => Yii::$app->request->post('invoice_id'),
                     'employee_id' => Yii::$app->request->post('employee_id'),
-                    'delivery_date' => date('Y-m-d',strtotime(Yii::$app->request->post('delivery_date'))),
+                    'delivery_date' => date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date'))),
                     'completed' => false
                 ]
             );
@@ -90,6 +104,59 @@ class TechnicalOrderController extends \yii\web\Controller
                 $invoice->save(false);
                 $technicalOrder->technical_order_invoice_id = $invoice->id;
                 $technicalOrder->save(false);
+                foreach ($invoice_items as $invoice_item) {
+                    $invoice_item->invoice_id = $invoice->id;
+                    $invoice_item->save(false);
+                }
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Заказ-наряд успешно сохранён.');
+            } catch (\Throwable $e) {
+                $transaction->rollBack();
+                throw $e;
+            }
+            return 'success';
+        }
+        return 'error';
+    }
+
+    public function actionUpdateAjax()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax) {
+            $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technical_order_id'));
+
+            $technicalOrder->employee_id = Yii::$app->request->post('employee_id');
+            $technicalOrder->delivery_date = date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date')));
+
+            $invoice_items = [];
+//            $invoice = new Invoice([
+//                'patient_id' => $technicalOrder->invoice->patient_id,
+//                'doctor_id' => $technicalOrder->employee_id,
+//                'type' => Invoice::TYPE_TECHNICAL_ORDER,
+//                'amount' => 0,
+//                'appointment_id' => (Yii::$app->request->post('appointment_id') !== null) ? Yii::$app->request->post('appointment_id') : 0,
+//            ]);
+
+            $invoice = Invoice::findOne($technicalOrder->technical_order_invoice_id);
+            $invoice->doctor_id= $technicalOrder->employee_id;
+            $summ = 0;
+            foreach (Yii::$app->request->post('items') as $item) {
+                $invoice_item = new InvoiceItems();
+                $invoice_item->prices_id = $item['id'];
+                $invoice_item->quantity = $item['quantity'];
+                $summ += $invoice_item->summary;
+                $invoice_items[] = $invoice_item;
+            }
+            $invoice->amount_payable = $invoice->amount = $summ;
+
+            $transaction = InvoiceItems::getDb()->beginTransaction();
+            try {
+                $invoice->save(false);
+                $technicalOrder->save(false);
+                foreach ($invoice->invoiceItems as $invoiceItem) {
+                    $invoiceItem->delete();
+                }
                 foreach ($invoice_items as $invoice_item) {
                     $invoice_item->invoice_id = $invoice->id;
                     $invoice_item->save(false);
