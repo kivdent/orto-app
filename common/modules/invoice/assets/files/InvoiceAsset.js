@@ -1,8 +1,8 @@
 $(document).ready(function () {
     var count_invoice_items = 0;
     var invoice_sum = 0;
-    if (($('#invoice_id').val() !== 'new') && ($('#invoice_id').length > 0)) {
-        load_invoice(parseInt($('#invoice_id').val()))
+    if (($('#loading_invoice_id').val() !== 'new') && ($('#loading_invoice_id').length > 0)) {
+        load_invoice(parseInt($('#loading_invoice_id').val()))
     }
 
     function render_invoice(invoice_items) {
@@ -278,7 +278,7 @@ $(document).ready(function () {
 
 
     $('button.submit-invoice').on('click', function () {
-        if ($('#invoice_id').val() == 'new') {
+        if ($('#loading_invoice_id').val() == 'new') {
             save_invoice();
         } else {
             update_invoice();
@@ -286,7 +286,7 @@ $(document).ready(function () {
     });
 
     $('button.submit-technical-order').on('click', function () {
-        if ($('#invoice_id').val() == 'new') {
+        if ($('#loading_invoice_id').val() == 'new') {
             save_technical_order();
         } else {
             update_technical_order();

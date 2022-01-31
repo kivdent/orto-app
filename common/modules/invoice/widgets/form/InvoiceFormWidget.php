@@ -182,7 +182,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html = '';
                 break;
         }
-        $html .= Html::input('hidden', 'invoice_id', $this->invoice_id, ['id' => 'invoice_id']);
+        $html .= Html::input('hidden', 'loading_invoice_id', $this->invoice_id, ['id' => 'loading_invoice_id']);
         $html .= Html::input('hidden', 'technical_order_id', $this->technical_order_id, ['id' => 'technical_order_id']);
 
         return $html;
@@ -248,9 +248,9 @@ class InvoiceFormWidget extends \yii\base\Widget
                     <td></td>
                     <th class="text-right">Итого</th>';
         switch ($invoice->type) {
-            case Invoice::TYPE_TECHNICAL_ORDER:
-                $html .= '<th id="summary">' . $invoice->coefficientSummary . '</th>';
-                break;
+//            case Invoice::TYPE_TECHNICAL_ORDER:
+//                $html .= '<th id="summary">' . $invoice->coefficientSummary . '</th>';
+//                break;
             default:
                 $html .= '<th id="summary">' . $invoice->amount_payable . ' р.</th>';
                 break;
@@ -293,21 +293,21 @@ class InvoiceFormWidget extends \yii\base\Widget
                     
                 </tr>';
                 break;
-            case Invoice::TYPE_TECHNICAL_ORDER:
-                $i = 1;
-                foreach ($invoice->invoiceItems as $invoiceItem) {
-                    $html .= '<tr>
-                    <td>' . $i . '</td>
-                    <td>' . $invoiceItem->prices->pricelistItems->id . '</td>
-                    <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
-                    <td>' . $invoiceItem->prices->coefficient . '</td>
-                    <td>' . $invoiceItem->quantity . '</td>
-                    <td>' . $invoiceItem->CoefficientSummary . '</td>
-                    
-                </tr>';
-                    $i++;
-                }
-                break;
+//            case Invoice::TYPE_TECHNICAL_ORDER:
+//                $i = 1;
+//                foreach ($invoice->invoiceItems as $invoiceItem) {
+//                    $html .= '<tr>
+//                    <td>' . $i . '</td>
+//                    <td>' . $invoiceItem->prices->pricelistItems->id . '</td>
+//                    <td>' . $invoiceItem->prices->pricelistItems->title . '</td>
+//                    <td>' . $invoiceItem->prices->coefficient . '</td>
+//                    <td>' . $invoiceItem->quantity . '</td>
+//                    <td>' . $invoiceItem->CoefficientSummary . '</td>
+//
+//                </tr>';
+//                    $i++;
+//                }
+//                break;
             default:
                 $i = 1;
                 foreach ($invoice->invoiceItems as $invoiceItem) {

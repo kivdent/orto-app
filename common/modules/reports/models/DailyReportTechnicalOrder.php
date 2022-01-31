@@ -115,11 +115,11 @@ class DailyReportTechnicalOrder extends Model
 
                 ]);
             }
-            $row['actions'] .= '<br>'.Html::a('Редактировать',
-                    ['/invoice/technical-order/update','technical_order_id' => $invoice->technicalOrder->id,],[
-                    'class' => 'btn btn-primary btn-xs technical-order-complete',
+            $row['actions'] .= '<br>' . Html::a('Редактировать',
+                    ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,], [
+                        'class' => 'btn btn-primary btn-xs technical-order-complete',
 
-                ]);
+                    ]);
             $this->table[] = $row;
         }
     }
@@ -151,11 +151,17 @@ class DailyReportTechnicalOrder extends Model
             $row['delivery_date'] = UserInterface::getFormatedDate($invoice->technicalOrder->delivery_date);
             $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
-            $row['actions'] = Html::a('Редактировать',
-                    ['/invoice/technical-order/update','technical_order_id' => $invoice->technicalOrder->id,],[
-                        'class' => 'btn btn-primary btn-xs technical-order-complete',
-
-                    ]);
+            $row['actions'] = Html::a(
+                'Редактировать',
+                ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
+                ['class' => 'btn btn-primary btn-xs technical-order-complete',]);
+            $row['actions'] .= Html::a(
+                'Создать заказ наряд',
+                ['/invoice/technical-order/create',
+                    'invoice_id' => $invoice->technicalOrder->invoice_id,
+                    'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER,],
+                ['class' => 'btn btn-primary btn-xs technical-order-complete',]
+            );
 
             $this->table[] = $row;
         }
