@@ -318,7 +318,8 @@ class Pricelist extends \common\models\Pricelist
                         $flag = $item->pricelist->type == Pricelist::TYPE_HYGIENE_PRODUCTS ? 0 : 1;
                         $priceItem = $dom->createElement('PrItemPriceCode_T');
                         $priceItem->setAttribute('Plu', $item->id); // Plu="1"
-                        $priceItem->setAttribute('Price', $item->price . '00');// Price="10000"
+//                        $priceItem->setAttribute('Price', $item->price . '00');// Price="10000"
+                        $priceItem->setAttribute('Price', '0');// Price="10000"
                         $priceItem->setAttribute('Section', '0');// Section="0"
                         $priceItem->setAttribute('Tax', '0');// Tax="0"
                         $priceItem->setAttribute('Flags', $flag);// Flags="1" 1 - услуга, 0 - товар
