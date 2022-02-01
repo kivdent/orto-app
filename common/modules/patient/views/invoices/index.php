@@ -5,6 +5,7 @@ use yii\grid\GridView;
 use common\modules\invoice\models\InvoiceSearch;
 use yii\helpers\Html;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
+use common\modules\invoice\models\Invoice;
 
 /* @var $this yii\web\View */
 /* @var ActiveDataProvider $dataProvider */
@@ -44,10 +45,21 @@ $this->title='Счета пациента';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{view}',
+            'template' => '{view} {create}',
             'buttons' => [
                 'view' => function ($url, $model, $key) {
                     return InvoiceModalWidget::widget(['invoice_id' => $model->id]);
+
+                },
+                'create'=>function ($url, $model, $key) {
+                    return Html::a(
+                        '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+                        ['/invoice/technical-order/create',
+                            'invoice_id' => $model->id,
+                            'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER,],
+                        ['class' => 'btn btn-primary btn-xs technical-order-complete',]
+                    );
+
                 },
             ]
         ],

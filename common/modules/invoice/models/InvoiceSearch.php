@@ -46,7 +46,7 @@ class InvoiceSearch extends Invoice
         $query = Invoice::find();
         switch ($this->searchType) {
             case self::SEARCH_TYPE_DEBT:
-                $query->where('amount_payable>paid')->orderBy('created_at DESC');
+                $query->where('amount_payable>paid')->andWhere("type<>'".Invoice::TYPE_TECHNICAL_ORDER."'")->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_FOR_PATIENT_CARD:
                 $query->where(['patient_id'=>$this->patient_card_id])->orderBy('created_at DESC');
