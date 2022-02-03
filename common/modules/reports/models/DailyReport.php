@@ -27,6 +27,9 @@ use yii\helpers\Html;
  */
 class DailyReport extends Model
 {
+    const TYPE_OF_REPORT_TECHNICAL_ORDER = Invoice::TYPE_TECHNICAL_ORDER;
+    const TYPE_OF_REPORT_TECHNICAL_COMPLETED = 'technical_order_completed';
+    const TYPE_OF_REPORT_TECHNICAL_CURRENT = 'technical_order_current';
 
     public $employee;
     public $date;
@@ -50,7 +53,7 @@ class DailyReport extends Model
 
     public $invoice_type;
 
-    public static function getToday($employee_id, $invoice_type=Invoice::TYPE_MANIPULATIONS)
+    public static function getToday($employee_id, $invoice_type = Invoice::TYPE_MANIPULATIONS)
     {
         return self::getReportForDate($employee_id, date('Y-m-d'), $invoice_type);
     }
@@ -138,9 +141,9 @@ class DailyReport extends Model
                     $row['actions'] = Html::a('Создать заказ наряд',
                         ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
                     );
-                    $row['actions'].='<br>'.Html::a('Редактировать',
-                        ['/invoice/manage/update', 'invoice_id' => $invoice->id]
-                    );
+                    $row['actions'] .= '<br>' . Html::a('Редактировать',
+                            ['/invoice/manage/update', 'invoice_id' => $invoice->id]
+                        );
                 }
                 $this->table[] = $row;
             }
@@ -187,9 +190,9 @@ class DailyReport extends Model
             $row['actions'] = Html::a('Создать заказ наряд',
                 ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
             );
-            $row['actions'].='<br>'.Html::a('Редактировать',
-                ['/invoice/manage/update', 'invoice_id' => $invoice->id]
-            );
+            $row['actions'] .= '<br>' . Html::a('Редактировать',
+                    ['/invoice/manage/update', 'invoice_id' => $invoice->id]
+                );
         }
         $this->table[] = $row;
     }
@@ -208,6 +211,24 @@ class DailyReport extends Model
     private function getPaymentsForInvoice($invoice_id)
     {
         return Payment::find()->where(['dnev' => $invoice_id, 'date' => $this->date])->all();
+    }
+
+    public static function getDailyReport($employee_id, $date, $report_type)
+    {
+
+        switch ($report_type) {
+            case DailyReport::TYPE_OF_REPORT_TECHNICAL_ORDER:
+                $daily_report = DailyReportTechnicalOrder::getReportForDate($employee_id, $date, $report_type);
+                break;
+            case DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED:
+            case DailyReport::TYPE_OF_REPORT_TECHNICAL_CURRENT:
+                $daily_report = DailyReportTechnicalOrderCurrent::getReportForDate($employee_id, $date, $report_type);
+                break;
+            default:
+                $daily_report = DailyReport::getReportForDate($employee_id, $date, $report_type);
+                break;
+        }
+        return $daily_report;
     }
 
     private function getPaymentSum($invoice_id)

@@ -3,6 +3,9 @@
 /**
  * clinic
  */
+
+use common\modules\reports\models\DailyReport;
+
 return [
     'params' => [
         //'entities' => [],
@@ -13,7 +16,9 @@ return [
 //            ['label' => 'Отчёт за день (чеки)', 'url' => '/old_app/doc_den_ch.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за день', 'url' => '/reports/financial/employee-daily', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
-            ['label' => 'Заказ-наряды', 'url' => ['/reports/financial/employee-period','invoice_type'=>\common\modules\invoice\models\Invoice::TYPE_TECHNICAL_ORDER], 'roles' => ['technician','therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+            ['label' => 'Заказ-наряды', 'url' => ['/reports/financial/employee-period','invoice_type'=>DailyReport::TYPE_OF_REPORT_TECHNICAL_ORDER], 'roles' => ['technician','therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+            ['label' => 'Заказ-наряды закрытые', 'url' => ['/reports/financial/employee-period','invoice_type'=> DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED], 'roles' => ['technician']],
+            ['label' => 'Заказ-наряды в работе', 'url' => ['/reports/financial/employee-period','invoice_type'=> DailyReport::TYPE_OF_REPORT_TECHNICAL_CURRENT], 'roles' => ['technician']],
 //            ['label' => 'Отчёт за период оплаты', 'url' => '/reports/default/index', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за период (чеки)', 'url' => '/old_app/doc_den_ch_per.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
 //            ['label' => 'Отчёт за день (оплаты)', 'url' => '/old_app/doc_den_opl.php', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],

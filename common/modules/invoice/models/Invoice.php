@@ -110,6 +110,7 @@ class Invoice extends \common\models\Invoice
         return self::find()
             ->where(['patient_id' => $patient_id])
             ->andWhere('amount_payable<>paid')
+            ->andWhere("type<>'".Invoice::TYPE_TECHNICAL_ORDER."'")
             ->all();
     }
 

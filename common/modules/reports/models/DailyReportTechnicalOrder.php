@@ -25,7 +25,7 @@ use yii\helpers\Html;
  *
  * @property Employee $employee
  */
-class DailyReportTechnicalOrder extends Model
+class DailyReportTechnicalOrder extends DailyReport
 {
 
     public $employee;
@@ -67,7 +67,7 @@ class DailyReportTechnicalOrder extends Model
         return $report;
     }
 
-    private function setTableToDoctor()
+    protected function setTableToDoctor()
     {
         /* @var $invoice Invoice */
 
@@ -124,7 +124,7 @@ class DailyReportTechnicalOrder extends Model
         }
     }
 
-    private function setTableTechnician()
+    protected function setTableTechnician()
     {
         /* @var $invoice Invoice */
 
@@ -167,7 +167,7 @@ class DailyReportTechnicalOrder extends Model
         }
     }
 
-    private function setTable()
+    protected function setTable()
     {
         switch ($this->employee->dolzh) {
             case Employee::POSITION_TECHNICIANS:
@@ -205,13 +205,12 @@ class DailyReportTechnicalOrder extends Model
         return $technicalOrders;
     }
 
-    private
-    function getPaymentsForInvoice($invoice_id)
+    protected function getPaymentsForInvoice($invoice_id)
     {
         return Payment::find()->where(['dnev' => $invoice_id, 'date' => $this->date])->all();
     }
 
-    private function getPaymentSum($invoice_id)
+    protected function getPaymentSum($invoice_id)
     {
         $sum = 0;
         $payments = $this->getPaymentsForInvoice($invoice_id);
@@ -223,8 +222,7 @@ class DailyReportTechnicalOrder extends Model
         return $sum;
     }
 
-    private
-    function getPaymentType($invoice_id)
+    protected function getPaymentType($invoice_id)
     {
         $types = '';
         $payments = $this->getPaymentsForInvoice($invoice_id);
@@ -270,9 +268,9 @@ class DailyReportTechnicalOrder extends Model
         $sum = 0;
 
         switch ($this->employee->dolzh) {
-            case Employee::POSITION_TECHNICIANS:
-                $sum = array_sum(array_column($this->getInvoices(), 'salarySum'));
-                break;
+//            case Employee::POSITION_TECHNICIANS:
+//                $sum = array_sum(array_column($this->getInvoices(), 'amount_payable'));
+//                break;
             default:
                 $sum = array_sum(array_column($this->getInvoices(), 'amount_payable'));
                 break;
@@ -309,7 +307,7 @@ class DailyReportTechnicalOrder extends Model
                     ->all();
                 //UserInterface::getVar($invoices);
                 foreach ($invoices as $invoice) {
-                    $sum += $invoice->salarySum;
+                    $sum += $invoice->paid;
                 }
                 break;
             default:
@@ -350,8 +348,7 @@ class DailyReportTechnicalOrder extends Model
         return $sum;
     }
 
-    private
-    function setInvoicesType()
+    protected function setInvoicesType()
     {
         $type = [];
 //        switch ($this->employee->dolzh) {

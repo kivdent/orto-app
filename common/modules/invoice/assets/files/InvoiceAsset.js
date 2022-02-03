@@ -297,6 +297,7 @@ $(document).ready(function () {
         if (confirm('Вы действительно хотите изменить статус заказ-наряда?')) {
             var action = "/invoice/technical-order/ajax-complete";
             var data = {'technicalOrderId': $(this).attr('id')};
+            console.log(data);
             $.ajax({
                 url: action,
                 type: 'POST',

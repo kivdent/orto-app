@@ -12,6 +12,7 @@ use yii\base\Model;
 
 class PeriodReport extends Model
 {
+
     public $employee;
 
     public $start;
@@ -62,9 +63,10 @@ class PeriodReport extends Model
         $period_report->financial_period=$period;
 
         while (strtotime($date) <= strtotime($period_report->end)) {
-            $daily_report = $period_report->invoice_type==Invoice::TYPE_TECHNICAL_ORDER ?
-                DailyReportTechnicalOrder::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type):
-                DailyReport::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type);
+//            $daily_report = $period_report->invoice_type==Invoice::TYPE_TECHNICAL_ORDER ?
+//                DailyReportTechnicalOrder::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type):
+//                             DailyReport::getReportForDate($period_report->employee->id, $date, $period_report->invoice_type);
+            $daily_report= DailyReport::getDailyReport($period_report->employee->id, $date, $period_report->invoice_type);
             $period_report->invoice_summary += $daily_report->invoice_summary;
             $period_report->coefficient_summary += $daily_report->coefficient_summary;
             $period_report->daily_reports[] = $daily_report;

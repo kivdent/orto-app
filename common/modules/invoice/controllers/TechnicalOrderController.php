@@ -42,11 +42,18 @@ class TechnicalOrderController extends \yii\web\Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
-
-            //echo Yii::$app->request->post('technicalOrderId');
+            //  echo Yii::$app->request->post('technicalOrderId');
             $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
             $technicalOrder->completed = !$technicalOrder->completed;
-            $technicalOrder->completed_date = $technicalOrder->completed ? date('Y-m-d') : NULL;
+            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+                $technicalOrder->completed_date = date('Y-m-d');
+            }
+            if ($technicalOrder->completed) {
+                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+            } else {
+                $technicalOrder->technicalOrderInvoice->paid = 0;
+            }
+            $technicalOrder->technicalOrderInvoice->save(false);
             $technicalOrder->save(false);
         }
         return $technicalOrder->completed;
@@ -139,7 +146,7 @@ class TechnicalOrderController extends \yii\web\Controller
 //            ]);
 
             $invoice = Invoice::findOne($technicalOrder->technical_order_invoice_id);
-            $invoice->doctor_id= $technicalOrder->employee_id;
+            $invoice->doctor_id = $technicalOrder->employee_id;
             $summ = 0;
             foreach (Yii::$app->request->post('items') as $item) {
                 $invoice_item = new InvoiceItems();
