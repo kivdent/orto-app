@@ -135,15 +135,15 @@ class DailyReport extends Model
                 $row['payment_sum'] = 0;
                 $row['payment_type'] = '';
                 if ($this->employee->dolzh !== Employee::POSITION_TECHNICIANS) {
-//                    $row['actions'] = Html::a('Создать заказ наряд',
-//                        ['/invoice/manage/create', 'patient_id' => $invoice->patient_id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
-//                    );
+
                     $row['actions'] = Html::a('Создать заказ наряд',
                         ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
                     );
-                    $row['actions'] .= '<br>' . Html::a('Редактировать',
-                            ['/invoice/manage/update', 'invoice_id' => $invoice->id]
-                        );
+                    if ($invoice->paid == 0) {
+                        $row['actions'] .= '<br>' . Html::a('Редактировать',
+                                ['/invoice/manage/update', 'invoice_id' => $invoice->id]
+                            );
+                    }
                 }
                 $this->table[] = $row;
             }
@@ -187,12 +187,18 @@ class DailyReport extends Model
         $row['payment_sum'] = $payment->vnes;
         $row['payment_type'] = $payment->typeName;
         if ($this->employee->dolzh !== Employee::POSITION_TECHNICIANS) {
-            $row['actions'] = Html::a('Создать заказ наряд',
-                ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER]
+            $row['actions'] = Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+                ['/invoice/technical-order/create', 'invoice_id' => $invoice->id, 'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER,
+                    ['class' => 'btn btn-primary btn-xs',]
+                ]
             );
-            $row['actions'] .= '<br>' . Html::a('Редактировать',
-                    ['/invoice/manage/update', 'invoice_id' => $invoice->id]
-                );
+            if ($invoice->paid == 0) {
+                $row['actions'] .= '<br>' . Html::a(
+                    '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                        ['/invoice/manage/update', 'invoice_id' => $invoice->id],
+                        ['class' => 'btn btn-primary btn-xs',]
+                    );
+            }
         }
         $this->table[] = $row;
     }
@@ -221,6 +227,8 @@ class DailyReport extends Model
                 $daily_report = DailyReportTechnicalOrder::getReportForDate($employee_id, $date, $report_type);
                 break;
             case DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED:
+                $daily_report = DailyReportTechnicalOrderCompleted::getReportForDate($employee_id, $date, $report_type);
+                break;
             case DailyReport::TYPE_OF_REPORT_TECHNICAL_CURRENT:
                 $daily_report = DailyReportTechnicalOrderCurrent::getReportForDate($employee_id, $date, $report_type);
                 break;

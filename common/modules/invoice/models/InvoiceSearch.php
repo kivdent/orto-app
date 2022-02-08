@@ -19,7 +19,9 @@ use common\modules\invoice\models\Invoicel;
 class InvoiceSearch extends Invoice
 {
 
+
     public $searchType = Invoice::SEARCH_TYPE_ALL;
+
     public $amount_residual;
     public $patientFullName;
     public $employeeFullName;
@@ -46,22 +48,41 @@ class InvoiceSearch extends Invoice
         $query = Invoice::find();
         switch ($this->searchType) {
             case self::SEARCH_TYPE_DEBT:
-                $query->where('amount_payable>paid')->andWhere("type<>'".Invoice::TYPE_TECHNICAL_ORDER."'")->orderBy('created_at DESC');
+                $query->where('amount_payable>paid')->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_FOR_PATIENT_CARD:
-                $query->where(['patient_id'=>$this->patient_card_id])->orderBy('created_at DESC');
+                $query->where(['patient_id' => $this->patient_card_id])->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_EMPLOYEE_DEBT:
                 $query->where('amount_payable>paid')
-                    ->andWhere(['doctor_id'=>\Yii::$app->user->identity->employe_id])
+                    ->andWhere(['doctor_id' => \Yii::$app->user->identity->employe_id])
                     ->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER:
-                $query->where(['type'=>Invoice::TYPE_TECHNICAL_ORDER])
-                    ->andWhere(['doctor_id'=>\Yii::$app->user->identity->employe_id])
-                    ->orderBy('created_at DESC');
+                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->andWhere(['patient_id' => $this->patient_card_id])
+                    ->andWhere(['type'=>Invoice::TYPE_TECHNICAL_ORDER])
+                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
+                    ->orderBy('technical_order.id DESC');
                 break;
-                case self::SEARCH_TYPE_ALL:
+            case self::SEARCH_TYPE_TECHNICAL_ORDER_ALL:
+                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
+                    ->orderBy('technical_order.id DESC');
+                break;
+            case self::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN:
+                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->andWhere(['invoice.doctor_id'=>\Yii::$app->user->identity->employe_id])
+                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
+                    ->orderBy('technical_order.id DESC');
+                break;
+            case self::SEARCH_TYPE_DOCTOR_INVOICES:
+                $query->where(['patient_id' => $this->patient_card_id])
+                    ->andWhere(['<>', 'type', Invoice::TYPE_TECHNICAL_ORDER])
+                    ->orderBy('created_at DESC');
+
+                break;
+            case self::SEARCH_TYPE_ALL:
                 $query
                     ->orderBy('created_at DESC');
                 break;
@@ -114,9 +135,9 @@ class InvoiceSearch extends Invoice
         $query->joinWith(['patient' => function ($q) {
             $q->where('klinikpat.surname LIKE "' . $this->patientFullName . '%"');
         }]);
-        if ($this->employeeFullName){
+        if ($this->employeeFullName) {
             $query->joinWith(['employee' => function ($q) {
-                $q->where('sotr.id = ' . $this->employeeFullName );
+                $q->where('sotr.id = ' . $this->employeeFullName);
             }]);
         }
         // grid filtering conditions

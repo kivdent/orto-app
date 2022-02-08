@@ -37,6 +37,7 @@ class PatientMenuWidget extends Widget
 //            ['label' => 'Осмотры', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'medcard']],
 //            ['label' => 'Терапия', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'ter']],
             ['label' => 'Счета', 'url' => ['/patient/invoices', 'patient_id' => $this->patient_id, 'action' => 'ter']],
+            ['label' => 'Наряды', 'url' => ['/patient/technical-order', 'patient_id' => $this->patient_id]],
 //            ['label' => 'Ортодонтия', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'ortd']],
 //            ['label' => 'Ортопедия', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'ortp']],
             ['label' => 'Диспансеризция', 'url' => ['/old_app/pat_card.php', 'id' => $this->patient_id, 'action' => 'disp']],

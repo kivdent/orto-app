@@ -1,5 +1,6 @@
 <?php
 
+use common\modules\userInterface\models\UserInterface;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use common\modules\invoice\models\InvoiceSearch;
@@ -10,8 +11,10 @@ use common\modules\invoice\models\Invoice;
 /* @var $this yii\web\View */
 /* @var ActiveDataProvider $dataProvider */
 /* @var InvoiceSearch $searchModel */
-$this->title = 'Счета пациента';
+$this->title = 'Заказ-наряды';
+\common\modules\invoice\assets\InvoiceAsset::register($this);
 ?>
+
     <h1><?= $this->title ?></h1>
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
@@ -31,8 +34,12 @@ $this->title = 'Счета пациента';
             'format' => 'raw',
             'attribute' => 'employeeFullName',
             'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
-
         ],
+//        [
+//            'format' => 'raw',
+//            'attribute' => 'technicianFullName',
+//            'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
+//        ],
         [
             'attribute' => 'amount_payable',
             'format' => 'raw',
@@ -45,7 +52,7 @@ $this->title = 'Счета пациента';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{view}  {create} {edit} {delete}',
+            'template' => '{view}  {create} {edit} {delete} {complete}',
             'buttons' => [
                 'view' => function ($url, $model, $key) {
                     return InvoiceModalWidget::widget(['invoice_id' => $model->id]);
@@ -63,24 +70,37 @@ $this->title = 'Счета пациента';
                 'edit' => function ($url, $model, $key) {
                     return $model->paid == 0 ? Html::a(
                         '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
-                        ['/invoice/manage/update',
-                            'invoice_id' => $model->id,],
+                        ['/invoice/technical-order/update',
+                            'technical_order_id' => $model->technicalOrder->id,],
                         ['class' => 'btn btn-primary btn-xs technical-order-complete',]
                     ) : '';
                 },
                 'delete' => function ($url, $model, $key) {
-                    return $model->paid == 0 ? Html::a(
-                        '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
-                        ['/invoice/manage/delete',
-                            'id' => $model->id,
-                        ],
-                        ['class' => 'btn btn-danger btn-xs technical-order-complete',
-                            'data' => [
-                                'confirm' => 'Вы уверены, что хотите удалить счёт?',
-                                'method' => 'post',
+                      if (!UserInterface::isUserRole(UserInterface::ROLE_TECHNICIAN)) {
+                          return $model->paid == 0 ? Html::a(
+                            '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+                            ['/invoice/manage/delete',
+                                'id' => $model->id,
                             ],
-                        ]
-                    ):'';
+                            ['class' => 'btn btn-danger btn-xs technical-order-complete',
+                                'data' => [
+                                    'confirm' => 'Вы уверены, что хотите удалить счёт?',
+                                    'method' => 'post',
+                                ],
+                            ]
+                        ) : '';
+                    }
+                },
+                'complete' => function ($url, $model, $key) {
+                    if (!UserInterface::isUserRole(UserInterface::ROLE_TECHNICIAN)) {
+                        return $model->technicalOrder->completed ? Html::button('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>', [
+                            'class' => 'btn btn-danger btn-xs technical-order-complete',
+                            'id' => $model->technicalOrder->id,
+                        ]) : Html::button('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>', [
+                            'class' => 'btn btn-success btn-xs technical-order-complete',
+                            'id' => $model->technicalOrder->id,
+                        ]);
+                    }
                 },
 
             ]

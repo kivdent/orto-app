@@ -47,7 +47,10 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_EMPLOYEE_DEBT = 'employee_debt';
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
-    const SEARCH_TYPE_TECHNICAL_ORDER = 'technical order';
+    const SEARCH_TYPE_TECHNICAL_ORDER = 'technical_order';
+    const SEARCH_TYPE_TECHNICAL_ORDER_ALL ='technical_order_all' ;
+    const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN ='technical_order_technician' ;
+    const SEARCH_TYPE_DOCTOR_INVOICES = 'doctor_invoices';
 
 
     public function behaviors()
@@ -222,12 +225,17 @@ class Invoice extends \common\models\Invoice
 
     public function getTechnicalOrderForInvoice()
     {
-        return $this->hasOne(TechnicalOrder::className(), ['invoice_id' => 'id']);
+//        return $this->hasOne(TechnicalOrder::className(), ['invoice_id' => 'id']);
+        return $this->hasMany(TechnicalOrder::className(), ['invoice_id' => 'id']);
     }
 
     public function getTechnicalOrderInvoice()
     {
-        return $this->technicalOrderForInvoice->technicalOrderInvoice;
+        $invoices=[];
+        foreach ($this->technicalOrderForInvoice as $invoice){
+            $invoices[]=$invoice;
+        }
+        return $invoices;
     }
 
     public function getDoctorInvoiceForTechnicalOrder()

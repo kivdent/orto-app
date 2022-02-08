@@ -24,19 +24,20 @@ class UserInterface
     const DEFAULT_ROUTE = '/old_app/pat_tooday.php';
     const DEFAULT_MENU_ITEM = ['label' => 'Главная', 'url' => '/'];
 
-    const ROLE_ADMIN='admin';
-    const ROLE_THERAPIST='therapist';
-    const ROLE_ORTHOPEDIST='orthopedist';
-    const ROLE_SURGEON='surgeon';
-    const ROLE_ORTHODONTIST='orthodontist';
-    const ROLE_RECORDER='recorder';
-    const ROLE_SENIOR_RECORDER='senior_recorder';
-    const ROLE_ACCOUNTANT='accountant';
-    const ROLE_SENIOR_NURSE='senior_nurse';
-    const ROLE_DIRECTOR='director';
-    const ROLE_RADIOLOGIST='radiologist';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_THERAPIST = 'therapist';
+    const ROLE_ORTHOPEDIST = 'orthopedist';
+    const ROLE_SURGEON = 'surgeon';
+    const ROLE_ORTHODONTIST = 'orthodontist';
+    const ROLE_RECORDER = 'recorder';
+    const ROLE_SENIOR_RECORDER = 'senior_recorder';
+    const ROLE_ACCOUNTANT = 'accountant';
+    const ROLE_SENIOR_NURSE = 'senior_nurse';
+    const ROLE_DIRECTOR = 'director';
+    const ROLE_RADIOLOGIST = 'radiologist';
+    const ROLE_TECHNICIAN = 'technician';
 
-    const PERMISSION_EDIT_SCHEDULE='editSchedule';
+    const PERMISSION_EDIT_SCHEDULE = 'editSchedule';
 
     public $user_id;
     public $employe_id;
@@ -272,12 +273,22 @@ class UserInterface
     {
         return self::MONTHS[$numberMonth];
     }
-    public static function getNormalizedPhone($phone){
+
+    public static function getNormalizedPhone($phone)
+    {
         $phone = preg_replace("/[^0-9]/", '', $phone);
-        $phone='+7'.substr($phone,1,10);
+        $phone = '+7' . substr($phone, 1, 10);
         return $phone;
     }
-    public static function getRawSql(ActiveRecord $model,$die=true){
-        UserInterface::getVar($model->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql,$die);
+
+    public static function getRawSql(ActiveRecord $model, $die = true)
+    {
+        UserInterface::getVar($model->prepare(\Yii::$app->db->queryBuilder)->createCommand()->rawSql, $die);
+    }
+
+    public static function isUserRole($role_name, $user_id = 'current')
+    {
+        $user_id = $user_id == 'current' ? $user_id = Yii::$app->user->id : $user_id;
+        return self::getRoleName($user_id) == $role_name;
     }
 }

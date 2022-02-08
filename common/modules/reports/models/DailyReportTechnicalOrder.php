@@ -28,14 +28,6 @@ use yii\helpers\Html;
 class DailyReportTechnicalOrder extends DailyReport
 {
 
-    public $employee;
-    public $date;
-
-    public $invoice_summary = 0;
-    public $payment_summary = 0;
-    public $coefficient_summary = 0;
-
-    public $table = [];
     public $labels = [
         'patient' => 'Пациент',
         'date' => 'Дата наряда',
@@ -46,11 +38,6 @@ class DailyReportTechnicalOrder extends DailyReport
         'technician' => 'Техник',
         'actions' => 'Действия',
     ];
-
-    public $invoices;
-    public $payments;
-
-    public $invoice_type;
 
     public static function getToday($employee_id, $invoice_type = Invoice::TYPE_MANIPULATIONS)
     {
@@ -135,7 +122,7 @@ class DailyReportTechnicalOrder extends DailyReport
             'delivery_date' => 'Срок сдачи',
             'completed' => 'Сдан',
             'doctor' => 'Врач',
-            //'actions' => 'Действия',
+            'actions' => 'Действия',
         ];
         foreach ($this->getInvoices() as $invoice) {
 
@@ -150,17 +137,19 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['invoice_sum'] .= $invoice->doctorInvoiceForTechnicalOrder->amount_residual != 0 ? ' Не оплачен' : ' Оплачен';
             $row['delivery_date'] = UserInterface::getFormatedDate($invoice->technicalOrder->delivery_date);
             $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
+            $row['completed'] .= $invoice->technicalOrder->completed ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
+
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
             $row['actions'] = Html::a(
-                'Редактировать',
+                '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                 ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
-                ['class' => 'btn btn-primary btn-xs technical-order-complete',]);
+                ['class' => 'btn btn-primary btn-xs',]);
             $row['actions'] .= Html::a(
-                'Создать заказ наряд',
+                '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
                 ['/invoice/technical-order/create',
                     'invoice_id' => $invoice->technicalOrder->invoice_id,
                     'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER,],
-                ['class' => 'btn btn-primary btn-xs technical-order-complete',]
+                ['class' => 'btn btn-primary btn-xs',]
             );
 
             $this->table[] = $row;

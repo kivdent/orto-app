@@ -4,6 +4,7 @@ namespace common\modules\invoice\controllers;
 
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\InvoiceItems;
+use common\modules\invoice\models\InvoiceSearch;
 use common\modules\invoice\models\TechnicalOrder;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
@@ -43,18 +44,35 @@ class TechnicalOrderController extends \yii\web\Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             //  echo Yii::$app->request->post('technicalOrderId');
-            $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
-            $technicalOrder->completed = !$technicalOrder->completed;
-            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
-                $technicalOrder->completed_date = date('Y-m-d');
+
+            foreach (TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'))->invoice->getTechnicalOrderInvoice() as $technicalOrder) {
+                $technicalOrder->completed = !$technicalOrder->completed;
+                if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+                    $technicalOrder->completed_date = date('Y-m-d');
+                }
+                if ($technicalOrder->completed) {
+                    $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+                } else {
+                    $technicalOrder->technicalOrderInvoice->paid = 0;
+                }
+                $technicalOrder->technicalOrderInvoice->save(false);
+                $technicalOrder->save(false);
             }
-            if ($technicalOrder->completed) {
-                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
-            } else {
-                $technicalOrder->technicalOrderInvoice->paid = 0;
-            }
-            $technicalOrder->technicalOrderInvoice->save(false);
-            $technicalOrder->save(false);
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        if (Yii::$app->request->isAjax) {
+//            //  echo Yii::$app->request->post('technicalOrderId');
+//            $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
+//            $technicalOrder->completed = !$technicalOrder->completed;
+//            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+//                $technicalOrder->completed_date = date('Y-m-d');
+//            }
+//            if ($technicalOrder->completed) {
+//                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+//            } else {
+//                $technicalOrder->technicalOrderInvoice->paid = 0;
+//            }
+//            $technicalOrder->technicalOrderInvoice->save(false);
+//            $technicalOrder->save(false);
         }
         return $technicalOrder->completed;
     }
@@ -64,9 +82,15 @@ class TechnicalOrderController extends \yii\web\Controller
         return $this->render('get-ajax-table');
     }
 
-    public function actionIndex()
+    public function actionIndex($searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN)
     {
-        return $this->render('index');
+        $searchModel = new InvoiceSearch(['searchType' => $searchType]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('@common/modules/patient/views/technical-order/index', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
+        ]);
+
     }
 
     public function actionPrint()

@@ -19,7 +19,7 @@ class InvoicesController extends \yii\web\Controller
     public function actionIndex($patient_id)
     {
 
-        $searchModel = new InvoiceSearch(['searchType' => InvoiceSearch::SEARCH_TYPE_FOR_PATIENT_CARD,'patient_card_id' =>$patient_id ]);
+        $searchModel = new InvoiceSearch(['searchType' => InvoiceSearch::SEARCH_TYPE_DOCTOR_INVOICES,'patient_card_id' =>$patient_id ]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -31,5 +31,13 @@ class InvoicesController extends \yii\web\Controller
     {
         return $this->render('view');
     }
-
+    public function actionTechnicalOrder($patient_id)
+    {
+        $searchModel = new InvoiceSearch(['searchType' => InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER,'patient_card_id' =>$patient_id ]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('technical_order', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel
+        ]);
+    }
 }

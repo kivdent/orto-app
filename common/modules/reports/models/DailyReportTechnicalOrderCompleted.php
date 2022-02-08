@@ -99,11 +99,16 @@ class DailyReportTechnicalOrderCompleted extends DailyReportTechnicalOrder
     public function getInvoices()
     {
         $invoices = Invoice::find()
-            ->andWhere(Invoice::getDateExpression($this->date))
-            ->andWhere(['type' => Invoice::TYPE_TECHNICAL_ORDER])
-            ->andWhere(['doctor_id'=>$this->employee->id])
-            ->andWhere('paid=amount_payable')
+            ->leftJoin('technical_order', 'technical_order.technical_order_invoice_id=invoice.id')
+            ->where(['technical_order.employee_id' => $this->employee->id, 'completed' => 1, 'completed_date' => $this->date])
             ->all();
+//        $invoices = Invoice::find()
+//            ->leftJoin('technical_order',['technical_order.technical_order_invoice_id'=>'invoice.id'])
+//            ->andWhere(['technical_order.completed_date'=>$this->date])
+//            ->andWhere(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+//            ->andWhere(['doctor_id'=>$this->employee->id])
+//            ->andWhere('paid=amount_payable')
+//            ->all();
         $technicalOrders = $invoices;
 
 //        $technicalOrders = [];
