@@ -172,6 +172,16 @@ class InvoiceFormWidget extends \yii\base\Widget
                         ],
                     ]) . '</div>
                         </div>';
+                $html .= '<div class="row">
+                            <div class="col-lg-12">Комментарий:<br> ' . Html::textarea(
+                                'comment',
+                                $this->technical_order_id == 'new' ? '' : TechnicalOrder::findOne($this->technical_order_id)->comment,
+                                ['id' => 'comment', '
+                                class' => 'form-control required-property'
+                                ]);
+
+                $html .= '</div>
+                        </div>';
                 $html .= '<br>';
                 $html .= '<button type="button" class="btn btn-primary submit-technical-order">Сохранить</button> 
                             <button type="button" class="btn btn-danger clear-modal" >Очистить</button>';
