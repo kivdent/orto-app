@@ -108,7 +108,8 @@ class TechnicalOrderController extends \yii\web\Controller
                     'invoice_id' => Yii::$app->request->post('invoice_id'),
                     'employee_id' => Yii::$app->request->post('employee_id'),
                     'delivery_date' => date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date'))),
-                    'completed' => false
+                    'completed' => false,
+                    'comment'=>Yii::$app->request->post('comment'),
                 ]
             );
             $invoice_items = [];
@@ -158,6 +159,7 @@ class TechnicalOrderController extends \yii\web\Controller
             $technicalOrder = TechnicalOrder::findOne(Yii::$app->request->post('technical_order_id'));
 
             $technicalOrder->employee_id = Yii::$app->request->post('employee_id');
+            $technicalOrder->comment = Yii::$app->request->post('comment');
             $technicalOrder->delivery_date = date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date')));
 
             $invoice_items = [];

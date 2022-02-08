@@ -154,8 +154,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-
-                    window.location = '/';
+                   window.location = '/';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -190,7 +189,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                    window.location = '/';
+                   window.location = '/';
                 },
                 error: function () {
                     alert('Ошибка запроса');

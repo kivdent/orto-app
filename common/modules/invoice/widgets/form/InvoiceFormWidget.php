@@ -150,7 +150,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= Html::input('hidden', 'appointment_id', $this->appointment_id, ['id' => 'appointment_id']);
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
 
-                $html .=$this->invoice_id=='new' ? Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']):'';
+                $html .= $this->invoice_id == 'new' ? Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']) : '';
 
                 if ($this->employee_choice) {
                     $html .= 'Врач:' . Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
@@ -323,6 +323,37 @@ class InvoiceFormWidget extends \yii\base\Widget
                     $i++;
                 }
                 break;
+        }
+        return $html;
+    }
+
+    public static function getTechnicalOrderInfo($id)
+    {
+        $technical_order = TechnicalOrder::find()->where(['technical_order_invoice_id' => $id])->one();
+        if ($technical_order) {
+            $html = '<div class="row">
+                    <div class="col-lg-12">
+                    Врач: ' . $technical_order->invoice->employee->fullName . '
+                    </div>
+        </div>';
+            $html .= '<div class="row">
+                        <div class="col-lg-12">
+                        Дата сдачи: ' . UserInterface::getFormatedDateTime($technical_order->delivery_date) . '
+                        </div>
+        </div>';
+            $text= $technical_order->completed ? 'Сдан' . UserInterface::getFormatedDateTime($technical_order->completed_date) : 'Не сдан';
+            $html .= '<div class="row">
+                        <div class="col-lg-12">
+                        Статус: ' . $text. '
+                        </div>
+        </div>';
+            $html .= '<div class="row">
+                    <div class="col-lg-12">
+                    Комментарий: ' . $technical_order->comment . '
+                    </div>
+        </div>';
+        }else{
+            $html='';
         }
         return $html;
     }

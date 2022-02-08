@@ -73,8 +73,9 @@ class ManageController extends \yii\web\Controller
                                     </div>
                                     <div class="col-lg-6">
                                         ' . InvoiceFormWidget::getEarlyPaymentTable($invoice->id) . '
-                                    </div>        
+                                    </div>    
                                 </div>
+                                '.InvoiceFormWidget::getTechnicalOrderInfo($invoice->id).'    
                             </div>
                             <div class="modal-body">
                                 ' . InvoiceFormWidget::getInvoiceTable($invoice->id) . '
