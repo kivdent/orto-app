@@ -5,8 +5,9 @@ namespace common\modules\invoice\models;
 
 
 use common\modules\employee\models\Employee;
+use common\modules\userInterface\models\UserInterface;
 use yii\data\ActiveDataProvider;
-use common\modules\invoice\models\Invoicel;
+use common\modules\invoice\models\Invoice;
 
 /**
  * Class InvoiceSearch
@@ -25,8 +26,10 @@ class InvoiceSearch extends Invoice
     public $amount_residual;
     public $patientFullName;
     public $employeeFullName;
+    public $doctorFullNameForTechnicalOrder;
     public $date;
     public $patient_card_id;
+    public $completed;
 
     public static function getEmployeeListWithInvoice()
     {
@@ -59,22 +62,21 @@ class InvoiceSearch extends Invoice
                     ->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER:
-                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+                $query->where(['`invoice`.`type`' => Invoice::TYPE_TECHNICAL_ORDER])
                     ->andWhere(['patient_id' => $this->patient_card_id])
-                    ->andWhere(['type'=>Invoice::TYPE_TECHNICAL_ORDER])
-                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
-                    ->orderBy('technical_order.id DESC');
+                    ->andWhere(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->leftJoin('technical_order', ['invoice.id' => 'technical_order.technical_order_invoice_id'])
+                    ->orderBy('`technical_order`.`id` DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER_ALL:
                 $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
-                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
+                    ->leftJoin('technical_order', ['invoice.id' => 'technical_order.technical_order_invoice_id'])
                     ->orderBy('technical_order.id DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN:
-                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
-                    ->andWhere(['invoice.doctor_id'=>\Yii::$app->user->identity->employe_id])
-                    ->leftJoin('technical_order',['invoice.id'=>'technical_order.technical_order_invoice_id'])
-                    ->orderBy('technical_order.id DESC');
+                $query->where(['invoice.type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->andWhere(['invoice.doctor_id' => \Yii::$app->user->identity->employe_id])
+                    ->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_DOCTOR_INVOICES:
                 $query->where(['patient_id' => $this->patient_card_id])
@@ -96,7 +98,7 @@ class InvoiceSearch extends Invoice
             [['doctor_id', 'patient_id', 'amount', 'amount_payable', 'paid', 'discount_id', 'appointment_id'], 'safe'],
             [['created_at', 'updated_at'], 'safe'],
             [['type'], 'safe'],
-            [['patientFullName', 'employeeFullName'], 'safe'],
+            [['patientFullName', 'employeeFullName', 'doctorFullNameForTechnicalOrder', 'completed'], 'safe'],
         ];
     }
 
@@ -128,7 +130,6 @@ class InvoiceSearch extends Invoice
         $this->load($params);
 
         if (!($this->load($params) && $this->validate())) {
-
             $query->joinWith('patient');
             return $dataProvider;
         }
@@ -140,6 +141,21 @@ class InvoiceSearch extends Invoice
                 $q->where('sotr.id = ' . $this->employeeFullName);
             }]);
         }
+        if (($this->completed==='0')or($this->completed==='1')) {
+            $query->joinWith(['technicalOrder' => function ($q) {
+                $q->where(['technical_order.completed' => $this->completed]);
+            }]);
+        }
+        if ($this->doctorFullNameForTechnicalOrder) {
+            $query->joinWith(['doctorInvoiceForTechnicalOrder di' => function ($q) {
+                $q->where('di.doctor_id=' . $this->doctorFullNameForTechnicalOrder);
+            }]);
+        }
+//        if ($this->doctorFullNameForTechnicalOrder) {
+//            $query->leftJoin('technical_order', ['`technical_order`.`technical_order_invoice_id`'=>'`invoice`.`id`'])
+//            ->leftJoin('invoice to_invoice');
+//        }
+
         // grid filtering conditions
 //        $query->andFilterWhere([
 //            'id' => $this->id,
@@ -163,5 +179,11 @@ class InvoiceSearch extends Invoice
         return $dataProvider;
     }
 
-
+    public function attributeLabels()
+    {
+        $labels = parent::attributeLabels();
+        $labels['completed'] = 'Статус';
+        UserInterface::getVar($labels);
+        return $labels;
+    }
 }

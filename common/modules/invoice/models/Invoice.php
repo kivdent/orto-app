@@ -22,6 +22,7 @@ use common\modules\catalogs\models\PaymentType;
  * @property Patient $patient
  * @property string $date
  * @property string $patientFullName
+ * @property string $employeeFullName
  * @property string $lastPaymentDate
  * @property Prices $prices
  * @property float $coefficientSummary
@@ -29,6 +30,7 @@ use common\modules\catalogs\models\PaymentType;
  * @property Invoice $technicalOrderInvoice
  * @property TechnicalOrder $technicalOrderForInvoice
  * @property Invoice $doctorInvoiceForTechnicalOrder
+ * @property string $doctorFullNameForTechnicalOrder
  *
  */
 class Invoice extends \common\models\Invoice
@@ -48,8 +50,8 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
     const SEARCH_TYPE_TECHNICAL_ORDER = 'technical_order';
-    const SEARCH_TYPE_TECHNICAL_ORDER_ALL ='technical_order_all' ;
-    const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN ='technical_order_technician' ;
+    const SEARCH_TYPE_TECHNICAL_ORDER_ALL = 'technical_order_all';
+    const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN = 'technical_order_technician';
     const SEARCH_TYPE_DOCTOR_INVOICES = 'doctor_invoices';
 
 
@@ -113,7 +115,7 @@ class Invoice extends \common\models\Invoice
         return self::find()
             ->where(['patient_id' => $patient_id])
             ->andWhere('amount_payable<>paid')
-            ->andWhere("type<>'".Invoice::TYPE_TECHNICAL_ORDER."'")
+            ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
             ->all();
     }
 
@@ -140,6 +142,8 @@ class Invoice extends \common\models\Invoice
             'date' => 'Дата',
             'patientFullName' => 'Пациент',
             'employeeFullName' => 'Врач',
+            'doctorFullNameForTechnicalOrder' => 'Врач',
+            'completed' => 'Статус',
         ];
     }
 
@@ -160,14 +164,14 @@ class Invoice extends \common\models\Invoice
     {
         if ($this->type == self::TYPE_TECHNICAL_ORDER) {
             $lastPayment = $this->technicalOrder->completed_date;
-            $lastPayment=$lastPayment !== null ? $lastPayment : 'Нет оплат';
+            $lastPayment = $lastPayment !== null ? $lastPayment : 'Нет оплат';
         } else {
             $lastPayment = Payment::find()->
             select('date')->
             where(['dnev' => $this->getPaidInvoiceId()])->
             orderBy(['date' => SORT_DESC])->
             one();
-            $lastPayment=$lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+            $lastPayment = $lastPayment !== null ? $lastPayment->date : 'Нет оплат';
         }
 
         return $lastPayment;
@@ -231,9 +235,9 @@ class Invoice extends \common\models\Invoice
 
     public function getTechnicalOrderInvoice()
     {
-        $invoices=[];
-        foreach ($this->technicalOrderForInvoice as $invoice){
-            $invoices[]=$invoice;
+        $invoices = [];
+        foreach ($this->technicalOrderForInvoice as $invoice) {
+            $invoices[] = $invoice;
         }
         return $invoices;
     }
@@ -241,7 +245,9 @@ class Invoice extends \common\models\Invoice
     public function getDoctorInvoiceForTechnicalOrder()
     {
 
-        return $this->technicalOrder->invoice;
+//        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id']) : null;
+//        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id'])->via('>technicalOrder') : null;
+        return $this->hasOne(self::className(),['id'=>'invoice_id'])->via('technicalOrder');
     }
 
     private function getPaidInvoiceId()
@@ -264,5 +270,10 @@ class Invoice extends \common\models\Invoice
     public function hasPayments()
     {
         return $this->payments ? true : false;
+    }
+
+    public function GetDoctorFullNameForTechnicalOrder()
+    {
+        return $this->doctorInvoiceForTechnicalOrder->getEmployeeFullName();
     }
 }
