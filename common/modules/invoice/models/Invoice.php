@@ -184,14 +184,24 @@ class Invoice extends \common\models\Invoice
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
-    public function getSalarySumByPriceList()
+    public function  getSalarySumByPriceList()
     {
         $salarySumm = [];
         if ($this->type == self::TYPE_ORTHODONTICS) {
             $salarySumm[self::TYPE_ORTHODONTICS] = $this->paid;
             return $salarySumm;
         }
-
+        if ($this->type == self::TYPE_TECHNICAL_ORDER) {
+            foreach ($this->invoiceItems as $invoiceItem) {
+                $pricelist_id = $invoiceItem->prices->pricelistItems->pricelist_id;
+                if (isset($salarySumm[$pricelist_id])) {
+                    $salarySumm[$pricelist_id] += $invoiceItem->prices->price;
+                } else {
+                    $salarySumm[$pricelist_id] = $invoiceItem->prices->price;
+                }
+            }
+            return $salarySumm;
+        }
         foreach ($this->invoiceItems as $invoiceItem) {
             $pricelist_id = $invoiceItem->prices->pricelistItems->pricelist_id;
             $uet = FinancialPeriods::getUETForDate($this->created_at);

@@ -32,7 +32,7 @@ class DefaultController extends Controller
     {
         $employee=Employee::findOne(Yii::$app->user->identity->employe_id);
         $financialPeriod=FinancialPeriods::getPeriodForCurrentDate();
-        $table=InvoiceReport::getAllPaidForPeriod($employee,$financialPeriod);
+        $table=InvoiceReport::getAllPaidCoefficientForPeriod($employee,$financialPeriod);
 
         return $this->render('index',['table'=>$table]);
     }
