@@ -69,9 +69,11 @@ class InvoiceSearch extends Invoice
                     ->orderBy('`technical_order`.`id` DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER_ALL:
-                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
-                    ->leftJoin('technical_order', ['invoice.id' => 'technical_order.technical_order_invoice_id'])
-                    ->orderBy('technical_order.id DESC');
+//                $query->where(['type' => Invoice::TYPE_TECHNICAL_ORDER])
+//                    ->leftJoin('technical_order', ['invoice.id' => 'technical_order.technical_order_invoice_id'])
+//                    ->orderBy('technical_order.id DESC');
+                $query->where(['invoice.type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN:
                 $query->where(['invoice.type' => Invoice::TYPE_TECHNICAL_ORDER])

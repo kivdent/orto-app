@@ -184,7 +184,7 @@ class Invoice extends \common\models\Invoice
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
-    public function  getSalarySumByPriceList()
+    public function  getSalarySumByPriceList() //TODO Сделать отдельный метод для посчёта зарплаты по стоимости а не по коэффициентам
     {
         $salarySumm = [];
         if ($this->type == self::TYPE_ORTHODONTICS) {

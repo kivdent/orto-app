@@ -84,6 +84,9 @@ class TechnicalOrderController extends \yii\web\Controller
 
     public function actionIndex($searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN)
     {
+        if (UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN){
+            $searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_ALL;
+        }
         $searchModel = new InvoiceSearch(['searchType' => $searchType]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [//@common/modules/patient/views/technical-order/index

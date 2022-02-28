@@ -99,6 +99,12 @@ class UserInterface
         return Yii::$app->formatter->asDate($date, 'php:d.m.Y H:i');
     }
 
+    public static function getRoleNameCurrentUser()
+    {
+        //self::getVar(Yii::$app->user->identity);
+        return self::getRoleName(Yii::$app->user->identity->getId());
+    }
+
     /**
      *
      * @param int $user_id
