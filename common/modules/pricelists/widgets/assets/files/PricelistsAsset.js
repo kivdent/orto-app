@@ -4,6 +4,8 @@ $(document).ready(function () {
         newPricesArray.forEach(function (newPrice, index, arr) {
             $('#price-list-item-new-price-' + newPrice.id).val(newPrice.price);
             $('#price-list-item-new-coefficient-' + newPrice.id).val(newPrice.coefficient);
+            $('#price-list-item-new-active-' + newPrice.id).val(newPrice.active);
+
         });
     }
 
@@ -12,7 +14,8 @@ $(document).ready(function () {
         $('.price-list-item-new-price').each(function (index, element) {
             let id = $(element).attr('id').split('-')[5];
             let coefficientElementId = "#price-list-item-new-coefficient-" + $(element).attr('id').split('-')[5];
-            newPricesArray.push({'id': id, 'price': $(element).val(), 'coefficient': $(coefficientElementId).val()});
+            let activeElementId = "#price-list-item-new-active-" + $(element).attr('id').split('-')[5];
+            newPricesArray.push({'id': id, 'price': $(element).val(), 'coefficient': $(coefficientElementId).val(),'active':$(activeElementId).val()});
 
         })
         return newPricesArray;

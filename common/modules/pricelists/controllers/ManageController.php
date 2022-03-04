@@ -183,6 +183,7 @@ class ManageController extends Controller
             foreach (Yii::$app->request->post('newPricesArray') as $value) {
                 $newPricesArray[$value['id']]['price'] = $value['price'];
                 $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
+                $newPricesArray[$value['id']]['active'] = $value['active'];
             }
         }
         return ['url' => '/' . Pricelist::getBatchEditingXls($newPricesArray)];
@@ -209,10 +210,10 @@ class ManageController extends Controller
 
 
                         $modelPrices->active = 0;
+                        $modelPricelistItems->active = $value['active'];
                         $modelPrices->save(false);
                         $newModelPrices->save(false);
-
-
+                        $modelPricelistItems->save(false);
                     }
                 }
                 $transaction->commit();
@@ -223,12 +224,16 @@ class ManageController extends Controller
         }
         return 'success';
     }
-    public function actionSaveToYandexDisk(){
+
+    public function actionSaveToYandexDisk()
+    {
         Yii::$app->response->format = Response::FORMAT_JSON;
         Pricelist::saveToYandexDisk();
         return 'success';
     }
-    public function actionCsvSave(){
+
+    public function actionCsvSave()
+    {
         return $this->redirect('/' . Pricelist::getXml());
 //        return $this->redirect('/' . Pricelist::getCsv());
 

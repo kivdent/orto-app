@@ -192,6 +192,24 @@ if ($type == PriceListsWidget::TYPE_BATCH_EDITING) {
                                                         <?php endif; ?>
                                                     </td>
                                                 <?php endif; ?>
+                                             <?php if ($type == PriceListsWidget::TYPE_BATCH_EDITING): ?>
+                                                    <td>
+                                                        <?php echo $pricelistItem->active?'Активен':'Не активен' ?>
+                                                        <?php if ($type == PriceListsWidget::TYPE_BATCH_EDITING): ?>
+                                                            <br>
+                                                            <input type="text"
+                                                                   class="form-control"
+                                                                   size="1"
+                                                                   id="price-list-item-new-active-<?= $pricelistItem->id ?>"
+                                                                   value="<?= $pricelistItem->active ?>">
+                                                            <input type="hidden"
+                                                                   class="form-control"
+                                                                   size="1"
+                                                                   id="price-list-item-old-active-<?= $pricelistItem->id ?>"
+                                                                   value="<?= $pricelistItem->active ?>">
+                                                        <?php endif; ?>
+                                                    </td>
+                                                <?php endif; ?>
                                             </tr>
                                         <?php endforeach; ?>
                                     </table>
