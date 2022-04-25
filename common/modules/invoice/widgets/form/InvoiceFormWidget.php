@@ -77,6 +77,8 @@ class InvoiceFormWidget extends \yii\base\Widget
     {
         if ($this->typePriceList == null) {
             $this->typePriceList = array_key_exists($this->invoice_type, Pricelist::getTypeList()) ? $this->invoice_type : PriceListsWidget::TYPE_PRICELIST_ALL;
+            $this->typePriceList = ($this->typePriceList==Invoice::TYPE_MATERIALS)?[Invoice::TYPE_MATERIALS,Invoice::TYPE_HYGIENE_PRODUCTS]:$this->typePriceList;
+
         }
     }
 
@@ -174,11 +176,11 @@ class InvoiceFormWidget extends \yii\base\Widget
                         </div>';
                 $html .= '<div class="row">
                             <div class="col-lg-12">Комментарий:<br> ' . Html::textarea(
-                                'comment',
-                                $this->technical_order_id == 'new' ? '' : TechnicalOrder::findOne($this->technical_order_id)->comment,
-                                ['id' => 'comment', '
+                        'comment',
+                        $this->technical_order_id == 'new' ? '' : TechnicalOrder::findOne($this->technical_order_id)->comment,
+                        ['id' => 'comment', '
                                 class' => 'form-control required-property'
-                                ]);
+                        ]);
 
                 $html .= '</div>
                         </div>';
@@ -351,10 +353,10 @@ class InvoiceFormWidget extends \yii\base\Widget
                         Дата сдачи: ' . UserInterface::getFormatedDateTime($technical_order->delivery_date) . '
                         </div>
         </div>';
-            $text= $technical_order->completed ? 'Сдан' . UserInterface::getFormatedDateTime($technical_order->completed_date) : 'Не сдан';
+            $text = $technical_order->completed ? 'Сдан' . UserInterface::getFormatedDateTime($technical_order->completed_date) : 'Не сдан';
             $html .= '<div class="row">
                         <div class="col-lg-12">
-                        Статус: ' . $text. '
+                        Статус: ' . $text . '
                         </div>
         </div>';
             $html .= '<div class="row">
@@ -362,8 +364,8 @@ class InvoiceFormWidget extends \yii\base\Widget
                     Комментарий: ' . $technical_order->comment . '
                     </div>
         </div>';
-        }else{
-            $html='';
+        } else {
+            $html = '';
         }
         return $html;
     }

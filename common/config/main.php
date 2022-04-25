@@ -105,5 +105,8 @@ return [
         'archive' => [
             'class' => 'common\modules\archive\Module',
         ],
+        'statistics' => [
+            'class' => 'common\modules\statistics\Module',
+        ],
     ],
 ];
