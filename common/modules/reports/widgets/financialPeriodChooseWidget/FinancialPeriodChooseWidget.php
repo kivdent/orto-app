@@ -20,11 +20,9 @@ class FinancialPeriodChooseWidget extends Widget
     function run()
     {
         $this->setParamsToLink();
+
         if (!isset($this->period_month)){
-            $this->period_month=1;
-        }
-        if (!isset($this->period_year)){
-            $this->period_year=date("Y");
+            $this->setDate();
         }
         $js = ' $("#period-choose").click(function(){
                     let href="' . $this->link . '";
@@ -98,5 +96,17 @@ class FinancialPeriodChooseWidget extends Widget
         }
     }
 
+    private function setDate()
+    {
+        if (Yii::$app->request->get($this->var) and FinancialPeriods::findOne(Yii::$app->request->get($this->var)) != null) {
+            $financialPeriod = FinancialPeriods::findOne(Yii::$app->request->get($this->var));
+        } else {
+            $financialPeriod = FinancialPeriods::getPeriodForCurrentDate();
+        }
+        $this->id=$financialPeriod->id;
+        $date=strtotime($financialPeriod->nach);
+        $this->period_month=date('m',$date);
+        $this->period_year=date('Y',$date);
+    }
 
 }

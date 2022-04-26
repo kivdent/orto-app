@@ -18,6 +18,7 @@ use yii\db\Expression;
  * @property int $active
  *
  * @property PricelistItems $pricelistItems
+ * @property string $title
  */
 class Prices extends \yii\db\ActiveRecord
 {
@@ -30,6 +31,7 @@ class Prices extends \yii\db\ActiveRecord
             ]
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -46,7 +48,7 @@ class Prices extends \yii\db\ActiveRecord
         return [
             [['pricelist_items_id', 'price', 'active'], 'integer'],
             [['coefficient'], 'number'],
-            [['coefficient','price'], 'required'],
+            [['coefficient', 'price'], 'required'],
             [['created_at', 'updated_at'], 'safe'],
             [['pricelist_items_id'], 'exist', 'skipOnError' => true, 'targetClass' => PricelistItems::className(), 'targetAttribute' => ['pricelist_items_id' => 'id']],
         ];
@@ -74,5 +76,10 @@ class Prices extends \yii\db\ActiveRecord
     public function getPricelistItems()
     {
         return $this->hasOne(PricelistItems::className(), ['id' => 'pricelist_items_id']);
+    }
+
+    public function getTitle()
+    {
+        return $this->pricelistItems->title;
     }
 }

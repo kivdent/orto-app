@@ -14,6 +14,7 @@ use Yii;
  *
  * @property Invoice $invoice
  * @property Prices $prices
+
  */
 class InvoiceItems extends \yii\db\ActiveRecord
 {
@@ -65,4 +66,5 @@ class InvoiceItems extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Prices::className(), ['id' => 'prices_id']);
     }
+
 }
