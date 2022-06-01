@@ -140,7 +140,7 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['completed'] .= $invoice->technicalOrder->completed ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
 
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
-            $row['actions'] = Html::a(
+            $row['actions'] =  $invoice->technicalOrder->completed ? ' ': Html::a(
                 '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                 ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
                 ['class' => 'btn btn-primary btn-xs',]);
@@ -294,8 +294,10 @@ class DailyReportTechnicalOrder extends DailyReport
                     ->leftJoin('technical_order', 'technical_order.technical_order_invoice_id=invoice.id')
                     ->where(['technical_order.employee_id' => $this->employee->id, 'completed' => 1, 'completed_date' => $this->date])
                     ->all();
-                //UserInterface::getVar($invoices);
+
                 foreach ($invoices as $invoice) {
+                    UserInterface::getVar($invoice->id,false);
+                    UserInterface::getVar($invoice->paid,false);
                     $sum += $invoice->paid;
                 }
                 break;
