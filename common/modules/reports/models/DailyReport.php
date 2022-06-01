@@ -218,10 +218,8 @@ class DailyReport extends Model
     {
         return Payment::find()->where(['dnev' => $invoice_id, 'date' => $this->date])->all();
     }
-
     public static function getDailyReport($employee_id, $date, $report_type)
     {
-
         switch ($report_type) {
             case DailyReport::TYPE_OF_REPORT_TECHNICAL_ORDER:
                 $daily_report = DailyReportTechnicalOrder::getReportForDate($employee_id, $date, $report_type);

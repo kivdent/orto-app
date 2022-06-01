@@ -98,7 +98,6 @@ class FinancialController extends \yii\web\Controller
             if (!$employee) throw new NotFoundHttpException('Сотрудник не найден.');
         }
 
-
         if ($period_id == 'current') {
             $period_report = PeriodReport::getCurrentPeriodReport($employee,$invoice_type);
         } else {
@@ -106,8 +105,6 @@ class FinancialController extends \yii\web\Controller
             if (!$financial_period) throw new NotFoundHttpException('Период не найден.');
             $period_report = PeriodReport::getPeriodReportForDate($employee, $financial_period,$invoice_type);
         }
-
-
 
         return $this->render('employee_period', [
             'period_report' => $period_report,
