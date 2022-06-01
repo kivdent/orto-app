@@ -3,7 +3,9 @@
 namespace common\modules\statistics\controllers;
 
 use common\modules\reports\models\FinancialPeriods;
+use common\modules\statistics\models\ClinicStatistic;
 use common\modules\statistics\models\HygieneProducts;
+use common\modules\statistics\models\Material;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 
@@ -29,8 +31,12 @@ class RevenueController extends \yii\web\Controller
 //        }
 
         $hygieneProductsStatistics = HygieneProducts::getForFinancialPeriod($this->getFinancialPeriod());
+        $material = Material::getForFinancialPeriod($this->getFinancialPeriod());
+        $clinicStatistic=ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
         return $this->render('index', [
             'hygieneProductsStatistics' => $hygieneProductsStatistics,
+            'material' => $material,
+            'clinicStatistic' => $clinicStatistic,
         ]);
     }
 
@@ -39,6 +45,23 @@ class RevenueController extends \yii\web\Controller
         $hygieneProductsStatistics = HygieneProducts::getForFinancialPeriod($this->getFinancialPeriod());
         return $this->render('hygiene-product', [
             'hygieneProductsStatistics' => $hygieneProductsStatistics,
+        ]);
+    }
+
+    public function actionMaterial($financialPeriodId = null)
+    {
+        $material = Material::getForFinancialPeriod($this->getFinancialPeriod());
+        return $this->render('material', [
+            'material' => $material,
+        ]);
+    }
+    public function actionClinicStatistic($type)
+    {
+        $clinicStatistic = ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
+
+        return $this->render('clinic-statistic', [
+            'clinicStatistic' => $clinicStatistic,
+            'type'=>$type,
         ]);
     }
 

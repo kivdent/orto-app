@@ -3,6 +3,7 @@
 
 namespace common\modules\invoice\models;
 
+use common\modules\invoice\models\Invoice;
 /**
  * Class InvoiceItems
  * @package common\modules\invoice\models
@@ -21,5 +22,9 @@ class InvoiceItems extends \common\models\InvoiceItems
     }
     public function getTitle(){
         return $this->prices->title;
+    }
+    public function getInvoice()
+    {
+        return $this->hasOne(Invoice::className(), ['id' => 'invoice_id']);
     }
 }

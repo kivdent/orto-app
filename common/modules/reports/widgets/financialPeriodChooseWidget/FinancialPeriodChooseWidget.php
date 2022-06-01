@@ -24,6 +24,7 @@ class FinancialPeriodChooseWidget extends Widget
         if (!isset($this->period_month)){
             $this->setDate();
         }
+
         $js = ' $("#period-choose").click(function(){
                     let href="' . $this->link . '";
                     let action="/reports/financial/get-period";
@@ -103,10 +104,11 @@ class FinancialPeriodChooseWidget extends Widget
         } else {
             $financialPeriod = FinancialPeriods::getPeriodForCurrentDate();
         }
+
         $this->id=$financialPeriod->id;
         $date=strtotime($financialPeriod->nach);
-        $this->period_month=date('m',$date);
+
+        $this->period_month=date('n',$date);
         $this->period_year=date('Y',$date);
     }
-
 }

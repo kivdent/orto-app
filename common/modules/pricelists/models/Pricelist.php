@@ -209,7 +209,7 @@ class Pricelist extends \common\models\Pricelist
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $a++;
 
-                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф', 'Посл. Исп.','Статус (1-актавно,0-не активно)'];
+                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф', 'Посл. Исп.', 'Статус (1-актавно,0-не активно)'];
                     $styleArray = [
 
                         'borders' => [
@@ -427,8 +427,18 @@ class Pricelist extends \common\models\Pricelist
             self::TYPE_MANIPULATIONS => 'Манипуляции',
             self::TYPE_MATERIALS => 'Материалы',
             self::TYPE_GIFT_CARDS => 'Подарочные сертификаты',
-            self::TYPE_HYGIENE_PRODUCTS=>'Средства гигиены',
-            self::TYPE_TECHNICAL_ORDER=>'Зуботехнический прайс',
+            self::TYPE_HYGIENE_PRODUCTS => 'Средства гигиены',
+            self::TYPE_TECHNICAL_ORDER => 'Зуботехнический прайс',
+        ];
+    }
+
+    static function getTypeListToPayments()
+    {
+        return [
+            self::TYPE_MANIPULATIONS,
+            self::TYPE_MATERIALS,
+            self::TYPE_GIFT_CARDS,
+            self::TYPE_HYGIENE_PRODUCTS,
         ];
     }
 
