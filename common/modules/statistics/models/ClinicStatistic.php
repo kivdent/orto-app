@@ -171,7 +171,6 @@ class ClinicStatistic extends \yii\base\Model
             ->andwhere('oplata.date<=\'' . $this->endDate . '\'')
             ->andWhere('oplata.type<>' . PaymentType::TYPE_FULL_DISCOUNT)
             ->all();
-
     }
 
     public function getCommonSummary()
@@ -185,7 +184,6 @@ class ClinicStatistic extends \yii\base\Model
 
     public function getCommonPaymentsForTable()
     {
-
         return [];
     }
 

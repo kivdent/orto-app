@@ -7,7 +7,10 @@ use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
 
-
+/**
+ * @property int $price
+ * @property Prices $priceForItem
+ */
 class PricelistItems extends \common\models\PricelistItems
 {
     const STATUS_ACTIVE = 1;
@@ -62,7 +65,6 @@ class PricelistItems extends \common\models\PricelistItems
 
     public function getPriceForItem()
     {
-
         return Prices::find()->where(['pricelist_items_id' => $this->id, 'active' => 1]);
     }
 
