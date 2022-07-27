@@ -21,10 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <?=$this->title.": ".call_user_func([$clinicStatistic,$type.'Summary']);?>
 
 
-<?=Html::a('Подробнее',
-    ['revenue/hygiene-product','financialPeriodId'=>Yii::$app->request->get('financialPeriodId')],
-    ['class'=>'btn btn-success btn-xs'])?>
-
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#positions" aria-controls="positions" role="tab" data-toggle="tab">Позиции</a></li>

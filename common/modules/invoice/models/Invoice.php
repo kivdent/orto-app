@@ -286,4 +286,9 @@ class Invoice extends \common\models\Invoice
     {
         return $this->doctorInvoiceForTechnicalOrder->getEmployeeFullName();
     }
+
+    public function hasTachnicalOrder()
+    {
+        return $this->technicalOrder ? true : false;
+    }
 }

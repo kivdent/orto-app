@@ -91,6 +91,7 @@ class FinancialController extends \yii\web\Controller
 
     public function actionEmployeePeriod($period_id = 'current', $employee_id = 'current', $employee_selectable = 'false',$invoice_type=Invoice::TYPE_MANIPULATIONS)
     {
+
         if ($employee_id == 'current') {
             $employee = Yii::$app->user->identity->employe;
         } else {

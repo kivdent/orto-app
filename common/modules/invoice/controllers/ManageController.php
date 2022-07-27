@@ -220,7 +220,11 @@ class ManageController extends \yii\web\Controller
 
         if ($invoice->hasPayments()) {
             Yii::$app->session->setFlash('danger', 'По счету имеется оплата, поэтому удаление невозможно.');
-        } else {
+        } elseif ($invoice->hasTachnicalOrder()) {
+            Yii::$app->session->setFlash('danger', 'По счету имеется заказ-наряд, поэтому удаление невозможно.');
+
+        }
+        else {
             Yii::$app->session->setFlash('success', 'Счёт успешно удалён');
             $invoice->delete();
         }

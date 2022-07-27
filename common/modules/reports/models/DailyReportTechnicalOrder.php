@@ -183,6 +183,7 @@ class DailyReportTechnicalOrder extends DailyReport
                     $employee_id = $invoice->doctor_id;
                     break;
                 default:
+               //     if (!isset($invoice->technicalOrder)) UserInterface::getVar($invoice);
                     $employee_id = $invoice->technicalOrder->invoice->employee->id;
                     break;
             }
@@ -296,8 +297,8 @@ class DailyReportTechnicalOrder extends DailyReport
                     ->all();
 
                 foreach ($invoices as $invoice) {
-                    UserInterface::getVar($invoice->id,false);
-                    UserInterface::getVar($invoice->paid,false);
+//                    UserInterface::getVar($invoice->id,false);
+//                    UserInterface::getVar($invoice->paid,false);
                     $sum += $invoice->paid;
                 }
                 break;

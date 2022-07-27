@@ -53,6 +53,7 @@ class ClinicStatistic extends \yii\base\Model
             ->andWhere(['invoice.type' => $type]);
     }
 
+
     public function getPaymentsByInvoiceType($type)
     {
         return $this->getPaymentsByInvoiceTypeQuery($type)
@@ -66,6 +67,19 @@ class ClinicStatistic extends \yii\base\Model
             ->groupBy('invoice.doctor_id')
             ->asArray()
             ->all();
+    }
+
+    public function getInvoicesForTable($type)
+    {
+        return Invoice::find()->
+        where('invoice.created_at' >= $this->startDate)
+            ->andWhere('invoice.created_at' <= $this->endDate)
+            ->andWhere(['invoice.type' => $type])
+            ->groupBy('invoice.doctor_id')
+            ->select(['invoice.doctor_id', 'sum(invoice.amount_payable) as invoice_summ'])
+            ->asArray()
+            ->all();
+
     }
 
     public function getPriceListItemsByPriceListType($type)
@@ -102,6 +116,10 @@ class ClinicStatistic extends \yii\base\Model
     public function getDoctorsPaymentsForTable()
     {
         $payments = $this->getPaymentsForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
+        $invoices = $this->getInvoicesForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
+        foreach ($payments as $payment){
+            ArrayHelper::
+        }
         return $payments;
 
     }
@@ -129,7 +147,7 @@ class ClinicStatistic extends \yii\base\Model
     }
 
 
-   //getMaterial
+    //getMaterial
 
     public function getMaterialPriceListItems()
     {
@@ -148,7 +166,7 @@ class ClinicStatistic extends \yii\base\Model
 
     public function getMaterialPaymentsForTable()
     {
-        $payments = $this->getPaymentsForTable([Invoice::TYPE_MATERIALS,Invoice::TYPE_HYGIENE_PRODUCTS]);
+        $payments = $this->getPaymentsForTable([Invoice::TYPE_MATERIALS, Invoice::TYPE_HYGIENE_PRODUCTS]);
         return $payments;
     }
 

@@ -48,8 +48,6 @@ class PeriodReport extends Model
     public static function getPeriodReportForDate($employee, $period,$invoice_type)
     {
 
-
-
         $period_report = new PeriodReport([
             'employee' => $employee,
 //            'period_report'=>$period,
@@ -71,7 +69,6 @@ class PeriodReport extends Model
             $period_report->coefficient_summary += $daily_report->coefficient_summary;
             $period_report->daily_reports[] = $daily_report;
             $date = date('Y-m-d', strtotime($date . ' +1 day'));
-
         }
 
         return $period_report;

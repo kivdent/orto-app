@@ -99,6 +99,8 @@ class DailyReport extends Model
         /* @var $invoice Invoice */
 
         foreach ($this->getInvoices() as $invoice) {
+
+
             $payments = $this->getPaymentsForInvoice($invoice->id);
             if ($payments) {
                 foreach ($payments as $payment) {
@@ -205,7 +207,6 @@ class DailyReport extends Model
 
     public function getInvoices()
     {
-
 
         return Invoice::find()
             ->where(['doctor_id' => $this->employee->id])
