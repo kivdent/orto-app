@@ -4,10 +4,12 @@ namespace common\modules\statistics\models;
 
 use common\modules\cash\models\Payment;
 use common\modules\catalogs\models\PaymentType;
+use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\InvoiceItems;
 use common\modules\pricelists\models\Pricelist;
 use common\modules\reports\models\FinancialPeriods;
+use common\modules\userInterface\models\UserInterface;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -72,11 +74,11 @@ class ClinicStatistic extends \yii\base\Model
     public function getInvoicesForTable($type)
     {
         return Invoice::find()->
-        where('invoice.created_at' >= $this->startDate)
-            ->andWhere('invoice.created_at' <= $this->endDate)
+        where('invoice.created_at >=\'' . $this->startDate . '\'')
+            ->andWhere('invoice.created_at<=\'' . $this->endDate . '\'')
             ->andWhere(['invoice.type' => $type])
             ->groupBy('invoice.doctor_id')
-            ->select(['invoice.doctor_id', 'sum(invoice.amount_payable) as invoice_summ'])
+            ->select(['invoice.doctor_id', 'sum(invoice.amount_payable) as invoice_sum'])
             ->asArray()
             ->all();
 
@@ -115,13 +117,23 @@ class ClinicStatistic extends \yii\base\Model
 
     public function getDoctorsPaymentsForTable()
     {
-        $payments = $this->getPaymentsForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
-        $invoices = $this->getInvoicesForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
-        foreach ($payments as $payment){
-            ArrayHelper::
-        }
-        return $payments;
 
+        $table['table'] = [];
+        foreach ($this->getEmployeesWithFinancialActions() as $doctor_id => $financialResult) {
+            $row['doctor_name'] = Employee::getEmployeeFullName($doctor_id);
+            $row['invoice_sum'] = $financialResult['invoice_sum'];
+            $row['payment_sum'] = $financialResult['payment_sum'];
+            $row['debt_three_month'] =$financialResult['debt'];;
+            $table['table'][] = $row;
+        }
+        $table['labels']=[
+            'doctor_name'=>'Сотрудник',
+            'invoice_sum'=>'Счета',
+            'payment_sum'=>'Оплаты',
+            'debt_three_month'=>'Долги за три месяца',
+
+        ];
+        return $table;
     }
 
     public function getDoctorsSummary()
@@ -167,7 +179,20 @@ class ClinicStatistic extends \yii\base\Model
     public function getMaterialPaymentsForTable()
     {
         $payments = $this->getPaymentsForTable([Invoice::TYPE_MATERIALS, Invoice::TYPE_HYGIENE_PRODUCTS]);
-        return $payments;
+        $payments = ArrayHelper::map($payments, 'doctor_id', 'summ');
+        $table['table'] = [];
+        foreach ($payments as $doctor_id => $sum) {
+            $row['doctor_name'] = Employee::getEmployeeFullName($doctor_id);
+            $row['payment_sum'] = $sum;
+            $table['table'][] = $row;
+        }
+        $table['labels']=[
+            'doctor_name'=>'Сотрудник',
+
+            'payment_sum'=>'Оплаты',
+
+        ];
+        return $table;
     }
 
     // getCommon
@@ -203,6 +228,44 @@ class ClinicStatistic extends \yii\base\Model
     public function getCommonPaymentsForTable()
     {
         return [];
+    }
+
+    private function getEmployeesWithFinancialActions()
+    {
+        $payments = $this->getPaymentsForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
+        $invoices = $this->getInvoicesForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
+        $debts = $this->getDebtThreeMonth([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
+        $payments = ArrayHelper::map($payments, 'doctor_id', 'summ');
+        $invoices = ArrayHelper::map($invoices, 'doctor_id', 'invoice_sum');
+        $debts = ArrayHelper::map($debts, 'doctor_id', 'debt_sum');
+        $financial_result = [];
+        foreach ($payments as $doctor_id => $payment_sum) {
+            $financial_result[$doctor_id]['payment_sum'] = $payment_sum;
+            $financial_result[$doctor_id]['invoice_sum'] = array_key_exists($doctor_id, $invoices) ? $invoices[$doctor_id] : 0;
+            $financial_result[$doctor_id]['debt'] = array_key_exists($doctor_id, $debts) ? $debts[$doctor_id] : 0;
+        }
+        foreach (array_diff_key($invoices, $financial_result) as $doctor_id => $invoice_sum) {
+            $financial_result[$doctor_id]['payment_sum'] = 0;
+            $financial_result[$doctor_id]['invoice_sum'] = $invoice_sum;
+            $financial_result[$doctor_id]['debt'] = array_key_exists($doctor_id, $debts) ? $debts[$doctor_id] : 0;
+
+        }
+        return $financial_result;
+
+    }
+
+    private function getDebtThreeMonth($type)
+    {
+        $start_date = date('Y-m-d', strtotime($this->startDate . '-3 month'));
+        return Invoice::find()->
+        where('invoice.created_at >=\'' . $start_date . '\'')
+            ->andWhere('invoice.created_at<=\'' . $this->endDate . '\'')
+            ->andWhere(['invoice.type' => $type])
+            ->andWhere('invoice.paid<>invoice.amount_payable')
+            ->groupBy('invoice.doctor_id')
+            ->select(['invoice.doctor_id', 'sum(invoice.amount_payable) as debt_sum'])
+            ->asArray()
+            ->all();
     }
 
 }
