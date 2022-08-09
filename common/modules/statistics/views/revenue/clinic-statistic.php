@@ -45,18 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <!-- Doctors -->
     <div role="tabpanel" class="tab-pane" id="allDoctors">
-<table class="table table-bordered">
-    <tr><th>Врач</th><th>Сумма по счетам</th><th>Оплат за период</th><th>Долги за 3 месяца</th></tr>
-    <?php foreach (call_user_func([$clinicStatistic,$type.'PaymentsForTable']) as $payment):?>
-
-        <tr>
-            <td><?=\common\modules\employee\models\Employee::findOne($payment['doctor_id'])->fullName?></td>
-            <td>Сумма по счетам</td>
-            <td><?=$payment['summ']?></td>
-            <td>Долги за 3 месяца</td>
-        </tr>
-    <?php endforeach;?>
-</table>
+<?=\common\widgets\tableWidget\TableWidget::widget([
+        'table' => call_user_func([$clinicStatistic,$type.'PaymentsForTable'])['table'],
+    'labels' =>  call_user_func([$clinicStatistic,$type.'PaymentsForTable'])['labels']])?>
 
     </div>
 
