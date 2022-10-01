@@ -5,7 +5,8 @@ namespace common\modules\invoice\models;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 
- /**
+
+/**
  * @property Invoice $invoice
  * @property Invoice $technicalOrderInvoice
  *
@@ -14,6 +15,22 @@ use common\modules\invoice\models\Invoice;
 class TechnicalOrder extends \common\models\TechnicalOrder
 {
 
+
+    public static function getUnclosed($employeeId,$patientId,$startDate,$endDate)
+    {
+
+        $technicalOrders= self::find()
+            ->leftJoin(Invoice::tableName(), 'technical_order.invoice_id=invoice.id')
+            ->where([
+                'technical_order.completed' => 0,
+                'invoice.doctor_id'=>$employeeId,
+                'invoice.patient_id'=>$patientId,
+            ])
+            ->andWhere('invoice.created_at>=\'' . $startDate.'\'')
+            ->andWhere('invoice.created_at<= \'' . $endDate.'\'')
+            ->all();
+        return $technicalOrders;
+    }
 
     public function attributeLabels()
     {

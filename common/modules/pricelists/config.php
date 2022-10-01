@@ -14,6 +14,7 @@ return [
         'menuItems' => [
             ['label' => 'Прейскуранты', 'url' => '/pricelists/manage', 'roles' => ['admin','senior_nurse', ]],
             ['label' => 'Пакетное редактирование', 'url' => '/pricelists/manage/batch-editing', 'roles' => ['admin','director', ]],
+            ['label' => 'Соответствие техническому прайсу', 'url' => '/pricelists/manage/compliance-technical-order', 'roles' => ['admin', ]],
 
         ],
         //'moduleMenu' => [],

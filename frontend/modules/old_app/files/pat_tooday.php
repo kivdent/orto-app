@@ -39,6 +39,7 @@ if ($_GET['action'] == 'del') {
 		<td width='50%' class='feature3'>Пациент</td>
 		<td width='20%' class='feature3'>Результат обзвона</td>
 		<td width='20%' class='feature3'>Действия</td>
+		<td width='20%' class='feature3'>Оповещения</td>
 	  </tr>";
 
         for ($i = 0; $i < $countB; $i++) {
@@ -78,7 +79,14 @@ if ($_GET['action'] == 'del') {
 //echo "<a href='pat_tooday_work_full.php?step=1&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Полный приём </a>";
 //echo "<a href='pat_tooday_work_mat.php?step=4&pat=".$rowB['13']."&count=1&Nid=".$rowB[2]."' class='menu2'>Материалы</a>";
 
-            echo "</td></tr>";
+            echo "</td>";
+            echo "<td class='alltext' align=center>";
+            echo \common\modules\userInterface\widgets\ScheduleAlertsWidgets::widget([
+                'patient_id' => $rowB['13'],
+                'employee_id' => $_SESSION['UserID'],
+            ]);
+            echo "</td>";
+            echo "</tr>";
         }
         echo "</table>";
     } else echo "<center><span class='head1'>Пациентов на сегодня нет</span></center>";

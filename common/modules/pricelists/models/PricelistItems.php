@@ -6,10 +6,13 @@ namespace common\modules\pricelists\models;
 use common\modules\invoice\models\Invoice;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
+use common\modules\pricelists\models\PricelistItemCompliances;
 
 /**
  * @property int $price
  * @property Prices $priceForItem
+ * @property PricelistItems $technicalItemCompliance
+ * @property PricelistItemCompliances $pricelistItemCompliances
  */
 class PricelistItems extends \common\models\PricelistItems
 {
@@ -107,6 +110,22 @@ class PricelistItems extends \common\models\PricelistItems
         $lastUse = UserInterface::getFormatedDate($lastUse['created_at']);
         //UserInterface::getVar($lastUse);
         return $lastUse;
+    }
+
+    public function hasTechnicalItemCompliance()
+    {
+        return $this->technicalItemCompliance;
+    }
+
+    public function getTechnicalItemCompliance()
+    {
+        return $this->hasOne(PricelistItems::class, ['id' => 'compliance_item_id'])
+            ->via('pricelistItemCompliances');
+    }
+
+    public function getPricelistItemCompliances()
+    {
+        return $this->hasOne(PricelistItemCompliances::class, ['pricelist_item_id' => 'id']);
     }
 
 }

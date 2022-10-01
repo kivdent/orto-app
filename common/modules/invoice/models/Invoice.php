@@ -14,6 +14,7 @@ use common\modules\pricelists\models\Pricelist;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use common\modules\catalogs\models\PaymentType;
+use common\modules\invoice\models\InvoiceItems;
 
 /**
  * @property Employee $employee
@@ -184,7 +185,7 @@ class Invoice extends \common\models\Invoice
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
-    public function  getSalarySumByPriceList() //TODO Сделать отдельный метод для посчёта зарплаты по стоимости а не по коэффициентам
+    public function getSalarySumByPriceList() //TODO Сделать отдельный метод для посчёта зарплаты по стоимости а не по коэффициентам
     {
         $salarySumm = [];
         if ($this->type == self::TYPE_ORTHODONTICS) {
@@ -257,7 +258,7 @@ class Invoice extends \common\models\Invoice
 
 //        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id']) : null;
 //        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id'])->via('>technicalOrder') : null;
-        return $this->hasOne(self::className(),['id'=>'invoice_id'])->via('technicalOrder');
+        return $this->hasOne(self::className(), ['id' => 'invoice_id'])->via('technicalOrder');
     }
 
     private function getPaidInvoiceId()
@@ -291,4 +292,38 @@ class Invoice extends \common\models\Invoice
     {
         return $this->technicalOrder ? true : false;
     }
+ public function hasTechnicalOrderForInvoice()
+    {
+        return $this->technicalOrderForInvoice ? true : false;
+    }
+
+    public static function getInvoicesWithTechnicalItemsCompliances($employeeId, $patient_id, $startDate, $endDate)
+    {
+        $startDate = UserInterface::getSQLDate($startDate);
+        $endDate = UserInterface::getSQLDate($endDate);
+        $invoicesWithCompliance = [];
+        $invoices = Invoice::find()->where(['patient_id' => $patient_id])
+            ->andWhere(['doctor_id' => $employeeId])
+            ->andWhere('created_at>=\'' . $startDate.'\'')
+            ->andWhere('created_at<= \'' . $endDate.'\'')
+            ->all();
+
+        foreach ($invoices as $invoice) {
+            if ($invoice->hasTechnicalItemsCompliance()) {
+                $invoicesWithCompliance[] = $invoice;
+            }
+        }
+        return $invoicesWithCompliance;
+    }
+
+    public function hasTechnicalItemsCompliance()
+    {
+        foreach ($this->invoiceItems as $invoiceItem) {
+            if ($invoiceItem->prices->pricelistItems->hasTechnicalItemCompliance()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

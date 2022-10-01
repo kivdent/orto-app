@@ -12,6 +12,7 @@ class PriceListsWidget extends Widget
 {
     const TYPE_EDIT = 'edit';
     const TYPE_INVOICE = 'invoice';
+    const TYPE_COMPLIANCE = 'compliance';
     const ACTIVE_NONE = 'none';
     const TYPE_BATCH_EDITING = 'batch-editing';
     const TYPE_PRICELIST_ALL = 'all';
@@ -74,6 +75,7 @@ class PriceListsWidget extends Widget
     {
         $priceLists = [];
         switch ($this->type) {
+            case self::TYPE_COMPLIANCE:
             case self::TYPE_EDIT:
                 $priceLists = Pricelist::getList();
                 break;
@@ -82,7 +84,6 @@ class PriceListsWidget extends Widget
                 $priceLists = Pricelist::getActiveList($this->typePriceLists);
                 break;
         }
-
         return $priceLists;
     }
 
@@ -91,6 +92,7 @@ class PriceListsWidget extends Widget
         $categoryes = [];
         $priceList = Pricelist::findOne($priceListId);
         switch ($widgetType) {
+            case self::TYPE_COMPLIANCE:
             case self::TYPE_EDIT:
                 $categoryes = $priceList->getCategoryes();
                 break;
@@ -108,6 +110,7 @@ class PriceListsWidget extends Widget
         $items = [];
         $category = PricelistItems::findOne($categoryId);
         switch ($widgetType) {
+            case self::TYPE_COMPLIANCE:
             case self::TYPE_EDIT:
                 $items = $category->getItemsFromCategory();
                 break;

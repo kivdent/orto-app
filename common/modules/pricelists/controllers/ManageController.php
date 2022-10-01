@@ -3,6 +3,7 @@
 namespace common\modules\pricelists\controllers;
 
 
+use common\modules\pricelists\models\PricelistItemCompliances;
 use common\modules\pricelists\models\PricelistItems;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
@@ -232,10 +233,47 @@ class ManageController extends Controller
         return 'success';
     }
 
+    public function actionComplianceTechnicalOrder()
+    {
+        return $this->render('compliance-technical-order');
+    }
+
+
     public function actionCsvSave()
     {
         return $this->redirect('/' . Pricelist::getXml());
 //        return $this->redirect('/' . Pricelist::getCsv());
 
+    }
+
+    public function actionSetCompliance($pricelistItemId)
+    {
+        $pricelistItem = PricelistItems::findOne($pricelistItemId);
+        return $this->render('set-compliance', [
+            'pricelistItem' => $pricelistItem,
+        ]);
+    }
+
+    public function actionSaveCompliance()
+    {
+        $complianceItemId = Yii::$app->request->get('complianceItemId');
+        $pricelistItemId = Yii::$app->request->get('pricelistItemId');
+        $priceListItemCompliance = new PricelistItemCompliances;
+        $priceListItemCompliance->pricelist_item_id = $pricelistItemId;
+        $priceListItemCompliance->compliance_item_id = $complianceItemId;
+        $priceListItemCompliance->save(false);
+        Yii::$app->session->setFlash('success', 'Соответствие сохранено');
+        return $this->redirect('/pricelists/manage/compliance-technical-order');
+    }
+
+    public function actionUpdateCompliance()
+    {
+        $complianceItemId = Yii::$app->request->get('complianceItemId');
+        $pricelistItemId = Yii::$app->request->get('pricelistItemId');
+        $priceListItem = PricelistItems::findOne($pricelistItemId);
+        $priceListItem->pricelistItemCompliances->compliance_item_id = $complianceItemId;
+        $priceListItem->pricelistItemCompliances->save(false);
+        Yii::$app->session->setFlash('success', 'Соответствие обновлено');
+        return $this->redirect('/pricelists/manage/compliance-technical-order');
     }
 }

@@ -52,13 +52,15 @@ $this->title = 'Счета пациента';
 
                 },
                 'create' => function ($url, $model, $key) {
+                    $class_create = ($model->hasTechnicalItemsCompliance() and !$model->hasTechnicalOrderForInvoice())? 'btn btn-danger btn-xs technical-order-complete' : 'btn btn-primary btn-xs technical-order-complete';
                     return Html::a(
                         '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
                         ['/invoice/technical-order/create',
                             'invoice_id' => $model->id,
                             'invoice_type' => Invoice::TYPE_TECHNICAL_ORDER,],
-                        ['class' => 'btn btn-primary btn-xs technical-order-complete',]
+                        ['class' => $class_create,]
                     );
+
                 },
                 'edit' => function ($url, $model, $key) {
                     return $model->paid == 0 ? Html::a(

@@ -251,6 +251,10 @@ class UserInterface
     {
         return Yii::$app->formatter->asDate($date, 'php:d.m.Y');
     }
+    public static function getSQLDate($date)
+    {
+        return Yii::$app->formatter->asDate($date, 'php:Y-m-d');
+    }
 
     public static function SecondsToHours($time)
     {
