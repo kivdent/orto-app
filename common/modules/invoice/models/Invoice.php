@@ -14,6 +14,7 @@ use common\modules\pricelists\models\Pricelist;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use common\modules\catalogs\models\PaymentType;
+use common\modules\invoice\models\InvoiceItems;
 
 /**
  * @property Employee $employee
@@ -22,9 +23,15 @@ use common\modules\catalogs\models\PaymentType;
  * @property Patient $patient
  * @property string $date
  * @property string $patientFullName
+ * @property string $employeeFullName
  * @property string $lastPaymentDate
  * @property Prices $prices
  * @property float $coefficientSummary
+ * @property TechnicalOrder $technicalOrder
+ * @property Invoice $technicalOrderInvoice
+ * @property TechnicalOrder $technicalOrderForInvoice
+ * @property Invoice $doctorInvoiceForTechnicalOrder
+ * @property string $doctorFullNameForTechnicalOrder
  *
  */
 class Invoice extends \common\models\Invoice
@@ -35,14 +42,19 @@ class Invoice extends \common\models\Invoice
     const TYPE_GIFT_CARDS = Pricelist::TYPE_GIFT_CARDS;
     const TYPE_ORTHODONTICS = 'orthodontics';
     const TYPE_PREPAYMENT = 'prepayment';
-    const TYPE_TECHNICAL_ORDER = 'technical order';
+    const TYPE_TECHNICAL_ORDER = Pricelist::TYPE_TECHNICAL_ORDER;
+    const TYPE_HYGIENE_PRODUCTS = Pricelist::TYPE_HYGIENE_PRODUCTS;
 
     const SEARCH_TYPE_ALL = 'all';
     const SEARCH_TYPE_DEBT = 'debt';
     const SEARCH_TYPE_EMPLOYEE_DEBT = 'employee_debt';
     const SEARCH_TYPE_PAID = 'paid';
     const SEARCH_TYPE_FOR_PATIENT_CARD = 'for_card';
-    const SEARCH_TYPE_TECHNICAL_ORDER = 'technical order';
+    const SEARCH_TYPE_TECHNICAL_ORDER = 'technical_order';
+    const SEARCH_TYPE_TECHNICAL_ORDER_ALL = 'technical_order_all';
+    const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN = 'technical_order_technician';
+    const SEARCH_TYPE_DOCTOR_INVOICES = 'doctor_invoices';
+
 
     public function behaviors()
     {
@@ -104,6 +116,7 @@ class Invoice extends \common\models\Invoice
         return self::find()
             ->where(['patient_id' => $patient_id])
             ->andWhere('amount_payable<>paid')
+            ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
             ->all();
     }
 
@@ -130,6 +143,8 @@ class Invoice extends \common\models\Invoice
             'date' => 'Дата',
             'patientFullName' => 'Пациент',
             'employeeFullName' => 'Врач',
+            'doctorFullNameForTechnicalOrder' => 'Врач',
+            'completed' => 'Статус',
         ];
     }
 
@@ -148,13 +163,19 @@ class Invoice extends \common\models\Invoice
 
     public function getLastPaymentDate()
     {
+        if ($this->type == self::TYPE_TECHNICAL_ORDER) {
+            $lastPayment = $this->technicalOrder->completed_date;
+            $lastPayment = $lastPayment !== null ? $lastPayment : 'Нет оплат';
+        } else {
+            $lastPayment = Payment::find()->
+            select('date')->
+            where(['dnev' => $this->getPaidInvoiceId()])->
+            orderBy(['date' => SORT_DESC])->
+            one();
+            $lastPayment = $lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+        }
 
-        $lastPayment = Payment::find()->
-        select('date')->
-        where(['dnev' => $this->getPaidInvoiceId()])->
-        orderBy(['date' => SORT_DESC])->
-        one();
-        return $lastPayment !== null ? $lastPayment->date : 'Нет оплат';
+        return $lastPayment;
 
     }
 
@@ -164,14 +185,24 @@ class Invoice extends \common\models\Invoice
             && strtotime($this->getLastPaymentDate()) <= strtotime($financialPeriod->okonch);
     }
 
-    public function getSalarySumByPriceList()
+    public function getSalarySumByPriceList() //TODO Сделать отдельный метод для посчёта зарплаты по стоимости а не по коэффициентам
     {
         $salarySumm = [];
         if ($this->type == self::TYPE_ORTHODONTICS) {
             $salarySumm[self::TYPE_ORTHODONTICS] = $this->paid;
             return $salarySumm;
         }
-
+        if ($this->type == self::TYPE_TECHNICAL_ORDER) {
+            foreach ($this->invoiceItems as $invoiceItem) {
+                $pricelist_id = $invoiceItem->prices->pricelistItems->pricelist_id;
+                if (isset($salarySumm[$pricelist_id])) {
+                    $salarySumm[$pricelist_id] += $invoiceItem->prices->price;
+                } else {
+                    $salarySumm[$pricelist_id] = $invoiceItem->prices->price;
+                }
+            }
+            return $salarySumm;
+        }
         foreach ($this->invoiceItems as $invoiceItem) {
             $pricelist_id = $invoiceItem->prices->pricelistItems->pricelist_id;
             $uet = FinancialPeriods::getUETForDate($this->created_at);
@@ -209,17 +240,25 @@ class Invoice extends \common\models\Invoice
 
     public function getTechnicalOrderForInvoice()
     {
-        return $this->hasOne(TechnicalOrder::className(), ['invoice_id' => 'id']);
+//        return $this->hasOne(TechnicalOrder::className(), ['invoice_id' => 'id']);
+        return $this->hasMany(TechnicalOrder::className(), ['invoice_id' => 'id']);
     }
 
     public function getTechnicalOrderInvoice()
     {
-        return $this->technicalOrderForInvoice->technicalOrderInvoice;
+        $invoices = [];
+        foreach ($this->technicalOrderForInvoice as $invoice) {
+            $invoices[] = $invoice;
+        }
+        return $invoices;
     }
 
     public function getDoctorInvoiceForTechnicalOrder()
     {
-        return $this->technicalOrder->invoice;
+
+//        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id']) : null;
+//        return $this->technicalOrder?$this->hasOne(self::className(),['id'=>'invoice_id'])->via('>technicalOrder') : null;
+        return $this->hasOne(self::className(), ['id' => 'invoice_id'])->via('technicalOrder');
     }
 
     private function getPaidInvoiceId()
@@ -243,4 +282,48 @@ class Invoice extends \common\models\Invoice
     {
         return $this->payments ? true : false;
     }
+
+    public function GetDoctorFullNameForTechnicalOrder()
+    {
+        return $this->doctorInvoiceForTechnicalOrder->getEmployeeFullName();
+    }
+
+    public function hasTachnicalOrder()
+    {
+        return $this->technicalOrder ? true : false;
+    }
+ public function hasTechnicalOrderForInvoice()
+    {
+        return $this->technicalOrderForInvoice ? true : false;
+    }
+
+    public static function getInvoicesWithTechnicalItemsCompliances($employeeId, $patient_id, $startDate, $endDate)
+    {
+        $startDate = UserInterface::getSQLDate($startDate);
+        $endDate = UserInterface::getSQLDate($endDate);
+        $invoicesWithCompliance = [];
+        $invoices = Invoice::find()->where(['patient_id' => $patient_id])
+            ->andWhere(['doctor_id' => $employeeId])
+            ->andWhere('created_at>=\'' . $startDate.'\'')
+            ->andWhere('created_at<= \'' . $endDate.'\'')
+            ->all();
+
+        foreach ($invoices as $invoice) {
+            if ($invoice->hasTechnicalItemsCompliance()) {
+                $invoicesWithCompliance[] = $invoice;
+            }
+        }
+        return $invoicesWithCompliance;
+    }
+
+    public function hasTechnicalItemsCompliance()
+    {
+        foreach ($this->invoiceItems as $invoiceItem) {
+            if ($invoiceItem->prices->pricelistItems->hasTechnicalItemCompliance()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

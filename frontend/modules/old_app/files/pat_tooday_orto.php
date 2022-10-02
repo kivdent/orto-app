@@ -73,6 +73,7 @@ if ($_GET['action'] == 'del') {
 //		<a href='pat_tooday_work_orto.php?action=Sozd_ZN&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Создать заказ-наряд</a><br />";
                 echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MANIPULATIONS."' class='menu2'>Оплата</a><br>";
                 echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_MATERIALS."' class='menu2'>Материалы</a><br>";
+                echo "<a href='/invoice/manage/create?patient_id=".$rowB['13']."&appointment_id=".$rowB[2]."&invoice_type=".Invoice::TYPE_HYGIENE_PRODUCTS."' class='menu2'>Средства гигиены</a><br>";
 
                 $patient = Patient::findOne($rowB['13']);
                 if ($patient->schemeOrthodontics == null) {

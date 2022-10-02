@@ -5,6 +5,7 @@ namespace common\modules\reports\controllers;
 use common\modules\cash\models\Cashbox;
 use common\modules\clinic\models\FinancialDivisions;
 use common\modules\employee\models\Employee;
+use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\InvoiceSearch;
 use common\modules\invoice\models\TechnicalOrder;
 use common\modules\reports\models\DailyReport;
@@ -88,8 +89,9 @@ class FinancialController extends \yii\web\Controller
         return false;
     }
 
-    public function actionEmployeePeriod($period_id = 'current', $employee_id = 'current', $employee_selectable = 'false')
+    public function actionEmployeePeriod($period_id = 'current', $employee_id = 'current', $employee_selectable = 'false',$invoice_type=Invoice::TYPE_MANIPULATIONS)
     {
+
         if ($employee_id == 'current') {
             $employee = Yii::$app->user->identity->employe;
         } else {
@@ -97,15 +99,13 @@ class FinancialController extends \yii\web\Controller
             if (!$employee) throw new NotFoundHttpException('Сотрудник не найден.');
         }
 
-
         if ($period_id == 'current') {
-            $period_report = PeriodReport::getCurrentPeriodReport($employee);
+            $period_report = PeriodReport::getCurrentPeriodReport($employee,$invoice_type);
         } else {
             $financial_period = FinancialPeriods::findOne($period_id);
             if (!$financial_period) throw new NotFoundHttpException('Период не найден.');
-            $period_report = PeriodReport::getPeriodReportForDate($employee, $financial_period);
+            $period_report = PeriodReport::getPeriodReportForDate($employee, $financial_period,$invoice_type);
         }
-
 
         return $this->render('employee_period', [
             'period_report' => $period_report,

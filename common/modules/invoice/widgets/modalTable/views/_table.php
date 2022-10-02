@@ -4,8 +4,10 @@
 /* @var $invoice_id integer */
 /* @var $text string */
 
+
 use common\modules\invoice\widgets\modalTable\assets\InvoiceModalAsset;
 use yii\helpers\Html;
+
 
 InvoiceModalAsset::register($this);
 ?>

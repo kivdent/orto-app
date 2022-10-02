@@ -16,6 +16,5 @@ class InvoiceModalAsset extends AssetBundle
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
-
     ];
 }

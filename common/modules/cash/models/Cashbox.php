@@ -16,14 +16,14 @@ class Cashbox extends \common\models\Cashbox
     public static function getTodayInvoices()
     {
         $date = new Expression("((DATE(created_at)='" . date('Y-m-d') . "')AND amount_payable>paid)");
-        $invoices = Invoice::find()->select('patient_id')->where($date)->groupBy('patient_id')->all();
+        $invoices = Invoice::find()->select('patient_id')->where($date)->andWhere("type<>'".Invoice::TYPE_TECHNICAL_ORDER."'")->groupBy('patient_id')->all();
         return $invoices;
     }
 
     public static function getCurrentCashBox()
     {
 
-        return self::find()->where("`date`='" . date('Y-m-d') . "'")->one();
+        return self::find()->where('`date`=\'' . date('Y-m-d') . "'")->one();
     }
 
     public static function hasUnclosed()

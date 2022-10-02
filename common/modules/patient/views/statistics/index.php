@@ -43,7 +43,7 @@ $this->title="Статистика пациента"
 
 </table>
 
-<?php if (UserInterface::getRoleName(Yii::$app->user->id)=== UserInterface::ROLE_SENIOR_NURSE):?>
+<?php if ((UserInterface::getRoleName(Yii::$app->user->id)===UserInterface::ROLE_SENIOR_NURSE) or (UserInterface::getRoleName(Yii::$app->user->id)===UserInterface::ROLE_SENIOR_RECORDER)):?>
 
 <table class="table table-bordered">
     <tr>

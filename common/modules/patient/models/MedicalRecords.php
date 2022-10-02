@@ -14,6 +14,11 @@ use yii\helpers\ArrayHelper;
 
 class MedicalRecords extends \common\models\MedicalRecords
 {
+    public static function GetMedicalRecordsForPatient($patient_id)
+    {
+        return self::find()->where(['patient_id'=>$patient_id])->orderBy('created_at DESC')->all();
+    }
+
     public function behaviors()
     {
         return [

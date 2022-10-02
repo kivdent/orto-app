@@ -41,7 +41,7 @@ class RecordsController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'update', 'create', 'get-objectively-form', 'print'],
+                        'actions' => ['index', 'view', 'update', 'create', 'get-objectively-form', 'print','print-all'],
                         'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse',],
                     ],
                 ],
@@ -67,10 +67,9 @@ class RecordsController extends Controller
     {
         $searchModel = new MedicalRecordsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $patient_id);
-
+        $medicalRecords=MedicalRecords::GetMedicalRecordsForPatient($patient_id);
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'medicalRecords' => $medicalRecords,
         ]);
     }
 
@@ -200,6 +199,16 @@ class RecordsController extends Controller
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('print', [
             'model' => $model,
+        ]);
+    }
+    public function actionPrintAll($patient_id)
+    {
+        $this->layout = '@frontend/views/layouts/print';
+        $searchModel = new MedicalRecordsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $patient_id);
+        $medicalRecords=MedicalRecords::GetMedicalRecordsForPatient($patient_id);
+        return $this->render('print_all', [
+            'medicalRecords' => $medicalRecords,
         ]);
     }
 

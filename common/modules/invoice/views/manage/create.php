@@ -12,7 +12,7 @@ $this->title='Создание счёта';
 ?>
 
 <?= InvoiceFormWidget::widget([
-    'type' => 'page_invoice',
+    'type' => InvoiceFormWidget::TYPE_PAGE_INVOICE,
     'patient_id' => $patient_id,
     'appointment_id' => $appointment_id,
     'invoice_type' => $invoice_type,

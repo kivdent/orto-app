@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use common\modules\invoice\models\Invoice;
 
 /**
  * This is the model class for table "technical_order".
@@ -14,10 +13,9 @@ use common\modules\invoice\models\Invoice;
  * @property string $delivery_date
  * @property int $technical_order_invoice_id
  * @property int $completed
- *
- * @property Invoice $invoice
- * @property Invoice $technicalOrderInvoice
- */
+ * @property string $completed_date
+ * @property string $comment
+*/
 class TechnicalOrder extends \yii\db\ActiveRecord
 {
     /**
@@ -35,7 +33,8 @@ class TechnicalOrder extends \yii\db\ActiveRecord
     {
         return [
             [['invoice_id', 'employee_id', 'technical_order_invoice_id', 'completed'], 'integer'],
-            [['delivery_date'], 'safe'],
+            [['delivery_date', 'completed_date'], 'safe'],
+            [['comment'], 'string', 'max' => 255],
             [['invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['invoice_id' => 'id']],
             [['technical_order_invoice_id'], 'exist', 'skipOnError' => true, 'targetClass' => Invoice::className(), 'targetAttribute' => ['technical_order_invoice_id' => 'id']],
         ];
@@ -53,22 +52,8 @@ class TechnicalOrder extends \yii\db\ActiveRecord
             'delivery_date' => 'Delivery Date',
             'technical_order_invoice_id' => 'Technical Order Invoice ID',
             'completed' => 'Completed',
+            'completed_date' => 'Completed Date',
+            'comment' => 'Comment',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getInvoice()
-    {
-        return $this->hasOne(Invoice::className(), ['id' => 'invoice_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTechnicalOrderInvoice()
-    {
-        return $this->hasOne(Invoice::className(), ['id' => 'technical_order_invoice_id']);
     }
 }

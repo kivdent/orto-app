@@ -1,5 +1,5 @@
 <?php
-/*@var $menuItems array*/
+/* @var $menuItems array*/
 /* @var $this yii\web\View */
 use yii\bootstrap\Nav;
 use Yii;

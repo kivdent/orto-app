@@ -42,4 +42,5 @@ $this->title = 'Прейскуранты';
         'type'=>PriceListsWidget::TYPE_EDIT,
         'activePriceList'=>$priceListId
     ])?>
+
 </div>

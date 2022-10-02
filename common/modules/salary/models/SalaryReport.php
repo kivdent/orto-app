@@ -40,13 +40,13 @@ class SalaryReport extends Model
         SalaryCardType::TYPE_HOURLY => 'setHourlyTable',
         SalaryCardType::TYPE_FIXED => 'setFixedTable',
         SalaryCardType::TYPE_PERCENTAGE_FULL => 'setFullPercentageTable',
+        SalaryCardType::TYPE_PERCENTAGE_INCOME => 'setIncomePercentageTable',
     ];
 
     public static function getForPeriod(FinancialPeriods $financial_period, $printable = false)
     {
         $salaryReports = [];
         foreach (SalaryCardType::getTypeList() as $type_id => $type) {
-
             $salaryReport = new SalaryReport([
                 'financial_period' => $financial_period,
                 'type' => $type_id,
@@ -80,13 +80,13 @@ class SalaryReport extends Model
         $table = [];
     }
 
-    private function setPercentageTable()
+    private function setPercentageTable($type=SalaryCardType::TYPE_PERCENTAGE)
     {
 
         $this->labels = [
             'employee' => 'Сотрудник',
         ];
-        $type = SalaryCardType::TYPE_PERCENTAGE;
+
         $salaryCards = SalaryCard::getTypeSelection($type);
         if ($salaryCards) {
             foreach ($salaryCards as $salaryCard) {
@@ -100,7 +100,7 @@ class SalaryReport extends Model
                         'type_id' => $salaryCard->type,
                         'financial_period_id' => $this->financial_period->defined ? $this->financial_period->id : 'current',
                     ]);
-                $table += $this->getPriceListsSummsForPeriod($salaryCard->employee);
+                $table += $this->getPriceListsSummsForPeriod($salaryCard);
                 //$table['orthodontics'] = $this->getOrthodonticsSumm($salaryCard->employee);
 
                 $this->table[] = $table;
@@ -118,8 +118,8 @@ class SalaryReport extends Model
             'employee' => 'Сотрудник',
             'per_hour' => 'Ставка в час',
             'duration' => 'Отработано часов всего',
-             'duration_weekdays' => 'Отработано часов в будни',
-             'duration_weekends' => 'Отработано часов в выходные',
+            'duration_weekdays' => 'Отработано часов в будни',
+            'duration_weekends' => 'Отработано часов в выходные',
             'salary_per_hour_weekdays' => 'Зарплата за будни',
             'salary_per_hour_weekends' => 'Зарплата за выходные',
             'revenue_for_services' => 'Сумма выручки за услуги'
@@ -134,11 +134,11 @@ class SalaryReport extends Model
                 $table['duration'] = UserInterface::SecondsToHours($duration);
                 $duration_weekdays = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee) + self::CLEAR_UP_DURATION;;
                 $table['duration_weekdays'] = UserInterface::SecondsToHours($duration_weekdays);
-                $duration_weekends = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee,TimeSheet::TYPE_WEEKENDS);
+                $duration_weekends = TimeSheet::getPeriodDurationDayOfWeek($this->financial_period, $salaryCard->employee, TimeSheet::TYPE_WEEKENDS);
                 $table['duration_weekends'] = UserInterface::SecondsToHours($duration_weekends);
                 // $table['duration'] = $duration- self::CLEAR_UP_DURATION;
-                $table['salary_per_hour_weekdays'] = round($table['per_hour'] *  $duration_weekdays / 3600,2);
-                $table['salary_per_hour_weekends'] = round($table['per_hour']*2 *  $duration_weekends / 3600,2);
+                $table['salary_per_hour_weekdays'] = round($table['per_hour'] * $duration_weekdays / 3600, 2);
+                $table['salary_per_hour_weekends'] = round($table['per_hour'] * 2 * $duration_weekends / 3600, 2);
                 $table['revenue_for_services'] = $this->getAllPaidInvoicesSumm($salaryCard->employee);
                 $this->table[] = $table;
             }
@@ -187,11 +187,11 @@ class SalaryReport extends Model
         return $sum;
     }
 
-    private function getPriceListsSummsForPeriod($employee)
+    private function getPriceListsSummsForPeriod(SalaryCard $salaryCard)
     {
         $table = [];
-
-        $report = InvoiceReport::getAllPaidForPeriod($employee, $this->financial_period);
+        $employee=$salaryCard->employee;
+        $report = InvoiceReport::getAllPaidCoefficientForPeriod($employee, $this->financial_period);
         if (!$report) {
             return $table;
         }
@@ -405,7 +405,7 @@ class SalaryReport extends Model
                 }
                 break;
             case SalaryCardType::TYPE_PERCENTAGE:
-                $report = InvoiceReport::getAllPaidForPeriod($employee, $this->financial_period);
+                $report = InvoiceReport::getAllPaidCoefficientForPeriod($employee, $this->financial_period);
                 $table['labels']['patient'] = 'Пациент';
                 $table['labels']['date'] = 'Дата выписки чека';
                 $table['labels']['coef_price_list'] = 'Сумма коффициентов по прейскурантам';
@@ -416,5 +416,9 @@ class SalaryReport extends Model
         return $table;
     }
 
+    public function setIncomePercentageTable()
+    {
+        return true;
+    }
 
 }

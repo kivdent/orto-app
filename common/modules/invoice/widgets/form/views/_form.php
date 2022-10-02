@@ -8,6 +8,7 @@ InvoiceAsset::register($this);
 /* @var $priceLists \common\modules\catalogs\models\Pricelists */
 /* @var $beforeHtml string*/
 /* @var $afterHtml string*/
+/* @var $typePriceList string*/
 ?>
 <?=$beforeHtml?>
 <div class="row" name="control">
@@ -51,6 +52,5 @@ InvoiceAsset::register($this);
 <?= PriceListsWidget::widget([
     'type'=>PriceListsWidget::TYPE_INVOICE,
     'typePriceLists' => $typePriceList,
-
 ])?>
 <?=$afterHtml?>

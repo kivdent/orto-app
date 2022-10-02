@@ -218,7 +218,8 @@ for ($i=0;$i<$count;$i++)
 	 				`klinikpat`.`DTel`,
 	 				`klinikpat`.`RTel`,
 	 				`kontr_osm`.`id` as ko,
-	 				`kontr_osm`.`rezobzv`
+	 				`kontr_osm`.`rezobzv`,
+	 				`kontr_osm`.`work`
 FROM sotr,klinikpat,`disp_card`,`kontr_osm`
 WHERE (
 (`kontr_osm`.`next_date`>='".$year."-".$month."-1') AND
@@ -239,6 +240,7 @@ $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 					echo "<td width='90'>Моб.тел</td>";
 					echo "<td width='90'>Дом.тел</td>";
 					echo "<td width='90'>Раб.тел</td>";
+					echo "<td width='200'>Работа</td>";
 					echo "<td width='90'>Действие</td>";
 					echo "<td width='90'>Назначение последнее</td>";
 					echo "<td width='90'>Обзвон</td>";
@@ -288,7 +290,8 @@ for ($z=0;$z<$countA;$z++)
 					echo "<td width='90'>".$row['MTel']."</td>";
 					echo "<td width='90'>".$row['DTel']."</td>";
 					echo "<td width='90'>".$row['RTel']."</td>";
-					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить</a></td>";	
+					echo "<td width='200'>".$row['work']."</td>";
+					echo "<td width='90'><a href='naznach.php?IDN=n&action=naznezh&step=1&pred=disp.php&vrach=".$row['sotrid']."&pat=".$row['patid']."' class='menu2'>Назначить</a></td>";
 					echo "<td width='90' ".$bg.">".$rowA['datepr']."</td>";
 					echo "<td width='90'><script type=\"text/JavaScript\">
 			<!--

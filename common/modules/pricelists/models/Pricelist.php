@@ -21,6 +21,8 @@ class Pricelist extends \common\models\Pricelist
     const TYPE_MANIPULATIONS = 'manipulations';
     const TYPE_MATERIALS = 'materials';
     const TYPE_GIFT_CARDS = 'gift_cards';
+    const TYPE_HYGIENE_PRODUCTS = 'hygiene_products';
+    const TYPE_TECHNICAL_ORDER = 'technical_order';
 
     public static function saveToYandexDisk()
     {
@@ -177,13 +179,13 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->setCellValue('A1', $pricelist->id);//A1-id прейскуранта
 
                 $sheet->setCellValue('A' . $a, $preysk_name); //Название прайса на листе
-                $sheet->mergeCells('A' . $a . ':F' . $a);
+                $sheet->mergeCells('A' . $a . ':G' . $a);
                 $styleArray = [
                     'font' => [
                         'bold' => true,
                     ]
                 ];
-                $diap = 'A' . ($a) . ':F' . $a;
+                $diap = 'A' . ($a) . ':G' . $a;
                 $sheet->getStyle($diap)->applyFromArray($styleArray);
                 $a++;
                 $sheet->getColumnDimension('A')->setWidth(7);
@@ -192,10 +194,12 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->getColumnDimension('D')->setWidth(7);
                 $sheet->getColumnDimension('E')->setWidth(14);
                 $sheet->getColumnDimension('F')->setWidth(7);
+                $sheet->getColumnDimension('G')->setWidth(7);
+                $sheet->getColumnDimension('H')->setWidth(7);
                 foreach ($pricelist->activeCategoryes as $categorye) {
 
                     $sheet->setCellValue('A' . $a, $categorye->title);
-                    $sheet->mergeCells('A' . ($a) . ':F' . $a);
+                    $sheet->mergeCells('A' . ($a) . ':H' . $a);
                     $styleArray = [
                         'font' => [
                             'bold' => true,
@@ -205,7 +209,7 @@ class Pricelist extends \common\models\Pricelist
                     $sheet->getStyle($diap)->applyFromArray($styleArray);
                     $a++;
 
-                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф',];
+                    $arrayData = ['Код', 'Наименование', 'Цена', 'Коэф', 'Нов Цена', 'Нов Коэф', 'Посл. Исп.', 'Статус (1-актавно,0-не активно)'];
                     $styleArray = [
 
                         'borders' => [
@@ -231,6 +235,8 @@ class Pricelist extends \common\models\Pricelist
                             $item->Coefficient,
                             isset($newPricesArray[$item->id]['price']) ? $newPricesArray[$item->id]['price'] : $item->price,
                             isset($newPricesArray[$item->id]['coefficient']) ? $newPricesArray[$item->id]['coefficient'] : $item->Coefficient,
+                            $item->lastUse,
+                            $newPricesArray[$item->id]['active'],
                         ];
                         $sheet->fromArray(
                             $arrayData,  // The data to set
@@ -280,6 +286,7 @@ class Pricelist extends \common\models\Pricelist
                         'id' => $cells->get('A' . $row)->getValue(),
                         'price' => $cells->get('E' . $row)->getValue(),
                         'coefficient' => $cells->get('F' . $row)->getValue(),
+                        'active' => $cells->get('H' . $row)->getValue(),
                     ];
                 }
             }
@@ -311,16 +318,17 @@ class Pricelist extends \common\models\Pricelist
             if ($pricelist->activeCategoryes) {
                 foreach ($pricelist->activeCategoryes as $categorye) {
                     foreach ($categorye->activeItemsFromCategory as $item) {
-
+                        $flag = $item->pricelist->type == Pricelist::TYPE_HYGIENE_PRODUCTS ? 0 : 1;
                         $priceItem = $dom->createElement('PrItemPriceCode_T');
                         $priceItem->setAttribute('Plu', $item->id); // Plu="1"
-                        $priceItem->setAttribute('Price', $item->price.'00');// Price="10000"
+//                        $priceItem->setAttribute('Price', $item->price . '00');// Price="10000"
+                        $priceItem->setAttribute('Price', '0');// Price="10000"
                         $priceItem->setAttribute('Section', '0');// Section="0"
                         $priceItem->setAttribute('Tax', '0');// Tax="0"
-                        $priceItem->setAttribute('Flags', '1');// Flags="1"
-                        $priceItem->setAttribute('Name', mb_substr($item->title,0,56,'utf-8'));// Name="Анестезия"
+                        $priceItem->setAttribute('Flags', $flag);// Flags="1" 1 - услуга, 0 - товар
+                        $priceItem->setAttribute('Name', mb_substr($item->title, 0, 56, 'utf-8'));// Name="Анестезия"
                         $priceItem->setAttribute('PayAgent', '0');//  PayAgent="0"
-                        $priceItem->setAttribute('SysTax', '0');//  SysTax="0"/>
+                        $priceItem->setAttribute('SysTax', '2');//  SysTax="2" усн - 2/>
                         $box->appendChild($priceItem);
                     }
                 }
@@ -419,6 +427,18 @@ class Pricelist extends \common\models\Pricelist
             self::TYPE_MANIPULATIONS => 'Манипуляции',
             self::TYPE_MATERIALS => 'Материалы',
             self::TYPE_GIFT_CARDS => 'Подарочные сертификаты',
+            self::TYPE_HYGIENE_PRODUCTS => 'Средства гигиены',
+            self::TYPE_TECHNICAL_ORDER => 'Зуботехнический прайс',
+        ];
+    }
+
+    static function getTypeListToPayments()
+    {
+        return [
+            self::TYPE_MANIPULATIONS,
+            self::TYPE_MATERIALS,
+            self::TYPE_GIFT_CARDS,
+            self::TYPE_HYGIENE_PRODUCTS,
         ];
     }
 

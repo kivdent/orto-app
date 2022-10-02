@@ -21,7 +21,7 @@ return [
             'senior_nurse' => '/employee/manage/index',
             'director' => '/old_app/dir_den_opl.php',
             'radiologist' => '/old_app/rentgen.php?type=today',
-            'technician' => '/reports/financial/employee-period',
+            'technician' => '/reports/financial/employee-period?invoice_type=technical_order',
         ],
         'widgets' => [
             'addressFormFields' => 'common\modules\userInterface\widgets\AddressFormWidget'
