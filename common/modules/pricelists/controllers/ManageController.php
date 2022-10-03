@@ -276,4 +276,9 @@ class ManageController extends Controller
         Yii::$app->session->setFlash('success', 'Соответствие обновлено');
         return $this->redirect('/pricelists/manage/compliance-technical-order');
     }
+    public function actionDeleteCompliance(){
+        PricelistItemCompliances::findOne(Yii::$app->request->get('id'))->delete();
+        return $this->redirect('/pricelists/manage/compliance-technical-order');
+
+    }
 }

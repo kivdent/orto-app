@@ -188,9 +188,7 @@ class ClinicStatistic extends \yii\base\Model
         }
         $table['labels']=[
             'doctor_name'=>'Сотрудник',
-
             'payment_sum'=>'Оплаты',
-
         ];
         return $table;
     }
@@ -253,7 +251,6 @@ class ClinicStatistic extends \yii\base\Model
         return $financial_result;
 
     }
-
     private function getDebtThreeMonth($type)
     {
         $start_date = date('Y-m-d', strtotime($this->startDate . '-3 month'));
@@ -267,5 +264,4 @@ class ClinicStatistic extends \yii\base\Model
             ->asArray()
             ->all();
     }
-
 }

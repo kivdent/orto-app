@@ -91,7 +91,14 @@ if ($_GET['action'] == 'del') {
 
             } else echo "Приём закончен";
 
-            echo "</td></tr>";
+            echo "</td>";
+            echo "<td class='alltext' align=center>";
+            echo \common\modules\userInterface\widgets\ScheduleAlertsWidgets::widget([
+                'patient_id' => $rowB['13'],
+                'employee_id' => $_SESSION['UserID'],
+            ]);
+            echo "</td>";
+echo "</tr>";
         }
         echo "</table>";
     } else echo "<center><span class='head1'>Пациентов на сегодня нет</span></center>";

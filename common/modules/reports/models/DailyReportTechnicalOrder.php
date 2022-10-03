@@ -105,7 +105,6 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['actions'] .= '<br>' . Html::a('Редактировать',
                     ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,], [
                         'class' => 'btn btn-primary btn-xs technical-order-complete',
-
                     ]);
             $this->table[] = $row;
         }
@@ -140,7 +139,21 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['completed'] .= $invoice->technicalOrder->completed ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
 
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
-            $row['actions'] =  $invoice->technicalOrder->completed ? ' ': Html::a(
+
+            if ($invoice->technicalOrder->completed) {
+                $row['actions'] = Html::button('Вернуть в работу', [
+                    'class' => 'btn btn-success btn-xs technical-order-complete-one',
+                    'id' => $invoice->technicalOrder->id,
+
+                ]);
+            } else {
+                $row['actions'] = Html::button('Сдать', [
+                    'class' => 'btn btn-danger btn-xs technical-order-complete-one',
+                    'id' => $invoice->technicalOrder->id,
+
+                ]);
+            }
+            $row['actions'] .=  $invoice->technicalOrder->completed ? ' ': Html::a(
                 '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                 ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
                 ['class' => 'btn btn-primary btn-xs',]);

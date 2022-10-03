@@ -19,7 +19,7 @@ $(document).ready(function () {
                 '                    <td class="counter">' + count_invoice_items + '</td>\n' +
                 '                    <td >' + title + '</td>\n' +
                 '                    <td class="price" id="invoice-item-price-' + id + '">' + price + '</td>\n' +
-                '                    <td><input class="quantity" id="invoice-item-quantity-' + id + '" type="number"  min="1" value="'+quantity+'"></td>\n' +
+                '                    <td><input class="quantity" id="invoice-item-quantity-' + id + '" type="number"  min="1" value="' + quantity + '"></td>\n' +
                 '                    <td class="summary" id="invoice-item-summary-' + id + '">' + price + ' руб</td>\n' +
                 '                    <td ><button count_item="' + count_invoice_items + '" type="button" class=" btn btn-danger btn-xs remove-item" ><i class="glyphicon glyphicon-minus"></i></button></td>\n' +
                 '                </tr>'
@@ -122,7 +122,7 @@ $(document).ready(function () {
                 data: data,
                 success: function (response) {
                     //console.log(response);
-                   window.location = '/';
+                    window.location = '/';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -133,7 +133,7 @@ $(document).ready(function () {
         }
     }
 
-    function save_technical_order(){
+    function save_technical_order() {
         if (count_invoice_items > 0) {
             let items = [];
             for (let i = 1; i <= count_invoice_items; i++) {
@@ -154,7 +154,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                   window.location = '/';
+                    window.location = '/';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -167,7 +167,8 @@ $(document).ready(function () {
 
 
     }
-    function update_technical_order(){
+
+    function update_technical_order() {
         if (count_invoice_items > 0) {
             let items = [];
             for (let i = 1; i <= count_invoice_items; i++) {
@@ -189,7 +190,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                   window.location = '/';
+                    window.location = '/';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -202,6 +203,7 @@ $(document).ready(function () {
 
 
     }
+
     $(".manipulation-item").click(function () {
 
         let id = $(this).attr('id');
@@ -295,6 +297,26 @@ $(document).ready(function () {
     $('button.technical-order-complete').on('click', function () {
         if (confirm('Вы действительно хотите изменить статус заказ-наряда?')) {
             var action = "/invoice/technical-order/ajax-complete";
+            var data = {'technicalOrderId': $(this).attr('id')};
+            console.log(data);
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        }
+
+    });
+
+    $('button.technical-order-complete-one').on('click', function () {
+        if (confirm('Вы действительно хотите изменить статус заказ-наряда?')) {
+            var action = "/invoice/technical-order/ajax-complete-one";
             var data = {'technicalOrderId': $(this).attr('id')};
             console.log(data);
             $.ajax({
