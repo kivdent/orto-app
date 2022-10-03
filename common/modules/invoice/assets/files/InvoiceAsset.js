@@ -311,6 +311,25 @@ $(document).ready(function () {
         }
 
     });
+('button.technical-order-complete-one').on('click', function () {
+        if (confirm('Вы действительно хотите изменить статус заказ-наряда?')) {
+            var action = "/invoice/technical-order/ajax-complete-one";
+            var data = {'technicalOrderId': $(this).attr('id')};
+            console.log(data);
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    window.location.reload();
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        }
+
+    });
 
     $('button.clear-modal').on('click', function () {
         $('#invoice-table-body').empty();

@@ -76,6 +76,27 @@ class TechnicalOrderController extends \yii\web\Controller
         }
         return $technicalOrder->completed;
     }
+    public function actionAjaxCompleteOne()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+
+            $technicalOrder=TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
+            $technicalOrder->completed = !$technicalOrder->completed;
+            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+                $technicalOrder->completed_date = date('Y-m-d');
+            }
+            if ($technicalOrder->completed) {
+                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+            } else {
+                $technicalOrder->technicalOrderInvoice->paid = 0;
+            }
+            $technicalOrder->technicalOrderInvoice->save(false);
+            $technicalOrder->save(false);
+
+        }
+        return $technicalOrder->completed;
+    }
 
     public function actionGetAjaxTable()
     {
