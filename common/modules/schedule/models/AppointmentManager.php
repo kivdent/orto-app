@@ -1,8 +1,6 @@
 <?php
 
-
 namespace common\modules\schedule\models;
-
 
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;

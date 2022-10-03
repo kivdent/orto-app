@@ -105,6 +105,13 @@ class UserInterface
         return self::getRoleName(Yii::$app->user->identity->getId());
     }
 
+    public static function getDayWeekNameByDate($date)
+    {
+
+        $date=strtotime(UserInterface::getFormatedDate($date));
+        return self::getDayWeekName(date('N',$date));
+    }
+
     /**
      *
      * @param int $user_id

@@ -18,6 +18,7 @@ use Yii;
  * @property int $Yavka
  * @property string $NachPr
  * @property string $OkonchPr
+ * @property string $status
  */
 class Appointment extends \yii\db\ActiveRecord
 {
@@ -38,6 +39,7 @@ class Appointment extends \yii\db\ActiveRecord
             [['Perv', 'PatID', 'dayPR', 'SoderzhNaz', 'RezObzv', 'Yavka'], 'integer'],
             [['NachNaz', 'OkonchNaz', 'NachPr', 'OkonchPr'], 'safe'],
             [['NachPr', 'OkonchPr'], 'required'],
+            [['status'],'string']
         ];
     }
 
@@ -58,6 +60,7 @@ class Appointment extends \yii\db\ActiveRecord
             'Yavka' => 'Yavka',
             'NachPr' => 'Nach Pr',
             'OkonchPr' => 'Okonch Pr',
+            'status' => 'status',
         ];
     }
 }

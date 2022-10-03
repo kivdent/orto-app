@@ -17,18 +17,12 @@ use yii\widgets\ActiveForm;
 <div class="appointment-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="hidden"><?= $form->field($model, 'PatID')->textInput(['id' => 'patient_id']) ?></div>
-    <div class="row">
-        <div class="col-lg-6">
-            <?= PatientFindModalWidget::widget([
-                'patientIdTarget' => '#patient_id'
-            ]) ?>
-        </div>
-    </div>
 
     <div class="row">
         <div class="col-lg-3"> <?= $form->field($model, 'NachNaz')->textInput(['readonly' => 'readonly']) ?></div>
         <div class="col-lg-3"> <?= $form->field($model, 'OkonchNaz')->dropDownList(AppointmentsDay::getTimeListForNextAppointment($appointment_day->vrachID, strtotime($appointment_day->date . ' ' . $model->NachNaz . ':00'), $model->NachNaz)) ?></div>
     </div>
+
     <div class="row">
         <div class="col-lg-6"> <?= $form->field($model, 'SoderzhNaz')->dropDownList(AppointmentContent::getContentList()) ?></div>
     </div>

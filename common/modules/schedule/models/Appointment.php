@@ -12,11 +12,15 @@ use common\modules\patient\models\Patient;
 class Appointment extends \common\models\Appointment
 {
     const SMS_SENT = 7;
+
+    const STATUS_ACTIVE='active';
+    const STATUS_CANCEL='cancel';
+
     public static $status_list = [self::SMS_SENT => 'Отправлено смс'];
 
     public static function getAppointmentsForAppointmentDay(AppointmentsDay $appointment_day)
     {
-        return self::find()->where(['dayPR'=>$appointment_day->id])->orderBy('NachNaz')->all();
+        return self::find()->where(['dayPR'=>$appointment_day->id,'status'=>self::STATUS_ACTIVE])->orderBy('NachNaz')->all();
     }
 
     public function getPatient()
@@ -41,6 +45,7 @@ class Appointment extends \common\models\Appointment
             'Yavka' => 'Явка',
             'NachPr' => 'Фактическое начало приёма',
             'OkonchPr' => 'Фактическое окончание приёма',
+            'status' => 'Статус',
         ];
     }
 }

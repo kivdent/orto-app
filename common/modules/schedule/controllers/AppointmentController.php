@@ -4,6 +4,7 @@ namespace common\modules\schedule\controllers;
 
 use common\modules\employee\models\Employee;
 use common\modules\schedule\models\AppointmentManager;
+use common\modules\schedule\models\AppointmentsDay;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
 use common\modules\userInterface\models\UserInterface;
@@ -34,22 +35,31 @@ class AppointmentController extends Controller
             ],
         ];
     }
-
-    public function actionIndex($doctor_ids='all',$start_date='now',$duration=AppointmentManager::DURATION_SIX_DAYS)
+//    public function beforeAction($action)
+//    {
+//        if (!parent::beforeAction($action)) {
+//            return false;
+//        }
+//
+//        $this->layout = '@frontend/views/layouts/light_fluid';
+//        return true; // or false to not run the action
+//    }
+    public function actionIndex($doctor_ids = 'all', $start_date = 'now', $duration = AppointmentManager::DURATION_SIX_DAYS)
     {
-        if ($doctor_ids==='all'){
-            $doctor_ids=array_keys(BaseSchedules::getActiveDoctorsList());
+        $this->layout = '@frontend/views/layouts/light_fluid';
+        if ($doctor_ids === 'all') {
+            $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
         }
 
-        if (is_int($doctor_ids)){
-            $id=$doctor_ids;
-            $doctor_ids=[$id];
+        if (is_int($doctor_ids)) {
+            $id = $doctor_ids;
+            $doctor_ids = [$id];
         }
 
-        $appointmentManager=AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids,$start_date,$duration);
+        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
 //        UserInterface::getVar($appointmentManager);
-        return $this->render('index',[
-            'appointmentManager'=>$appointmentManager
+        return $this->render('index', [
+            'appointmentManager' => $appointmentManager
         ]);
 
     }
@@ -88,38 +98,62 @@ class AppointmentController extends Controller
      * @return mixed
      *
      */
-    public function actionCreate($appointment_day_id,$doctor_id,$date,$time)
+    public function actionCreate($appointment_day_id, $doctor_id, $date, $time)
     {
         $model = new Appointment();
-        $model->NachNaz=date('H:i',$time);
-        $appointment_day=BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $time);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->NachNaz = date('H:i', $time);
+        $model->Perv = 0;
+        $model->SoderzhNaz = 1;
+        $model->RezObzv = 55555;
+        $model->Yavka = 0;
+        $model->NachPr='00:00:00';
+        $model->OkonchPr='00:00:00';
+        $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $time);
+//        $model->validate();
+//        UserInterface::getVar($model->getErrors());
+        if ($model->load(Yii::$app->request->post() )&& $model->validate()) {
+
+            $transaction = Appointment::getDb()->beginTransaction();
+            try {
+                if ($appointment_day->isNewRecord) {
+                    $appointment_day->save();
+                }
+                $model->dayPR = $appointment_day->id;
+
+                $model->save();
+                $transaction->commit();
+                Yii::$app->session->setFlash('success', 'Пациент записан');
+            } catch (\Throwable $e) {
+                Yii::$app->session->setFlash('danger', 'Ошибка записи');
+                $transaction->rollBack();
+                throw $e;
+            }
             return $this->redirect(['view', 'id' => $model->Id]);
         }
-
         return $this->render('create', [
             'model' => $model,
-            'appointment_day'=>$appointment_day,
+            'appointment_day' => $appointment_day,
         ]);
     }
 
     /**
      * Updates an existing Appointment model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * @param integer$appointmentId
+
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($appointmentId)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->Id]);
+        $appointment = $this->findModel($appointmentId);
+        $appointment_day = AppointmentsDay::findOne($appointment->dayPR);
+        if ($appointment->load(Yii::$app->request->post()) && $appointment->save()) {
+            return $this->redirect(['view', 'id' => $appointment->Id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'appointment' => $appointment,
+            'appointment_day'=>$appointment_day,
         ]);
     }
 

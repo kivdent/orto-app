@@ -4,6 +4,7 @@
 namespace common\modules\schedule\models;
 
 use common\modules\clinic\models\Workplaces;
+use common\modules\employee\models\Employee;
 
 /**
  * @property string $title
@@ -31,7 +32,7 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
 
         $duration = $appointment_day->TimePat * 60;
-        $start_time = strtotime($appointment_day->date . ' ' . $start_time);
+        $start_time = strtotime($appointment_day->date . ' ' . $start_time) + $duration;
         $end_time = strtotime($appointment_day->date . ' ' . $appointment_day->Okonch) - $duration;
         $appointments = Appointment::getAppointmentsForAppointmentDay($appointment_day);
 
@@ -45,7 +46,7 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         }
 
         for ($time = $start_time; $time <= $end_time; $time += $duration) {
-            $list[$time] = date('H:i', $time);
+            $list[date('H:i', $time)] = date('H:i', $time);
         }
 
         return $list;
@@ -88,5 +89,18 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public function getAppointments()
     {
         return $this->hasMany(Appointment::className(), ['dayPR' => 'id']);
+    }
+
+    public function getDoctor()
+    {
+        return $this->hasOne(Employee::className(), ['id' => 'vrachID']);
+    }
+
+    public function getAppointmentForTime($time)
+    {
+        return Appointment::find()
+            ->where(['dayPR' => $this->id, 'status'=>Appointment::STATUS_ACTIVE])
+            ->andWhere('NachNaz=\'' . date('H:i:s', $time).'\'')
+            ->one();
     }
 }
