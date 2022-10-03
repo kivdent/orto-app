@@ -139,15 +139,16 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['completed'] .= $invoice->technicalOrder->completed ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
 
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
+
             if ($invoice->technicalOrder->completed) {
                 $row['actions'] = Html::button('Вернуть в работу', [
-                    'class' => 'btn btn-success btn-xs technical-order-complete',
+                    'class' => 'btn btn-success btn-xs technical-order-complete-one',
                     'id' => $invoice->technicalOrder->id,
 
                 ]);
             } else {
                 $row['actions'] = Html::button('Сдать', [
-                    'class' => 'btn btn-danger btn-xs technical-order-complete',
+                    'class' => 'btn btn-danger btn-xs technical-order-complete-one',
                     'id' => $invoice->technicalOrder->id,
 
                 ]);
