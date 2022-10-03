@@ -29,10 +29,10 @@ class PriceListsWidget extends Widget
         $ariaExpandedString = 'aria-expanded=';
         switch ($type) {
             case self::TYPE_BATCH_EDITING:
-                $ariaExpandedString.='"true"';
+                $ariaExpandedString .= '"true"';
                 break;
             default:
-                $ariaExpandedString.='"false"';
+                $ariaExpandedString .= '"false"';
                 break;
         }
         return $ariaExpandedString;
@@ -43,10 +43,10 @@ class PriceListsWidget extends Widget
         $collapseInString = '';
         switch ($type) {
             case self::TYPE_BATCH_EDITING:
-                $collapseInString.='in';
+                $collapseInString .= 'in';
                 break;
         }
-        return  $collapseInString;
+        return $collapseInString;
     }
 
     public function run()
@@ -92,10 +92,12 @@ class PriceListsWidget extends Widget
         $categoryes = [];
         $priceList = Pricelist::findOne($priceListId);
         switch ($widgetType) {
-            case self::TYPE_COMPLIANCE:
+
+
             case self::TYPE_EDIT:
                 $categoryes = $priceList->getCategoryes();
                 break;
+            case self::TYPE_COMPLIANCE:
             case self::TYPE_BATCH_EDITING:
             case self::TYPE_INVOICE:
                 $categoryes = $priceList->getActiveCategoryes();
@@ -110,10 +112,11 @@ class PriceListsWidget extends Widget
         $items = [];
         $category = PricelistItems::findOne($categoryId);
         switch ($widgetType) {
-            case self::TYPE_COMPLIANCE:
+
             case self::TYPE_EDIT:
                 $items = $category->getItemsFromCategory();
                 break;
+            case self::TYPE_COMPLIANCE:
             case self::TYPE_BATCH_EDITING:
             case self::TYPE_INVOICE:
                 $items = $category->getActiveItemsFromCategory();
