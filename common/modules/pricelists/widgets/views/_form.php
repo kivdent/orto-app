@@ -159,6 +159,10 @@ if ($type == PriceListsWidget::TYPE_COMPLIANCE) {
                                                                     ['/pricelists/manage/set-compliance', 'pricelistItemId' => $pricelistItem->id],
                                                                     ['class' => 'btn btn-primary btn-xs set-compliance']
                                                                 ) ?>
+                                                                <?= Html::a('Удалить соответсвие',
+                                                                    ['/pricelists/manage/delete-compliance', 'id' => $pricelistItem->pricelistItemCompliances->id],
+                                                                    ['class' => 'btn btn-danger btn-xs set-compliance']
+                                                                ) ?>
 
                                                             <?php else: ?>
                                                                 <?= Html::a('Установить соответсвие',
