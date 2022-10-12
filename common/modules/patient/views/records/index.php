@@ -27,7 +27,7 @@ $this->title = 'Записи';
                 <?php $regionName=$medicalRecord->region->isTooth()?$medicalRecord->regionName.' ':'';
                 $patient_id=$medicalRecord->patient_id;
                 ?>
-                <strong>Дата:</strong> <?= UserInterface::getFormatedDate($medicalRecord->created_at) ?><br/>
+                <strong>Дата:</strong> <?= UserInterface::getFormatedDate($medicalRecord->date) ?><br/>
                 <strong>Врач: </strong><?= $medicalRecord->employeName ?>
 
                 <?php if ($medicalRecord->employe_id==Yii::$app->user->identity->employe_id or UserInterface::isUserRole(UserInterface::ROLE_ADMIN)):?>
