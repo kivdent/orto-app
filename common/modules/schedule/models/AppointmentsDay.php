@@ -5,6 +5,7 @@ namespace common\modules\schedule\models;
 
 use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
+use common\modules\userInterface\models\UserInterface;
 
 /**
  * @property string $title
@@ -29,13 +30,14 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public static function getTimeListForNextAppointment($doctor_id, $date, $start_time)
     {
         $list = [];
+
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
 
         $duration = $appointment_day->TimePat * 60;
         $start_time = strtotime($appointment_day->date . ' ' . $start_time) + $duration;
         $end_time = strtotime($appointment_day->date . ' ' . $appointment_day->Okonch) - $duration;
         $appointments = Appointment::getAppointmentsForAppointmentDay($appointment_day);
-
+       // UserInterface::getVar($appointment_day);
         if ($appointments) {
             foreach ($appointments as $appointment) {
                 $appointment_time = strtotime($appointment_day->date . ' ' . $appointment->NachNaz);
@@ -99,8 +101,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public function getAppointmentForTime($time)
     {
         return Appointment::find()
-            ->where(['dayPR' => $this->id, 'status'=>Appointment::STATUS_ACTIVE])
-            ->andWhere('NachNaz=\'' . date('H:i:s', $time).'\'')
+            ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
+            ->andWhere('NachNaz=\'' . date('H:i:s', $time) . '\'')
             ->one();
     }
 }

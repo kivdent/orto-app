@@ -68,15 +68,24 @@ class AppointmentController extends Controller
      * Lists all Appointment models.
      * @return mixed
      */
-    public function actionEdit()
-    {
-        $searchModel = new AppointmentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//    public function actionEdit()
+//    {
+//        $searchModel = new AppointmentSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('edit', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
+//    }
 
-        return $this->render('edit', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+    public function actionCancel($appointmentId)
+    {
+        $appointment = Appointment::findOne($appointmentId);
+        $appointment->status = ($appointment->status == Appointment::STATUS_ACTIVE) ? Appointment::STATUS_CANCEL : Appointment::STATUS_ACTIVE;
+        $appointment->save(false);
+        Yii::$app->session->setFlash('success', 'Пациент отменён');
+        return $this->redirect('index');
     }
 
     /**
@@ -106,12 +115,12 @@ class AppointmentController extends Controller
         $model->SoderzhNaz = 1;
         $model->RezObzv = 55555;
         $model->Yavka = 0;
-        $model->NachPr='00:00:00';
-        $model->OkonchPr='00:00:00';
+        $model->NachPr = '00:00:00';
+        $model->OkonchPr = '00:00:00';
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $time);
 //        $model->validate();
 //        UserInterface::getVar($model->getErrors());
-        if ($model->load(Yii::$app->request->post() )&& $model->validate()) {
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
             $transaction = Appointment::getDb()->beginTransaction();
             try {
@@ -128,7 +137,7 @@ class AppointmentController extends Controller
                 $transaction->rollBack();
                 throw $e;
             }
-            return $this->redirect(['view', 'id' => $model->Id]);
+            return $this->redirect('index');
         }
         return $this->render('create', [
             'model' => $model,
@@ -139,8 +148,7 @@ class AppointmentController extends Controller
     /**
      * Updates an existing Appointment model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer$appointmentId
-
+     * @param integer $appointmentId
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($appointmentId)
@@ -148,12 +156,12 @@ class AppointmentController extends Controller
         $appointment = $this->findModel($appointmentId);
         $appointment_day = AppointmentsDay::findOne($appointment->dayPR);
         if ($appointment->load(Yii::$app->request->post()) && $appointment->save()) {
-            return $this->redirect(['view', 'id' => $appointment->Id]);
+            return $this->redirect('index');
         }
 
         return $this->render('update', [
             'appointment' => $appointment,
-            'appointment_day'=>$appointment_day,
+            'appointment_day' => $appointment_day,
         ]);
     }
 
@@ -166,7 +174,7 @@ class AppointmentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }

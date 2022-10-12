@@ -4,6 +4,9 @@
 
 /* @var $appointmentManager AppointmentDayManager[] */
 
+/* @var $row Appointment */
+
+use common\modules\schedule\models\Appointment;
 use common\modules\schedule\models\AppointmentDayManager;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
@@ -52,8 +55,30 @@ $this->title = 'Назначение пациентов';
                                                 <?php else: ?>
                                                     <?= Html::a($row->patient->fullName, [
                                                         '/patient/manage/update',
-                                                        'patient_id'=>$row->patient->id,
+                                                        'patient_id' => $row->patient->id,
                                                     ]) ?>
+                                                    <br>
+                                                    <?= Html::a(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', [
+                                                        'cancel',
+                                                        'appointmentId' => $row->Id,],
+                                                        [
+                                                            'class' => 'btn btn-xs btn-danger',
+                                                            'data' => [
+                                                                'confirm' => 'Вы уверены что хотите отменить пациента?',
+                                                                'method' => 'post',
+                                                            ],
+                                                        ]);
+                                                    ?>
+                                                    <?= Html::a(' <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [
+                                                        'update',
+                                                        'appointmentId' => $row->Id,],
+                                                        [
+                                                            'class' => 'btn btn-xs btn-success',
+                                                            'data' => [
+                                                                'method' => 'post',
+                                                            ],
+                                                        ]);
+                                                    ?>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

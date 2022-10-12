@@ -32,6 +32,11 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
         return 'raspis_day';
     }
 
+    /**
+     * @param $doctor_id
+     * @param $date //format timestamp
+     * @return array|AppointmentsDay|\yii\db\ActiveRecord|null
+     */
     public static function getAppointmentsDayForDoctor($doctor_id, $date)
     {
         $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($doctor_id, $date);

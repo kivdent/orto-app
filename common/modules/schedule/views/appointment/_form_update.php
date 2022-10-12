@@ -5,6 +5,7 @@ use common\modules\patient\widgets\PatientFindModalWidget;
 use common\modules\schedule\models\AppointmentContent;
 use common\modules\schedule\models\AppointmentsDay;
 
+use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,6 +13,7 @@ use yii\widgets\ActiveForm;
 /* @var $model common\modules\schedule\models\Appointment */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $appointment_day AppointmentsDay */
+//UserInterface::getVar($appointment_day->date . ' ' . $model->NachNaz );
 ?>
 
 <div class="appointment-form">
@@ -20,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <div class="row">
         <div class="col-lg-3"> <?= $form->field($model, 'NachNaz')->textInput(['readonly' => 'readonly']) ?></div>
-        <div class="col-lg-3"> <?= $form->field($model, 'OkonchNaz')->dropDownList(AppointmentsDay::getTimeListForNextAppointment($appointment_day->vrachID, strtotime($appointment_day->date . ' ' . $model->NachNaz . ':00'), $model->NachNaz)) ?></div>
+        <div class="col-lg-3"> <?= $form->field($model, 'OkonchNaz')->dropDownList(AppointmentsDay::getTimeListForNextAppointment($appointment_day->vrachID, strtotime($appointment_day->date . ' ' . $model->NachNaz ), $model->NachNaz)) ?></div>
     </div>
 
     <div class="row">
