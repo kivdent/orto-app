@@ -24,7 +24,7 @@ $this->title = 'Записи пациента '.\common\modules\patient\models\P
                 <?php $regionName=$medicalRecord->region->isTooth()?$medicalRecord->regionName.' ':'';
                 $patient_id=$medicalRecord->patient_id;
                 ?>
-                <strong>Дата:</strong> <?= UserInterface::getFormatedDate($medicalRecord->created_at) ?><br/>
+                <strong>Дата:</strong> <?= UserInterface::getFormatedDate($medicalRecord->date) ?><br/>
                 <strong>Врач: </strong><?= $medicalRecord->employeName ?>
                 <br>
                 <strong>Жалобы: </strong><?= $regionName.$medicalRecord->complaints ?><br>
