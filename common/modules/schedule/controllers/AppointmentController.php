@@ -15,12 +15,14 @@ use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * AppointmentController implements the CRUD actions for Appointment model.
  */
 class AppointmentController extends Controller
 {
+
     /**
      * {@inheritdoc}
      */
@@ -44,24 +46,37 @@ class AppointmentController extends Controller
 //        $this->layout = '@frontend/views/layouts/light_fluid';
 //        return true; // or false to not run the action
 //    }
-    public function actionIndex($doctor_ids = 'all', $start_date = 'now', $duration = AppointmentManager::DURATION_SIX_DAYS)
+    public function actionIndex($doctor_ids = AppointmentManager::DOCTOR_IDS_ALL, $start_date = 'now', $duration = AppointmentManager::DURATION_SIX_DAYS, $patient_id = null, $full_table = true)
     {
-        $this->layout = '@frontend/views/layouts/light_fluid';
-        if ($doctor_ids === 'all') {
-            $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
+        if ($start_date == "now") {
+            $start_date = date('d.m.Y', strtotime($start_date));
         }
+        $this->layout = '@frontend/views/layouts/light_fluid';
 
-        if (is_int($doctor_ids)) {
+        if ($doctor_ids === AppointmentManager::DOCTOR_IDS_ALL) {
+            $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
+            $doctor_id = AppointmentManager::DOCTOR_IDS_ALL;
+        } else {
             $id = $doctor_ids;
             $doctor_ids = [$id];
+            $doctor_id = $id;
         }
+        if ($patient_id) {
+            $full_table = 'false';
+        }
+
 
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
 //        UserInterface::getVar($appointmentManager);
-        return $this->render('index', [
-            'appointmentManager' => $appointmentManager
-        ]);
 
+        return $this->render('index', [
+            'appointmentManager' => $appointmentManager,
+            'doctor_id' => $doctor_id,
+            'patient_id' => $patient_id,
+            'full_table' => $full_table,
+            'start_date' => $start_date,
+            'duration' => $duration,
+        ]);
     }
 
     /**
@@ -107,7 +122,7 @@ class AppointmentController extends Controller
      * @return mixed
      *
      */
-    public function actionCreate($appointment_day_id, $doctor_id, $date, $time)
+    public function actionCreate($appointment_day_id, $doctor_id, $date, $time, $patient_id = null)
     {
         $model = new Appointment();
         $model->NachNaz = date('H:i', $time);
@@ -117,6 +132,9 @@ class AppointmentController extends Controller
         $model->Yavka = 0;
         $model->NachPr = '00:00:00';
         $model->OkonchPr = '00:00:00';
+        if ($patient_id) {
+            $model->PatID = $patient_id;
+        }
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $time);
 //        $model->validate();
 //        UserInterface::getVar($model->getErrors());
@@ -194,4 +212,15 @@ class AppointmentController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function getHtmlGrid()
+    {
+        $html = '';
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $html = "";
+        }
+        return $html;
+    }
+
 }

@@ -10,7 +10,7 @@ return [
 //            ['label' => 'Ежедневник', 'url' => '/old_app/raspis_show.php', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist','radiologist',]],
             ['label' => 'Изменить расписание', 'url' => '/schedule/schedule', 'roles' => ['admin','senior_recorder',]],
             ['label' => 'Назначение пациентов', 'url' => '/schedule/appointment', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder',]],
-            ['label' => 'Назначение пациентов олд', 'url' => '/old_app/naznach_pat.php', 'roles' => ['recorder','admin','senior_recorder',]],
+//            ['label' => 'Назначение пациентов олд', 'url' => '/old_app/naznach_pat.php', 'roles' => ['recorder','admin','senior_recorder',]],
             ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday_reg.php', 'roles' => ['recorder',]],
             ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday_orto.php', 'roles' => ['orthodontist','orthopedist',]],
             ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday.php', 'roles' => ['therapist','surgeon',]],

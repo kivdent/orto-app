@@ -11,6 +11,8 @@ class AppointmentManager extends Model
     const DURATION_WEEK = 7;
     const DURATION_SIX_DAYS = 6;
 
+    const DOCTOR_IDS_ALL = 'all';
+
     public $start_date;
     public $end_date;
     public $doctor_id;
@@ -59,5 +61,32 @@ class AppointmentManager extends Model
                 'doctor_id' => $this->doctor_id,
             ]);
         }
+    }
+
+    /**
+     * @param  $startDate //date format d.m.Y
+     */
+    public static function getMonthList($startDate, $additionalText = '')
+    {
+        $startDate = strtotime($startDate);
+        for ($i = 12; $i >= 1; $i--) {
+            $date = strtotime(date('01.m.Y', $startDate) . '-' . $i . ' months');
+            $monthList[$additionalText . date('d.m.Y', $date)] = UserInterface::getMonthName(date('n', $date)) . ' ' . date('Y', $date);
+        }
+        $monthList[$additionalText . date('d.m.Y', $startDate)] = UserInterface::getMonthName(date('n', $startDate)) . ' ' . date('Y', $startDate);
+        for ($i = 1; $i <= 12; $i++) {
+            $date = strtotime(date('01.m.Y', $startDate) . '+' . $i . ' months');
+            $monthList[$additionalText . date('d.m.Y', $date)] = UserInterface::getMonthName(date('n', $date)) . ' ' . date('Y', $date);
+        }
+        return $monthList;
+    }
+
+    public static function getActiveDoctorsNameList($additionalText)
+    {
+        $list[$additionalText.self::DOCTOR_IDS_ALL] = 'Все';
+        foreach (BaseSchedules::getActiveDoctorsNameList() as $id => $doctorName) {
+            $list[$additionalText . $id] = $doctorName;
+        }
+        return $list;
     }
 }

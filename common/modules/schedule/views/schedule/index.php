@@ -84,9 +84,7 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                             </div>
                         <?php endif; ?>
                     </td>
-
                 <?php endforeach; ?>
-
             </tr>
             <?php endforeach; ?>
             </table>

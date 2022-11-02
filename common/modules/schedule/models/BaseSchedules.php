@@ -57,6 +57,17 @@ class BaseSchedules extends \yii\db\ActiveRecord
             ->all(),'doctor_id','doctor_id');
     }
 
+    public static function getActiveDoctorsNameList()
+    {
+
+
+        return ArrayHelper::map(Employee::find()
+            ->select(['id','CONCAT(surname," ",name," ",otch) AS full_name'])
+            ->where(['id'=>array_keys(self::getActiveDoctorsList())])
+            ->asArray()
+            ->all(),'id','full_name');
+    }
+
 
     /**
      * {@inheritdoc}

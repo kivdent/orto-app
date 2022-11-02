@@ -98,6 +98,12 @@ class UserInterface
     {
         return Yii::$app->formatter->asDate($date, 'php:d.m.Y H:i');
     }
+    public static function getFormattedTime($time)
+    {
+//        UserInterface::getVar(date('d.m.y ').$time);
+//        $date=strtotime(date('d.m.y ').$time);
+        return mb_substr($time,0,5);
+    }
 
     public static function getRoleNameCurrentUser()
     {

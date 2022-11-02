@@ -8,19 +8,20 @@ use common\modules\patient\models\Patient;
 /**
  * @property Patient $patient
  * @property  AppointmentsDay $appointments_day
+ * @property  AppointmentContent $appointmentContent
  */
 class Appointment extends \common\models\Appointment
 {
     const SMS_SENT = 7;
 
-    const STATUS_ACTIVE='active';
-    const STATUS_CANCEL='cancel';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CANCEL = 'cancel';
 
     public static $status_list = [self::SMS_SENT => 'Отправлено смс'];
 
     public static function getAppointmentsForAppointmentDay(AppointmentsDay $appointment_day)
     {
-        return self::find()->where(['dayPR'=>$appointment_day->id,'status'=>self::STATUS_ACTIVE])->orderBy('NachNaz')->all();
+        return self::find()->where(['dayPR' => $appointment_day->id, 'status' => self::STATUS_ACTIVE])->orderBy('NachNaz')->all();
     }
 
     public function getPatient()
@@ -32,6 +33,12 @@ class Appointment extends \common\models\Appointment
     {
         return $this->hasOne(AppointmentsDay::className(), ['id' => 'dayPR']);
     }
+
+    public function getAppointmentContent()
+    {
+        return $this->hasOne(AppointmentContent::class, ['id' => 'SoderzhNaz']);
+    }
+
     public function attributeLabels()
     {
         return [
@@ -46,6 +53,7 @@ class Appointment extends \common\models\Appointment
             'NachPr' => 'Фактическое начало приёма',
             'OkonchPr' => 'Фактическое окончание приёма',
             'status' => 'Статус',
+            'appointment_content' => 'Содержание приёма',
         ];
     }
 }
