@@ -41,8 +41,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         if ($appointments) {
             foreach ($appointments as $appointment) {
                 $appointment_time = strtotime($appointment_day->date . ' ' . $appointment->NachNaz);
-                if ($appointment_time > $start_time) {
-                    $end_time = $appointment_time - $duration;
+                if ($appointment_time >= $start_time) {
+                    $end_time = $appointment_time;
                 }
             }
         }

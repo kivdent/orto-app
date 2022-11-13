@@ -4,6 +4,9 @@ namespace common\modules\schedule\models;
 
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
+/**
+ * @property $appointmentsDays AppointmentDayManager[]
+ */
 
 class AppointmentManager extends Model
 {
@@ -88,5 +91,12 @@ class AppointmentManager extends Model
             $list[$additionalText . $id] = $doctorName;
         }
         return $list;
+    }
+    public static function haveWorkDays($appointmentsDays){
+        $haveWorkDays=false;
+        foreach ($appointmentsDays as $appointmentsDay){
+            $haveWorkDays=!$appointmentsDay->isHoliday;
+        }
+        return $haveWorkDays;
     }
 }

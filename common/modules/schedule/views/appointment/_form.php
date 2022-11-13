@@ -49,7 +49,7 @@ $('#appointment-content-list').on('select2:select', function (e) {
                 'id' => 'appointment-content-list',
                 'name' => 'appointment-content-list',
                 'data' => AppointmentContent::getContentList(),
-                'options' => ['placeholder' => 'Выберете область ...'],
+                'options' => ['placeholder' => 'Выбрать ...'],
                 'pluginOptions' => [
                     'allowClear' => true
                 ],

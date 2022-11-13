@@ -84,15 +84,16 @@ class ScheduleController extends Controller
                 'Nach' => '09:00:00',
                 'Okonch' => '20:00:00',
                 'TimePat' => 15,
-                'vih'=>0
             ]);
         } else {
             $model = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
             $model->date = date('d.m.Y', strtotime($model->date));
         }
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index', 'start_date' => '1.' . date('m.Y', $date)]);
+        $model->vih = 0;
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                return $this->redirect(['index', 'start_date' => '1.' . date('m.Y', $date)]);
+            }
         }
 
         return $this->render('create', [

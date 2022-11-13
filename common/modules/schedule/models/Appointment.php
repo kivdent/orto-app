@@ -3,6 +3,7 @@
 
 namespace common\modules\schedule\models;
 
+use common\modules\catalogs\models\NoticeResult;
 use common\modules\patient\models\Patient;
 
 /**
@@ -17,11 +18,20 @@ class Appointment extends \common\models\Appointment
     const STATUS_ACTIVE = 'active';
     const STATUS_CANCEL = 'cancel';
 
+    const PRESENCE_STATUS_APPEARED=1;
+    const PRESENCE_STATUS_NOT_APPEARED=0;
+
+
     public static $status_list = [self::SMS_SENT => 'Отправлено смс'];
 
     public static function getAppointmentsForAppointmentDay(AppointmentsDay $appointment_day)
     {
         return self::find()->where(['dayPR' => $appointment_day->id, 'status' => self::STATUS_ACTIVE])->orderBy('NachNaz')->all();
+    }
+
+    public static function GetNoticeList()
+    {
+        return NoticeResult::getNoticeResultList();
     }
 
     public function getPatient()
@@ -55,5 +65,24 @@ class Appointment extends \common\models\Appointment
             'status' => 'Статус',
             'appointment_content' => 'Содержание приёма',
         ];
+    }
+
+    public function AppointmentPresence()
+    {
+        return ($this->NachPr=="00:00:00" and $this->Yavka==self::PRESENCE_STATUS_APPEARED);
+    }
+
+    public function AppointmentStarted()
+    {
+        return ($this->NachPr<>"00:00:00" and $this->OkonchPr=="00:00:00");
+    }
+
+    public function AppointmentStopped()
+    {
+        return ($this->NachPr<>"00:00:00" and $this->OkonchPr<>"00:00:00");
+
+    }
+    public function getNoticeResult(){
+        return $this->hasOne(NoticeResult::class,['id'=>'RezObzv']);
     }
 }

@@ -86,8 +86,7 @@ class Employee extends \yii\db\ActiveRecord
             ->asArray()
             ->all(), 'id', 'full_name');
     }
-
-    /**
+       /**
      * {@inheritdoc}
      */
     public function rules()

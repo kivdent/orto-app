@@ -11,9 +11,9 @@ $(document).ready(function () {
             data: data,
             success: function (response) {
                 if (response==='error'){
-                    alert('Ошибка отправки смс');
+                    $().alert('Ошибка отправки смс');
                 }else {
-                    alert('Смс отправлено успешно');
+                    $().alert('Смс отправлено успешно');
                 }
                 console.log(response)
             },

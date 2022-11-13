@@ -10,4 +10,11 @@ class AppointmentContent extends \common\models\AppointmentContent
     {
         return ArrayHelper::map(self::find()->asArray()->all(),'id','SoderzhNaz');
     }
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'SoderzhNaz' => 'Содержание назаначения',
+        ];
+    }
 }

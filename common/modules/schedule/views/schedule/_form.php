@@ -4,6 +4,7 @@ use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
@@ -20,8 +21,13 @@ use kartik\date\DatePicker;
     <div class="row">
 
         <div class="col-lg-6" >
-
-                <?= $form->field($model, 'vrachID')->dropDownList(Employee::getDoctorsList()) ?>
+                <?= $form->field($model, 'vrachID')->widget(Select2::classname(), [
+                    'data' => Employee::getDoctorsList(),
+                    'options' => ['placeholder' => 'Выберите врача'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]); ?>
 
         </div>
         <div class="col-lg-4">

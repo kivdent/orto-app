@@ -14,7 +14,6 @@ class SmsController extends Controller
 {
     public function actionSendAppointmentNotification()
     {
-
         Yii::$app->response->format = Response::FORMAT_JSON;
         return SmsNotifier::sendAppointmentNotification(Yii::$app->request->post('appointment'));
     }

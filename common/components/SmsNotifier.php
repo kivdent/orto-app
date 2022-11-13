@@ -17,16 +17,18 @@ class SmsNotifier extends Component
     public static function sendAppointmentNotification($appointment_id)
     {
         $appointment = Appointment::findOne($appointment_id);
-
-        $phone = self::getPhoneFromAppointment($appointment);
-
+        if (YII_ENV_DEV) {
+            $phone = "+79609074044";
+        } else {
+            $phone = self::getPhoneFromAppointment($appointment);
+        }
         $text = self::getAppointmentNotificationText($appointment);
         $result = self::sendSms($phone, $text);
-        $result=Json::decode($result);
-        if ($result['response']['msg']['err_code']){
+        $result = Json::decode($result);
+        if ($result['response']['msg']['err_code']) {
             return 'error';
-        }else{
-            $sms=new Sms(
+        } else {
+            $sms = new Sms(
                 [
                     'phone' => $phone,
                     'text' => $text,
@@ -37,7 +39,7 @@ class SmsNotifier extends Component
                 ]
             );
             $sms->save(false);
-            $appointment->RezObzv=Appointment::SMS_SENT;
+            $appointment->RezObzv = Appointment::SMS_SENT;
             $appointment->save(false);
         }
         return $result;
@@ -53,7 +55,7 @@ class SmsNotifier extends Component
             'key' => self::getApiKey(),
             'text' => $text,
             'phone' => $phone,
-            'sender_name'=>'OrtoPremier'
+            'sender_name' => 'OrtoPremier'
         ];
 // use key 'http' even if you send the request to https://...
         $options = array(
