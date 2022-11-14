@@ -20,7 +20,6 @@ use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
-
 AppointmentAsset::register($this);
 
 if ($patient_id) {
@@ -62,7 +61,7 @@ $additionalTextDoctorIds =Url::to([
         );
         ?></div>
     <div class="col-lg-2">
-        <?= Html::dropDownList('full_table', $full_table, ['true' => 'Полное расписание', 'false' => 'Свободные часы'],
+        <?= Html::dropDownList('full_table', $full_table, [1 => 'Полное расписание', 0 => 'Свободные часы'],
             [
                 'id' => 'full_table',
                 'class' => 'form-control',

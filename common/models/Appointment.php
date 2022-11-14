@@ -39,7 +39,7 @@ class Appointment extends \yii\db\ActiveRecord
         return [
             [['Perv', 'PatID', 'dayPR', 'SoderzhNaz', 'RezObzv', 'Yavka'], 'integer'],
             [['NachNaz', 'OkonchNaz', 'NachPr', 'OkonchPr'], 'safe'],
-            [['NachPr', 'OkonchPr'], 'required'],
+            [['NachPr', 'OkonchPr','PatID'], 'required'],
             [['status', 'appointment_content'], 'string', 'max' => 255],
         ];
     }

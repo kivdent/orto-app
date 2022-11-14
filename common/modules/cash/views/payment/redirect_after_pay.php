@@ -8,7 +8,7 @@ use yii\helpers\Url;
 
 ?>
 <script>
-    window.open("<?=Url::to(['payment/print', 'payment_id'=> $payment->id])?>");
+    window.open("<?=Url::to(['payment/view', 'payment_id'=> $payment->id])?>");
     window.location.href ="/";
 </script>
 

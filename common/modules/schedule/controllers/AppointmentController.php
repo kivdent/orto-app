@@ -61,9 +61,7 @@ class AppointmentController extends Controller
             $doctor_ids = [$id];
             $doctor_id = $id;
         }
-        if ($patient_id) {
-            $full_table = 'false';
-        }
+
 
 
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);

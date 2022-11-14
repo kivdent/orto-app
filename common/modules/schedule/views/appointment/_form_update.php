@@ -4,7 +4,7 @@ use common\modules\patient\models\Patient;
 use common\modules\patient\widgets\PatientFindModalWidget;
 use common\modules\schedule\models\AppointmentContent;
 use common\modules\schedule\models\AppointmentsDay;
-
+use kartik\select2\Select2;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -14,6 +14,14 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 /* @var $appointment_day AppointmentsDay */
 //UserInterface::getVar($appointment_day->date . ' ' . $model->NachNaz );
+$this->registerJs("
+$('#appointment-content-list').on('select2:select', function (e) {
+    var text = e.params.data.text;
+
+    $('#appointment-appointment_content').val($('#appointment-appointment_content').val()+text+' ');
+});
+"
+);
 ?>
 
 <div class="appointment-form">
@@ -26,9 +34,22 @@ use yii\widgets\ActiveForm;
     </div>
 
     <div class="row">
-        <div class="col-lg-6"> <?= $form->field($model, 'SoderzhNaz')->dropDownList(AppointmentContent::getContentList()) ?></div>
+        <div class="col-lg-6">
+            <?= $form->field($model, 'appointment_content')->textarea(['rows' => 6]) ?>
+        </div>
+        <div class="col-lg-6">
+            <?= Select2::widget([
+                'id' => 'appointment-content-list',
+                'name' => 'appointment-content-list',
+                'data' => AppointmentContent::getContentList(),
+                'options' => ['placeholder' => 'Выбрать ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+            ?>
+        </div>
     </div>
-
     <div class="form-group">
         <?= Html::submitButton('Записать', ['class' => 'btn btn-success']) ?>
     </div>

@@ -8,7 +8,7 @@ $(document).ready(function () {
         // }
         document.location.href=$(this).val();
     });
-    if ($('#full_table').val()=='true') {
+    if ($('#full_table').val()==1) {
         $('.appointment').show();
     }
     else
@@ -16,7 +16,7 @@ $(document).ready(function () {
         $('.appointment').hide();
     }
     $('#full_table').on('change', function() {
-        if ($('#full_table').val()=='true') {
+        if ($('#full_table').val()==1) {
             $('.appointment').show();
         }
         else
