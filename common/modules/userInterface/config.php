@@ -12,11 +12,11 @@ return [
          */
         'defaultRoutes' => [
             'admin' => '/user/',
-            'therapist' => '/old_app/pat_tooday.php',
-            'orthopedist' => '/old_app/pat_tooday.php',
-            'surgeon' => '/old_app/pat_tooday.php',
-            'orthodontist' => '/old_app/pat_tooday_orto.php',
-            'recorder' => '/old_app/naznach_pat.php',
+            'therapist' => 'schedule/recorder/doctor-index',
+            'orthopedist' => 'schedule/recorder/doctor-index',
+            'surgeon' => 'schedule/recorder/doctor-index',
+            'orthodontist' => 'schedule/recorder/doctor-index',
+            'recorder' => '/old_app/pat_tooday_reg.php',
             'accountant' => '/salary/manage/index',
             'senior_nurse' => '/employee/manage/index',
             'senior_recorder' => '/schedule/recorder',

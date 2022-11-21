@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\invoice\models\SchemeOrthodontics */
 
-$this->title = 'Изменение схемы оплат за ортодонтию: ' . $model->id;
+$this->title = 'Изменение схемы оплат за ортодонтию';
 
 ?>
 <div class="scheme-orthodontics-update">

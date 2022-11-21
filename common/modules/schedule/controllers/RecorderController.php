@@ -20,6 +20,11 @@ class RecorderController extends \yii\web\Controller
     const PRESENCE_CHANGE = 'change';
     const PRESENCE_NOT_CHANGE = 'not_change';
 
+    const ELEMENT_SHOW='show';
+    const ELEMENT_HIDE='hide';
+
+
+
     public function behaviors()
     {
         return [
@@ -31,6 +36,11 @@ class RecorderController extends \yii\web\Controller
                         'actions' => [],
                         'roles' => ['admin', 'recorder', 'senior_recorder',],
                     ],
+                [
+                        'allow' => true,
+                        'actions' => ['doctor-index'],
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -38,9 +48,26 @@ class RecorderController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors(array_keys(BaseSchedules::getActiveDoctorsList()), date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
+        $doctor_ids=array_keys(BaseSchedules::getActiveDoctorsList());
+        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
-            'appointmentManager' => $appointmentManager
+            'appointmentManager' => $appointmentManager,
+            'options'=>[
+                'doctor_chooser'=>self::ELEMENT_SHOW,
+                'full_table_chooser'=>self::ELEMENT_SHOW
+            ],
+        ]);
+    }
+    public function actionDoctorIndex()
+    {
+        $doctor_ids=[Yii::$app->user->identity->employe_id];
+        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
+        return $this->render('index', [
+            'appointmentManager' => $appointmentManager,
+            'options'=>[
+                'doctor_chooser'=>self::ELEMENT_HIDE,
+                'full_table_chooser'=>self::ELEMENT_SHOW
+            ]
         ]);
     }
 

@@ -2,6 +2,9 @@ $(document).ready(function () {
     const PRESENCE_CHANGE = 'change';
     const PRESENCE_NOT_CHANGE = 'not_change';
 
+    const ELEMENT_SHOW='show';
+    const ELEMENT_HIDE='hide';
+
     function setNoticeResultHTML(notice_result, html) {
         // console.log(notice_result)
         $(notice_result).html(html);
@@ -109,6 +112,7 @@ $(document).ready(function () {
     setAllPresenceStatus();
     setAllNoticeResultStatus();
 
+
     $(document).on('click', '.btn-presence', function () {
         let parent_div = $(this).parent();
         getPresenceStatus(parent_div, PRESENCE_CHANGE)
@@ -119,4 +123,8 @@ $(document).ready(function () {
         let notice_result=$(this).val();
         setNoticeResult(parent_div, PRESENCE_CHANGE,notice_result)
     })
+
+    setTimeout(function() {
+        location.reload();
+    }, 30000);
 })

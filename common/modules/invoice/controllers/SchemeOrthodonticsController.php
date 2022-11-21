@@ -2,6 +2,7 @@
 
 namespace common\modules\invoice\controllers;
 
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\invoice\models\SchemeOrthodonticsSearch;
@@ -35,7 +36,11 @@ class SchemeOrthodonticsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SchemeOrthodonticsSearch();
+        $searchType=SchemeOrthodonticsSearch::SEARCH_TYPE_DOCTOR;
+        if (UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN){
+            $searchType=SchemeOrthodonticsSearch::SEARCH_TYPE_ALL;
+        }
+        $searchModel = new SchemeOrthodonticsSearch(['searchType'=>$searchType]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -62,12 +67,17 @@ class SchemeOrthodonticsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($patient_id, $doctor_id)
     {
         $model = new SchemeOrthodontics();
-
+        $model->pat = $patient_id;
+        $model->sotr = $doctor_id;
+        $model->date=date('Y-m-d');
+        $model->last_pay_month=0;
+        $model->full=0;
+        $model->vnes=0;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/']);
         }
 
         return $this->render('create', [
@@ -87,7 +97,7 @@ class SchemeOrthodonticsController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['/invoice/scheme-orthodontics/']);
         }
 
         return $this->render('update', [

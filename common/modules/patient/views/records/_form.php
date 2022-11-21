@@ -1,5 +1,6 @@
 <?php
 
+use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -64,7 +65,8 @@ $this->registerJs(
                 ]
             ]);
             ?>
-        </div><div class="col-lg-3">
+        </div>
+        <div class="col-lg-3">
             <?= $form->field($model, "region_id")->
             widget(Select2::classname(), [
                 'data' => Region::getList(),
@@ -83,7 +85,8 @@ $this->registerJs(
             ?>
         </div>
         <div class="col-lg-3">
-            <?= $form->field($model, 'invoice_id')->textInput() ?>
+            <?= $form->field($model, 'invoice_id')->hiddenInput()->label($model->invoice_id ? 'Счёт:' . InvoiceModalWidget::widget(['invoice_id' => $model->invoice_id]) : '') ?>
+
         </div>
 
     </div>
@@ -144,7 +147,7 @@ $this->registerJs(
                         'options' => [
                             'placeholder' => 'Выберите шаблон....',
                             'multiple' => false,
-                            'id'=>'objectively_choose',
+                            'id' => 'objectively_choose',
                         ],
 
                     ]);
@@ -171,7 +174,7 @@ $this->registerJs(
                         'options' => [
                             'placeholder' => 'Выберите шаблон....',
                             'multiple' => false,
-                            'id'=>'therapy_choose',
+                            'id' => 'therapy_choose',
                         ],
 
                     ]);

@@ -119,6 +119,15 @@ class Invoice extends \common\models\Invoice
             ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
             ->all();
     }
+public static function getPatientDebtsForDoctor($patient_id,$doctor_id)
+    {
+        return self::find()
+            ->where(['patient_id' => $patient_id])
+            ->andWhere('amount_payable<>paid')
+            ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
+            ->andWhere(['doctor_id'=>$doctor_id])
+            ->all();
+    }
 
     public function getAmount_residual()
     {

@@ -8,6 +8,7 @@ use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\invoice\models\InvoiceItems;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\widgets\form\InvoiceFormWidget;
+use common\modules\patient\models\Patient;
 use common\modules\userInterface\models\UserInterface;
 use yii\web\Response;
 use Yii;
@@ -27,7 +28,7 @@ class ManageController extends \yii\web\Controller
 
     public function actionCreateOrthodontics($patient_id, $appointment_id = 0)
     {
-        $schemeOrthodontics = SchemeOrthodontics::find()->where(['pat' => $patient_id])->one();
+        $schemeOrthodontics = Patient::findOne($patient_id)->schemeOrthodontics;
         if ($schemeOrthodontics != null) {
 
             $invoice = new Invoice();
@@ -35,7 +36,9 @@ class ManageController extends \yii\web\Controller
             $invoice->doctor_id = $schemeOrthodontics->sotr;
             $invoice->patient_id = $patient_id;
             $invoice->type = Invoice::TYPE_ORTHODONTICS;
-            $invoice->amount = $schemeOrthodontics->summ_month;
+            $invoice->amount = $schemeOrthodontics->getAmount();
+
+//            $invoice->amount = $schemeOrthodontics->summ_month;
             $invoice->amount_payable = $invoice->amount;
             $invoice->appointment_id = $appointment_id;
             $invoice->save(false);
@@ -44,7 +47,6 @@ class ManageController extends \yii\web\Controller
             $invoiceForSchemeOrthodontics->scheme_orthodontics_id = $schemeOrthodontics->id;
             $invoiceForSchemeOrthodontics->save(false);
             Yii::$app->session->setFlash('success', 'Оплата за ортодонтию успешно создана');
-
 
         } else {
             Yii::$app->session->setFlash('error', 'Невзможно найти схему для пациента');

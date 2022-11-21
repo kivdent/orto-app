@@ -36,6 +36,7 @@ class SchemeOrthodontics extends \yii\db\ActiveRecord
         return [
             [['pat', 'sotr', 'per_lech', 'summ', 'summ_month', 'vnes', 'full', 'last_pay_month'], 'integer'],
             [['date'], 'safe'],
+            [['per_lech', 'summ', 'summ_month'], 'required'],
         ];
     }
 

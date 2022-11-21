@@ -5,38 +5,49 @@
 
 /* @var $appointment Appointment */
 
+/* @var $options [] */
+
 
 use common\modules\notifier\assets\NotifierAsset;
 use common\modules\schedule\assets\RecorderAsset;
+use common\modules\schedule\controllers\RecorderController;
 use common\modules\schedule\models\Appointment;
 use common\modules\schedule\models\AppointmentDayManager;
 use common\modules\schedule\models\AppointmentManager;
 use common\modules\userInterface\models\UserInterface;
+use common\modules\userInterface\widgets\ScheduleAlertsWidgets;
+use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
+use common\widgets\ButtonsWidget\InvoiceActionsButtonWidget;
+use common\widgets\ButtonsWidget\ScheduleAlertButtonsWidget;
 use yii\helpers\Html;
 
 $this->title = 'Пациенты на сегодня';
 RecorderAsset::register($this);
+
 ?>
 
 <h1><?= $this->title ?></h1>
-<div class="doctor-chooser row">
-
-    <div class="col-lg-2">
-        <?= Html::dropDownList('doctor_id', '', AppointmentManager::getActiveDoctorsNameList(''),
-            [
-                'id' => 'doctor_id',
-                'class' => 'form-control',
-            ]
-        );
-        ?></div>
-    <div class="col-lg-3">
-        <?= Html::dropDownList('full_table', 'appointment', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
-            [
-                'id' => 'full_table',
-                'class' => 'form-control',
-            ]
-        );
-        ?></div>
+<div class="row">
+    <?php if ($options['doctor_chooser'] == RecorderController::ELEMENT_SHOW): ?>
+        <div class="doctor_chooser col-lg-2">
+            <?= Html::dropDownList('doctor_id', '', AppointmentManager::getActiveDoctorsNameList(''),
+                [
+                    'id' => 'doctor_id',
+                    'class' => 'form-control',
+                ]
+            );
+            ?></div>
+    <?php endif; ?>
+    <?php if ($options['full_table_chooser'] == RecorderController::ELEMENT_SHOW): ?>
+        <div class="full_table_chooser col-lg-3">
+            <?= Html::dropDownList('full_table', 'appointment', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
+                [
+                    'id' => 'full_table',
+                    'class' => 'form-control',
+                ]
+            );
+            ?></div>
+    <?php endif; ?>
 </div>
 
 <div class="row">
@@ -58,14 +69,17 @@ RecorderAsset::register($this);
                                     <table class="table table-bordered">
                                         <?php if (!$appointmentDay->isHoliday): ?>
                                             <?php foreach ($appointmentDay->grid as $time => $appointment): ?>
-                                                <tr <?= $appointment == AppointmentDayManager::TIME_EMPTY ? 'class=empty' : 'class=appointment' ?>>
-                                                    <td class="col-lg-2">
+                                                <?php $tr_style = ($appointment != AppointmentDayManager::TIME_EMPTY && $appointment->Yavka === Appointment::PRESENCE_STATUS_APPEARED) ? 'success' : ''; ?>
+                                                <tr <?= $appointment == AppointmentDayManager::TIME_EMPTY ? 'class=empty' : 'class=\'appointment '.$tr_style.'\'' ?>>
+                                                    <td class="col-lg-1">
                                                         <div class="row">
-                                                            <div class="col-lg-2">
+                                                            <div class="col-lg-1">
                                                                 <?= date('H:i', $time) ?>
                                                             </div>
                                                         </div>
-                                                        <?php if ($appointment != AppointmentDayManager::TIME_EMPTY): ?>
+                                                        <?php if ($appointment != AppointmentDayManager::TIME_EMPTY
+                                                            && ((UserInterface::isUserRole(UserInterface::ROLE_RECORDER)) ||
+                                                                (UserInterface::isUserRole(UserInterface::ROLE_SENIOR_RECORDER)))): ?>
                                                             <div class="load" hidden>
                                                                     <span class="glyphicon glyphicon-refresh"
                                                                           aria-hidden="true">
@@ -88,80 +102,57 @@ RecorderAsset::register($this);
                                                                     'target' => '_blank'
                                                                 ]) ?>
                                                         </td>
-
                                                     <?php else: ?>
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-lg-12">
-                                                                    <?= Html::a($appointment->patient->fullName,
-                                                                        [
-                                                                            '/patient/manage/update',
-                                                                            'patient_id' => $appointment->patient->id,
-                                                                        ],
-                                                                        [
-                                                                            'target' => '_blank'
-                                                                        ]) ?><br>
-                                                                    <small> <?= $appointment->appointment_content ?></small>
+                                                                    <small><?= Html::a($appointment->patient->fullName,
+                                                                            [
+                                                                                '/patient/manage/update',
+                                                                                'patient_id' => $appointment->patient->id,
+                                                                            ],
+                                                                            [
+                                                                                'target' => '_blank'
+                                                                            ]) ?><br>
+                                                                        <?= $appointment->appointment_content ?></small>
                                                                 </div>
                                                             </div>
+
                                                             <div class="row">
                                                                 <div class="col-lg-12">
-                                                                    <div class="btn-group" role="group">
-                                                                        <?= Html::a(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', [
-                                                                            '/schedule/appointment/cancel',
-                                                                            'appointmentId' => $appointment->Id,],
-                                                                            ['class' => 'btn btn-xs btn-danger',
-                                                                                'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',
-                                                                                    'method' => 'post',],
-                                                                                'title' => 'Отменить',
-                                                                                'target' => '_blank'
-                                                                            ]);
-                                                                        ?>
-                                                                        <?= Html::a(' <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>', [
-                                                                            '/schedule/appointment/index',
-                                                                            'patient_id' => $appointment->patient->id,],
-                                                                            ['class' => 'btn btn-xs btn-info',
-                                                                                'title' => 'Назначить',
-                                                                                'target' => '_blank'
-
-                                                                            ]);
-                                                                        ?>
-                                                                        <?= Html::a(' <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [
-                                                                            '/schedule/appointment/update',
-                                                                            'appointmentId' => $appointment->Id,],
-                                                                            ['class' => 'btn btn-xs btn-info',
-                                                                                'data' => ['method' => 'post',],
-                                                                                'title' => 'Изменить время',
-                                                                                'target' => '_blank'
-                                                                            ]);
-                                                                        ?>
-                                                                        <?= Html::a(
-                                                                            '<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>',
-                                                                            [
-                                                                                '/invoice/manage/create',
-                                                                                'patient_id' => $appointment->PatID,
-                                                                                'appointment_id' => $appointment->Id,
-                                                                                'invoice_type' => \common\modules\invoice\models\Invoice::TYPE_MATERIALS],
-                                                                            ['class' => 'btn btn-xs btn-info',
-                                                                                'title' => 'Выписать счёт',
-                                                                                'target' => '_blank']
-                                                                        ); ?>
-                                                                    </div>
+                                                                    <?= AppointmentButtonsWidget::widget([
+                                                                        'appointmentId' => $appointment->Id,
+                                                                    ]) ?>
                                                                 </div>
                                                             </div>
                                                         </td>
+
+
+                                                        <td class="col-lg-2 invoice-actions">
+                                                            <?= InvoiceActionsButtonWidget::widget([
+                                                                'appointmentId' => $appointment->Id
+                                                            ]) ?>
+                                                        </td>
+                                                        <td class="col-lg-2 invoice-actions">
+                                                            <?= ScheduleAlertButtonsWidget::widget([
+                                                                'patient_id' => $appointment->PatID,
+                                                                'employee_id' => Yii::$app->user->identity->employe->id
+                                                            ]) ?>
+                                                        </td>
                                                         <td class="col-lg-3">
-                                                            <div class="load" hidden>
+                                                            <small><?= $appointment->patient->MTel ?></small>
+                                                            <?php if ((UserInterface::isUserRole(UserInterface::ROLE_RECORDER)) ||
+                                                                (UserInterface::isUserRole(UserInterface::ROLE_SENIOR_RECORDER))): ?>
+
+                                                                <div class="load" hidden>
                                                                     <span class="glyphicon glyphicon-refresh"
                                                                           aria-hidden="true">
                                                                     </span>
-                                                            </div>
-                                                            <div class="notice-result" appointment_id="<?= $appointment->Id ?>">
-
-                                                            </div>
-                                                        </td>
-                                                        <td class="col-lg-2">
-                                                            <small><?= $appointment->patient->MTel ?></small>
+                                                                </div>
+                                                                <div class="notice-result"
+                                                                     appointment_id="<?= $appointment->Id ?>">
+                                                                </div>
+                                                            <?php endif; ?>
                                                         </td>
                                                     <?php endif; ?>
                                                 </tr>

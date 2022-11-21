@@ -13,7 +13,7 @@ switch ($_GET['action']) {
             case "add":
                 if (!(isset($_SESSION['countm'][1]))) {
                     $query = "SELECT `manip`,`price` FROM `manip` WHERE `id`=" . $_GET['manip'];
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     $row = mysqli_fetch_array($result);
@@ -32,7 +32,7 @@ switch ($_GET['action']) {
                     }
                     if ($f == 0) {
                         $query = "SELECT `manip`,`price`,`zapis` FROM `manip` WHERE `id`=" . $_GET['manip'];
-                        //echo $query."<br>";
+                        echo $query."<br>";
                         $result = sql_query($query, 'orto', 0);
                         $count = mysqli_num_rows($result);
                         $row = mysqli_fetch_array($result);
@@ -123,7 +123,7 @@ switch ($_GET['action']) {
 		'" . $summ_sk . "',
 		0,
 		'" . $_SESSION['proc_sk'] . "')";
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $pr = $result;
                     $c = 1;
@@ -160,7 +160,7 @@ switch ($_GET['action']) {
                         }
                     }
                     //echo "Вставка в Манипуляции при приёме<br>";
-                    //echo $query."<br>";
+                    echo $query."<br>";
 
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
@@ -191,7 +191,7 @@ switch ($_GET['action']) {
                     $query = "SELECT `skidka`.`proc`, `skidka`.`id`, `klinikpat`.`id`
 FROM skidka, klinikpat
 WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSION['pat'] . "'))";
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     if ($_SESSION['proc_sk'] > 0) {
@@ -243,7 +243,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
             echo "<form action='pat_tooday_work_orto.php' method='get' id='lech' name='lech'>
 			<input name='count' type='hidden' value='1' />";
             $query = "SELECT `surname`, `name`, `otch` FROM `klinikpat` WHERE `id`=" . $_SESSION['pat'];
-            //echo $query."<br>";
+            echo $query."<br>";
             $result = sql_query($query, 'orto', 0);
             $count = mysqli_num_rows($result);
             $row = mysqli_fetch_array($result);
@@ -263,7 +263,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
                 else echo "|<a class=menu2 href='pat_tooday_work_orto.php?action=oplata&count=1&preysk=" . $row['id'] . "'>" . $row['preysk'] . "</a>|";
             }
             $query = "SELECT `id`,`sotr`,`per_lech`, `summ`, `summ_month`, `vnes` FROM `orto_sh` WHERE `pat`=" . $_SESSION['pat'];
-            //echo $query."<br>";
+            echo $query."<br>";
             $result = sql_query($query, 'orto', 0);
             $count = mysqli_num_rows($result);
             if ($count > 0) {
@@ -487,7 +487,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
             case "add":
                 if (!(isset($_SESSION['countm'][1]))) {
                     $query = "SELECT `manip`,`price` FROM `manip` WHERE `id`=" . $_GET['manip'];
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     $row = mysqli_fetch_array($result);
@@ -506,7 +506,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
                     }
                     if ($f == 0) {
                         $query = "SELECT `manip`,`price`,`zapis` FROM `manip` WHERE `id`=" . $_GET['manip'];
-                        //echo $query."<br>";
+                        echo $query."<br>";
                         $result = sql_query($query, 'orto', 0);
                         $count = mysqli_num_rows($result);
                         $row = mysqli_fetch_array($result);
@@ -655,7 +655,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
 		'" . $summ_sk . "',
 		0,
 		" . $_SESSION['proc_sk'] . ")";
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $pr = $result;
                     $c = 1;
@@ -692,12 +692,12 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
                         }
                     }
                     //echo "Вставка в Манипуляции при приёме<br>";
-                    //echo $query."<br>";
+                    echo $query."<br>";
 
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     $query = "SELECT `id`, `surname`, `name`, `otch` FROM `sotr` WHERE `id`=" . $_GET['tech'];
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     $row = mysqli_fetch_array($result);
@@ -804,7 +804,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
         echo "<form action='pat_tooday_work_orto.php' method='get' id='lech' name='lech'>
 			<input name='count' type='hidden' value='1' />";
         $query = "SELECT `surname`, `name`, `otch` FROM `klinikpat` WHERE `id`=" . $_SESSION['pat'];
-        //echo $query."<br>";
+        echo $query."<br>";
         $result = sql_query($query, 'orto', 0);
         $count = mysqli_num_rows($result);
         $row = mysqli_fetch_array($result);
@@ -833,7 +833,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
         echo "<td width='40%' valign='top' align='center'>Заказ-наряд:<br />
 				Техник:  ";
         $query = "SELECT `id`, `surname`, `name`, `otch` FROM `sotr` WHERE `dolzh`=8 ORDER BY `surname`";
-        //echo $query."<br>";
+        echo $query."<br>";
         $result = sql_query($query, 'orto', 0);
         $count = mysqli_num_rows($result);
         echo "<select name=\"tech\">";
@@ -968,7 +968,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
 		FROM  klinikpat
 		WHERE (`klinikpat`.`id` ='" . $_SESSION['pat'] . "')";
 
-                    //echo $query."<br>";
+                    echo $query."<br>";
                     $result = sql_query($query, 'orto', 0);
                     $count = mysqli_num_rows($result);
                     if ($count > 0) {
@@ -1148,7 +1148,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
                     case "2":
                         $query = "INSERT INTO `orto_sh` (`id`, `pat`, `sotr`, `date`, `per_lech`, `summ`, `summ_month`, `vnes`, `full`)
 												VALUES (NULL, " . $_SESSION['pat'] . ", " . $_SESSION['UserID'] . ",'" . date('Y-m-d') . "', " . $_GET['Srok'] . ", " . $_GET['StApp'] . ", " . $_GET['PerMonth'] . ", 0, 0)";
-                        //echo $query."<br>";
+                        echo $query."<br>";
                         $result = sql_query($query, 'orto', 0);
                         $count = mysqli_num_rows($result);
                         ret("pat_tooday_orto.php");
@@ -1165,7 +1165,7 @@ WHERE ((`skidka`.`id` =`klinikpat`.`Skidka`) AND (`klinikpat`.`id` ='" . $_SESSI
         if (!isset($_GET['type'])) {
             if (!(isset($_SESSION['pat']))) $_SESSION['pat'] = $_GET['pat'];
             $query = "SELECT `surname`, `name`, `otch` FROM `klinikpat` WHERE `id`=" . $_SESSION['pat'];
-            //echo $query."<br>";
+            echo $query."<br>";
             $result = sql_query($query, 'orto', 0);
             $count = mysqli_num_rows($result);
             $row = mysqli_fetch_array($result);

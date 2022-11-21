@@ -43,7 +43,6 @@ class ScheduleAlertsWidgets extends Widget
         $this->alerts[] = $this->getInvoicesForTechnicalOrder();
         $this->alerts[] = $this->getUnclosedTechnicalOrder();
         $this->alerts[] = $this->getDebt();
-
     }
 
     private function getInvoicesForTechnicalOrder()

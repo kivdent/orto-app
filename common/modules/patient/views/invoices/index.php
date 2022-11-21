@@ -45,14 +45,14 @@ $this->title = 'Счета пациента';
 
         [
             'class' => 'yii\grid\ActionColumn',
-            'template' => '{view}  {create} {edit} {delete}',
+            'template' => '{view}  {create} {edit} {delete} {record}',
             'buttons' => [
                 'view' => function ($url, $model, $key) {
                     return InvoiceModalWidget::widget(['invoice_id' => $model->id]);
 
                 },
                 'create' => function ($url, $model, $key) {
-                    $class_create = ($model->hasTechnicalItemsCompliance() and !$model->hasTechnicalOrderForInvoice())? 'btn btn-danger btn-xs technical-order-complete' : 'btn btn-primary btn-xs technical-order-complete';
+                    $class_create = ($model->hasTechnicalItemsCompliance() and !$model->hasTechnicalOrderForInvoice()) ? 'btn btn-danger btn-xs technical-order-complete' : 'btn btn-primary btn-xs technical-order-complete';
                     return Html::a(
                         '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
                         ['/invoice/technical-order/create',
@@ -70,6 +70,15 @@ $this->title = 'Счета пациента';
                         ['class' => 'btn btn-primary btn-xs technical-order-complete',]
                     ) : '';
                 },
+                'record' => function ($url, $model, $key) {
+                    return Html::a(
+                        '<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>',
+                        ['/patient/records/create',
+                            'patient_id'=>$model->patient_id,
+                            'invoice_id' => $model->id,],
+                        ['class' => 'btn btn-primary btn-xs',]
+                    );
+                },
                 'delete' => function ($url, $model, $key) {
                     return $model->paid == 0 ? Html::a(
                         '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
@@ -82,7 +91,7 @@ $this->title = 'Счета пациента';
                                 'method' => 'post',
                             ],
                         ]
-                    ):'';
+                    ) : '';
                 },
 
             ]

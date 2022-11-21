@@ -26,7 +26,7 @@ if ($_GET['action'] == 'del') {
 		   (`soderzhnaz`.`id` =`nazn`.`SoderzhNaz`)AND 
 		   (`rezobzv`.`id` =`nazn`.`RezObzv`))
 	ORDER BY `nazn`.`NachNaz`";
-    //////echo $query."<br>";
+ echo $query."<br>";
     $result = sql_query($query, 'orto', 0);
     $count = mysqli_num_rows($result);
     $countB = $count;
@@ -44,7 +44,7 @@ if ($_GET['action'] == 'del') {
             $rowB = mysqli_fetch_array($resultB);
             $query = "SELECT * FROM `dnev` 
 							WHERE (
-							(`pat`=" . $rowB['13'] . ") AND
+							(`pat`=" . $rowB['15'] . ") AND
 							(`vrach`=" . $_SESSION['UserID'] . ") AND
 							(`date`='" . date('Y-m-d') . "'))";
             //////echo $query."<br />";
@@ -77,8 +77,7 @@ if ($_GET['action'] == 'del') {
 
                 $patient = Patient::findOne($rowB['13']);
                 if ($patient->schemeOrthodontics == null) {
-                    echo "<a href='pat_tooday_work_orto.php?action=Sozd_SH&SodNazn=" . $rowB['18'] . "&step=1&pat=" . $rowB['13'] . "' class='menu2'>Создать схему расчёта за ортодонтию</a><br />";
-
+                    echo "<a href='pat_tooday_work_orto.php?action=Sozd_SH&SodNazn=" . $rowB['21'] . "&step=1&pat=" . $rowB['15'] . "' class='menu2'>Создать схему расчёта за ортодонтию</a><br />";
                 } else {
                     echo " <a href='/invoice/manage/create-orthodontics?patient_id=" . $rowB['13'] . "&appointment_id=" . $rowB[2] . "' class='menu2'>Оплата за ортодонтическое лечение</a><br>";
 
@@ -94,7 +93,7 @@ if ($_GET['action'] == 'del') {
             echo "</td>";
             echo "<td class='alltext' align=center>";
             echo \common\modules\userInterface\widgets\ScheduleAlertsWidgets::widget([
-                'patient_id' => $rowB['13'],
+                'patient_id' => $rowB['15'],
                 'employee_id' => $_SESSION['UserID'],
             ]);
             echo "</td>";

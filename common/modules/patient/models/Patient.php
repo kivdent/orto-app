@@ -40,6 +40,7 @@ use yii\helpers\Html;
  * @property integer $orthodonticsPayPerMonth
  * @property string $statusName
  * @property string $status
+ * @property string $allSchemeOrthodontics
  */
 class Patient extends \yii\db\ActiveRecord
 {
@@ -57,8 +58,8 @@ class Patient extends \yii\db\ActiveRecord
 
     public static function getListForWidget()
     {
-        $list=self::find()->select(["id", "CONCAT(surname,' ',name,' ',otch)  as full_name"])->orderBy('surname')->asArray()->all();
-        $list=ArrayHelper::map($list,'id','full_name');
+        $list = self::find()->select(["id", "CONCAT(surname,' ',name,' ',otch)  as full_name"])->orderBy('surname')->asArray()->all();
+        $list = ArrayHelper::map($list, 'id', 'full_name');
         return $list;
     }
 
@@ -204,7 +205,11 @@ class Patient extends \yii\db\ActiveRecord
 
     public function getSchemeOrthodontics()
     {
-        return $this->hasOne(SchemeOrthodontics::className(), ['pat' => 'id']);
+        return $this->hasOne(SchemeOrthodontics::className(), ['pat' => 'id'])->andWhere('vnes<>summ');
+//        return SchemeOrthodontics::find()->where(['pat'=>$this->id])->andWhere('vnes<>summ')->one();
+    }
+    public function getAllSchemeOrthodontics(){
+        $this->hasMany(SchemeOrthodontics::class, ['pat' => 'id']);
     }
 
     public function getOrthodonticsPayPerMonth()
@@ -228,7 +233,19 @@ class Patient extends \yii\db\ActiveRecord
 
         return $this->address_id === null ? false : true;
     }
-    public function getStatusName(){
+
+    public function getStatusName()
+    {
         return self::getStatusNameList()[$this->status];
+    }
+
+    public function canCreateSchemeOrthodontic()
+    {
+        return !(bool)$this->schemeOrthodontics or $this->schemeOrthodontics->isCompleted();
+    }
+
+    public function hasSchemeOrthodonticWithDoctor($vrachID)
+    {
+        return (bool)$this->schemeOrthodontics && $this->schemeOrthodontics->sotr == $vrachID;
     }
 }
