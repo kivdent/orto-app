@@ -4,10 +4,10 @@ namespace common\modules\schedule\models;
 
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
+
 /**
  * @property $appointmentsDays AppointmentDayManager[]
  */
-
 class AppointmentManager extends Model
 {
     const DURATION_ONE_DAY = 1;
@@ -84,18 +84,35 @@ class AppointmentManager extends Model
         return $monthList;
     }
 
+    public static function getDayList($startDate, $additionalText = '')
+    {
+        $startDate = strtotime($startDate);
+        for ($i = 12; $i >= 1; $i--) {
+            $date = strtotime(date('d.m.Y', $startDate) . '-' . $i . ' days');
+            $monthList[$additionalText . date('d.m.Y', $date)] = date('d.m.Y', $date);
+        }
+        $monthList[$additionalText . date('d.m.Y', $startDate)] = date('d.m.Y', $startDate);
+        for ($i = 1; $i <= 12; $i++) {
+            $date = strtotime(date('d.m.Y', $startDate) . '+' . $i . ' days');
+            $monthList[$additionalText . date('d.m.Y', $date)] = date('d.m.Y', $date);
+        }
+        return $monthList;
+    }
+
     public static function getActiveDoctorsNameList($additionalText)
     {
-        $list[$additionalText.self::DOCTOR_IDS_ALL] = 'Все';
+        $list[$additionalText . self::DOCTOR_IDS_ALL] = 'Все';
         foreach (BaseSchedules::getActiveDoctorsNameList() as $id => $doctorName) {
             $list[$additionalText . $id] = $doctorName;
         }
         return $list;
     }
-    public static function haveWorkDays($appointmentsDays){
-        $haveWorkDays=false;
-        foreach ($appointmentsDays as $appointmentsDay){
-            $haveWorkDays=!$appointmentsDay->isHoliday;
+
+    public static function haveWorkDays($appointmentsDays)
+    {
+        $haveWorkDays = false;
+        foreach ($appointmentsDays as $appointmentsDay) {
+            $haveWorkDays = !$appointmentsDay->isHoliday;
         }
         return $haveWorkDays;
     }

@@ -15,6 +15,7 @@ class Notes extends \common\models\Notes
     const NOTES_TYPE_REFERRAL = 'referral';
     const NOTES_TYPE_TEXT = 'text';
 
+
     public function behaviors()
     {
         return [

@@ -20,9 +20,8 @@ class RecorderController extends \yii\web\Controller
     const PRESENCE_CHANGE = 'change';
     const PRESENCE_NOT_CHANGE = 'not_change';
 
-    const ELEMENT_SHOW='show';
-    const ELEMENT_HIDE='hide';
-
+    const ELEMENT_SHOW = 'show';
+    const ELEMENT_HIDE = 'hide';
 
 
     public function behaviors()
@@ -36,7 +35,7 @@ class RecorderController extends \yii\web\Controller
                         'actions' => [],
                         'roles' => ['admin', 'recorder', 'senior_recorder',],
                     ],
-                [
+                    [
                         'allow' => true,
                         'actions' => ['doctor-index'],
                         'roles' => ['@'],
@@ -46,27 +45,34 @@ class RecorderController extends \yii\web\Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($start_date = 'now')
     {
-        $doctor_ids=array_keys(BaseSchedules::getActiveDoctorsList());
+        $start_date = 'now' ? date('d.m.Y') : $start_date;
+        $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
-            'options'=>[
-                'doctor_chooser'=>self::ELEMENT_SHOW,
-                'full_table_chooser'=>self::ELEMENT_SHOW
+            'start_date' => $start_date,
+            'options' => [
+                'doctor_chooser' => self::ELEMENT_SHOW,
+                'full_table_chooser' => self::ELEMENT_SHOW,
+
             ],
         ]);
     }
-    public function actionDoctorIndex()
+
+    public function actionDoctorIndex($start_date = 'noe')
     {
-        $doctor_ids=[Yii::$app->user->identity->employe_id];
+        $start_date = 'now' ? date('d.m.Y') : $start_date;
+        $doctor_ids = [Yii::$app->user->identity->employe_id];
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
-            'options'=>[
-                'doctor_chooser'=>self::ELEMENT_HIDE,
-                'full_table_chooser'=>self::ELEMENT_SHOW
+            'start_date' => $start_date,
+            'options' => [
+                'doctor_chooser' => self::ELEMENT_HIDE,
+                'full_table_chooser' => self::ELEMENT_SHOW,
+
             ]
         ]);
     }
@@ -153,7 +159,7 @@ class RecorderController extends \yii\web\Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
-            $response=['html' => $this->getHTML($appointment)];
+            $response = ['html' => $this->getHTML($appointment)];
         }
         return $response;
     }
@@ -165,10 +171,10 @@ class RecorderController extends \yii\web\Controller
         if (Yii::$app->request->isAjax) {
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
             $noticeResult = Yii::$app->request->post('notice_result');
-            $appointment->RezObzv=$noticeResult;
+            $appointment->RezObzv = $noticeResult;
             $appointment->save(false);
-            if($appointment->RezObzv==NoticeResult::NOTICE_RESULT_SMS_SENT) SmsNotifier::sendAppointmentNotification($appointment->Id);
-            $response=['html' => $this->getHTML($appointment)];
+            if ($appointment->RezObzv == NoticeResult::NOTICE_RESULT_SMS_SENT) SmsNotifier::sendAppointmentNotification($appointment->Id);
+            $response = ['html' => $this->getHTML($appointment)];
         }
         return $response;
     }

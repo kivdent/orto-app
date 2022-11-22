@@ -52,7 +52,15 @@ $this->title = 'Документы';
             //'author_id',
             //'patient_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete} {pdf}',
+                'buttons' => [
+                    'pdf' => function ($url,$data,$key) {
+                        return Html::a('pdf', ['pdf', 'notes_id' => $data->id]);
+                    }
+                ]
+            ],
         ],
     ]); ?>
 </div>

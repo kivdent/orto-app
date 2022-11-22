@@ -123,8 +123,10 @@ $(document).ready(function () {
         let notice_result=$(this).val();
         setNoticeResult(parent_div, PRESENCE_CHANGE,notice_result)
     })
-
+    $('#month-list').on('change',function () {
+        document.location.href='/schedule/recorder?start_date='+$(this).val();
+    })
     setTimeout(function() {
         location.reload();
-    }, 30000);
+    }, 120000);
 })

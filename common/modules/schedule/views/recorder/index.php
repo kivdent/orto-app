@@ -4,6 +4,7 @@
 /* @var $appointmentManager AppointmentDayManager[] */
 
 /* @var $appointment Appointment */
+/* @var $start_date string */
 
 /* @var $options [] */
 
@@ -23,7 +24,6 @@ use yii\helpers\Html;
 
 $this->title = 'Пациенты на сегодня';
 RecorderAsset::register($this);
-
 ?>
 
 <h1><?= $this->title ?></h1>
@@ -40,7 +40,7 @@ RecorderAsset::register($this);
     <?php endif; ?>
     <?php if ($options['full_table_chooser'] == RecorderController::ELEMENT_SHOW): ?>
         <div class="full_table_chooser col-lg-3">
-            <?= Html::dropDownList('full_table', 'appointment', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
+            <?= Html::dropDownList('full_table', 'full', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
                 [
                     'id' => 'full_table',
                     'class' => 'form-control',
@@ -48,6 +48,39 @@ RecorderAsset::register($this);
             );
             ?></div>
     <?php endif; ?>
+    <div class="day_chooser col-lg-4">
+        <div class="input-group">
+            <span class="input-group-btn">
+       <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
+           [
+               '/schedule/recorder',
+               'start_date' => date('d.m.Y', strtotime($start_date . ' -1 day')),
+
+           ],
+           [
+               'class' => 'btn btn-primary',
+               'id' => 'back',
+           ]) ?>
+            </span>
+            <?= Html::dropDownList('month-list',
+                $start_date,
+                AppointmentManager::getDayList($start_date),
+                [
+                    'id' => 'month-list',
+                    'class' => 'form-control',
+                ]
+            );
+            ?>
+            <span class="input-group-btn">
+        <?= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
+            ['/schedule/recorder',
+                'start_date' => date('d.m.Y', strtotime($start_date . ' +1 day')),
+            ]
+            , ['class' => 'btn btn-primary',
+                'id' => 'forward',]) ?>
+            </span>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -70,7 +103,7 @@ RecorderAsset::register($this);
                                         <?php if (!$appointmentDay->isHoliday): ?>
                                             <?php foreach ($appointmentDay->grid as $time => $appointment): ?>
                                                 <?php $tr_style = ($appointment != AppointmentDayManager::TIME_EMPTY && $appointment->Yavka === Appointment::PRESENCE_STATUS_APPEARED) ? 'success' : ''; ?>
-                                                <tr <?= $appointment == AppointmentDayManager::TIME_EMPTY ? 'class=empty' : 'class=\'appointment '.$tr_style.'\'' ?>>
+                                                <tr <?= $appointment == AppointmentDayManager::TIME_EMPTY ? 'class=empty' : 'class=\'appointment ' . $tr_style . '\'' ?>>
                                                     <td class="col-lg-1">
                                                         <div class="row">
                                                             <div class="col-lg-1">
@@ -133,7 +166,7 @@ RecorderAsset::register($this);
                                                                 'appointmentId' => $appointment->Id
                                                             ]) ?>
                                                         </td>
-                                                        <td class="col-lg-2 invoice-actions">
+                                                        <td class="col-lg-2 schedule-alert">
                                                             <?= ScheduleAlertButtonsWidget::widget([
                                                                 'patient_id' => $appointment->PatID,
                                                                 'employee_id' => Yii::$app->user->identity->employe->id

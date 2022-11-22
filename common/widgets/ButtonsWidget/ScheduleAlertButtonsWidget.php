@@ -12,7 +12,7 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
     public $patient_id;
     public $employee_id;
 
-    public $alignment=self::ALIGNMENT_VERTICAL;
+    public $alignment = self::ALIGNMENT_VERTICAL;
 
     public function __construct($config = [])
     {
@@ -96,7 +96,7 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
                         'target' => '_blank'
                     ]
                 ];
-            } elseif (in_array(UserInterface::getRoleNameCurrentUser(), $this->doctorRoles) and !empty(Invoice::getPatientDebtsForDoctor($this->patient_id,$this->employee_id))) {
+            } elseif (in_array(UserInterface::getRoleNameCurrentUser(), $this->doctorRoles) and !empty(Invoice::getPatientDebtsForDoctor($this->patient_id, $this->employee_id))) {
                 $this->buttons[] = [
                     //назначить
                     'role_available' => $this->doctorRoles,
@@ -117,12 +117,11 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
 
     private function getTodayInvoice()
     {
-        $invoice=Invoice::find()
+        $invoice = Invoice::find()
             ->where(['patient_id' => $this->patient_id])
-            ->andWhere('amount_payable<>paid')
             ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
-            ->andWhere(['doctor_id'=>$this->employee_id])
-            ->andWhere(['created_at'=>date('Y-m-d')])
+            ->andWhere(['doctor_id' => $this->employee_id])
+            ->andWhere(['created_at' => date('Y-m-d')])
             ->one();
 
         if (!empty($invoice)) {
@@ -133,7 +132,7 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
                 'url' => [
                     '/patient/records/create',
                     'patient_id' => $this->patient_id,
-                    'invoice_id'=>$invoice->id,
+                    'invoice_id' => $invoice->id,
                 ],
                 'options' => [
                     'class' => 'btn btn-xs btn-danger',
