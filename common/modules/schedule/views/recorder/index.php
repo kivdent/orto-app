@@ -48,13 +48,14 @@ RecorderAsset::register($this);
             );
             ?></div>
     <?php endif; ?>
+    <?php if ($options['day_chooser'] == RecorderController::ELEMENT_SHOW):?>
     <div class="day_chooser col-lg-4">
         <div class="input-group">
             <span class="input-group-btn">
        <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
            [
                '/schedule/recorder',
-               'start_date' => date('d.m.Y', strtotime($start_date . ' -1 day')),
+               'start_date' => date('d.m.Y', strtotime($start_date . ' - 1 day')),
 
            ],
            [
@@ -74,13 +75,14 @@ RecorderAsset::register($this);
             <span class="input-group-btn">
         <?= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
             ['/schedule/recorder',
-                'start_date' => date('d.m.Y', strtotime($start_date . ' +1 day')),
+                'start_date' => date('d.m.Y', strtotime($start_date . ' + 1 day')),
             ]
             , ['class' => 'btn btn-primary',
                 'id' => 'forward',]) ?>
             </span>
         </div>
     </div>
+    <?php endif;?>
 </div>
 
 <div class="row">
@@ -98,7 +100,7 @@ RecorderAsset::register($this);
                         <?php endif; ?>
                         <div class="row">
                             <?php foreach ($appointmentDayManager->appointmentsDays as $appointmentDay): ?>
-                                <div class="col-lg-12">
+                                <span class="col-lg-12">
                                     <table class="table table-bordered">
                                         <?php if (!$appointmentDay->isHoliday): ?>
                                             <?php foreach ($appointmentDay->grid as $time => $appointment): ?>
@@ -185,6 +187,11 @@ RecorderAsset::register($this);
                                                                 <div class="notice-result"
                                                                      appointment_id="<?= $appointment->Id ?>">
                                                                 </div>
+                                                            <?php else:?>
+                                                            <span class="label label-info">
+                                                                <?=$appointment->noticeResult->RezObzv?>
+                                                            </span>
+
                                                             <?php endif; ?>
                                                         </td>
                                                     <?php endif; ?>

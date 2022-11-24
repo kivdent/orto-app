@@ -47,15 +47,16 @@ class RecorderController extends \yii\web\Controller
 
     public function actionIndex($start_date = 'now')
     {
-        $start_date = 'now' ? date('d.m.Y') : $start_date;
+        $start_date = $start_date == 'now' ? date('d.m.Y') : $start_date;
         $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
-        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
+        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
             'start_date' => $start_date,
             'options' => [
                 'doctor_chooser' => self::ELEMENT_SHOW,
                 'full_table_chooser' => self::ELEMENT_SHOW,
+                'day_chooser' => self::ELEMENT_SHOW,
 
             ],
         ]);
@@ -63,15 +64,16 @@ class RecorderController extends \yii\web\Controller
 
     public function actionDoctorIndex($start_date = 'noe')
     {
-        $start_date = 'now' ? date('d.m.Y') : $start_date;
+        $start_date =$start_date = 'now' ? date('d.m.Y') : $start_date;
         $doctor_ids = [Yii::$app->user->identity->employe_id];
-        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, date('d.m.Y'), AppointmentManager::DURATION_ONE_DAY);
+        $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
             'start_date' => $start_date,
             'options' => [
                 'doctor_chooser' => self::ELEMENT_HIDE,
                 'full_table_chooser' => self::ELEMENT_SHOW,
+                'day_chooser' => self::ELEMENT_HIDE,
 
             ]
         ]);

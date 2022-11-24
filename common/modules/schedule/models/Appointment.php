@@ -10,6 +10,7 @@ use common\modules\patient\models\Patient;
  * @property Patient $patient
  * @property  AppointmentsDay $appointments_day
  * @property  AppointmentContent $appointmentContent
+ * @property  NoticeResult $noticeResult
  */
 class Appointment extends \common\models\Appointment
 {
@@ -85,4 +86,5 @@ class Appointment extends \common\models\Appointment
     public function getNoticeResult(){
         return $this->hasOne(NoticeResult::class,['id'=>'RezObzv']);
     }
+
 }

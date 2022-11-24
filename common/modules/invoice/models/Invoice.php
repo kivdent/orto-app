@@ -5,6 +5,7 @@ namespace common\modules\invoice\models;
 
 use common\modules\cash\models\Payment;
 use common\modules\employee\models\Employee;
+use common\modules\patient\models\MedicalRecords;
 use common\modules\pricelists\models\Prices;
 use common\modules\reports\models\FinancialPeriods;
 use common\modules\userInterface\models\UserInterface;
@@ -32,6 +33,7 @@ use common\modules\invoice\models\InvoiceItems;
  * @property TechnicalOrder $technicalOrderForInvoice
  * @property Invoice $doctorInvoiceForTechnicalOrder
  * @property string $doctorFullNameForTechnicalOrder
+ * @property MedicalRecords $medicalRecords
  *
  */
 class Invoice extends \common\models\Invoice
@@ -119,13 +121,14 @@ class Invoice extends \common\models\Invoice
             ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
             ->all();
     }
-public static function getPatientDebtsForDoctor($patient_id,$doctor_id)
+
+    public static function getPatientDebtsForDoctor($patient_id, $doctor_id)
     {
         return self::find()
             ->where(['patient_id' => $patient_id])
             ->andWhere('amount_payable<>paid')
             ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
-            ->andWhere(['doctor_id'=>$doctor_id])
+            ->andWhere(['doctor_id' => $doctor_id])
             ->all();
     }
 
@@ -301,7 +304,8 @@ public static function getPatientDebtsForDoctor($patient_id,$doctor_id)
     {
         return $this->technicalOrder ? true : false;
     }
- public function hasTechnicalOrderForInvoice()
+
+    public function hasTechnicalOrderForInvoice()
     {
         return $this->technicalOrderForInvoice ? true : false;
     }
@@ -313,8 +317,8 @@ public static function getPatientDebtsForDoctor($patient_id,$doctor_id)
         $invoicesWithCompliance = [];
         $invoices = Invoice::find()->where(['patient_id' => $patient_id])
             ->andWhere(['doctor_id' => $employeeId])
-            ->andWhere('created_at>=\'' . $startDate.'\'')
-            ->andWhere('created_at<= \'' . $endDate.'\'')
+            ->andWhere('created_at>=\'' . $startDate . '\'')
+            ->andWhere('created_at<= \'' . $endDate . '\'')
             ->all();
 
         foreach ($invoices as $invoice) {
@@ -335,4 +339,8 @@ public static function getPatientDebtsForDoctor($patient_id,$doctor_id)
         return false;
     }
 
+    public function getMedicalRecords(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(MedicalRecords::class, ['invoice_id' => 'id']);
+    }
 }

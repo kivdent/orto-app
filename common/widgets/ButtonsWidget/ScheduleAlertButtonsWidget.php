@@ -125,6 +125,7 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
             ->one();
 
         if (!empty($invoice)) {
+            $class = $invoice->medicalRecords ? 'btn btn-xs btn-success' : 'btn btn-xs btn-danger';
             $this->buttons[] = [
                 //назначить
                 'role_available' => [UserInterface::ROLE_THERAPIST],
@@ -135,7 +136,7 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
                     'invoice_id' => $invoice->id,
                 ],
                 'options' => [
-                    'class' => 'btn btn-xs btn-danger',
+                    'class' => $class,
                     'target' => '_blank'
                 ]
             ];
