@@ -35,6 +35,13 @@ class Appointment extends \common\models\Appointment
         return NoticeResult::getNoticeResultList();
     }
 
+    public static function getAppointmentsForTimeList(AppointmentsDay $appointment_day)
+    {
+
+        return self::find()->where(['dayPR' => $appointment_day->id, 'status' => self::STATUS_ACTIVE])->orderBy('NachNaz')->all();
+
+    }
+
     public function getPatient()
     {
         return $this->hasOne(Patient::className(), ['id' => 'PatID']);

@@ -35,14 +35,15 @@ class AppointmentsDay extends \common\models\AppointmentsDay
 
         $duration = $appointment_day->TimePat * 60;
         $start_time = strtotime($appointment_day->date . ' ' . $start_time) + $duration;
-        $end_time = strtotime($appointment_day->date . ' ' . $appointment_day->Okonch) - $duration;
-        $appointments = Appointment::getAppointmentsForAppointmentDay($appointment_day);
-       // UserInterface::getVar($appointment_day);
+        $end_time = strtotime($appointment_day->date . ' ' . $appointment_day->Okonch);
+        $appointments = Appointment::getAppointmentsForTimeList($appointment_day);
+//        UserInterface::getVar($appointments);
         if ($appointments) {
             foreach ($appointments as $appointment) {
                 $appointment_time = strtotime($appointment_day->date . ' ' . $appointment->NachNaz);
                 if ($appointment_time >= $start_time) {
                     $end_time = $appointment_time;
+                    break;
                 }
             }
         }

@@ -100,7 +100,7 @@ RecorderAsset::register($this);
                         <?php endif; ?>
                         <div class="row">
                             <?php foreach ($appointmentDayManager->appointmentsDays as $appointmentDay): ?>
-                                <span class="col-lg-12">
+                                <div class="col-lg-12">
                                     <table class="table table-bordered">
                                         <?php if (!$appointmentDay->isHoliday): ?>
                                             <?php foreach ($appointmentDay->grid as $time => $appointment): ?>
@@ -126,7 +126,7 @@ RecorderAsset::register($this);
                                                         <?php endif; ?>
                                                     </td>
                                                     <?php if ($appointment == AppointmentDayManager::TIME_EMPTY): ?>
-                                                        <td colspan="3">
+                                                        <td colspan="4">
                                                             <?= Html::a('Назначить', ['/schedule/appointment/create',
                                                                 'appointment_day_id' => 'new',
                                                                 'doctor_id' => $appointmentDay->appointmentsDay->vrachID,
@@ -191,7 +191,6 @@ RecorderAsset::register($this);
                                                             <span class="label label-info">
                                                                 <?=$appointment->noticeResult->RezObzv?>
                                                             </span>
-
                                                             <?php endif; ?>
                                                         </td>
                                                     <?php endif; ?>

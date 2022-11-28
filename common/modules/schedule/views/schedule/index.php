@@ -59,7 +59,11 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
 
                                                     <?php else: ?>
 
-                                                        <?=Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                        <?=$appointmentDay->appointments?
+                                                            Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                            ['/schedule/recorder','start_date'=>UserInterface::getFormatedDate($appointmentDay->date)],
+                                                            ['class'=>'btn btn-danger btn-xs','role'=>'button']):
+                                                            Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                             ['update','id'=>$appointmentDay->id],
                                                             ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
                                                     <?php endif; ?>
