@@ -98,10 +98,11 @@ class InvoiceActionsButtonWidget extends ButtonsWidget
                 ]
             ];
         }
-        $roles=$this->doctorRoles+[UserInterface::ROLE_RADIOLOGIST];
+        $roles=$this->doctorRoles;
+        array_push($roles,UserInterface::ROLE_RADIOLOGIST);
+
         $this->buttons[] = [
             //рентген
-
             'role_available' => $roles,
             'text' => Html::encode("Рентген"),
             'url' => [
