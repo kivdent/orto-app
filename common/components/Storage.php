@@ -13,6 +13,7 @@ use Arhitector\Yandex\Disk;
 class Storage extends Component
 {
     const TYPE_PHOTO = 'photo';
+    const TYPE_DOCS = 'docs';
     const TYPE_PRICELIST = 'pricelist';
     private $fileName;
 
@@ -63,7 +64,7 @@ class Storage extends Component
         return $file->name;
     }
 
-    protected function getStoragePath($type)
+    public function getStoragePath($type)
     {
         return Yii::getAlias(Yii::$app->params[$type . '_path']);
 

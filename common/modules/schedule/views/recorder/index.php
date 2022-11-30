@@ -18,6 +18,7 @@ use common\modules\schedule\models\AppointmentManager;
 use common\modules\userInterface\models\UserInterface;
 use common\modules\userInterface\widgets\ScheduleAlertsWidgets;
 use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
+use common\widgets\ButtonsWidget\ButtonsWidget;
 use common\widgets\ButtonsWidget\InvoiceActionsButtonWidget;
 use common\widgets\ButtonsWidget\ScheduleAlertButtonsWidget;
 use yii\helpers\Html;
@@ -165,7 +166,9 @@ RecorderAsset::register($this);
 
                                                         <td class="col-lg-2 invoice-actions">
                                                             <?= InvoiceActionsButtonWidget::widget([
-                                                                'appointmentId' => $appointment->Id
+                                                                'appointmentId' => $appointment->Id,
+                                                                'style' => ButtonsWidget::STYLE_DROPDOWN,
+                                                                'label' => 'Счёт'
                                                             ]) ?>
                                                         </td>
                                                         <td class="col-lg-2 schedule-alert">
@@ -188,6 +191,7 @@ RecorderAsset::register($this);
                                                                      appointment_id="<?= $appointment->Id ?>">
                                                                 </div>
                                                             <?php else:?>
+                                                            <br>
                                                             <span class="label label-info">
                                                                 <?=$appointment->noticeResult->RezObzv?>
                                                             </span>

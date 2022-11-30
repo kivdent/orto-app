@@ -81,7 +81,7 @@ class InvoiceActionsButtonWidget extends ButtonsWidget
                     'target' => '_blank'
                 ]
             ];
-        } elseif ($appointment->patient->hasSchemeOrthodonticWithDoctor($appointment->appointments_day->vrachID)){
+        } elseif ($appointment->patient->hasSchemeOrthodonticWithDoctor($appointment->appointments_day->vrachID)) {
             $this->buttons[] = [
                 //Гигиена
                 'role_available' => [UserInterface::ROLE_ORTHODONTIST],
@@ -98,5 +98,24 @@ class InvoiceActionsButtonWidget extends ButtonsWidget
                 ]
             ];
         }
+        $roles=$this->doctorRoles+[UserInterface::ROLE_RADIOLOGIST];
+        $this->buttons[] = [
+            //рентген
+
+            'role_available' => $roles,
+            'text' => Html::encode("Рентген"),
+            'url' => [
+                '/invoice/manage/create',
+                'patient_id' => $appointment->PatID,
+                'appointment_id' => $appointment->Id,
+                'invoice_type'=>Invoice::TYPE_MANIPULATIONS,
+                'employee_choice'=>true
+            ],
+            'options' => [
+                'class' => 'btn btn-xs btn-info',
+                'title' => 'Выписать счет за рентгенографию',
+                'target' => '_blank'
+            ]
+        ];
     }
 }

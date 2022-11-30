@@ -12,6 +12,10 @@ class ButtonsWidget extends \yii\base\Widget
     const ALIGNMENT_VERTICAL = 'btn-group-vertical';
     const ROLE_ALL = 'all';
 
+    const STYLE_DROPDOWN = 'button dropdown';
+    const STYLE_GROUP = 'button group';
+
+
     public $alignment = self::ALIGNMENT_HORIZONTAL;
     /**
      * @var array
@@ -46,27 +50,41 @@ class ButtonsWidget extends \yii\base\Widget
         UserInterface::ROLE_ORTHODONTIST,
         UserInterface::ROLE_SURGEON
     ];
+    /**
+     * @var mixed
+     */
+    public $style = self::STYLE_GROUP;
+    public $label ='Действия';
+
 
     public function run()
     {
-
         $buttons = '';
-//                    UserInterface::getVar($this->buttons);
+        //UserInterface::getVar($this->buttons);
         foreach ($this->buttons as $button) {
-
             if ($this->canUseButton($button['role_available'])) {
-
-                $buttons .= Html::a(
-                    Html::decode($button['text']),
-                    $button['url'],
-                    $button['options']
-                );
+                if ($this->style == self::STYLE_GROUP) {
+                    $buttons .= Html::a(
+                        Html::decode($button['text']),
+                        $button['url'],
+                        $button['options']
+                    );
+                } else {
+                    $buttons .= '<li>'.Html::a(
+                        Html::decode($button['text']),
+                        $button['url'],
+                        ['target'=>'_blank']
+                    ).'</li>';
+                }
             }
         }
 
         return $this->render('widget', [
                 'buttons' => $buttons,
                 'alignment' => $this->alignment,
+                'style' => $this->style,
+                'label' => $this->label,
+                'buttons_class' => $this->buttons_class,
             ]
 
         );

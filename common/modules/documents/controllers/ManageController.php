@@ -2,6 +2,8 @@
 
 namespace common\modules\documents\controllers;
 
+use common\components\Storage;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
 use common\modules\documents\models\Notes;
 use common\modules\documents\models\NotesSearch;
@@ -70,6 +72,7 @@ class ManageController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+
     /**
      * Print a single Notes model.
      * @param integer $id
@@ -140,7 +143,7 @@ class ManageController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index','patient_id'=>Yii::$app->userInterface->params['patient_id']]);
+        return $this->redirect(['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']]);
     }
 
     /**
@@ -154,19 +157,35 @@ class ManageController extends Controller
     {
         if (($model = Notes::findOne($id)) !== null) {
             if (!isset(Yii::$app->userInterface->params['patient_id'])) {
-                Yii::$app->userInterface->params['patient_id']=$model->patient_id;
+                Yii::$app->userInterface->params['patient_id'] = $model->patient_id;
             }
             return $model;
         }
 
         throw new NotFoundHttpException('Запрашиваемая страница не найдена.');
     }
-    public function actionPdf($notes_id){
-        $pdf=new \FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(40,10,'Hello World!');
-        $pdf->Output("/report.pdf", "I" );
+
+    public function actionPdf($notes_id)
+    {
+//        $pdf = new \FPDF();
+//        $pdf->AddPage();
+//        $pdf->SetFont('Arial', 'B', 16);
+//        $pdf->Cell(40, 10, 'Hello World!');
+//        $pdf->Output("/report.pdf", "I");
+        $storage = new Storage();
+        $path = $storage->getStoragePath(Storage::TYPE_DOCS);
+        $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
+        $templateProcessor->setValue('num_dogovor', '4444');
+        $templateProcessor->setValue('name', 'Иванов Иван Иванович');
+        $path = $storage->getStorageUri(Storage::TYPE_DOCS);
+        $templateProcessor->saveAs('/var/www/orto/frontend/web'.$path .'dogovor.docx');
+        return $this->redirect([$path . 'dogovor.docx']);
+    }
+
+    public function actionDocx($notes_id)
+    {
+        $path = Yii::$app->components->getStoragePath(Storage::TYPE_DOCS);
+        $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
 
     }
 }

@@ -28,7 +28,8 @@
         "kartik-v/yii2-icons": "@dev",
         "kartik-v/yii2-widgets": "dev-master",
         "arhitector/yandex": "dev-master",
-        "setasign/fpdf": "1.8"
+        "setasign/fpdf": "1.8",
+        "phpoffice/phpword": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

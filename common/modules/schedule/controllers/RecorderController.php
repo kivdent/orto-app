@@ -33,7 +33,7 @@ class RecorderController extends \yii\web\Controller
                     [
                         'allow' => true,
                         'actions' => [],
-                        'roles' => ['admin', 'recorder', 'senior_recorder',],
+                        'roles' => ['admin', 'recorder', 'senior_recorder','radiologist'],
                     ],
                     [
                         'allow' => true,
