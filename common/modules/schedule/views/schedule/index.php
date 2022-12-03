@@ -29,7 +29,6 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
         </div>
     </div>
     <table class="table table-bordered">
-
         <?php foreach ($scheduleManager->rows as $row): ?>
             <tr>
                 <!--        <div class="row">-->
@@ -40,9 +39,9 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                 <div class="panel-heading">
                                     <h3 class="panel-title"><?= date('d.m.Y', $days->date) ?></h3>
                                     <?= UserInterface::getDayWeekName(date('N', $days->date)) ?>
-                                    <?=Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
-                                    ['create','date'=>$days->date],
-                                    ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
+                                    <?= Html::a('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>',
+                                        ['create', 'date' => $days->date],
+                                        ['class' => 'btn btn-default btn-xs', 'role' => 'button']) ?>
 
                                 </div>
                                 <table class="table">
@@ -53,19 +52,18 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                                 <td>
                                                     <?= $appointmentDay->workplace->nazv ?>
                                                     <?php if ($appointmentDay->isNewRecord): ?>
-                                                        <?=Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
-                                                            ['create','date'=>$days->date,'doctor_id'=>$appointmentDay->doctor->id],
-                                                            ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
+                                                        <?= Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                            ['create', 'date' => $days->date, 'doctor_id' => $appointmentDay->doctor->id],
+                                                            ['class' => 'btn btn-default btn-xs', 'role' => 'button']) ?>
 
                                                     <?php else: ?>
-
-                                                        <?=$appointmentDay->appointments?
+                                                        <?= $appointmentDay->hasActiveAppointments() ?
                                                             Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
-                                                            ['/schedule/recorder','start_date'=>UserInterface::getFormatedDate($appointmentDay->date)],
-                                                            ['class'=>'btn btn-danger btn-xs','role'=>'button']):
+                                                                ['update', 'id' => $appointmentDay->id],
+                                                                ['class' => 'btn btn-danger btn-xs', 'role' => 'button']) :
                                                             Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
-                                                            ['update','id'=>$appointmentDay->id],
-                                                            ['class'=>'btn btn-default btn-xs','role'=>'button'])?>
+                                                                ['update', 'id' => $appointmentDay->id],
+                                                                ['class' => 'btn btn-default btn-xs', 'role' => 'button']) ?>
                                                     <?php endif; ?>
                                                     <?= $appointmentDay->doctor->fullName; ?>
                                                     <?= $appointmentDay->Nach ?>-
@@ -90,6 +88,6 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                     </td>
                 <?php endforeach; ?>
             </tr>
-            <?php endforeach; ?>
-            </table>
-        </div>
+        <?php endforeach; ?>
+    </table>
+</div>

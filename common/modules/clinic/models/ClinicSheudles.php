@@ -17,13 +17,21 @@ use yii\db\ActiveRecord;
  * @property string $updated_at
  * @property string $start_date
  * @property int $status
+ * @property string $start_time
+ * @property string $end_time
  */
-class ClinicSheudles extends \yii\db\ActiveRecord {
+class ClinicSheudles extends \yii\db\ActiveRecord
+{
 
     const STATUS_ACTIVE = '1';
     const STATUS_INACTIVE = '0';
 
-    public function beforeSave($insert) {
+    const START_TIME = '08:00:00';
+    const END_TIME = '20:00:00';
+    const DURATION = '15';
+
+    public function beforeSave($insert)
+    {
         if (!parent::beforeSave($insert)) {
             return false;
         }
@@ -31,8 +39,9 @@ class ClinicSheudles extends \yii\db\ActiveRecord {
         return true;
     }
 
-    public function behaviors() {
-        return[
+    public function behaviors()
+    {
+        return [
             [
                 'class' => TimestampBehavior::className(),
                 'value' => new Expression('NOW()'),
@@ -43,14 +52,16 @@ class ClinicSheudles extends \yii\db\ActiveRecord {
     /**
      * {@inheritdoc}
      */
-    public static function tableName() {
+    public static function tableName()
+    {
         return 'clinic_sheudles';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules() {
+    public function rules()
+    {
         return [
             [['name', 'clinic_id', 'start_date', 'status'], 'required'],
             [['clinic_id', 'status'], 'integer'],
@@ -63,7 +74,8 @@ class ClinicSheudles extends \yii\db\ActiveRecord {
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         return [
             'id' => 'ID',
             'name' => 'Название',
@@ -75,11 +87,25 @@ class ClinicSheudles extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getStatusLists() {
+    public function getStatusLists()
+    {
         return [
             self::STATUS_ACTIVE => 'Активно',
             self::STATUS_INACTIVE => 'Неактивно'
         ];
     }
 
+    public static function getStart_time()
+    {
+        return self::START_TIME;
+    }
+
+    public static function getEnd_time()
+    {
+        return self::END_TIME;
+    }
+    public static function getDuration()
+    {
+        return self::DURATION;
+    }
 }

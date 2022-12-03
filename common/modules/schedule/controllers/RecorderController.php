@@ -33,7 +33,7 @@ class RecorderController extends \yii\web\Controller
                     [
                         'allow' => true,
                         'actions' => [],
-                        'roles' => ['admin', 'recorder', 'senior_recorder','radiologist'],
+                        'roles' => ['admin', 'recorder', 'senior_recorder', 'radiologist'],
                     ],
                     [
                         'allow' => true,
@@ -45,26 +45,31 @@ class RecorderController extends \yii\web\Controller
         ];
     }
 
-    public function actionIndex($start_date = 'now')
+    public function actionIndex($start_date = 'now', $doctor_ids = 'all')
     {
         $start_date = $start_date == 'now' ? date('d.m.Y') : $start_date;
-        $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
+        if ($doctor_ids == 'all') {
+            $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
+        } else if (!is_array($doctor_ids)) {
+            $doctor_ids = [$doctor_ids];
+        }
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
             'start_date' => $start_date,
+
             'options' => [
                 'doctor_chooser' => self::ELEMENT_SHOW,
                 'full_table_chooser' => self::ELEMENT_SHOW,
                 'day_chooser' => self::ELEMENT_SHOW,
-
+                'doctor_ids' =>  $doctor_ids,
             ],
         ]);
     }
 
     public function actionDoctorIndex($start_date = 'noe')
     {
-        $start_date =$start_date = 'now' ? date('d.m.Y') : $start_date;
+        $start_date = $start_date = 'now' ? date('d.m.Y') : $start_date;
         $doctor_ids = [Yii::$app->user->identity->employe_id];
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [

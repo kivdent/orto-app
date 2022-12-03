@@ -3,9 +3,11 @@
 
 namespace common\modules\schedule\models;
 
+use common\modules\clinic\models\ClinicSheudles;
 use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
 use common\modules\userInterface\models\UserInterface;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property string $title
@@ -30,9 +32,7 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public static function getTimeListForNextAppointment($doctor_id, $date, $start_time)
     {
         $list = [];
-
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
-
         $duration = $appointment_day->TimePat * 60;
         $start_time = strtotime($appointment_day->date . ' ' . $start_time) + $duration;
         $end_time = strtotime($appointment_day->date . ' ' . $appointment_day->Okonch);
@@ -47,11 +47,9 @@ class AppointmentsDay extends \common\models\AppointmentsDay
                 }
             }
         }
-
         for ($time = $start_time; $time <= $end_time; $time += $duration) {
             $list[date('H:i', $time)] = date('H:i', $time);
         }
-
         return $list;
     }
 
@@ -105,5 +103,42 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
             ->andWhere('NachNaz=\'' . date('H:i:s', $time) . '\'')
             ->one();
+    }
+
+    public function hasActiveAppointments()
+    {
+        return (bool)Appointment::find()
+            ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
+            ->all();
+    }
+    public function getTimeListBeforeFirstAppointment()
+    {
+        $list = [];
+        $duration = $this->TimePat * 60;
+        $start_time =  strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
+        $end_time = strtotime($this->date . ' ' . ClinicSheudles::getEnd_time());
+        $appointments = Appointment::getAppointmentsForTimeList($this);
+        if ($appointments) {
+            $end_time = strtotime($this->date . ' ' .  reset($appointments)->NachNaz);
+        }
+        for ($time = $start_time; $time <= $end_time; $time += $duration) {
+            $list[date('H:i', $time)] = date('H:i', $time);
+        }
+        return $list;
+    }
+    public function getTimeListAfterLastAppointment()
+    {
+        $list = [];
+        $duration = $this->TimePat * 60;
+         $start_time =  strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
+        $end_time = strtotime($this->date . ' ' .ClinicSheudles::getEnd_time());
+        $appointments = Appointment::getAppointmentsForTimeList($this);
+        if ($appointments) {
+            $start_time = strtotime($this->date . ' ' .  end($appointments)->OkonchNaz);
+        }
+        for ($time = $start_time; $time <= $end_time; $time += $duration) {
+            $list[date('H:i', $time)] = date('H:i', $time);
+        }
+        return $list;
     }
 }

@@ -148,7 +148,8 @@ RecorderAsset::register($this);
                                                                                 'patient_id' => $appointment->patient->id,
                                                                             ],
                                                                             [
-                                                                                'target' => '_blank'
+                                                                                'target' => '_blank',
+                                                                                'title' => 'Номер карты: '.$appointment->patient->id
                                                                             ]) ?><br>
                                                                         <?= $appointment->appointment_content ?></small>
                                                                 </div>
@@ -162,7 +163,6 @@ RecorderAsset::register($this);
                                                                 </div>
                                                             </div>
                                                         </td>
-
 
                                                         <td class="col-lg-2 invoice-actions">
                                                             <?= InvoiceActionsButtonWidget::widget([

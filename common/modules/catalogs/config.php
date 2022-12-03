@@ -14,7 +14,7 @@ return [
             ['label' => 'Назначения', 'url' => '/catalogs/prescriptions', 'roles' => ['admin',]],
             ['label' => 'Направления', 'url' => '/catalogs/referral', 'roles' => ['admin',]],
             ['label' => 'Операции плана лечения', 'url' => '/catalogs/operation', 'roles' => ['admin',]],
-            ['label' => 'Содержания назначения', 'url' => '/catalogs/appointment-content', 'roles' => ['admin',]],
+            ['label' => 'Содержания назначения', 'url' => '/catalogs/appointment-content', 'roles' => ['admin',\common\modules\userInterface\models\UserInterface::ROLE_SENIOR_RECORDER]],
             ['label' => 'Реквизиты фирм', 'url' => '/old_app/spr_firm.php', 'roles' => ['admin',]],
             ['label' => 'Договора', 'url' => '/old_app/spr_dogovora.php', 'roles' => ['admin',]],
             ['label' => 'Клише', 'url' => '/old_app/klishe.php', 'roles' => ['admin',]],

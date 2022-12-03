@@ -19,7 +19,6 @@ use kartik\date\DatePicker;
 <div class="appointments-day-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-
         <div class="col-lg-6" >
                 <?= $form->field($model, 'vrachID')->widget(Select2::classname(), [
                     'data' => Employee::getDoctorsList(),
@@ -28,8 +27,8 @@ use kartik\date\DatePicker;
                         'allowClear' => true
                     ],
                 ]); ?>
-
         </div>
+
         <div class="col-lg-4">
             <?= $form->field($model, 'date')->widget(
                 DatePicker::classname(), [
@@ -42,8 +41,8 @@ use kartik\date\DatePicker;
             ]); ?>
         </div>
     </div>
-    <div class="row">
 
+    <div class="row">
         <div class="col-lg-4 hidden" >
             <?= $form->field($model, 'vih')->dropDownList(BaseSchedulesDays::getHolidayList(),['disabled'=>'disabled']) ?>
         </div>
@@ -51,13 +50,14 @@ use kartik\date\DatePicker;
             <?= $form->field($model, 'rabmestoID')->dropDownList(Workplaces::getWorkplacesList()) ?>
         </div>
     </div>
+
     <div class="row">
+        <div class="col-lg-2">
+            <?= $form->field($model, 'Nach')->dropDownList($model->getTimeListBeforeFirstAppointment()) ?>
+        </div>
 
         <div class="col-lg-2">
-            <?= $form->field($model, 'Nach')->dropDownList(BaseSchedules::getTimeList()) ?>
-        </div>
-        <div class="col-lg-2">
-            <?= $form->field($model, 'Okonch')->dropDownList(BaseSchedules::getTimeList()) ?>
+            <?= $form->field($model, 'Okonch')->dropDownList($model->getTimeListAfterLastAppointment()) ?>
         </div>
 
         <div class="col-lg-2">

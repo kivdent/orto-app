@@ -153,7 +153,11 @@ class AppointmentController extends Controller
                 $transaction->rollBack();
                 throw $e;
             }
-            return $this->redirect('index');
+
+            return $this->redirect(['index',
+                'start_date' => UserInterface::getFormatedDate($appointment_day->date),
+                'doctor_ids' => $doctor_id,
+            ]);
         }
         return $this->render('create', [
             'model' => $model,
