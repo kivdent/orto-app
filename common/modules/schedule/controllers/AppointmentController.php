@@ -3,6 +3,8 @@
 namespace common\modules\schedule\controllers;
 
 use common\modules\employee\models\Employee;
+use common\modules\patient\models\Patient;
+use common\modules\schedule\models\AppointmentContent;
 use common\modules\schedule\models\AppointmentManager;
 use common\modules\schedule\models\AppointmentsDay;
 use common\modules\schedule\models\BaseSchedules;
@@ -61,7 +63,6 @@ class AppointmentController extends Controller
             $doctor_ids = [$id];
             $doctor_id = $id;
         }
-
 
 
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
@@ -137,7 +138,7 @@ class AppointmentController extends Controller
 //        $model->validate();
 //        UserInterface::getVar($model->getErrors());
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
+            UserInterface::getVar(Yii::$app->request->post());
             $transaction = Appointment::getDb()->beginTransaction();
             try {
                 if ($appointment_day->isNewRecord) {
@@ -225,4 +226,135 @@ class AppointmentController extends Controller
         return $html;
     }
 
+    public function actionGetPatientName()
+    {
+        $name = '';
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            if ($patient = Patient::findOne(Yii::$app->request->post('patient_id'))) {
+                return [
+                    'fullName' => $patient->fullName
+                ];
+            } else {
+                return 'error';
+            }
+        }
+        return $name;
+    }
+
+    public function actionGetTimeListForNextAppointment()
+    {
+        $time_list = '';
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $doctor_id = Yii::$app->request->post('doctor_id');
+            $endTime = Yii::$app->request->post('time');
+            $time = strtotime(Yii::$app->request->post('date') . ' ' . $endTime . ':00');
+
+            if ($time_list = AppointmentsDay::getTimeListForNextAppointment($doctor_id, $time, $endTime)) {
+                return [
+                    'time_list' => $time_list,
+                ];
+            } else {
+                return 'error';
+            }
+        }
+        return $time_list;
+    }
+
+    public function actionGetTimeListForAppointmentContent()
+    {
+        $list = '';
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            if ($list = AppointmentContent::getContentList()) {
+                asort($list);
+                return [
+                    'list' => $list,
+                ];
+            } else {
+                return 'error';
+            }
+        }
+        return $list;
+    }
+
+    public function actionUpdateAppointment()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax) {
+            $model = Appointment::findOne(Yii::$app->request->post('Appointment')['Id']);
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->save();
+                return 'success';
+            }
+        }
+    }
+
+    public function actionSetAppointment()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if (Yii::$app->request->isAjax) {
+
+            $model = new Appointment();
+            $model->Perv = 0;
+            $model->SoderzhNaz = 1;
+            $model->RezObzv = 55555;
+            $model->Yavka = 0;
+            $model->NachPr = '00:00:00';
+            $model->OkonchPr = '00:00:00';
+
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+                $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor(Yii::$app->request->post('doctor_id'), strtotime(Yii::$app->request->post('date')));
+
+                $transaction = Appointment::getDb()->beginTransaction();
+                try {
+                    if ($appointment_day->isNewRecord) {
+                        $appointment_day->save();
+                    }
+                    $model->dayPR = $appointment_day->id;
+
+                    $model->save();
+
+                    $transaction->commit();
+
+                    return $model->Id;
+
+                } catch (\Throwable $e) {
+
+                    $transaction->rollBack();
+                    throw $e;
+                    return "error";
+                }
+
+
+            }
+        }
+        return "error";
+    }
+
+    public function actionGetDoctorName()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            return Employee::findOne(Yii::$app->request->post('doctor_id'))->fullName;
+        }
+    }
+
+    public function actionCancelAppointment()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
+            $appointment->status = ($appointment->status == Appointment::STATUS_ACTIVE) ? Appointment::STATUS_CANCEL : Appointment::STATUS_ACTIVE;
+            $appointment->save(false);
+            Yii::$app->session->setFlash('success', 'Пациент отменён');
+            return 'success';
+        }
+    }
 }

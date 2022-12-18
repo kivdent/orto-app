@@ -21,6 +21,7 @@ class PatientFindController extends \yii\web\Controller
         foreach ($patients as $patient) {
             $response[$patient->id]['patient_id'] = $patient->id;
             $response[$patient->id]['patient_name'] = $patient->fullName;
+            $response[$patient->id]['date_of_birth'] = $patient->dr;
         }
         return $response;
     }

@@ -15,6 +15,7 @@ use common\modules\schedule\controllers\RecorderController;
 use common\modules\schedule\models\Appointment;
 use common\modules\schedule\models\AppointmentDayManager;
 use common\modules\schedule\models\AppointmentManager;
+use common\modules\schedule\widgets\AppointmentModalWidget;
 use common\modules\userInterface\models\UserInterface;
 use common\modules\userInterface\widgets\ScheduleAlertsWidgets;
 use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
@@ -128,15 +129,14 @@ RecorderAsset::register($this);
                                                     </td>
                                                     <?php if ($appointment == AppointmentDayManager::TIME_EMPTY): ?>
                                                         <td colspan="4">
-                                                            <?= Html::a('Назначить', ['/schedule/appointment/create',
+                                                            <?= AppointmentModalWidget::widget([
                                                                 'appointment_day_id' => 'new',
                                                                 'doctor_id' => $appointmentDay->appointmentsDay->vrachID,
                                                                 'date' => $appointmentDay->appointmentsDay->date,
-                                                                'time' => $time,
-                                                            ],
-                                                                [
-                                                                    'target' => '_blank'
-                                                                ]) ?>
+                                                                'time' => date('H:i', $time),
+                                                                'patient_id' => null,
+
+                                                            ]) ?>
                                                         </td>
                                                     <?php else: ?>
                                                         <td>
@@ -150,7 +150,7 @@ RecorderAsset::register($this);
                                                                             [
                                                                                 'target' => '_blank',
                                                                                 'title' => 'Номер карты: '.$appointment->patient->id
-                                                                            ]) ?><br>
+                                                                            ]) ?> <span class="label label-default"><?=$appointment->patient->id?></span><br>
                                                                         <?= $appointment->appointment_content ?></small>
                                                                 </div>
                                                             </div>

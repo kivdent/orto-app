@@ -56,6 +56,8 @@ class ButtonsWidget extends \yii\base\Widget
     public $style = self::STYLE_GROUP;
     public $label ='Действия';
 
+    public $js;
+    public $asset;
 
     public function run()
     {
@@ -85,6 +87,8 @@ class ButtonsWidget extends \yii\base\Widget
                 'style' => $this->style,
                 'label' => $this->label,
                 'buttons_class' => $this->buttons_class,
+                'js' => $this->js,
+                'asset' =>$this->asset,
             ]
 
         );
@@ -93,6 +97,6 @@ class ButtonsWidget extends \yii\base\Widget
     private function canUseButton(array $role_available)
     {
         return in_array(self::ROLE_ALL, $role_available)
-            || in_array(UserInterface::getRoleNameCurrentUser(), $role_available);
+            || in_array(UserInterface::getRoleNameCurrentUser(), $role_available)||UserInterface::isUserRole(UserInterface::ROLE_ADMIN);
     }
 }

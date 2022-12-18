@@ -1,0 +1,141 @@
+<!-- Modal -->
+<div class="modal fade" id="appointment-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Запись пациента</h4>
+            </div>
+            <div class="modal-body">
+                <div class="appointment-create">
+                    <h4 id="doctor-name">Врач: Корчемный Владимир Маркович</h4>
+                    <h4 id="appointment-date">Дата: 14.12.2022</h4>
+
+                    <div class="appointment-form">
+                        <div class="hidden">
+                            <div class="form-group field-patient_id required">
+                                <label class="control-label" for="patient_id">Пациент</label>
+                                <input type="text" id="patient_id" class="form-control" name="Appointment[PatID]"
+                                       aria-required="true">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12" id="patient">
+
+                                <label class="control-label" for="patient_input_group">Пациент</label>
+                                <div class="input-group" id="patient_input_group">
+                                    <input type="text" disabled="disabled" class="form-control" id="patient_name">
+                                    <span class="input-group-btn">
+                                     <button
+                                             type="button"
+                                             id="new_btn"
+                                             class="btn btn-primary new-patient-modal-open"
+                                             patient_id_target="#patient_id"
+                                             patient_name_target="#patient_name">
+                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                     </button>
+                                     <button
+                                             type="button"
+                                             id="find_btn"
+                                             class="btn btn-primary modal-find-patient-open"
+                                             patient_id_target="#patient_id"
+                                             patient_name_target="#patient_name">
+                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                     </button>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group field-appointment-nachnaz">
+                                    <label class="control-label" for="appointment-nachnaz">Начало приёма</label>
+                                    <input type="text" id="appointment-nachnaz" class="form-control"
+                                           name="Appointment[NachNaz]" value="08:00" readonly="readonly">
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group field-appointment-okonchnaz">
+                                    <label class="control-label" for="appointment-okonchnaz">Окончание приёма</label>
+                                    <select id="appointment-okonchnaz" class="form-control"
+                                            name="Appointment[OkonchNaz]">
+                                        <option value="08:15">08:15</option>
+                                        <option value="08:30">08:30</option>
+                                        <option value="08:45">08:45</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="09:15">09:15</option>
+                                        <option value="09:30">09:30</option>
+                                        <option value="09:45">09:45</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="10:15">10:15</option>
+                                        <option value="10:30">10:30</option>
+                                        <option value="10:45">10:45</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="11:15">11:15</option>
+                                        <option value="11:30">11:30</option>
+                                        <option value="11:45">11:45</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="12:15">12:15</option>
+                                        <option value="12:30">12:30</option>
+                                        <option value="12:45">12:45</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="13:15">13:15</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="13:45">13:45</option>
+                                        <option value="14:00">14:00</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group field-appointment-appointment_content">
+                                    <label class="control-label" for="appointment-appointment_content">Содержание
+                                        приёма</label>
+                                    <textarea id="appointment-appointment_content" class="form-control"
+                                              name="Appointment[appointment_content]" rows="6"></textarea>
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <select id="appointment-content-list" class="form-control">
+                                    <option value="1">Консультация</option>
+                                    <option value="2">Лечение кариеса</option>
+                                    <option value="3">Эндодонтия</option>
+                                    <option value="4">Контрольный осмотр</option>
+                                    <option value="17">фиксация коронки</option>
+                                    <option value="6">Замена каласепта</option>
+                                    <option value="7">Реставрация</option>
+                                    <option value="8">Проф гигиена</option>
+                                    <option value="9">Фиксация брекетов</option>
+                                    <option value="10">Снятие брекетов</option>
+                                    <option value="11">Припасовка</option>
+                                    <option value="12">Обработка зубов</option>
+                                    <option value="13">Сдача работы</option>
+                                    <option value="14">Определение ЦО</option>
+                                    <option value="15">Восстановление со штифтом</option>
+                                    <option value="18">удаление</option>
+                                    <option value="19">установка имплантата</option>
+                                    <option value="20">фиксация коронки</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Записать</button>
+            </div>
+        </div>
+    </div>
+</div>

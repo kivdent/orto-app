@@ -8,6 +8,7 @@ use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 $this->title='Назначения пациента '. Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
+\common\modules\schedule\assets\AppointmentAsset::register($this);
 ?>
 <h1>Назначения <?= Html::a('Назначить', [
         '/schedule/appointment/index',
@@ -41,16 +42,14 @@ $this->title='Назначения пациента '. Patient::findOne(Yii::$ap
             </div>
             <div class="col-lg-4">
                 <?php if ($appoitment->status === Appointment::STATUS_ACTIVE): ?>
-                    <?= Html::a(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', [
-                        '/schedule/appointment/cancel',
-                        'appointmentId' => $appoitment->Id,],
-                        [
-                            'class' => 'btn btn-xs btn-danger',
-                            'data' => [
-                                'confirm' => 'Вы уверены что хотите отменить пациента?',
-                                'method' => 'post',
+
+                    <?= Html::button(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
+                        ['class' => 'btn btn-xs btn-danger btn-remove-appointment',
+                            'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',
                             ],
-                            'title' => 'Отменить'
+                            'title' => 'Отменить',
+                            //'id'=>'remove-appointment',
+                            'appointmentId' => $appoitment->Id
                         ]);
                     ?>
                     <?= Html::a(' <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [

@@ -13,11 +13,11 @@ class PatientFindModalWidget extends \yii\base\Widget
     public function run()
     {
         return $this->render('_view',[
-            'findBtnText'=>$this->findBtnText,
+           'findBtnText'=>$this->findBtnText,
            'patientIdTarget'=>$this->patientIdTarget,
            'patientNameTarget'=>$this->patientNameTarget,
-            'newPatBtnText'=>$this->newPatBtnText,
-            'newPatBtn'=>$this->newPatBtn,
+           'newPatBtnText'=>$this->newPatBtnText,
+           'newPatBtn'=>$this->newPatBtn,
         ]);
     }
 }

@@ -16,14 +16,17 @@ use common\modules\schedule\models\AppointmentDayManager;
 use common\modules\schedule\models\AppointmentManager;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\ScheduleManager;
+
+use common\modules\schedule\widgets\AppointmentModalWidget;
 use common\modules\userInterface\models\UserInterface;
+use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
 use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\View;
 
 AppointmentAsset::register($this);
-if ($patient_id=='null') $patient_id=null;
+if ($patient_id == 'null') $patient_id = null;
 if ($patient_id) {
     $patient = \common\modules\patient\models\Patient::findOne($patient_id);
     $this->title = 'Назначение пациента ' . $patient->fullName;
@@ -38,7 +41,8 @@ $additionalTextDoctorIds = Url::to([
         '/schedule/appointment',
         'patient_id' => $patient_id,
         'doctor_ids' => $doctor_id,
-        'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
+        //'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
+        'start_date' => $start_date,
     ]) . '&doctor_ids=';
 ?>
 <div class="row">
@@ -163,38 +167,25 @@ $additionalTextDoctorIds = Url::to([
                                             </td>
                                             <td><?php if ($row == AppointmentDayManager::TIME_EMPTY): ?>
 
-                                                    <?= Html::a('Назначить', ['create',
+
+                                                    <?= AppointmentModalWidget::widget([
                                                         'appointment_day_id' => 'new',
                                                         'doctor_id' => $appointmentDay->appointmentsDay->vrachID,
                                                         'date' => $appointmentDay->appointmentsDay->date,
-                                                        'time' => $time,
-                                                        'patient_id' => $patient_id,]) ?>
+                                                        'time' => date('H:i', $time),
+                                                        'patient_id' => $patient_id,
+
+                                                    ]) ?>
                                                 <?php else: ?>
                                                     <?= Html::a($row->patient->fullName, ['/patient/manage/update',
                                                         'patient_id' => $row->patient->id,],
-                                                    [
-                                                        'title' => 'Номер карты: '.$row->patient->id
-                                                    ]) ?>
+                                                        [
+                                                            'title' => 'Номер карты: ' . $row->patient->id
+                                                        ]) ?>
                                                     <br>
-                                                    <?= Html::a(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>', ['cancel',
-                                                        'appointmentId' => $row->Id,],
-                                                        ['class' => 'btn btn-xs btn-danger',
-                                                            'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',
-                                                                'method' => 'post',],
-                                                            'title' => 'Отменить']);
-                                                    ?>
-                                                    <?= Html::a(' <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>', ['index',
-                                                        'patient_id' => $row->patient->id,],
-                                                        ['class' => 'btn btn-xs btn-info',
-                                                            'title' => 'Переназначить',
-                                                        ]);
-                                                    ?>
-                                                    <?= Html::a(' <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', ['update',
-                                                        'appointmentId' => $row->Id,],
-                                                        ['class' => 'btn btn-xs btn-success',
-                                                            'data' => ['method' => 'post',],
-                                                            'title' => 'Изменить',]);
-                                                    ?>
+                                                    <?= AppointmentButtonsWidget::widget([
+                                                        'appointmentId' => $row->Id,
+                                                    ]) ?>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

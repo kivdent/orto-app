@@ -8,7 +8,7 @@ class AppointmentContent extends \common\models\AppointmentContent
 {
     public static function getContentList()
     {
-        return ArrayHelper::map(self::find()->asArray()->all(),'id','SoderzhNaz');
+        return ArrayHelper::map(self::find()->orderBy('SoderzhNaz')->asArray()->all(),'id','SoderzhNaz');
     }
     public function attributeLabels()
     {

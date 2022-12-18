@@ -37,4 +37,18 @@ $(document).ready(function () {
     // $('#back').on('click',function () {
     //     document.location.href='/schedule/appointment?start_date='+$(this).attr('start_date');
     // })
+    $('.btn-remove-appointment').on('click',function () {
+        $.ajax({
+            url: '/schedule/appointment/cancel-appointment',
+            type: 'POST',
+            data: {'appointment_id': $(this).attr('appointmentId')},
+            success: function (response) {
+                //console.log(response);
+                location.reload();
+            },
+            error: function () {
+                alert('Ошибка запроса');
+            }
+        });
+    })
 })

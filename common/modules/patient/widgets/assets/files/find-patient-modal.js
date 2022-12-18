@@ -83,7 +83,7 @@ $(document).ready(function () {
                 //  console.log(response);
                 let options = '';
                 $.each(response, function (id, patient) {
-                    options = options + '<option value=\'' + patient.patient_id + '\'>' + patient.patient_name + '</option>';
+                    options = options + '<option value=\'' + patient.patient_id + '\'>' + patient.patient_name + ' (Карта: ' + patient.patient_id + ' Д.р.'+patient.date_of_birth +')' +'</option>';
                 });
                 $('#modal_patient_list').html(options);
             },

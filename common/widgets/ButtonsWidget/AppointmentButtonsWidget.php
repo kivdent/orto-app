@@ -13,6 +13,8 @@ class AppointmentButtonsWidget extends ButtonsWidget
 
     public function __construct($config = [])
     {
+        $this->asset='\common\modules\schedule\widgets\assets\AppointmentModalAsset';
+//        $this->js="";
         parent::__construct($config);
         $appointment=Appointment::findOne($this->appointmentId);
         $this->buttons = [
@@ -20,14 +22,26 @@ class AppointmentButtonsWidget extends ButtonsWidget
                 'role_available' => $this->doctorAndRegistratorRoles,
                 'text' => Html::encode("<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>"),
                 'url' => [
-                    '/schedule/appointment/cancel',
+                    '#',
                     'appointmentId' => $appointment->Id,
                 ],
                 'options' => [
-                    'class' => 'btn btn-xs btn-danger',
-                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?', 'method' => 'post',],
+                    'class' => 'btn btn-xs btn-danger btn-remove-appointment',
+                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',],
                     'title' => 'Отменить',
-                    'target' => '_blank'
+                    'appointmentId' => $appointment->Id,
+                    'onclick'=>"        $.ajax({
+            url: '/schedule/appointment/cancel-appointment',
+            type: 'POST',
+            data: {'appointment_id': $(this).attr('appointmentId')},
+            success: function (response) {
+                //console.log(response);
+                location.reload();
+            },
+            error: function () {
+                alert('Ошибка запроса');
+            }
+        });",
                 ]
             ],
             [
@@ -48,15 +62,18 @@ class AppointmentButtonsWidget extends ButtonsWidget
                 //Изменить
                 'role_available' => $this->doctorAndRegistratorRoles,
                 'text' => Html::encode('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'),
-                'url' => [
-                    '/schedule/appointment/update',
-                    'appointmentId' => $appointment->Id,
-                ],
+                'url' => '',
                 'options' => [
-                    'class' => 'btn btn-xs btn-info',
-                    'data' => ['method' => 'post',],
+                    'class' => 'btn btn-xs btn-info btn-appointment-modal-update',
                     'title' => 'Изменить время',
-                    'target' => '_blank'
+                    'appointmentId' => $appointment->Id,
+                    'doctor_id' => $appointment->appointments_day->vrachID,
+                    'date' => $appointment->appointments_day->date,
+                    'time' => substr($appointment->NachNaz,0,-3),
+                    'patient_id' => $appointment->PatID,
+                    'OkonchNaz' => substr($appointment->OkonchNaz,0,-3),
+                    'appointment_content' => $appointment->appointment_content,
+
                 ]
             ],
             [
@@ -72,12 +89,11 @@ class AppointmentButtonsWidget extends ButtonsWidget
                 'options' => [
                     'class' => 'btn btn-xs btn-info',
                     'data' => ['method' => 'post',],
-                    'title' => 'Изменить время',
+                    'title' => 'Счёт за гигиену',
                     'target' => '_blank'
                 ]
             ],
             //
         ];
     }
-
 }

@@ -47,3 +47,4 @@ phpunit.phar
 /vagrant/
 /pma/
 /frontend/web/images/patient/
+/common/modules/documents/templates/
