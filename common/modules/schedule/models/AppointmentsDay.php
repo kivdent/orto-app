@@ -8,6 +8,7 @@ use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\ArrayHelper;
+use common\modules\schedule\models\Appointment;
 
 /**
  * @property string $title
@@ -51,6 +52,33 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             $list[date('H:i', $time)] = date('H:i', $time);
         }
         return $list;
+    }
+
+    /**
+     * @param $doctor_id int
+     * @param $start_date //d.m.Y
+     * @return int|null //timestamp
+     */
+    public static function getDateWithFreeTime($doctor_id, $start_date)
+    {
+        $daysCount = '360';
+        $dateWithFreeTime = null;
+        for ($i = 0; $i <= $daysCount; $i++) {
+            $date = strtotime($start_date . " +$i days");
+            $appointmentsDay = BaseSchedulesDays::getAppointmentsDayForDoctorHoliday($doctor_id, $date);
+            if ($appointmentsDay != null && $appointmentsDay->vih != 1) {
+                if ($appointmentsDay->isNewRecord) {
+                    $dateWithFreeTime = $date;
+                    break;
+                } elseif ($appointmentsDay->hasFreeTimes()) {
+                    $dateWithFreeTime = $date;
+                    break;
+                }
+            }
+        }
+
+//TODO поиск дня если за год нет свободных
+        return $dateWithFreeTime;
     }
 
     public function beforeSave($insert)
@@ -111,34 +139,58 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
             ->all();
     }
+
     public function getTimeListBeforeFirstAppointment()
     {
         $list = [];
         $duration = $this->TimePat * 60;
-        $start_time =  strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
+        $start_time = strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
         $end_time = strtotime($this->date . ' ' . ClinicSheudles::getEnd_time());
         $appointments = Appointment::getAppointmentsForTimeList($this);
         if ($appointments) {
-            $end_time = strtotime($this->date . ' ' .  reset($appointments)->NachNaz);
+            $end_time = strtotime($this->date . ' ' . reset($appointments)->NachNaz);
         }
         for ($time = $start_time; $time <= $end_time; $time += $duration) {
             $list[date('H:i', $time)] = date('H:i', $time);
         }
         return $list;
     }
+
     public function getTimeListAfterLastAppointment()
     {
         $list = [];
         $duration = $this->TimePat * 60;
-         $start_time =  strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
-        $end_time = strtotime($this->date . ' ' .ClinicSheudles::getEnd_time());
+        $start_time = strtotime($this->date . ' ' . ClinicSheudles::getStart_time());
+        $end_time = strtotime($this->date . ' ' . ClinicSheudles::getEnd_time());
         $appointments = Appointment::getAppointmentsForTimeList($this);
         if ($appointments) {
-            $start_time = strtotime($this->date . ' ' .  end($appointments)->OkonchNaz);
+            $start_time = strtotime($this->date . ' ' . end($appointments)->OkonchNaz);
         }
         for ($time = $start_time; $time <= $end_time; $time += $duration) {
             $list[date('H:i', $time)] = date('H:i', $time);
         }
         return $list;
+    }
+
+    /**
+     * @return bool
+     */
+
+    public function hasFreeTimes()
+    {
+        $appointments = Appointment::getAppointmentsForTimeList($this);
+        $appointments =ArrayHelper::map(ArrayHelper::toArray($appointments), 'NachNaz', 'OkonchNaz');
+
+        if (array_key_first($appointments) != $this->Nach) {
+            return true;
+        } elseif ($appointments[array_key_last($appointments)] != $this->Okonch) {
+            return true;
+        }
+        foreach ($appointments as $NachNaz => $OkonchNaz) {
+            if (!array_key_exists($OkonchNaz, $appointments) and array_key_last($appointments) != $NachNaz) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -35,7 +35,7 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
     /**
      * @param $doctor_id
      * @param $date //format timestamp
-     * @return array|AppointmentsDay|\yii\db\ActiveRecord|null
+     * @return AppointmentsDay
      */
     public static function getAppointmentsDayForDoctor($doctor_id, $date)
     {
@@ -55,6 +55,29 @@ class BaseSchedulesDays extends \yii\db\ActiveRecord
                 'vrachID' => $doctor_id,
                 'date' => date('Y-m-d', $date)
             ]);
+        }
+        return $appointmentsDay;
+    }
+    /**
+     * @param $doctor_id
+     * @param $date //format timestamp
+     * @return AppointmentsDay
+     */
+    public static function getAppointmentsDayForDoctorHoliday($doctor_id, $date)
+    {
+        $appointmentsDay = AppointmentsDay::getAppointmentsDayForDoctor($doctor_id, $date);
+
+        if (!$appointmentsDay) {
+            $baseSchedulesDay = BaseSchedulesDays::find()
+                ->where(['dayN' => date('N', $date)])
+                ->leftJoin('raspis_pack', 'raspis_pack.id=raspis_day.raspis_pack')
+                ->andWhere(['raspis_pack.status' => BaseSchedules::STATUS_ACTIVE])
+                ->andWhere(['raspis_pack.doctor_id' => $doctor_id])
+                ->andWhere('raspis_pack.start_date<=\'' . date('Y-m-d', $date) . '\'')
+                ->orderBy('raspis_pack.start_date DESC')
+                ->one();
+
+            $appointmentsDay = $baseSchedulesDay ? $baseSchedulesDay->getAppointmentsDay($date) : null;
         }
         return $appointmentsDay;
     }

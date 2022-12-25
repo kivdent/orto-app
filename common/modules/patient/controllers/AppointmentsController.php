@@ -17,10 +17,7 @@ class AppointmentsController extends \yii\web\Controller
     }
     public function actionIndex($patient_id)
     {
-        $appoitments=Appointment::find()
-            ->where(['PatID'=>$patient_id])
-            ->orderBy(['dayPR'=>SORT_DESC])
-            ->all();
+        $appoitments=Appointment::getSortedByDate($patient_id);
         return $this->render('index',[
             'appoitments'=> $appoitments
         ]);

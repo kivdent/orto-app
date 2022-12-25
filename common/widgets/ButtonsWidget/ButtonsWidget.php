@@ -31,7 +31,7 @@ class ButtonsWidget extends \yii\base\Widget
      */
     public $buttons = [];
     public $buttons_class = 'btn btn-xs btn-info';
-
+    public $allRoles=[self::ROLE_ALL];
     public $doctorAndRegistratorRoles = [
         UserInterface::ROLE_RECORDER,
         UserInterface::ROLE_SENIOR_RECORDER,
@@ -62,8 +62,9 @@ class ButtonsWidget extends \yii\base\Widget
     public function run()
     {
         $buttons = '';
-        //UserInterface::getVar($this->buttons);
+//        UserInterface::getVar($this->buttons);
         foreach ($this->buttons as $button) {
+//            UserInterface::getVar($button);
             if ($this->canUseButton($button['role_available'])) {
                 if ($this->style == self::STYLE_GROUP) {
                     $buttons .= Html::a(

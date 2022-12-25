@@ -7,7 +7,8 @@ use common\modules\patient\models\Patient;
 use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
-$this->title='Назначения пациента '. Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
+
+$this->title = 'Назначения пациента ' . Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
 \common\modules\schedule\assets\AppointmentAsset::register($this);
 ?>
 <h1>Назначения <?= Html::a('Назначить', [
@@ -17,14 +18,16 @@ $this->title='Назначения пациента '. Patient::findOne(Yii::$ap
         [
             'class' => 'btn btn-info',
             'title' => 'Назначить',
+            'target'=>'_blank'
         ]);
     ?></h1>
 <div>
 
 </div>
-<div class="appitments">
+<div class="appointments">
     <?php foreach ($appoitments as $appoitment): ?>
-        <div class="row">
+
+        <div class="row <?= (int)strtotime((UserInterface::getFormatedDate($appoitment->appointments_day->date))) <= (int)strtotime('now') ? 'bg-warning' : 'bg-info'; ?>">
             <div class="col-lg-1">
                 <?= UserInterface::getFormatedDate($appoitment->appointments_day->date) ?>
                 <?php if ($appoitment->status === Appointment::STATUS_CANCEL): ?>
@@ -32,10 +35,11 @@ $this->title='Назначения пациента '. Patient::findOne(Yii::$ap
                 <?php endif; ?>
             </div>
             <div class="col-lg-2">
-                <?= UserInterface::getFormattedTime($appoitment->NachNaz) ?>-<?= UserInterface::getFormattedTime($appoitment->OkonchNaz) ?>
+                <?= UserInterface::getFormattedTime($appoitment->NachNaz) ?>
+                -<?= UserInterface::getFormattedTime($appoitment->OkonchNaz) ?>
             </div>
             <div class="col-lg-3">
-                <?= $appoitment->appointments_day->doctor?$appoitment->appointments_day->doctor->fullName:'Не известно' ?>
+                <?= $appoitment->appointments_day->doctor ? $appoitment->appointments_day->doctor->fullName : 'Не известно' ?>
             </div>
             <div class="col-lg-2">
                 <?= $appoitment->appointment_content ?>
@@ -70,5 +74,3 @@ $this->title='Назначения пациента '. Patient::findOne(Yii::$ap
         </div>
     <?php endforeach; ?>
 </div>
-
-

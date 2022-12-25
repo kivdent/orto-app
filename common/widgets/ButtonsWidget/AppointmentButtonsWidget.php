@@ -35,8 +35,8 @@ class AppointmentButtonsWidget extends ButtonsWidget
             type: 'POST',
             data: {'appointment_id': $(this).attr('appointmentId')},
             success: function (response) {
-                //console.log(response);
-                location.reload();
+                console.log(response);
+//                location.reload();
             },
             error: function () {
                 alert('Ошибка запроса');

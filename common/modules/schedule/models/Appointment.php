@@ -42,6 +42,15 @@ class Appointment extends \common\models\Appointment
 
     }
 
+    public static function getSortedByDate($patient_id)
+    {
+        return self::find()
+            ->where(['PatID'=>$patient_id])
+            ->leftJoin('daypr','nazn.dayPR=daypr.id')
+            ->orderBy('daypr.date DESC')
+            ->all();
+    }
+
     public function getPatient()
     {
         return $this->hasOne(Patient::className(), ['id' => 'PatID']);

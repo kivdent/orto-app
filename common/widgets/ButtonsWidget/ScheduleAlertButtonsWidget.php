@@ -18,7 +18,6 @@ class ScheduleAlertButtonsWidget extends ButtonsWidget
     {
         parent::__construct($config);
         $this->setAlerts();
-
     }
 
     public function setAlerts()

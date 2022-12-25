@@ -20,6 +20,7 @@ use common\modules\userInterface\models\UserInterface;
 use common\modules\userInterface\widgets\ScheduleAlertsWidgets;
 use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
 use common\widgets\ButtonsWidget\ButtonsWidget;
+use common\widgets\ButtonsWidget\FreeTimeButton;
 use common\widgets\ButtonsWidget\InvoiceActionsButtonWidget;
 use common\widgets\ButtonsWidget\ScheduleAlertButtonsWidget;
 use yii\helpers\Html;
@@ -96,7 +97,9 @@ RecorderAsset::register($this);
                         <?php if (AppointmentManager::haveWorkDays($appointmentDayManager->appointmentsDays)): ?>
                             <div class="row doctor-name">
                                 <div class="col-lg-12">
-                                    <h4><?= \frontend\models\Employe::findOne($doctorId)->fullName ?></h4>
+                                    <h4><?= \frontend\models\Employe::findOne($doctorId)->fullName ?>
+                                        <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/recorder']) ?>
+                                    </h4>
                                 </div>
                             </div>
                         <?php endif; ?>

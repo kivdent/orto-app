@@ -20,6 +20,8 @@ use common\modules\schedule\models\ScheduleManager;
 use common\modules\schedule\widgets\AppointmentModalWidget;
 use common\modules\userInterface\models\UserInterface;
 use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
+use common\widgets\ButtonsWidget\FreeTimeButton;
+use frontend\models\Employe;
 use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -140,7 +142,9 @@ $additionalTextDoctorIds = Url::to([
             <div class="col-lg-12">
                 <div class="row doctor-name">
                     <div class="col-lg-12">
-                        <h4><?= \frontend\models\Employe::findOne($doctorId)->fullName ?></h4>
+                        <h4><?= Employe::findOne($doctorId)->fullName ?>
+                            <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/appointment']) ?>
+                        </h4>
                     </div>
                 </div>
                 <div class="row">
@@ -152,6 +156,15 @@ $additionalTextDoctorIds = Url::to([
                                     <td>
                                         <?= UserInterface::getFormatedDate($appointmentDay->date) ?><br>
                                         <?= UserInterface::getDayWeekNameByDate($appointmentDay->date) ?>
+                                        <?php $appointmentsDayAR=\common\modules\schedule\models\BaseSchedulesDays::getAppointmentsDayForDoctor($doctorId,strtotime(UserInterface::getFormatedDate($appointmentDay->date)))?>
+                                        <?= $appointmentsDayAR->isNewRecord?
+                                            Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                ['/schedule/schedule/create', 'date' => strtotime(UserInterface::getFormatedDate($appointmentsDayAR->date)), 'doctor_id' => $appointmentsDayAR->doctor->id],
+                                                ['class' => 'btn btn-default btn-xs', 'role' => 'button'])
+                                            :Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                                ['/schedule/schedule/update', 'id' => $appointmentsDayAR->id],
+                                                ['class' => 'btn btn-danger btn-xs', 'role' => 'button']);
+                                        ?>
                                     </td>
                                 </tr>
                                 <?php if ($appointmentDay->isHoliday): ?>
