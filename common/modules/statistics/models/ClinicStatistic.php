@@ -44,6 +44,11 @@ class ClinicStatistic extends \yii\base\Model
         return $model;
     }
 
+    public static function getForYear($year)
+    {
+         return self::getForPeriod("$year-01-01","$year-12-31");
+    }
+
     public function getPaymentsByInvoiceTypeQuery($type)
     {
 

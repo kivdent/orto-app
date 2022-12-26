@@ -32,7 +32,7 @@ class RevenueController extends \yii\web\Controller
 
         $hygieneProductsStatistics = HygieneProducts::getForFinancialPeriod($this->getFinancialPeriod());
         $material = Material::getForFinancialPeriod($this->getFinancialPeriod());
-        $clinicStatistic=ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
+        $clinicStatistic = ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
         return $this->render('index', [
             'hygieneProductsStatistics' => $hygieneProductsStatistics,
             'material' => $material,
@@ -55,14 +55,22 @@ class RevenueController extends \yii\web\Controller
             'material' => $material,
         ]);
     }
+
     public function actionClinicStatistic($type)
     {
-        $clinicStatistic = ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
+        if (Yii::$app->request->get('year')){
+            $clinicStatistic = ClinicStatistic::getForYear(Yii::$app->request->get('year'));
+        }
+            else {
+                $clinicStatistic = ClinicStatistic::getForFinancialPeriod($this->getFinancialPeriod());
+            }
+
 
         return $this->render('clinic-statistic', [
             'clinicStatistic' => $clinicStatistic,
-            'type'=>$type,
+            'type' => $type,
         ]);
     }
+
 
 }

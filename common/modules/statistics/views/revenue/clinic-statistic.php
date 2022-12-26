@@ -16,8 +16,8 @@ $this->params['breadcrumbs'][] = ['label'=>'Выручка','url'=>['revenue/ind
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?= FinancialPeriodChooseWidget::widget(['link' => '/statistics/revenue/material','var' => 'financialPeriodId',])?><br>
-
+<?= FinancialPeriodChooseWidget::widget(['link' => '/statistics/revenue/material','var' => 'financialPeriodId',])?>
+<?= Html::a('2022',['/statistics/revenue/clinic-statistic','type'=>'getDoctors','year'=>2022])?><br>
 <?=$this->title.": ".call_user_func([$clinicStatistic,$type.'Summary']);?>
 
 
@@ -25,8 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#positions" aria-controls="positions" role="tab" data-toggle="tab">Позиции</a></li>
     <li role="presentation"><a href="#allDoctors" aria-controls="allDoctors" role="tab" data-toggle="tab">Таблица по врачам</a></li>
-    <li role="presentation"><a href="#invoices" aria-controls="invoices" role="tab" data-toggle="tab">Все счета</a></li>
-</ul>
+   </ul>
 
 <!-- Tab panes -->
 
@@ -51,14 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 
-    <!-- Invoices -->
-    <div role="tabpanel" class="tab-pane" id="invoices">
-            <?php foreach (call_user_func([$clinicStatistic,$type.'Payments']) as $payment):?>
-                <?= InvoiceModalWidget::widget(['invoice_id' => $payment->dnev])?>
-                <?= $payment->date." ".$payment->invoice->employeeFullName." ".$payment->vnes?><br>
-            <?php endforeach;?>
-
-    </div>
 </div>
 
 </div>
