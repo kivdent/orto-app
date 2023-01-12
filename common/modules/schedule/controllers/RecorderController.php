@@ -67,9 +67,9 @@ class RecorderController extends \yii\web\Controller
         ]);
     }
 
-    public function actionDoctorIndex($start_date = 'noe')
+    public function actionDoctorIndex($start_date = 'now')
     {
-        $start_date = $start_date = 'now' ? date('d.m.Y') : $start_date;
+        $start_date = $start_date == 'now' ? date('d.m.Y') : $start_date;
         $doctor_ids = [Yii::$app->user->identity->employe_id];
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, AppointmentManager::DURATION_ONE_DAY);
         return $this->render('index', [
@@ -78,8 +78,7 @@ class RecorderController extends \yii\web\Controller
             'options' => [
                 'doctor_chooser' => self::ELEMENT_HIDE,
                 'full_table_chooser' => self::ELEMENT_SHOW,
-                'day_chooser' => self::ELEMENT_HIDE,
-
+                'day_chooser' => self::ELEMENT_SHOW,
             ]
         ]);
     }

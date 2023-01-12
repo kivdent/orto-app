@@ -36,6 +36,7 @@ class UserInterface
     const ROLE_DIRECTOR = 'director';
     const ROLE_RADIOLOGIST = 'radiologist';
     const ROLE_TECHNICIAN = 'technician';
+    const ROLE_DOCTOR = 'doctor';
 
     const PERMISSION_EDIT_SCHEDULE = 'editSchedule';
 
@@ -116,6 +117,22 @@ class UserInterface
 
         $date=strtotime(UserInterface::getFormatedDate($date));
         return self::getDayWeekName(date('N',$date));
+    }
+
+    public static function UserRoleIsDoctor()
+    {
+        $roles=Yii::$app->authManager->getChildRoles(self::getRoleNameCurrentUser());
+        return array_key_exists(self::ROLE_DOCTOR,$roles);
+    }
+
+    public static function getUserId()
+    {
+        return Yii::$app->user->identity->getId();
+    }
+
+    public static function getEmployeeId()
+    {
+        return Yii::$app->user->identity->employe->id;
     }
 
     /**

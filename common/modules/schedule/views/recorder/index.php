@@ -23,6 +23,7 @@ use common\widgets\ButtonsWidget\ButtonsWidget;
 use common\widgets\ButtonsWidget\FreeTimeButton;
 use common\widgets\ButtonsWidget\InvoiceActionsButtonWidget;
 use common\widgets\ButtonsWidget\ScheduleAlertButtonsWidget;
+use kartik\date\DatePicker;
 use yii\helpers\Html;
 
 $this->title = 'Пациенты на сегодня';
@@ -57,27 +58,38 @@ RecorderAsset::register($this);
             <span class="input-group-btn">
        <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
            [
-               '/schedule/recorder',
+               '/schedule/recorder/'.Yii::$app->controller->action->id,
                'start_date' => date('d.m.Y', strtotime($start_date . ' - 1 day')),
-
            ],
            [
                'class' => 'btn btn-primary',
                'id' => 'back',
            ]) ?>
             </span>
-            <?= Html::dropDownList('month-list',
-                $start_date,
-                AppointmentManager::getDayList($start_date),
-                [
-                    'id' => 'month-list',
+            <?=
+            DatePicker::widget([
+                'name' => 'datePicker',
+                'value' => $start_date,
+                //'type' => DatePicker::TYPE_BUTTON,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd.mm.yyyy'
+                ],
+                'removeButton' => false,
+                'options' => [
+                    'id' => 'datePicker',
                     'class' => 'form-control',
+//                    'patient_id' => $patient_id ? $patient_id : 'null',
+//                    'doctor_ids' => $doctor_id,
+                    'start_date' => $start_date,
+                    'action' => Yii::$app->controller->action->id,
                 ]
-            );
+                //'buttonOptions' =>'btn btn-primary'
+            ])
             ?>
             <span class="input-group-btn">
         <?= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
-            ['/schedule/recorder',
+            ['/schedule/recorder/'.Yii::$app->controller->action->id,
                 'start_date' => date('d.m.Y', strtotime($start_date . ' + 1 day')),
             ]
             , ['class' => 'btn btn-primary',
@@ -98,7 +110,7 @@ RecorderAsset::register($this);
                             <div class="row doctor-name">
                                 <div class="col-lg-12">
                                     <h4><?= \frontend\models\Employe::findOne($doctorId)->fullName ?>
-                                        <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/recorder']) ?>
+                                        <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/recorder/'.Yii::$app->controller->action->id,]) ?>
                                     </h4>
                                 </div>
                             </div>

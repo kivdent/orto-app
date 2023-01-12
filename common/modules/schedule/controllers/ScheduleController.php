@@ -87,6 +87,11 @@ class ScheduleController extends Controller
             ]);
         } else {
             $model = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
+            if (!$model->isNewRecord){
+                return $this->redirect(['update',
+                    'id' => $model->id,
+                ]);
+            }
             $model->date = date('d.m.Y', strtotime($model->date));
         }
         $model->vih = 0;

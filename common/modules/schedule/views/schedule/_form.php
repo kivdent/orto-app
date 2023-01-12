@@ -43,8 +43,8 @@ use kartik\date\DatePicker;
     </div>
 
     <div class="row">
-        <div class="col-lg-4 hidden" >
-            <?= $form->field($model, 'vih')->dropDownList(BaseSchedulesDays::getHolidayList(),['disabled'=>'disabled']) ?>
+        <div class="col-lg-4 " >
+            <?= $form->field($model, 'vih')->dropDownList(BaseSchedulesDays::getHolidayList()) ?>
         </div>
         <div class="col-lg-4">
             <?= $form->field($model, 'rabmestoID')->dropDownList(Workplaces::getWorkplacesList()) ?>

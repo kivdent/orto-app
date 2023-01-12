@@ -54,7 +54,9 @@ class AppointmentController extends Controller
             $start_date = date('d.m.Y', strtotime($start_date));
         }
         $this->layout = '@frontend/views/layouts/light_fluid';
-
+//        if (UserInterface::UserRoleIsDoctor()){
+//            $doctor_ids=UserInterface::getEmployeeId();
+//        }
         if ($doctor_ids === AppointmentManager::DOCTOR_IDS_ALL) {
             $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
             $doctor_id = AppointmentManager::DOCTOR_IDS_ALL;

@@ -123,8 +123,16 @@ $(document).ready(function () {
         let notice_result=$(this).val();
         setNoticeResult(parent_div, PRESENCE_CHANGE,notice_result)
     })
-    $('#month-list').on('change',function () {
-        document.location.href='/schedule/recorder?start_date='+$(this).val();
+    // $('#month-list').on('change',function () {
+    //     document.location.href='/schedule/recorder?start_date='+$(this).val();
+    // })
+    $('#datePicker').on('change',function () {
+        // let patient_id=$(this).attr('patient_id');
+        // let doctor_ids=$(this).attr('doctor_ids');
+        let action=$(this).attr('action');
+        let start_date=$(this).val();
+        let link='/schedule/recorder/'+action+'?start_date='+start_date;
+        document.location.href=link;
     })
     setTimeout(function() {
         location.reload();

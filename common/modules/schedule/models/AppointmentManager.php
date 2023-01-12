@@ -42,7 +42,18 @@ class AppointmentManager extends Model
     public static function getAppointmentsDaysForDoctors(array $doctor_ids, $start_date, $duration)
     {
         $appointmentsDays = [];
+
 //        UserInterface::getVar($doctor_ids, false);
+        $employeeId=UserInterface::getEmployeeId();//сортировка докторов
+        if (in_array($employeeId,$doctor_ids)){
+            foreach ($doctor_ids as $key=>$doctor_id){
+                if ($doctor_id==$employeeId){
+                    unset($doctor_ids[$key]);
+                }
+            }
+            array_unshift($doctor_ids,$employeeId);
+        }
+
         foreach ($doctor_ids as $doctor_id) {
 //            UserInterface::getVar($doctor_id, false);
             $appointmentsDays[$doctor_id] = self::getAppointmentsDaysForDoctor($doctor_id, $start_date, $duration);
