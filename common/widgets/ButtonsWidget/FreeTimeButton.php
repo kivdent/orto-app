@@ -22,6 +22,8 @@ class FreeTimeButton extends ButtonsWidget
             'url' => [
                 $this->url,
                 'start_date' => $freeTimeDate,
+                'doctor_ids'=>$this->doctor_id,
+
             ],
             'options' => [
                 'class' => 'btn btn-xs btn-info',

@@ -36,7 +36,7 @@ class AppointmentButtonsWidget extends ButtonsWidget
             data: {'appointment_id': $(this).attr('appointmentId')},
             success: function (response) {
                 console.log(response);
-//                location.reload();
+                //location.reload();
             },
             error: function () {
                 alert('Ошибка запроса');

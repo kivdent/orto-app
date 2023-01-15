@@ -6,6 +6,7 @@
 use common\modules\patient\models\Patient;
 use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
+use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
 use yii\helpers\Html;
 
 $this->title = 'Назначения пациента ' . Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
@@ -67,6 +68,9 @@ $this->title = 'Назначения пациента ' . Patient::findOne(Yii::
                             'title' => 'Изменить',
                         ]);
                     ?>
+                    <?= AppointmentButtonsWidget::widget([
+                        'appointmentId' => $appoitment->Id,
+                    ]) ?>
                 <?php else: ?>
                     Запись отменена
                 <?php endif; ?>

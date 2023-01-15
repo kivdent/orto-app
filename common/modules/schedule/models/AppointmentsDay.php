@@ -67,10 +67,13 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             $date = strtotime($start_date . " +$i days");
             $appointmentsDay = BaseSchedulesDays::getAppointmentsDayForDoctorHoliday($doctor_id, $date);
             if ($appointmentsDay != null && $appointmentsDay->vih != 1) {
+
                 if ($appointmentsDay->isNewRecord) {
+//                    UserInterface::getVar($appointmentsDay);
                     $dateWithFreeTime = $date;
                     break;
                 } elseif ($appointmentsDay->hasFreeTimes()) {
+//                    UserInterface::getVar($appointmentsDay);
                     $dateWithFreeTime = $date;
                     break;
                 }
