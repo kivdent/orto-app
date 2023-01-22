@@ -10,7 +10,7 @@ use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
 use yii\helpers\Html;
 
 $this->title = 'Назначения пациента ' . Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
-\common\modules\schedule\assets\AppointmentAsset::register($this);
+
 ?>
 <h1>Назначения <?= Html::a('Назначить', [
         '/schedule/appointment/index',
@@ -47,27 +47,6 @@ $this->title = 'Назначения пациента ' . Patient::findOne(Yii::
             </div>
             <div class="col-lg-4">
                 <?php if ($appoitment->status === Appointment::STATUS_ACTIVE): ?>
-
-                    <?= Html::button(' <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>',
-                        ['class' => 'btn btn-xs btn-danger btn-remove-appointment',
-                            'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',
-                            ],
-                            'title' => 'Отменить',
-                            //'id'=>'remove-appointment',
-                            'appointmentId' => $appoitment->Id
-                        ]);
-                    ?>
-                    <?= Html::a(' <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', [
-                        '/schedule/appointment/update',
-                        'appointmentId' => $appoitment->Id,],
-                        [
-                            'class' => 'btn btn-xs btn-success',
-                            'data' => [
-                                'method' => 'post',
-                            ],
-                            'title' => 'Изменить',
-                        ]);
-                    ?>
                     <?= AppointmentButtonsWidget::widget([
                         'appointmentId' => $appoitment->Id,
                     ]) ?>

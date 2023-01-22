@@ -25,6 +25,15 @@ class PatientFindController extends \yii\web\Controller
         }
         return $response;
     }
+ public function actionGetPatientById()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $patient_id = Yii::$app->request->post('patient_id');
+            return Patient::findOne($patient_id)->fullName;
+        }
+        return false;
+    }
 
     public function actionSavePatient()
     {

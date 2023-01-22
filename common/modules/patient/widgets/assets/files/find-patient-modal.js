@@ -148,4 +148,25 @@ $(document).ready(function () {
         );
         $("#new_patient_form").submit();
     });
+    let patient_name_target = $('#find_btn').attr('patient_name_target');
+    let patient_id_target = $('#find_btn').attr('patient_id_target');
+
+
+
+    if ($(patient_id_target).val()!=''){
+
+        $.ajax({
+            url: '/patient/patient-find/get-patient-by-id',
+            type: 'POST',
+            data:{patient_id: $(patient_id_target).val()},
+            success: function (response) {
+                // console.log(response);
+                $(patient_name_target).val(response);
+                return response;
+            },
+            error: function () {
+                alert('Ошибка запроса');
+            }
+        });
+    }
 });

@@ -216,8 +216,6 @@ $(document).ready(function () {
         init_doctor_id(data.doctor_id);
         init_patient_id(data.patient_id);
         init_okonchnaz(data.doctor_id, data.date, data.time,callback);
-
-
     }
 
     $('#appointment-content-list').on('change', function () {

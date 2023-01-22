@@ -355,6 +355,7 @@ class AppointmentController extends Controller
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
             $appointment->status = ($appointment->status == Appointment::STATUS_ACTIVE) ? Appointment::STATUS_CANCEL : Appointment::STATUS_ACTIVE;
             $appointment->save(false);
+            UserInterface::getVar($appointment);
             Yii::$app->session->setFlash('success', 'Пациент отменён');
             return 'success';
         }

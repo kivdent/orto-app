@@ -23,20 +23,20 @@ class AppointmentButtonsWidget extends ButtonsWidget
                 'text' => Html::encode("<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>"),
                 'url' => [
                     '#',
-                    'appointmentId' => $appointment->Id,
+                    //'appointmentId' => $appointment->Id,
                 ],
                 'options' => [
                     'class' => 'btn btn-xs btn-danger btn-remove-appointment',
-                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',],
+                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?'.$appointment->Id,],
                     'title' => 'Отменить',
                     'appointmentId' => $appointment->Id,
-                    'onclick'=>"        $.ajax({
+                    'onclick'=>"$.ajax({
             url: '/schedule/appointment/cancel-appointment',
             type: 'POST',
             data: {'appointment_id': $(this).attr('appointmentId')},
             success: function (response) {
                 console.log(response);
-                //location.reload();
+                location.reload();
             },
             error: function () {
                 alert('Ошибка запроса');

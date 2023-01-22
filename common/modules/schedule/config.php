@@ -17,6 +17,7 @@ return [
 //            ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday_orto.php', 'roles' => ['orthodontist','orthopedist',]],
 //            ['label' => 'Пациенты на сегодня', 'url' => '/old_app/pat_tooday.php', 'roles' => ['therapist','surgeon',]],
             ['label' => 'Пациенты на сегодня', 'url' => '/schedule/recorder/doctor-index', 'roles' => ['therapist','surgeon','orthodontist','orthopedist']],
+            ['label' => 'Лист обзвона', 'url' => '/schedule/call-list', 'roles' => ['recorder','admin','senior_recorder','therapist','surgeon','orthodontist','orthopedist']],
 //            ['label' => 'График работы персонала', 'url' => '/old_app/sotr_time.php', 'roles' => ['recorder',]],
 //            ['label' => 'Табель', 'url' => '/old_app/tabel.php', 'roles' => ['admin', 'senior_nurse',]],
             ['label' => 'Пакеты расписаний', 'url' => '/schedule/manage-basic-schedule', 'roles' => ['admin',]],

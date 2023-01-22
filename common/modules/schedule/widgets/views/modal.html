@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<!-- Modal -->
+<div class="modal fade" id="TaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Новая задача</h4>
+            </div>
+            <div class="modal-body">
+                <div class="call-list-tasks-form">
+
+                    <form id="w0" action="" method="post">
+                        <input type="hidden" name="_csrf-frontend"
+                               value="ZGCA1yM3MHs_RgEvQYDpwzK7i4OF4Uj89TaLm-3tuHNdLvj6RUdASQwpZ2s7z6b3W8zd8dqPIc25dczOwJj8Eg==">
+                        <div hidden="">
+                            <div class="form-group patient_id required">
+                                <label class="control-label" for="patient_id">Пациент</label>
+                                <input type="text" id="patient_id" class="form-control"
+                                       name="CallListTasks[patient_id]" aria-required="true">
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <label class="control-label" for="patient_input_group">Пациент</label>
+                                <div class="input-group" id="patient_input_group">
+                                    <input type="text" disabled="disabled" class="form-control" id="patient_name">
+                                    <span class="input-group-btn">
+                    <button type="button" id="new_btn" class="btn btn-primary new-patient-modal-open"
+                            patient_id_target="#patient_id" patient_name_target="#patient_name"><span
+                            class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>        
+    <button type="button" id="find_btn" class="btn btn-primary modal-find-patient-open"
+            patient_id_target="#patient_id" patient_name_target="#patient_name"><span
+            class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>    </span>
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group doctor_id required">
+                                    <label class="control-label" for="doctor_id">Врач</label>
+                                    <select id="doctor_id" class="form-control"
+                                            name="CallListTasks[doctor_id]" aria-required="true">
+                                        <option value="92">Борисова Елена Юрьевна</option>
+                                        <option value="24">Васькин Александр Викторович</option>
+                                        <option value="94">Винокуров Лев Александрович</option>
+                                        <option value="66">Гузенко Наталья Викторовна</option>
+                                        <option value="69">Давыдов Владимир Александрович</option>
+                                        <option value="96">Зинченко Евгения Владиславовна</option>
+                                        <option value="68">Кононова Марина Борисовна</option>
+                                        <option value="3">Корчемная Ольга Сергеевна</option>
+                                        <option value="1">Корчемный Владимир Маркович</option>
+                                        <option value="84">Крюкаев Сергей Сергеевич</option>
+                                        <option value="55">Сапожникова Анна Александровна</option>
+                                        <option value="78">Саргсян Саргис Торгомович</option>
+                                        <option value="79">Тимакова Екатерина Андреевна</option>
+                                        <option value="77">Титаренко Мария Александровна</option>
+                                        <option value="62">Толкачева Евгения Сергеевна</option>
+                                        <option value="2">Черненко Сергей Владимирович</option>
+                                        <option value="67">Шахова Зарина Васильевна</option>
+                                        <option value="103">Яковлева Алена Александровна</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group appointment_content">
+                                    <label class="control-label" for="appointment_content">Содержание
+                                        назначения</label>
+                                    <textarea id="appointment_content" class="form-control"
+                                              name="CallListTasks[appointment_content]" rows="6"></textarea>
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+
+                                <select id="appointment-content-list" class="form-control select2-hidden-accessible"
+                                        name="appointment-content-list" data-s2-options="s2options_d6851687"
+                                        data-krajee-select2="select2_e47b2738"
+                                        style="width: 1px; height: 1px; visibility: hidden;"
+                                        data-select2-id="appointment-content-list" tabindex="-1" aria-hidden="true">
+                                    <option value="" data-select2-id="2">Выбрать ...</option>
+                                    <option value="15">Восстановление со штифтом</option>
+                                    <option value="6">Замена каласепта</option>
+                                    <option value="1">Консультация</option>
+                                    <option value="4">Контрольный осмотр</option>
+                                    <option value="2">Лечение кариеса</option>
+                                    <option value="21">Наблюдение</option>
+                                    <option value="12">Обработка зубов</option>
+                                    <option value="14">Определение ЦО</option>
+                                    <option value="11">Припасовка</option>
+                                    <option value="8">Проф гигиена</option>
+                                    <option value="7">Реставрация</option>
+                                    <option value="13">Сдача работы</option>
+                                    <option value="10">Снятие брекетов</option>
+                                    <option value="18">удаление</option>
+                                    <option value="19">установка имплантата</option>
+                                    <option value="9">Фиксация брекетов</option>
+                                    <option value="17">фиксация коронки</option>
+                                    <option value="20">фиксация коронки</option>
+                                    <option value="3">Эндодонтия</option>
+                                </select>
+
+
+                                <span class="select2 select2-container select2-container--krajee" dir="ltr"
+                                               data-select2-id="1" style="width: 100%;"><span class="selection"><span
+                                    class="select2-selection select2-selection--single" role="combobox"
+                                    aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false"
+                                    aria-labelledby="select2-appointment-content-list-container"><span
+                                    class="select2-selection__rendered" id="select2-appointment-content-list-container"
+                                    role="textbox" aria-readonly="true"><span class="select2-selection__placeholder">Выбрать ...</span></span><span
+                                    class="select2-selection__arrow" role="presentation"><b
+                                    role="presentation"></b></span></span></span><span class="dropdown-wrapper"
+                                                                                       aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div hidden="">
+                            <div class="form-group result required">
+                                <label class="control-label" for="result">Результат обзвона</label>
+                                <input type="text" id="result" class="form-control"
+                                       name="CallListTasks[result]" value="didnt_call" maxlength="255"
+                                       aria-required="true">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group note">
+                            <label class="control-label" for="note">Заметка</label>
+                            <textarea id="note" class="form-control"
+                                      name="CallListTasks[note]"></textarea>
+
+                        </div>
+                        <div hidden="">
+                            <div class="form-group call_list_id required">
+                                <label class="control-label" for="call_list_id">Лист обзвона</label>
+                                <input type="text" id="call_list_id" class="form-control"
+                                       name="CallListTasks[call_list_id]" value="2" aria-required="true">
+
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

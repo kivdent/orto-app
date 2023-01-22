@@ -86,6 +86,17 @@ class Employee extends \yii\db\ActiveRecord
             ->asArray()
             ->all(), 'id', 'full_name');
     }
+    public static function getWorkedDoctorsList()
+    {
+
+        return ArrayHelper::map(Employee::find()
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh' => [self::POSITION_THERAPIST, self::POSITION_ORTHOPEDIST, self::POSITION_ORTHODONTIST], 'status' => self::STATUS_WORKED])
+            ->andWhere(['status'=>self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(), 'id', 'full_name');
+    }
        /**
      * {@inheritdoc}
      */
