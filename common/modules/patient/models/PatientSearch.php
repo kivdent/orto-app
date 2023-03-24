@@ -15,6 +15,7 @@ class PatientSearch extends Patient
 {
     const TYPE_ALL = 'all';
     const TYPE_ORTHODONTICS = 'orthodontics';
+    const TYPE_RECALL_RECORDER = 'recorder';
 
 
     public $prepaymentAmount;
@@ -118,6 +119,9 @@ class PatientSearch extends Patient
                 $query->select('`klinikpat`.*,')
                     ->leftJoin('`orto_sh`', '`orto_sh`.`pat` = `klinikpat`.`id`')
                     ->where('`orto_sh`.`summ`>`orto_sh`.`vnes`');
+                break;
+            case self::TYPE_RECALL_RECORDER:
+                $query->where("DATE_FORMAT(`klinikpat`.`dr`, '%m' )=".date('m'));
                 break;
         }
         return $query;

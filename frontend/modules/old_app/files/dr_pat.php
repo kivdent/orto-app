@@ -25,8 +25,10 @@ ORDER BY `klinikpat`.`dr`
   border='1' cellpadding='1' cellspacing='0 '
   bordercolor='#999999' bgcolor='#ffffff'>";
 echo "<tr>";
-//echo $query."<br>";
-$result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
+//echo $query."<br>";die();
+$result=sql_query($query,'orto',0);
+
+$count=mysqli_num_rows($result);
 					echo "<td width='25%' >Пациент&nbsp</td>";
 					echo "<td >Дата&nbsp</td>";
 					echo "<td>Моб.тел&nbsp</td>";
@@ -39,6 +41,7 @@ $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 $resultA=$result;
 $countA=$count;
 echo "Всего ".$count;
+
 for ($z=0;$z<$countA;$z++)
 { 
 					
@@ -57,7 +60,7 @@ WHERE (
 )
 ORDER BY `daypr`.`date` desc
 LIMIT 0,1";
-//echo $query."<br>";	
+//echo $query."<br>";
 $result=sql_query($query,'orto',0);    $count=mysqli_num_rows($result);
 $rowA = mysqli_fetch_array($result);
 $dt=$rowA['date'];

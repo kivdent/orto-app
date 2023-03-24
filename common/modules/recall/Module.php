@@ -13,7 +13,7 @@ class Module extends WorkModule {
      * {@inheritdoc}
      */
     public $controllerNamespace = 'common\modules\recall\controllers';
-//    public $defaultRoute = 'manage';
+    public $defaultRoute = 'manage';
     public $moduleName = "Диспансеризация";
 
 

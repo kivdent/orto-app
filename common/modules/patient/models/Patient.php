@@ -5,7 +5,9 @@ namespace common\modules\patient\models;
 use common\modules\cash\models\Prepayment;
 use common\modules\catalogs\models\Agreement;
 use common\modules\discounts\models\DiscountCard;
+use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\SchemeOrthodontics;
+use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\userInterface\models\Addresses;
@@ -41,6 +43,10 @@ use yii\helpers\Html;
  * @property string $statusName
  * @property string $status
  * @property string $allSchemeOrthodontics
+ * @property string $addressString
+ * @property Appointment $lastAppointment
+ * @property int $totalInvoiceSumm
+ * @property int $totalAppointments
  */
 class Patient extends \yii\db\ActiveRecord
 {
@@ -208,7 +214,9 @@ class Patient extends \yii\db\ActiveRecord
         return $this->hasOne(SchemeOrthodontics::className(), ['pat' => 'id'])->andWhere('vnes<>summ');
 //        return SchemeOrthodontics::find()->where(['pat'=>$this->id])->andWhere('vnes<>summ')->one();
     }
-    public function getAllSchemeOrthodontics(){
+
+    public function getAllSchemeOrthodontics()
+    {
         $this->hasMany(SchemeOrthodontics::class, ['pat' => 'id']);
     }
 
@@ -247,5 +255,28 @@ class Patient extends \yii\db\ActiveRecord
     public function hasSchemeOrthodonticWithDoctor($vrachID)
     {
         return (bool)$this->schemeOrthodontics && $this->schemeOrthodontics->sotr == $vrachID;
+    }
+
+    public function getLastAppointment()
+    {
+        return Appointment::find()
+            ->where(['PatID' => $this->id])
+            ->leftJoin('daypr', 'daypr.id=nazn.dayPR')
+            ->orderBy('daypr.date DESC')
+            ->one();
+    }
+
+    public function getTotalAppointments()
+    {
+        return Appointment::find()
+            ->where(['PatID' => $this->id])
+            ->count();
+    }
+
+    public function getTotalInvoiceSumm()
+    {
+        return Invoice::find()
+            ->where(['patient_id' => $this->id])
+            ->sum('paid');
     }
 }
