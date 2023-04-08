@@ -98,6 +98,9 @@ RecorderAsset::register($this);
         </div>
     </div>
     <?php endif;?>
+    <?php if(UserInterface::isUserRole(UserInterface::ROLE_RECORDER) || UserInterface::isUserRole(UserInterface::ROLE_SENIOR_RECORDER)):?>
+        <?= Html::a('Звонок', ['/schedule/incoming-calls/create'], ['class' => 'btn btn-success', 'target'=>'_blank']) ?>
+    <?php endif;?>
 </div>
 
 <div class="row">

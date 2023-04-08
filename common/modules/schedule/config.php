@@ -24,7 +24,7 @@ return [
             //['label' => 'Табель', 'url' => '/old_app/sotr_time.php', 'roles' => ['accountant', 'director','admin', 'senior_nurse',]],
             ['label' => 'Табель', 'url' => '/schedule/time-sheet', 'roles' => ['accountant', 'director','admin', 'radiologist','recorder','senior_recorder',]],
 //            ['label' => 'Учёт снимков', 'url' => '/old_app/rentgen.php?type=today', 'roles' => ['radiologist', 'therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
-           // ['label' => 'Табель', 'url' => '/old_app/sotr_time.php', 'roles' => ['radiologist',]],
+            ['label' => 'Учёт звонков', 'url' => '/schedule/incoming-calls', 'roles' => ['admin','senior_recorder','recorder']],
 
         ],
         // 'moduleMenu' => '@common/modules/clinic/components/moduleMenu.php',
