@@ -39,7 +39,7 @@ return [
                 'employee_selectable' => true
             ], 'roles' => ['radiologist',]],
 
-
+            ['label' => 'Отчёт за манипуляци', 'url' => '/reports/manipulation', 'roles' => ['admin',]],
         ],
         //'moduleMenu' => []
     ],

@@ -360,4 +360,7 @@ class AppointmentController extends Controller
             return 'success';
         }
     }
+    public function actionVue(){
+        return $this->render('vue');
+    }
 }

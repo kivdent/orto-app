@@ -21,12 +21,12 @@ $this->title="Статистика пациента"
         <td><?=$statistics->professionalHygieneEmployee?></td>
     </tr>
     <tr>
-        <td>Флорида Проуб</td>
+        <td>Обследование пародонта</td>
         <td><?=$statistics->FPDate?></td>
         <td><?=$statistics->FPEmployee?></td>
     </tr>
     <tr>
-        <td>Вектор терапия</td>
+        <td>Лечение пародонта</td>
         <td><?=$statistics->vectorDate?></td>
         <td><?=$statistics->vectorEmployee?></td>
     </tr>

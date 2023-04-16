@@ -16,6 +16,7 @@ class PriceListsWidget extends Widget
     const ACTIVE_NONE = 'none';
     const TYPE_BATCH_EDITING = 'batch-editing';
     const TYPE_PRICELIST_ALL = 'all';
+    const TYPE_INVOICE_STAT = 'invoice_stat';
 
     public $type = self::TYPE_INVOICE;
     public $activePriceList = self::ACTIVE_NONE;
@@ -75,6 +76,7 @@ class PriceListsWidget extends Widget
     {
         $priceLists = [];
         switch ($this->type) {
+            case self::TYPE_INVOICE_STAT:
             case self::TYPE_COMPLIANCE:
             case self::TYPE_EDIT:
                 $priceLists = Pricelist::getList();
@@ -93,7 +95,7 @@ class PriceListsWidget extends Widget
         $priceList = Pricelist::findOne($priceListId);
         switch ($widgetType) {
 
-
+            case self::TYPE_INVOICE_STAT:
             case self::TYPE_EDIT:
                 $categoryes = $priceList->getCategoryes();
                 break;
@@ -112,7 +114,7 @@ class PriceListsWidget extends Widget
         $items = [];
         $category = PricelistItems::findOne($categoryId);
         switch ($widgetType) {
-
+            case self::TYPE_INVOICE_STAT:
             case self::TYPE_EDIT:
                 $items = $category->getItemsFromCategory();
                 break;

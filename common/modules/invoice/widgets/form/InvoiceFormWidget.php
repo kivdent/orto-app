@@ -35,6 +35,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     public $patient_id;
     public $appointment_id;
     public $invoice_type = Invoice::TYPE_MANIPULATIONS;
+    public $priceListWidgetType = PriceListsWidget::TYPE_INVOICE;
 
     public static function getEarlyPaymentTable($id)
     {
@@ -70,6 +71,7 @@ class InvoiceFormWidget extends \yii\base\Widget
             'typePriceList' => $this->typePriceList,
             'invoice_id' => $this->invoice_id,
             'employee_choice' => $this->employee_choice,
+            'priceListWidgetType' => $this->priceListWidgetType,
         ]);
     }
 

@@ -4,20 +4,54 @@
 namespace common\modules\pricelists\models;
 
 use common\modules\invoice\models\Invoice;
+use common\modules\patient\models\Patient;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
 use common\modules\pricelists\models\PricelistItemCompliances;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property int $price
  * @property Prices $priceForItem
  * @property PricelistItems $technicalItemCompliance
  * @property PricelistItemCompliances $pricelistItemCompliances
+ * @property Prices[] $prices
  */
 class PricelistItems extends \common\models\PricelistItems
 {
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
+
+    /**
+     * @param array $ids
+     * @return array|Patient
+     */
+    public static function getPatientsWith(array $ids)
+    {
+        $pricesIds=[];
+        foreach ($ids as $id) {
+            $pricesIds+=ArrayHelper::getColumn(PricelistItems::findOne($id)->prices,'id');
+        };
+//        UserInterface::getVar($pricesIds);
+        $patients = Patient::find()
+            ->leftJoin('invoice', 'patient_id=klinikpat.id')
+            ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
+            ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
+            ->leftJoin('pricelist_items','prices.pricelist_items_id=pricelist_items.id')
+            ->where(['pricelist_items.id' => $ids])
+            ->andWhere('invoice.created_at>=\'2018-01-01\'')
+//            ->where(['prices.id' =>  $pricesIds])
+            ->all();
+//        $invoices= Invoice::find()
+//            ->leftJoin('invoice_items', '`invoice_items`.`invoice_id`=`invoice`.`id`')
+//            ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
+//            ->leftJoin('pricelist_items','prices.pricelist_items_id=pricelist_items.id')
+//            ->where(['pricelist_items.id' => $ids])
+//            ->all();
+//        UserInterface::getVar($invoices);
+        return $patients;
+    }
 
     public function getStatus()
     {
@@ -128,4 +162,8 @@ class PricelistItems extends \common\models\PricelistItems
         return $this->hasOne(PricelistItemCompliances::class, ['pricelist_item_id' => 'id']);
     }
 
+    function getPrices()
+    {
+        return $this->hasMany(Prices::class,['pricelist_items_id' => 'id']);
+    }
 }

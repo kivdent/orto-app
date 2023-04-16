@@ -340,4 +340,19 @@ $(document).ready(function () {
         invoice_sum = 0;
         $("#summary").text('0 руб');
     });
+
+    function send_request_for_patients() {
+        if (count_invoice_items > 0) {
+            let url = '/reports/manipulation/request?';
+            for (let i = 1; i <= count_invoice_items; i++) {
+                let id = parseInt($('tr.' + i).attr('id'));
+                url=url+'ids[]='+id+'&';
+            }
+            window.location = url;
+        } else {
+            alert('Выбирите хотя бы одну манипуляцию');
+        }
+
+    }
+    $('#send_request_for_patients_button').on('click',function (){send_request_for_patients()});
 });
