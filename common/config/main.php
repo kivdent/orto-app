@@ -1,5 +1,4 @@
 <?php
-
 return [
     'language' => 'ru-RU',
     'aliases' => [
@@ -107,6 +106,11 @@ return [
         ],
         'statistics' => [
             'class' => 'common\modules\statistics\Module',
+        ],
+
+        'api' => [
+            'class' => 'common\modules\api\Module',
+
         ],
     ],
 ];

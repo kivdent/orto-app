@@ -1,8 +1,8 @@
 <?php
 /* @var $this yii\web\View */
-\common\assets\VueAsset::register($this);
-\common\modules\schedule\assets\VueTestAsset::register($this);
-
+//\common\assets\VueAsset::register($this);
+//\common\modules\schedule\assets\VueTestAsset::register($this);
+\common\assets\vueNpmAssets\Vue3Asset::register($this);
 
 ?>
 
