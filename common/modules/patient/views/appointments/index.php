@@ -10,6 +10,16 @@ use common\widgets\ButtonsWidget\AppointmentButtonsWidget;
 use yii\helpers\Html;
 
 $this->title = 'Назначения пациента ' . Patient::findOne(Yii::$app->request->get('patient_id'))->fullName;
+function getRowClass($appoitment)
+{
+    $class = 'bg-info';
+    if ($appoitment->status === Appointment::STATUS_CANCEL) {
+        $class = 'bg-danger';
+    } elseif (((UserInterface::getFormatedDate($appoitment->appointments_day->date))) <= (int)strtotime('now')) {
+        $class = 'bg-warning';
+    }
+    return $class;
+}
 
 ?>
 <h1>Назначения <?= Html::a('Назначить', [
@@ -19,7 +29,7 @@ $this->title = 'Назначения пациента ' . Patient::findOne(Yii::
         [
             'class' => 'btn btn-info',
             'title' => 'Назначить',
-            'target'=>'_blank'
+            'target' => '_blank'
         ]);
     ?></h1>
 <div>
@@ -28,12 +38,11 @@ $this->title = 'Назначения пациента ' . Patient::findOne(Yii::
 <div class="appointments">
     <?php foreach ($appoitments as $appoitment): ?>
 
-        <div class="row <?= (int)strtotime((UserInterface::getFormatedDate($appoitment->appointments_day->date))) <= (int)strtotime('now') ? 'bg-warning' : 'bg-info'; ?>">
+        <div class="row <?= getRowClass($appoitment) ?>">
             <div class="col-lg-1">
-                <?= UserInterface::getFormatedDate($appoitment->appointments_day->date) ?>
                 <?php if ($appoitment->status === Appointment::STATUS_CANCEL): ?>
                     <span class="label label-danger">Запись отменена</span>
-                <?php endif; ?>
+                <?php endif; ?><?= UserInterface::getFormatedDate($appoitment->appointments_day->date) ?>
             </div>
             <div class="col-lg-2">
                 <?= UserInterface::getFormattedTime($appoitment->NachNaz) ?>
