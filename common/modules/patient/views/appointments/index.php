@@ -15,7 +15,7 @@ function getRowClass($appoitment)
     $class = 'bg-info';
     if ($appoitment->status === Appointment::STATUS_CANCEL) {
         $class = 'bg-danger';
-    } elseif (((UserInterface::getFormatedDate($appoitment->appointments_day->date))) <= (int)strtotime('now')) {
+    } elseif ((strtotime(UserInterface::getFormatedDate($appoitment->appointments_day->date))) <= (int)strtotime('now')) {
         $class = 'bg-warning';
     }
     return $class;
