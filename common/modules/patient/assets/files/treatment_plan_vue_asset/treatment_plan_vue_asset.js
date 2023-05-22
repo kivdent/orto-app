@@ -19,8 +19,17 @@ let treatmentPlan = {//Создаём обект корневого компон
             description: '',
             chapters: [],
         });
+
+        const insertChapter = function (newChapter) {
+            //this.newChapter.position = this.nextPosition;
+            // this.nextPosition++;
+            this.treatmentPlan.chapters.push(Object.assign({}, newChapter))
+            this.dialogFormVisible = false;
+            console.log(newChapter);
+        };
         provide('treatmentPlan', treatmentPlan)
-        return {diagnosis, treatmentPlan};
+        provide('insertChapter', insertChapter)
+        return {diagnosis, treatmentPlan, insertChapter};
     },
     methods: {
         async getDiagnosis() {
@@ -30,12 +39,13 @@ let treatmentPlan = {//Создаём обект корневого компон
             console.log(data);
             this.diagnosis = data;
         },
-        diagnosisChange(treatmentPlanDiagnosis) {
 
+        diagnosisChange(treatmentPlanDiagnosis) {
             this.treatmentPlan.diagnosis = treatmentPlanDiagnosis;
         },
 
     },
+
     beforeMount() {
         this.getDiagnosis();
     },
@@ -55,10 +65,11 @@ let treatmentPlan = {//Создаём обект корневого компон
 <el-divider />
 <newChapterForm/>
 <planChapter 
-    v-for="chapter in treatmentPlan.chapters"
-    :key="chapter.position"
+    v-for="(chapter,index) in treatmentPlan.chapters"
+    :key="index"
     :chapter="chapter"
-/>
+    :index="index"
+></planChapter>
 </div>
     `
 }
@@ -150,19 +161,20 @@ app.component('newChapterForm', {
             description: ''
         })
 
-        const nextPosition = ref(1);
+        const nextPosition = 1;
 
         const treatmentPlan = inject('treatmentPlan');
-
-        return {newChapter, nextPosition, dialogFormVisible, treatmentPlan};
+        const insertChapter = inject('insertChapter');
+        return {newChapter, nextPosition, dialogFormVisible, treatmentPlan, insertChapter};
     },
     methods: {
         onSubmit() {
-            this.newChapter.position = this.nextPosition;
-            this.nextPosition++;
-            this.treatmentPlan.chapters.push(this.newChapter)
-            this.dialogFormVisible = false;
-            console.log(this.newChapter);
+            this.insertChapter(this.newChapter);
+            this.newChapter={
+                position: '',
+                title: '',
+                description: ''
+            }
         }
     },
     template: `
@@ -199,20 +211,26 @@ app.component('newChapterForm', {
 })
 app.component('planChapter', {
     setup() {
-
+        const treatmentPlan = inject('treatmentPlan');
+        return {treatmentPlan};
     },
-    props: ['chapter'],
+    props: ['chapter','index'],
+    methods:{
+        deleteChapter(){
+            this.treatmentPlan.chapters.splice(this.index,1)
+        }
+    },
     template: `
     <el-card class="box-card">
     <template #header>
       <div class="card-header">
-       <p>{chapter.title}}</p> 
+       <p>{{chapter.id}} {{chapter.title}} <el-button class="button" @click="deleteChapter">Удалить</el-button> <el-button class="button" @click="deleteChapter">Изменить</el-button></p> 
        <p>{{chapter.descriptions}}</p>
-        <el-button class="button" >Удалить</el-button>
       </div>
     </template>
     
   </el-card>
     `,
+
 });
 app.mount('#treatmentPlan');
