@@ -121,7 +121,6 @@ class OperationController extends Controller
         if (($model = Operation::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

@@ -14,6 +14,8 @@ use Yii;
  * @property string $comment
  * @property int $price_from
  * @property int $price_to
+ * @property int $duration_from
+ * @property int $duration_to
  */
 class PlanItem extends \yii\db\ActiveRecord
 {
@@ -31,7 +33,7 @@ class PlanItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['plan_id', 'operation_id', 'region_id', 'price_from', 'price_to'], 'integer'],
+            [['plan_id', 'operation_id', 'region_id', 'price_from', 'price_to', 'duration_from', 'duration_to'], 'integer'],
             [['comment'], 'string'],
         ];
     }
@@ -47,8 +49,10 @@ class PlanItem extends \yii\db\ActiveRecord
             'operation_id' => 'Operation ID',
             'region_id' => 'Region ID',
             'comment' => 'Comment',
-            'price_from' => 'Стоимость от',
-            'price_to' => 'Стоимость до',
+            'price_from' => 'Price From',
+            'price_to' => 'Price To',
+            'duration_from' => 'Duration From',
+            'duration_to' => 'Duration To',
         ];
     }
 }

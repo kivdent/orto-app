@@ -18,6 +18,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'price_to')->textInput() ?>
 
+    <?= $form->field($model, 'duration_from')->textInput() ?>
+
+    <?= $form->field($model, 'duration_to')->textInput() ?>
+
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>

@@ -1,0 +1,27 @@
+<?php
+
+use yii\db\Migration;
+
+/**
+ * Handles adding columns to table `{{%operation}}`.
+ */
+class m230713_033432_add_duration_to_column_to_operation_table extends Migration
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function safeUp()
+    {
+        $this->addColumn('{{%operation}}', 'duration_to', $this->integer());
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
+    {
+        $this->dropColumn('{{%operation}}', 'duration_to');
+
+    }
+}
