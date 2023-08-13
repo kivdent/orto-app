@@ -14,6 +14,7 @@ class Storage extends Component
 {
     const TYPE_PHOTO = 'photo';
     const TYPE_DOCS = 'docs';
+    const TYPE_LOGO = 'logo';
     const TYPE_PRICELIST = 'pricelist';
     private $fileName;
 

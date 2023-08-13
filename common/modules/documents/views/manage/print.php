@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 
 use common\modules\documents\models\Notes;
+use common\components\Storage;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\documents\models\Notes */
@@ -11,6 +12,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Notes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+\common\components\Storage::
 ?>
 <div class="notes-view">
 
