@@ -83,7 +83,6 @@ class WorkplacesController extends Controller {
        
         return $this->render('create', [
                     'model' => $model,
-                    
         ]);
     }
 

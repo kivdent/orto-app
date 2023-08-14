@@ -11,24 +11,30 @@ namespace common\modules\clinic\models;
  *
  * @author kivdent
  */
+
+use common\modules\userInterface\models\Addresses;
+use common\modules\userInterface\models\Requisites;
 use yii\base\Model;
 use common\interfaces\ClinicInterface;
 use common\models\Clinics;
 
-class Clinic extends Clinics implements ClinicInterface {
+class Clinic extends Clinics //implements ClinicInterface
+{
 
-    public static function getById($id) {
+    public static function getById($id)
+    {
 
 
         return self::findOne($id) !== NULL ? self::findOne($id) : false;
     }
 
     /**
-     * 
-     * получение списка 
+     *
+     * получение списка
      */
-    public static function getAll() {
-        $clinics=self::find()->where('id>0')->all();
+    public static function getAll()
+    {
+        $clinics = self::find()->where('id>0')->all();
         return $clinics !== NULL ? $clinics : false;
     }
 
@@ -40,7 +46,8 @@ class Clinic extends Clinics implements ClinicInterface {
     /**
      * получение идентификатора
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -48,68 +55,97 @@ class Clinic extends Clinics implements ClinicInterface {
      * Название клиники
      * @return string
      */
-    public function getName() {
-        
+    public function getName()
+    {
+
     }
 
     /**
      * Описание клиники
      * @return string
      */
-    public function getDescription() {
-        
+    public function getDescription()
+    {
+
     }
 
     /**
      * Реквизиты клиники
      * @return string
      */
-    public function getRequisites() {
-        
+    public function getRequisites()
+    {
+        return $this->hasOne(Requisites::class, ['id' => 'requisites_id']);
+    }
+
+    public static function getRequisitesString()
+    {
+
+        return true;
     }
 
     /**
      * Адрес клиники
-     * @return array 
+     * @return \yii\db\ActiveQuery
      */
-    public function getAddres() {
-        
+    public function getAddress()
+    {
+        return $this->hasOne(Addresses::class, ['id' => 'address_id']);
     }
 
     /**
      * Расписание клиники
-     * @return array 
+     * @return array
      */
-    public function getSheudle() {
-        
+    public function getSheudle()
+    {
+
     }
 
     /**
      * Финансовые подразделения клиники
-     * @return array 
+     * @return array
      */
-    public function getFinancialDivisions() {
-        
+    public function getFinancialDivisions()
+    {
+
     }
 
     /**
      * Рабочие места клиники
-     * @return array 
+     * @return array
      */
-    public function getWorkplaces() {
-        
+    public function getWorkplaces()
+    {
+
     }
 
     /**
      * Логотип
-     * @return array 
+     * @return array
      */
-    public function getLogo() {
-        
+    public function getLogo()
+    {
+
     }
-    static function hasClinics(){
+
+    static function hasClinics()
+    {
         return self::getAll();
     }
-   
 
+    public static function getClinicInfoString()
+    {
+        $clinic=self::getClinicInstance();
+        $address=$clinic->address;
+        $string= "г. ".$address->city.", ул. ".$address->street." ".$address->house."-".$address->apartment."<br>";
+        $string.=$clinic->phone;
+
+        return $string;
+    }
+
+    public static function getClinicInstance()
+    {
+        return self::find()->all()[0];
+    }
 }

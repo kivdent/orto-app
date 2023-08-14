@@ -2,7 +2,7 @@
 /*@var $menuItems array*/
 /* @var $this yii\web\View */
 use yii\bootstrap\Nav;
-use Yii;
+//use Yii;
 ?>
 
 <?=Nav::widget([

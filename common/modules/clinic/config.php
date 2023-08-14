@@ -13,6 +13,7 @@ return [
         ],
         'menuItems' => [
           ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/manage/index','roles'=>['admin', 'director', ]],
+          ['label' => 'Настройки', 'url' => '/clinic/settings/index','roles'=>['admin', 'director', ]],
        //   ['label' => 'Просмотр сведений о клинике', 'url' => '/clinic/financial-divisions','roles'=>['admin', 'director', ]],
         ],
         'moduleMenu' => [

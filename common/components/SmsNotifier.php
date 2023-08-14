@@ -4,6 +4,7 @@
 namespace common\components;
 
 
+use common\modules\clinic\models\Settings;
 use common\modules\schedule\models\Appointment;
 use Yii;
 use yii\base\Component;
@@ -90,6 +91,6 @@ class SmsNotifier extends Component
 
     private static function getApiKey()
     {
-        return Yii::$app->params['smsApiKey'];
+        return Settings::getSmsApiKeyValue();
     }
 }

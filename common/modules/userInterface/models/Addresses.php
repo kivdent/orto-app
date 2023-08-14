@@ -18,8 +18,7 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
 
     /**
      * {@inheritdoc}
-     */
-    public static function tableName() {
+     */    public static function tableName() {
         return 'addresses';
     }
 

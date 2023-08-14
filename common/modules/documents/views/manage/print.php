@@ -1,5 +1,7 @@
 <?php
 
+use common\modules\clinic\models\Clinic;
+use common\modules\clinic\models\Settings;
 use yii\helpers\Html;
 
 use common\modules\documents\models\Notes;
@@ -12,18 +14,19 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Notes', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
-\common\components\Storage::
+
 ?>
 <div class="notes-view">
 
     <div class="raw">
         <div class="col-xs-5">
-            <?=
-            Html::img('/images/logo orto premier.png', ['width' => 200])
-            ?>
+            <?=Html::img(Settings::getLogoUri(),[
+                'class'=>'img-responsive',
+                'width'=>'200'
+            ])?>
         </div>
         <div class="col-xs-7 small">
-            Новокузнецк, пр. Кузнецкстроевский д.30 п.73<br>+7 (3843) 45 46 33, +7-913-429-97-23
+            <?= Clinic::getClinicInfoString()?>
         </div>
     </div>
 

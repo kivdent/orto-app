@@ -8,6 +8,7 @@
 
 namespace common\modules\clinic\models;
 
+use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
 use Yii;
 use yii\web\NotFoundHttpException;
