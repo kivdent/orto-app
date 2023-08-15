@@ -23,6 +23,11 @@ class Settings extends \yii\db\ActiveRecord
         return 'settings';
     }
 
+    public static function getLabel()
+    {
+        return isset(Yii::$app->params['appLabel']) ? Yii::$app->name." ".Yii::$app->params['appLabel'] : Yii::$app->name." ";
+    }
+
     /**
      * {@inheritdoc}
      */
