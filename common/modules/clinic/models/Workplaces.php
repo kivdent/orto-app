@@ -31,7 +31,7 @@ class Workplaces extends \common\abstractClasses\ActiveRecordEntity
     {
         return [
             [['clinic_id'], 'integer'],
-            [['nazv'], 'string', 'max' => 10],
+            [['nazv'], 'string', 'max' => 255],
             [['nazv'], 'required']
         ];
     }
