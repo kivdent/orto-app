@@ -6,9 +6,9 @@ return [
     'params' => [
     
          'entities' => [
-            'clinic' => 'common\modules\clinic\models\clinic',
+            'clinic' => 'common\modules\clinic\models\Clinic',
             'user'=> 'common\models\User',
-             'addresses'=>'common\modules\userInterface\models\addresses',
+             'addresses'=>'common\modules\userInterface\models\Addresses',
              'requisites'=>'common\modules\userInterface\models\Requisites',
         ],
         'menuItems' => [
