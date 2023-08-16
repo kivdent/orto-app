@@ -173,6 +173,7 @@ $additionalTextDoctorIds = Url::to([
                                         <td>Выходной</td>
                                     </tr>
                                 <?php else: ?>
+
                                     <?php foreach ($appointmentDay->grid as $time => $row): ?>
                                         <tr <?= $row == AppointmentDayManager::TIME_EMPTY ? '' : 'class=appointment' ?>>
                                             <td>

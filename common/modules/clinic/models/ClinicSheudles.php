@@ -2,6 +2,7 @@
 
 namespace common\modules\clinic\models;
 
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
@@ -36,6 +37,7 @@ class ClinicSheudles extends \yii\db\ActiveRecord
             return false;
         }
         $this->start_date = Yii::$app->formatter->asDate($this->start_date, 'php:Y-m-d');
+
         return true;
     }
 

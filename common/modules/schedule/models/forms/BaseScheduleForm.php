@@ -6,6 +6,7 @@ namespace common\modules\schedule\models\forms;
 
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
@@ -34,6 +35,7 @@ class BaseScheduleForm extends BaseSchedules
         }
         $this->start_date = isset($this->start_date) ? Yii::$app->formatter->asDate($this->start_date, 'php:Y-m-d') : date('Y-m-d');
         $this->setOldColumns();//TODO Удалить после прехода на новые таблицы
+
         return true;
     }
 
