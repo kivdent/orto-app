@@ -39,7 +39,15 @@ class BaseSchedules extends \yii\db\ActiveRecord
     {
         return 'raspis_pack';
     }
-
+    public function beforeValidate()
+    {
+        if (!parent::beforeValidate()) {
+            return false;
+        }
+        $this->start_date = isset($this->start_date) ? Yii::$app->formatter->asDate($this->start_date, 'php:Y-m-d') : date('Y-m-d');
+       
+        return true;
+    }
     public static function DoctorHas($doctor_id,$date)
 
     {

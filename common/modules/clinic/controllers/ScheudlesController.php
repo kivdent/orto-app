@@ -2,6 +2,7 @@
 
 namespace common\modules\clinic\controllers;
 
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\clinic\models\ClinicSchedleForm;
 use yii\data\ActiveDataProvider;
@@ -104,7 +105,7 @@ class ScheudlesController extends Controller {
      */
     public function actionUpdate($id) {
         $model = $this->findModel($id);
-        
+
         if ($model->load(Yii::$app->request->post()) &&
                 Model::loadMultiple($model->days, Yii::$app->request->post()) 
                 && Model::validateMultiple($model->days) && $model->save()) {

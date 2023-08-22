@@ -4,6 +4,7 @@
 namespace common\components;
 
 
+use common\modules\clinic\models\Settings;
 use yii\base\Component;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
@@ -14,6 +15,7 @@ class Storage extends Component
 {
     const TYPE_PHOTO = 'photo';
     const TYPE_DOCS = 'docs';
+    const TYPE_LOGO = 'logo';
     const TYPE_PRICELIST = 'pricelist';
     private $fileName;
 
@@ -86,8 +88,8 @@ class Storage extends Component
         return unlink($this->getStoragePath($type) . $path . $fileName);
     }
 
-    private function getYandexDiskToken()//TODO переделать сохранение токена
+    private function getYandexDiskToken()
     {
-        return 'AgAEA7qjRX9xAAbgeELdtF8Zlk24sL2TK0Gobjo';
+        return Settings::getYandexDiskTokenValue();
     }
 }

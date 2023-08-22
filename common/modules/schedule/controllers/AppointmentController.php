@@ -68,8 +68,7 @@ class AppointmentController extends Controller
 
 
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
-//        UserInterface::getVar($appointmentManager);
-
+       // UserInterface::getVar($appointmentManager);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
             'doctor_id' => $doctor_id,

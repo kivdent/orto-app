@@ -186,6 +186,5 @@ class ManageController extends Controller
     {
         $path = Yii::$app->components->getStoragePath(Storage::TYPE_DOCS);
         $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
-
     }
 }

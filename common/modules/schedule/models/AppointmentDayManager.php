@@ -24,15 +24,17 @@ class AppointmentDayManager extends Model
      *
      */
     public $grid;
-    public $isHoliday = false;
+    public $isHoliday = true;
 
     public function __construct($config = [])
     {
         parent::__construct($config);
         if (BaseSchedules::DoctorHas($this->doctor_id, $this->date)) {
             $this->appointmentsDay = BaseSchedulesDays::getAppointmentsDayForDoctor($this->doctor_id, $this->date);
-//            UserInterface::getVar($this->appointmentsDay,false);
+
+            $this->isHoliday=false;
             $this->setGrid();
+
         } else {
             $this->appointmentsDay = null;
         }
@@ -49,6 +51,7 @@ class AppointmentDayManager extends Model
         if (!$this->appointmentsDay or $this->appointmentsDay->vih == 1) {
             $this->grid = 'holiday';
             $this->isHoliday = true;
+            //UserInterface::getVar($this);
         } else {
             $this->grid = [];
             for ($time = $start_time; $time < $end_time; $time += $duration) {

@@ -4,6 +4,7 @@ namespace common\modules\schedule\controllers;
 
 use common\modules\schedule\models\BaseSchedulesDays;
 
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\schedule\models\BaseSchedules;
 use yii\data\ActiveDataProvider;
@@ -105,7 +106,7 @@ class ManageBasicScheduleController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if (BaseSchedulesDays::loadMultiple($model->scheduleDays, Yii::$app->request->post())
                 && BaseSchedulesDays::validateMultiple($model->scheduleDays)) {
-
+//                UserInterface::getVar($model);
                 $model->save();
 
                 foreach ($model->scheduleDays as $scheduleDay){

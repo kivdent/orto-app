@@ -28,6 +28,7 @@ class ClinicManageMenuWidget extends Widget {
             ['label' => 'Расписания', 'url' => ['/clinic/scheudles', 'clinic_id' => $this->clinic_id],],
             ['label' => 'Рабочие места', 'url' => ['/clinic/workplaces', 'clinic_id' => $this->clinic_id],],
               ['label' => 'Подразделения', 'url' => ['/clinic/financial-divisions', 'clinic_id' => $this->clinic_id],],
+              ['label' => 'Настройки', 'url' => ['/clinic/settings', 'clinic_id' => $this->clinic_id],],
         ];
         foreach ($this->menuItems as &$menuItem) {
             $routeArray = explode('/', $menuItem['url'][0]);

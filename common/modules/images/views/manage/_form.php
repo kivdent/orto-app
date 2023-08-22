@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\modules\images\assets\ImagesAsset;
-use View;
+//use View;
 
 
 /* @var $this yii\web\View */

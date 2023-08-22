@@ -3,12 +3,37 @@
 
 namespace console\controllers;
 
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 use yii\console\Controller;
 use common\models\User;
 
 class RbacController extends Controller //TODO Добавить разрешения из миграции m210506_063028_add_role_senior_recorder.php
 {
+    public function actionAddSeniorRecorder(){
+        $auth = Yii::$app->authManager;
+        // добавляем разрешение "editSchedule"
+        $editSchedule = $auth->createPermission(UserInterface::PERMISSION_EDIT_SCHEDULE);
+        $editSchedule->description = 'Изменение расписания';
+        $auth->add($editSchedule);
+        //присоединения пазрешения  "editSchedule" к ролям
+
+        $senior_nurse=$auth->getRole(UserInterface::ROLE_SENIOR_NURSE);
+        $director=$auth->getRole(UserInterface::ROLE_DIRECTOR);
+        $admin=$auth->getRole(UserInterface::ROLE_ADMIN);
+
+        $auth->addChild($senior_nurse,$editSchedule);
+        $auth->addChild($director,$editSchedule);
+        $auth->addChild($admin,$editSchedule);
+
+        // добавляем роль "senior_recorder"
+        $recorder=$auth->getRole(UserInterface::ROLE_RECORDER);
+        $senior_recorder = $auth->createRole(UserInterface::ROLE_SENIOR_RECORDER);
+        $senior_recorder->description="Старший администратор";
+        $auth->add($senior_recorder);
+        $auth->addChild($senior_recorder, $recorder);
+        $auth->addChild($senior_recorder,$editSchedule);
+    }
 
     public function actionInit()
     {
@@ -49,6 +74,13 @@ class RbacController extends Controller //TODO Добавить разрешен
         $senior_nurse->description ="Старшая медицинска сестра";
         $auth->add($senior_nurse);
         $auth->addChild($senior_nurse, $user);
+
+        // добавляем роль "add_role" и даём роли разрешение "updatePost"
+        // а также все разрешения роли "user"
+        $senior_recorder = $auth->createRole(UserInterface::ROLE_SENIOR_RECORDER);
+        $senior_recorder->description="Старший администратор";
+        $auth->add($senior_recorder);
+        $auth->addChild($senior_recorder, $recorder);
 
         // добавляем роль "director" и даём роли разрешение "updatePost"
         // а также все разрешения роли "user"
@@ -113,4 +145,5 @@ class RbacController extends Controller //TODO Добавить разрешен
 
         $auth->assign($admin, $user->id);
     }
+
 }

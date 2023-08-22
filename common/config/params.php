@@ -8,4 +8,6 @@ return [
     'photo_uri'=>'/images/patient/photo/',
     'docs_path'=>'@common/modules/documents/templates/',
     'docs_uri'=>'/docs/',
+    'logo_path'=>'@frontend/web/images/logo/',
+    'logo_uri'=>'/images/logo/',
 ];
