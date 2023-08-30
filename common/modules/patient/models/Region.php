@@ -9,6 +9,7 @@ use yii\helpers\ArrayHelper;
 class Region extends \common\models\Region
 {
 
+    const ID_ALL='2';
     const TYPE_ALL='all';
     const TYPE_JAW='jaw';
     const TYPE_SEGMENT='segment';

@@ -10,7 +10,7 @@ use common\assets\PrintAsset;
 /* @var $this yii\web\View */
 /* @var $model common\modules\patient\models\TreatmentPlan */
 
-$this->title = "План лечения";
+$this->title = "Смета лечения";
 
 $i = 1;
 //\yii\web\YiiAsset::register($this);
@@ -71,28 +71,28 @@ PrintAsset::register($this);
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Область</th>
-                    <th scope="col">Рекомендация</th>
-                    <th scope="col">Примерный срок</th>
-                    <th scope="col">Комментарий</th>
+                    <th scope="col">Манипуляция </th>
+                    <th scope="col">Цена</th>
+
                 </tr>
                 </thead>
-<!--                <tfoot>-->
-<!--                <tr>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                    <td>Примерная стоимость:</td>-->
-<!--                    <td>--><?//= Html::encode($model->getPrice()) ?><!--</td>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                </tr>-->
-<!--                </tfoot>-->
+                <tfoot>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>Стоимость:</td>
+                    <td><?= Html::encode($model->getPriceActual()) ?></td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tfoot>
                 <tbody>
                 <?php foreach ($model->planItems as $planlItem): ?>
                     <tr>
                         <th scope="row"><?= Html::encode($i++) ?></th>
                         <td><?= Html::encode($planlItem->regionTitle) ?></td>
                         <td><?= Html::encode($planlItem->operationTitle) ?></td>
-                        <td><?= Html::encode($planlItem->duration_from) ?>-<?= Html::encode($planlItem->duration_to) ?></td>
-                        <td><?= Html::encode($planlItem->commentText) ?></td>
+                        <td><?= Html::encode($planlItem->price_actual) ?></td>
+
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -107,18 +107,17 @@ PrintAsset::register($this);
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-xs-12">
             <div class='span12'>
-                1.	Предложенный план лечения может быть изменён по медицинским показаниям.<br>
-                2.	Срок оказания услуги в плане лечения указан неделях и отсчитывается с дня первого посещения у лечащего врача с целью оказания услуги.<br>
-                3.	Предложенный план лечения теряет свою актуальность:<br>
-                3.1.	В случае изменения состояния здоровья пациента.<br>
-                3.2.	Если работе по плану лечения не начат в течении 1 месяца с момента подписания.<br>
-                3.3.	Если работы указанные в плане не осуществлены в указанные сроки по вине пациента.<br>
+                1.	Смета действительна только при подписанном и действующем плане лечения.<br>
+                2.	Стоимость работ, указанных в смете, действительна в течении 1 месяца с момента подписания.<br>
             </div>
         </div>
-    </div><div class="row">
+    </div>
+
+    <div class="row">
         <div class="col-xs-12">
             <div class='span12'>
                 <hr>

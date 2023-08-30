@@ -3,10 +3,16 @@
 
 namespace common\modules\patient\models;
 
-
+/**
+ * @property int $price_actual
+ */
 class PlanItem extends \common\models\PlanItem
 {
 
+
+    /**
+     * @var mixed|null
+     */
 
     public function getRegion()
     {
@@ -29,6 +35,8 @@ class PlanItem extends \common\models\PlanItem
             'comment' => 'Комментарий',
             'price_from' => 'Стоимость от',
             'price_to' => 'Стоимость до',
+            'duration_from' => 'Срок от ',
+            'duration_to' => 'Срок до'
         ];
     }
 
@@ -49,8 +57,29 @@ class PlanItem extends \common\models\PlanItem
 
         return $title;
     }
-    public function getCommentText(){
-        return $this->fromComment() ? '' :$this->comment ;
+
+    public function getCommentText()
+    {
+        return $this->fromComment() ? '' : $this->comment;
+    }
+
+    public function getPrice_actual()
+    {
+        $price = 0;
+        if ($this->setPrice_actual() !== null) {
+            $price = $this->setPrice_actual();
+        } elseif ($this->price_to !== null) {
+            $price = $this->price_to;
+        } elseif ($this->price_from !== null) {
+            $price = $this->price_from;
+        }
+
+        return $price;
+    }
+
+    private function setPrice_actual()
+    {
+        return null;
     }
 
 }

@@ -14,7 +14,8 @@ $i = 1;
 <div class="treatment-plan-view">
 
     <h1><?= Html::encode($this->title) ?>
-        <?= Html::a('Печать', ['print', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id, 'print' => 'true'], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
+        <?= Html::a('Печать плана', ['print', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id, 'print' => 'true'], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
+        <?= Html::a('Печать сметы', ['print-budget', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id, 'print' => 'true'], ['class' => 'btn btn-primary', 'target' => '_blank']) ?>
         <?= Html::a('Список', ['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']], ['class' => 'btn btn-primary',]) ?>
 
         <?= Html::a('Изменить', ['update', 'patient_id' => Yii::$app->userInterface->params['patient_id'], 'id' => $model->id,], ['class' => 'btn btn-primary']) ?>
@@ -46,6 +47,7 @@ $i = 1;
                 <th scope="col">Область</th>
                 <th scope="col">Рекомендация</th>
                 <th scope="col">Примерная стоимость</th>
+                <th scope="col">Примерный срок</th>
                 <th scope="col">Комментарий</th>
             </tr>
             </thead>
@@ -56,6 +58,7 @@ $i = 1;
                     <td><?= Html::encode($planlItem->regionTitle) ?></td>
                     <td><?= Html::encode($planlItem->operationTitle) ?></td>
                     <td><?= Html::encode($planlItem->price_from) ?>-<?= Html::encode($planlItem->price_to) ?></td>
+                    <td><?= Html::encode($planlItem->duration_from) ?>-<?= Html::encode($planlItem->duration_to) ?></td>
                     <td><?= Html::encode($planlItem->commentText) ?></td>
                 </tr>
             <?php endforeach; ?>

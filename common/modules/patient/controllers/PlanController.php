@@ -5,6 +5,7 @@ namespace common\modules\patient\controllers;
 
 use common\modules\patient\models\forms\TreatmentPlanForm;
 use common\modules\patient\models\Operation;
+use common\modules\patient\models\Region;
 use Yii;
 use common\modules\patient\models\TreatmentPlan;
 use common\modules\patient\models\SearchTreatmentPlan;
@@ -42,7 +43,7 @@ class PlanController extends Controller
 
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'update', 'create','prices','print'],
+                        'actions' => ['index', 'view', 'update', 'create','prices','print','print-budget'],
                         'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse',],
                     ],
                     [
@@ -105,6 +106,14 @@ class PlanController extends Controller
         return $this->render('print', [
             'model' => $model,
         ]);
+    } public function actionPrintBudget($id)
+    {
+        $model = $this->findModel($id);
+        Yii::$app->userInterface->params['patient_id'] = $model->patient;
+        $this->layout = '@frontend/views/layouts/print';
+        return $this->render('print-budget', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -118,7 +127,11 @@ class PlanController extends Controller
         $model->author = Yii::$app->user->identity->employe_id;
         $model->patient = Yii::$app->request->get('patient_id');
         $model->deleted = 0;
-        $modelsPlanItem = [new PlanItem()];
+        $modelsPlanItem = [new PlanItem([
+            'operation_id'=>Operation::FROM_COMMENT,
+            'region_id'=>Region::ID_ALL,
+        ])
+        ];
 
         if ($model->load(Yii::$app->request->post())) {
 

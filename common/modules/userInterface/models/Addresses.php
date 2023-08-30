@@ -91,6 +91,6 @@ class Addresses extends \yii\db\ActiveRecord implements \common\interfaces\Addre
     public function getId(){}
   
      public function getAddressString(){
-         return $this->postcode." ".$this->city." ".$this->street." ".$this->house." ".$this->apartment;
+         return $this->postcode." г. ".$this->city." ул. ".$this->street." д. ".$this->house." пом. ".$this->apartment;
      }
 }

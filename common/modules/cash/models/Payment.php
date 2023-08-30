@@ -5,6 +5,7 @@ namespace common\modules\cash\models;
 
 
 use common\modules\catalogs\models\PaymentType;
+use common\modules\clinic\models\FinancialDivisions;
 use common\modules\invoice\models\Invoice;
 use common\modules\sale\models\GiftCard;
 use Yii;
@@ -12,8 +13,9 @@ use Yii;
 use Throwable;
 
 /* @property Invoice $invoice */
-
+/* @property FinancialDivisions $financialDivision */
 /* @property string $typeName */
+
 class Payment extends \common\models\Payment
 {
 
@@ -22,7 +24,7 @@ class Payment extends \common\models\Payment
         return self::find()->
         leftJoin(Invoice::tableName(), 'invoice.id=' . 'oplata.dnev')
             ->where(['invoice.patient_id' => $patientId])
-            ->andWhere('oplata.VidOpl in ('.PaymentType::TYPE_BANK_CARD.', '.PaymentType::TYPE_CASH.')')
+            ->andWhere('oplata.VidOpl in (' . PaymentType::TYPE_BANK_CARD . ', ' . PaymentType::TYPE_CASH . ')')
             ->orderBy('oplata.date')
             ->all();
     }
@@ -161,6 +163,11 @@ class Payment extends \common\models\Payment
             throw $e;
         }
         return false;
+    }
+
+    public function getFinancialDivision()
+    {
+        return $this->hasOne(FinancialDivisions::class, ['id' => 'podr']);
     }
 
 }

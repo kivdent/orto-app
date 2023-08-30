@@ -112,6 +112,7 @@ class ManageController extends \yii\web\Controller
             return $this->redirect('end');
         }
         $sum = Cashbox::find()->orderBy('date DESC')->one()->summ;
+        $sum = ($sum === null) ? '0' : $sum;
         if (Yii::$app->request->post('validate')) {
             $cashbox = new Cashbox([
                 'summ' => $sum,

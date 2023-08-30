@@ -20,6 +20,9 @@ use common\models\FinancialDivisions as Old;
  * @property string $name
  * @property int $requisites_id
  * @property Requisites $requisites
+ * @property string $requisitesString
+ * @property-read string $addressString
+ * @property Clinic $clinic
  */
 class FinancialDivisions extends \yii\db\ActiveRecord
 {
@@ -99,6 +102,10 @@ class FinancialDivisions extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Requisites::className(), ['id' => 'requisites_id']);
     }
+    public function getClinic()
+    {
+        return $this->hasOne(Clinic::className(), ['id' => 'clinic_id']);
+    }
 
     public static function getDivisionList()
     {
@@ -128,7 +135,19 @@ class FinancialDivisions extends \yii\db\ActiveRecord
 
     public function isMain()
     {
-
         return Clinic::getMain()->requisites_id == $this->requisites_id;
     }
+
+    public function getRequisitesString(): string
+    {
+        $string='';
+        $string=$this->requisites->full_name.' ИНН: '.$this->requisites->INN.' КПП: '.$this->requisites->KPP;
+        return $string;
+    }
+    public function getAddressString(): string
+    {
+        return $this->requisites->addressString;
+    }
+
+
 }

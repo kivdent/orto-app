@@ -77,7 +77,7 @@ $classification = 13;//9 id классификации МКБ-10
                             ?>
 
                             <div class="row">
-                                <div class="col-sm-2">
+                                <div class="col-sm-4">
                                     <?= $form->field($modelItem, "[{$i}]region_id")->
                                     widget(Select2::classname(), [
                                         'data' => \common\modules\patient\models\Region::getList(),
@@ -101,7 +101,12 @@ $classification = 13;//9 id классификации МКБ-10
                                         ]);
                                     ?>
                                 </div>
+                                <div class="col-sm-4">
+                                    <?= $form->field($modelItem, "[{$i}]comment")->textarea(['maxlength' => true]) ?>
+                                </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col-sm-2">
 
 
@@ -119,15 +124,18 @@ $classification = 13;//9 id классификации МКБ-10
                                     ?>
                                 </div>
                                 <div class="col-sm-2">
-
-
                                     <?= $form->field($modelItem, "[{$i}]price_to")->textInput();
                                     ?>
                                 </div>
                                 <div class="col-sm-2">
-                                    <?= $form->field($modelItem, "[{$i}]comment")->textInput(['maxlength' => true]) ?>
+                                    <?= $form->field($modelItem, "[{$i}]duration_from")->textInput();
+                                    ?>
                                 </div>
-                            </div><!-- .row -->
+                                <div class="col-sm-2">
+                                    <?= $form->field($modelItem, "[{$i}]duration_to")->textInput();
+                                    ?>
+                                </div>
+                            </div> <!-- .row -->
 
                         </div>
                     </div>

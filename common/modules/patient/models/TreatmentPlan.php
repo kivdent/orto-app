@@ -83,4 +83,14 @@ class TreatmentPlan extends CommonTreatmentPlan
         }
         return $price_from == 0 ? "" : $price_from . "-" . $price_to;
     }
+    public function getPriceActual()
+    {
+        $price_actual = 0;
+
+        foreach ($this->planItems as $planItem) {
+            $price_actual += $planItem->price_actual ?? 0;
+
+        }
+        return $price_actual == 0 ? "" : $price_actual ;
+    }
 }

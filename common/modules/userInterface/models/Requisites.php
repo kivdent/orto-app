@@ -17,6 +17,8 @@ use Yii;
  * @property int $OKVED
  * @property int $checking_account
  * @property int $correspondent_bank_account
+ * @property-read string $addressString
+ * @property-read Addresses $address
  * @property int $BIC
  */
 class Requisites extends \common\abstractClasses\ActiveRecordEntity
@@ -61,5 +63,16 @@ class Requisites extends \common\abstractClasses\ActiveRecordEntity
         ];
     }
 
+    public function getAddress(): \yii\db\ActiveQuery
+    {
+        return $this->hasOne(Addresses::class, ['id' => 'legal_address']);
+    }
+
+    public function getAddressString(): string
+    {
+        $string = '';
+        $string = $this->address->getAddressString();
+        return $string;
+    }
 
 }

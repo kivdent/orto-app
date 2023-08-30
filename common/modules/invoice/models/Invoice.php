@@ -34,6 +34,7 @@ use common\modules\invoice\models\InvoiceItems;
  * @property Invoice $doctorInvoiceForTechnicalOrder
  * @property string $doctorFullNameForTechnicalOrder
  * @property MedicalRecords $medicalRecords
+ * @property Payment $lastPayment
  *
  */
 class Invoice extends \common\models\Invoice
@@ -189,6 +190,15 @@ class Invoice extends \common\models\Invoice
 
         return $lastPayment;
 
+    }
+
+    public function getLastPayment()
+    {
+        $lastPayment = Payment::find()->
+        where(['dnev' => $this->getPaidInvoiceId()])->
+        orderBy(['date' => SORT_DESC])->
+        one();
+        return $lastPayment;
     }
 
     public function isLastPaymentDateInPeriod(FinancialPeriods $financialPeriod)

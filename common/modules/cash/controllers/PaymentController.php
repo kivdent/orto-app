@@ -219,6 +219,11 @@ class PaymentController extends \yii\web\Controller
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('payment_print', ['payment' => Payment::findOne($payment_id)]);
     }
+    public function actionAktPrint($payment_id)
+    {
+        $this->layout = '@frontend/views/layouts/print';
+        return $this->render('akt_print', ['payment' => Payment::findOne($payment_id)]);
+    }
     public function actionView($payment_id)
     {
         return $this->render('view', ['payment' => Payment::findOne($payment_id)]);

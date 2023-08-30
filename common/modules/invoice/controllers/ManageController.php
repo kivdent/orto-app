@@ -84,6 +84,7 @@ class ManageController extends \yii\web\Controller
                             </div>
                             <div class="modal-footer">
                                 <a href="/invoice/manage/print?invoice_id=' . $invoice->id . '" class="btn btn-success" target="_blank">Печать</a>
+                                 <a href="/invoice/manage/print-akt?invoice_id=' . $invoice->id . '" class="btn btn-success" target="_blank">Печать акта</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>                               
                             </div>
                         </div>
@@ -192,6 +193,13 @@ class ManageController extends \yii\web\Controller
     {
         $this->layout = '@frontend/views/layouts/print';
         return $this->render('print', ['invoice' => Invoice::findOne($invoice_id)]);
+    }
+
+    public function actionPrintAkt($invoice_id)
+    {
+        $this->layout = '@frontend/views/layouts/print';
+
+        return $this->render('print-akt', ['invoice' => Invoice::findOne($invoice_id)]);
     }
 
     public function actionIndex()
