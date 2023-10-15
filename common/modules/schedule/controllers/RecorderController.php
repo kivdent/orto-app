@@ -62,7 +62,7 @@ class RecorderController extends \yii\web\Controller
                 'doctor_chooser' => self::ELEMENT_SHOW,
                 'full_table_chooser' => self::ELEMENT_SHOW,
                 'day_chooser' => self::ELEMENT_SHOW,
-                'doctor_ids' =>  $doctor_ids,
+                'doctor_ids' => $doctor_ids,
             ],
         ]);
     }
@@ -172,15 +172,19 @@ class RecorderController extends \yii\web\Controller
 
     function actionSetNoticeResult()
     {
-        $response = ['html' => ''];
+        $response_sms='';
+        $response = ['html' => '','response'=>$response_sms];
+
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
             $noticeResult = Yii::$app->request->post('notice_result');
             $appointment->RezObzv = $noticeResult;
             $appointment->save(false);
-            if ($appointment->RezObzv == NoticeResult::NOTICE_RESULT_SMS_SENT) SmsNotifier::sendAppointmentNotification($appointment->Id);
-            $response = ['html' => $this->getHTML($appointment)];
+            if ($appointment->RezObzv == NoticeResult::NOTICE_RESULT_SMS_SENT) {
+                $response_sms=SmsNotifier::sendAppointmentNotification($appointment->Id);
+            }
+            $response = ['html' => $this->getHTML($appointment),'response'=>$response_sms];
         }
         return $response;
     }

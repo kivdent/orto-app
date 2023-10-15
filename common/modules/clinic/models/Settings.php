@@ -18,17 +18,33 @@ class Settings extends \common\models\Settings
 
     public static function getLogoUri()
     {
-        $logo=self::getLogo();
+        $logo = self::getLogo();
         return (Yii::$app->storage->getFileLink($logo->value, '', Storage::TYPE_LOGO) !== null) ?
-        Yii::$app->storage->getFileLink($logo->value, '', Storage::TYPE_LOGO) : '';
+            Yii::$app->storage->getFileLink($logo->value, '', Storage::TYPE_LOGO) : '';
     }
-    public static function getLogo(){
-        return self::find()->where(['name'=>'logo'])->one();
+
+    public static function getLogo()
+    {
+        return self::find()->where(['name' => 'logo'])->one();
     }
-    public static function getSmsApiKeyValue(){
-        return self::find()->where(['name'=>'smsApiKey'])->one()->value;
+
+    public static function getSmsApiKeyValue()
+    {
+        return self::find()->where(['name' => 'smsApiKey'])->one()->value;
     }
-    public static function getYandexDiskTokenValue(){
-        return self::find()->where(['name'=>'yandexDiskToken'])->one()->value;
+
+    public static function getYandexDiskTokenValue()
+    {
+        return self::find()->where(['name' => 'yandexDiskToken'])->one()->value;
+    }
+
+    public static function getSmsLogin()
+    {
+        return Yii::$app->params['sms_login'];
+    }
+
+    public static function getSmsPassword()
+    {
+        return Yii::$app->params['sms_password'];
     }
 }

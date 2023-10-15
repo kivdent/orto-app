@@ -18,6 +18,14 @@ use yii\base\Model;
 use common\interfaces\ClinicInterface;
 use common\models\Clinics;
 
+/**
+ *
+ * @property-read array $sheudle
+ * @property-read \yii\db\ActiveQuery $address
+ * @property-read Workplaces $workplaces
+ * @property-read FinancialDivisions $financialDivisions
+ * @property-read string $requisites
+ */
 class Clinic extends Clinics //implements ClinicInterface
 {
 
@@ -136,10 +144,10 @@ class Clinic extends Clinics //implements ClinicInterface
 
     public static function getClinicInfoString()
     {
-        $clinic=self::getClinicInstance();
-        $address=$clinic->address;
-        $string= "г. ".$address->city.", ул. ".$address->street." ".$address->house."-".$address->apartment."<br>";
-        $string.=$clinic->phone;
+        $clinic = self::getClinicInstance();
+        $address = $clinic->address;
+        $string = "г. " . $address->city . ", ул. " . $address->street . " " . $address->house . "-" . $address->apartment . "<br>";
+        $string .= $clinic->phone;
 
         return $string;
     }
@@ -147,5 +155,13 @@ class Clinic extends Clinics //implements ClinicInterface
     public static function getClinicInstance()
     {
         return self::find()->all()[0];
+    }
+
+    public static function getAddressStringForSms()
+    {
+        $clinic = self::getClinicInstance();
+        $address = $clinic->address;
+        $string = "ул. " . $address->street . " д." . $address->house;
+        return $string;
     }
 }

@@ -9,6 +9,7 @@
 /* @var $options [] */
 
 
+use common\modules\clinic\models\Settings;
 use common\modules\notifier\assets\NotifierAsset;
 use common\modules\schedule\assets\RecorderAsset;
 use common\modules\schedule\controllers\RecorderController;
