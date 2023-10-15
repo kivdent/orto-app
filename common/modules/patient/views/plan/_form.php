@@ -23,14 +23,17 @@ $classification = 13;//9 id классификации МКБ-10
 <div class="treatment-plan-form" id="treatment-plan-body">
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <?= $form->field($model, 'diagnosis_id')->widget(DiagnosisInputWidget::classname()); ?>
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'comments')->textarea(['rows' => 2]) ?>
         </div>
-    </div>
 
+        <div class="col-lg-2">
+            <?= $form->field($model, 'status')->dropDownList(\common\modules\patient\models\TreatmentPlan::getStatusList()) ?>
+        </div>
+    </div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><h4><i class="glyphicon glyphicon-th-list"></i> План лечения</h4></div>
@@ -50,8 +53,9 @@ $classification = 13;//9 id классификации МКБ-10
                     'operation_id',
                     'price_from',
                     'price_to',
+                    "duration_from",
+                    "duration_to",
                     'comment',
-
                 ],
             ]); ?>
 
@@ -81,6 +85,7 @@ $classification = 13;//9 id классификации МКБ-10
                                     <?= $form->field($modelItem, "[{$i}]region_id")->
                                     widget(Select2::classname(), [
                                         'data' => \common\modules\patient\models\Region::getList(),
+                                        'value'=>\common\modules\patient\models\Region::TYPE_ALL,
                                         'options' => ['placeholder' => 'Выберете область ...'],
                                         'pluginOptions' => [
                                             'allowClear' => true
@@ -88,18 +93,22 @@ $classification = 13;//9 id классификации МКБ-10
                                     ]);
                                     ?>
                                 </div>
-                                <div class="col-sm-4">
-
-
-                                    <?= $form->field($modelItem, "[{$i}]operation_id")
-                                        ->widget(Select2::classname(), [
-                                            'data' => \common\modules\patient\models\Operation::getList(),
-                                            'options' => ['placeholder' => 'Выберете рекомендацию ...', 'class' => 'operation',],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]);
-                                    ?>
+                                <div class="operation-block">
+                                    <div class="col-sm-4">
+                                        <?= $form->field($modelItem, "[{$i}]operation_id")
+                                            ->widget(Select2::classname(), [
+                                                'data' => \common\modules\patient\models\Operation::getList(),
+                                                'value'=>\common\modules\patient\models\Operation::FROM_COMMENT,
+                                                'options' => [
+                                                    'placeholder' => 'Выберете рекомендацию ...',
+                                                    'class' => 'operation',
+                                                ],
+                                                'pluginOptions' => [
+                                                    'allowClear' => true
+                                                ],
+                                            ]);
+                                        ?>
+                                    </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <?= $form->field($modelItem, "[{$i}]comment")->textarea(['maxlength' => true]) ?>
@@ -107,34 +116,52 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
 
                             <div class="row">
-                                <div class="col-sm-2">
+                                <div class="price-block-interval" <?= $modelItem->price_actual ? 'hidden' : '' ?> >
 
+                                    <div class="col-sm-2 ">
 
-                                    <?= $form->field($modelItem, "[{$i}]price_from")->textInput([
-                                        'class' => 'form-control price_from',
-                                    ])->label('Стоимость от ' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
-                                            'class' => 'btn btn-primary btn-xs',
-                                            'data-toggle' => "modal",
-                                            'data-target' => "#invoice_form",
-                                            'data-recipient' => "find",
-                                            'data-recipient-item-class' => ".price_from",
+                                        <?= $form->field($modelItem, "[{$i}]price_from")->textInput([
+                                            'class' => 'form-control price_from',
+                                        ])->label('Стоимость от ' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
+                                                'class' => 'btn btn-primary btn-xs',
+                                                'data-toggle' => "modal",
+                                                'data-target' => "#invoice_form",
+                                                'data-recipient' => "find",
+                                                'data-recipient-item-class' => ".price_from",
+                                            ]));
+                                        ?>
+                                    </div>
 
-
-                                        ]));
-                                    ?>
+                                    <div class="col-sm-2">
+                                        <?= $form->field($modelItem, "[{$i}]price_to")->textInput();
+                                        ?>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <?= $form->field($modelItem, "[{$i}]price_to")->textInput();
-                                    ?>
+
+
+                                <div class="price-block-price-actual" <?= $modelItem->price_actual ? '' : 'hidden' ?>>
+                                    <div class="col-sm-4">
+                                        <label class="control-label" for="actualPrice">Стоимость</label>
+                                        <?= Html::input('text', 'actualPrice',
+                                            $modelItem->price_actual,
+                                            [
+                                                'class' => 'form-control price-actual',
+                                                'disabled'
+                                            ]);
+                                        ?>
+                                    </div>
                                 </div>
+
                                 <div class="col-sm-2">
                                     <?= $form->field($modelItem, "[{$i}]duration_from")->textInput();
                                     ?>
                                 </div>
+
                                 <div class="col-sm-2">
                                     <?= $form->field($modelItem, "[{$i}]duration_to")->textInput();
                                     ?>
                                 </div>
+
                             </div> <!-- .row -->
 
                         </div>

@@ -14,6 +14,7 @@ use Yii;
  * @property int $patient
  * @property string $comments
  * @property int $deleted
+ * @property int $status
  */
 class TreatmentPlan extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,7 @@ class TreatmentPlan extends \yii\db\ActiveRecord
         return [
             [['created_at', 'updated_at'], 'safe'],
             [['author', 'patient', 'deleted','diagnosis_id'], 'integer'],
-            [['comments'], 'string'],
+            [['comments','status'], 'string'],
         ];
     }
 
@@ -50,11 +51,7 @@ class TreatmentPlan extends \yii\db\ActiveRecord
             'patient' => 'Patient',
             'comments' => 'Comments',
             'deleted' => 'Deleted',
+            'status' => 'Status',
         ];
-    }
-    public function setDeleted(){
-        $this->deleted=1;
-
-        return $this->save(false);
     }
 }

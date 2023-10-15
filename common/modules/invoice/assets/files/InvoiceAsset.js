@@ -1,6 +1,41 @@
 $(document).ready(function () {
     var count_invoice_items = 0;
     var invoice_sum = 0;
+
+    function save_operation_compliance(operation_id) {
+        console.log(operation_id);
+        if (count_invoice_items > 0) {
+            let items = [];
+            for (let i = 1; i <= count_invoice_items; i++) {
+                let id = parseInt($('tr.' + i).attr('id'));
+                let count = parseInt($('#invoice-item-quantity-' + id).val());
+                items.push({'id': id, 'quantity': count});
+            }
+
+            var action = "/catalogs/operation/save-ajax";
+            var data = {
+                'operation_id': operation_id,
+                'items': items
+            };
+
+
+            $.ajax({
+                url: action,
+                type: 'POST',
+                data: data,
+                success: function (response) {
+                    console.log(response);
+                    alert('Сохранено');
+                },
+                error: function () {
+                    alert('Ошибка запроса');
+                }
+            });
+        } else {
+            alert('Выбирите хотя бы одну манипуляцию');
+        }
+    }
+
     if (($('#loading_invoice_id').val() !== 'new') && ($('#loading_invoice_id').length > 0)) {
         load_invoice(parseInt($('#loading_invoice_id').val()))
     }
@@ -263,6 +298,29 @@ $(document).ready(function () {
             recipient = button.data('recipient') // Extract info from data-* attributes
         }
 
+        if (button.data('type') === 'operation') {
+            $('#invoice-table-body').empty();
+            count_invoice_items = 0;
+            invoice_sum = 0;
+            $("#summary").text('0 руб');
+            const data_request = {
+                'operation_id': recipient
+            };
+            const url = '/api/operation-pricelist-items-compliance';
+
+            fetch(url + '?' + new URLSearchParams(data_request))
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    operation_compliances = data;
+                    // console.log(operation_compliances)
+                    render_invoice(operation_compliances);
+                }).then(
+
+            );
+        }
+
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this)
@@ -275,6 +333,19 @@ $(document).ready(function () {
         var recipient = $(modal.find('.calling_element')).val();
         $(recipient).val(invoice_sum);
         modal.modal('hide')
+    });
+
+    $('button.submit-compliance').on('click', function () {
+        var modal = $('#invoice_form');
+        var operation_id = $(modal.find('.calling_element')).val();
+        save_operation_compliance(operation_id);
+        modal.modal('hide');
+
+        // if ($('#loading_invoice_id').val() == 'new') {
+        //     save_operation_compliance();
+        // } else {
+        //     update_invoice();
+        // }
     });
 
 
@@ -346,7 +417,7 @@ $(document).ready(function () {
             let url = '/reports/manipulation/request?';
             for (let i = 1; i <= count_invoice_items; i++) {
                 let id = parseInt($('tr.' + i).attr('id'));
-                url=url+'ids[]='+id+'&';
+                url = url + 'ids[]=' + id + '&';
             }
             window.location = url;
         } else {
@@ -354,5 +425,8 @@ $(document).ready(function () {
         }
 
     }
-    $('#send_request_for_patients_button').on('click',function (){send_request_for_patients()});
+
+    $('#send_request_for_patients_button').on('click', function () {
+        send_request_for_patients()
+    });
 });

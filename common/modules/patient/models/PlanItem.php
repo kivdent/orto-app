@@ -4,6 +4,11 @@
 namespace common\modules\patient\models;
 
 /**
+ * @property-read Operation $operation
+ * @property-read string $commentText
+ * @property-read Region $region
+ * @property-read string $regionTitle
+ * @property-read string $operationTitle
  * @property int $price_actual
  */
 class PlanItem extends \common\models\PlanItem
@@ -79,7 +84,7 @@ class PlanItem extends \common\models\PlanItem
 
     private function setPrice_actual()
     {
-        return null;
+        return $this->operation->actualPrice;
     }
 
 }

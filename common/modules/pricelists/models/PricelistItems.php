@@ -16,7 +16,18 @@ use yii\helpers\ArrayHelper;
  * @property Prices $priceForItem
  * @property PricelistItems $technicalItemCompliance
  * @property PricelistItemCompliances $pricelistItemCompliances
+ * @property-read mixed $status
+ * @property-read int $priceId
+ * @property-read float $coefficient
+ * @property-read string $statusName
+ * @property-read string[] $statusList
+ * @property-read mixed $activeItemsFromCategory
+ * @property-read mixed $itemsFromCategory
+ * @property-read mixed $allPrices
+ * @property-read mixed $lastUse
  * @property Prices[] $prices
+
+ *
  */
 class PricelistItems extends \common\models\PricelistItems
 {

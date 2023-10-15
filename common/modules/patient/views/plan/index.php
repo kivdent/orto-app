@@ -1,6 +1,7 @@
 <?php
 $this->context->layout = '@frontend/views/layouts/light.php';
 
+use common\modules\userInterface\models\UserInterface;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -11,7 +12,9 @@ use yii\helpers\Url;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Планы лечения ';
+
 ?>
+
 <div class="treatment-plan-index">
 
     <h1><?= Html::encode($this->title) ?><?= Html::a('Новый план лечения', ['create', 'patient_id' => Yii::$app->request->get('patient_id')], ['class' => 'btn btn-success']) ?>
@@ -44,10 +47,20 @@ $this->title = 'Планы лечения ';
                 },
             ],
             'comments:ntext',
-
-            ['class' => 'yii\grid\ActionColumn',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'content' => function ($data) {
+                    return $data->statusTitle;
+                },
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view}',
                 'urlCreator' => function ($action, $model, $key, $index) {
-                    return Url::to(['/patient/plan/' . $action, 'id' => $model->id, 'patient_id' => Yii::$app->request->get('patient_id')]);
+                    return Url::to([
+                        '/patient/plan/' . $action, 'id' => $model->id, 'patient_id' => Yii::$app->request->get('patient_id')
+                    ]);
                 }
             ],
         ],

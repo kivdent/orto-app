@@ -21,6 +21,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     const TYPE_PAGE_INVOICE = 'page_invoice';
     const TYPE_PAGE_TECHNICAL_ORDER = Pricelist::TYPE_TECHNICAL_ORDER;
     const TYPE_MODAL_CALCULATOR = 'modal';
+    const TYPE_MODAL_COMPLIANCE = 'compliance';
     const TYPE_ACTIVE_FORM = 'active_form';
 
     public $invoice_id = 'new';
@@ -126,6 +127,24 @@ class InvoiceFormWidget extends \yii\base\Widget
                           
                 ';
                 break;
+            case self::TYPE_MODAL_COMPLIANCE:
+                $html = '
+                                    <!-- Modal -->
+                    <div class="modal fade" id="' . $this->getIdName() . '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                      <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Калькулятор стоимости 
+                            <button type="button" class="btn btn-primary submit-compliance" >Сохранить</button> 
+                            <button type="button" class="btn btn-danger clear-modal" >Очистить</button> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button></h4>
+                          </div>
+                          <div class="modal-body">
+                          <input type="hidden" class="calling_element">
+                          
+                ';
+                break;
 
             case self::TYPE_PAGE_INVOICE:
                 $patient = Patient::findOne($this->patient_id)->getFullName();
@@ -202,8 +221,7 @@ class InvoiceFormWidget extends \yii\base\Widget
         return $html;
     }
 
-    private
-    function getAfterHTML()
+    private function getAfterHTML()
     {
         $html = '';
         switch ($this->type) {
@@ -213,6 +231,18 @@ class InvoiceFormWidget extends \yii\base\Widget
                           <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
                             <button type="button" class="btn btn-primary submit-modal" >Сохранить</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                ';
+                break;
+            case self::TYPE_MODAL_COMPLIANCE:
+                $html = '
+                     </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary submit-compliance" >Сохранить</button>
                           </div>
                         </div>
                       </div>

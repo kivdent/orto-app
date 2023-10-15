@@ -127,6 +127,7 @@ class PlanController extends Controller
         $model->author = Yii::$app->user->identity->employe_id;
         $model->patient = Yii::$app->request->get('patient_id');
         $model->deleted = 0;
+        $model->status=TreatmentPlan::PLAN_STATUS_CREATED;
         $modelsPlanItem = [new PlanItem([
             'operation_id'=>Operation::FROM_COMMENT,
             'region_id'=>Region::ID_ALL,
@@ -289,7 +290,7 @@ class PlanController extends Controller
                 return [
                     "price_from" => $operation->price_from,
                     "price_to" => $operation->price_to,
-
+                    "actualPrice"=>$operation->actualPrice,
                     "error" => null
                 ];
             } else {
