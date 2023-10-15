@@ -48,13 +48,13 @@ function getRowClass($appoitment)
                 <?= UserInterface::getFormattedTime($appoitment->NachNaz) ?>
                 -<?= UserInterface::getFormattedTime($appoitment->OkonchNaz) ?>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <?= $appoitment->appointments_day->doctor ? $appoitment->appointments_day->doctor->fullName : 'Не известно' ?>
             </div>
             <div class="col-lg-2">
                 <?= $appoitment->appointment_content ?>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-2">
                 <?php if ($appoitment->status === Appointment::STATUS_ACTIVE): ?>
                     <?= AppointmentButtonsWidget::widget([
                         'appointmentId' => $appoitment->Id,
@@ -62,6 +62,9 @@ function getRowClass($appoitment)
                 <?php else: ?>
                     Запись отменена
                 <?php endif; ?>
+            </div>
+            <div class="col-lg-3">
+                    <?=$appoitment->info?>
             </div>
         </div>
     <?php endforeach; ?>

@@ -9,8 +9,6 @@
 /* @var $options [] */
 
 
-use common\modules\clinic\models\Settings;
-use common\modules\notifier\assets\NotifierAsset;
 use common\modules\schedule\assets\RecorderAsset;
 use common\modules\schedule\controllers\RecorderController;
 use common\modules\schedule\models\Appointment;
@@ -53,13 +51,13 @@ RecorderAsset::register($this);
             );
             ?></div>
     <?php endif; ?>
-    <?php if ($options['day_chooser'] == RecorderController::ELEMENT_SHOW):?>
-    <div class="day_chooser col-lg-4">
-        <div class="input-group">
+    <?php if ($options['day_chooser'] == RecorderController::ELEMENT_SHOW): ?>
+        <div class="day_chooser col-lg-4">
+            <div class="input-group">
             <span class="input-group-btn">
        <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
            [
-               '/schedule/recorder/'.Yii::$app->controller->action->id,
+               '/schedule/recorder/' . Yii::$app->controller->action->id,
                'start_date' => date('d.m.Y', strtotime($start_date . ' - 1 day')),
            ],
            [
@@ -67,41 +65,41 @@ RecorderAsset::register($this);
                'id' => 'back',
            ]) ?>
             </span>
-            <?=
-            DatePicker::widget([
-                'name' => 'datePicker',
-                'value' => $start_date,
-                //'type' => DatePicker::TYPE_BUTTON,
-                'pluginOptions' => [
-                    'autoclose' => true,
-                    'format' => 'dd.mm.yyyy'
-                ],
-                'removeButton' => false,
-                'options' => [
-                    'id' => 'datePicker',
-                    'class' => 'form-control',
+                <?=
+                DatePicker::widget([
+                    'name' => 'datePicker',
+                    'value' => $start_date,
+                    //'type' => DatePicker::TYPE_BUTTON,
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'dd.mm.yyyy'
+                    ],
+                    'removeButton' => false,
+                    'options' => [
+                        'id' => 'datePicker',
+                        'class' => 'form-control',
 //                    'patient_id' => $patient_id ? $patient_id : 'null',
 //                    'doctor_ids' => $doctor_id,
-                    'start_date' => $start_date,
-                    'action' => Yii::$app->controller->action->id,
-                ]
-                //'buttonOptions' =>'btn btn-primary'
-            ])
-            ?>
-            <span class="input-group-btn">
+                        'start_date' => $start_date,
+                        'action' => Yii::$app->controller->action->id,
+                    ]
+                    //'buttonOptions' =>'btn btn-primary'
+                ])
+                ?>
+                <span class="input-group-btn">
         <?= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
-            ['/schedule/recorder/'.Yii::$app->controller->action->id,
+            ['/schedule/recorder/' . Yii::$app->controller->action->id,
                 'start_date' => date('d.m.Y', strtotime($start_date . ' + 1 day')),
             ]
             , ['class' => 'btn btn-primary',
                 'id' => 'forward',]) ?>
             </span>
+            </div>
         </div>
-    </div>
-    <?php endif;?>
-    <?php if(UserInterface::isUserRole(UserInterface::ROLE_RECORDER) || UserInterface::isUserRole(UserInterface::ROLE_SENIOR_RECORDER)):?>
-        <?= Html::a('Звонок', ['/schedule/incoming-calls/create'], ['class' => 'btn btn-success', 'target'=>'_blank']) ?>
-    <?php endif;?>
+    <?php endif; ?>
+    <?php if (UserInterface::isUserRole(UserInterface::ROLE_RECORDER) || UserInterface::isUserRole(UserInterface::ROLE_SENIOR_RECORDER)): ?>
+        <?= Html::a('Звонок', ['/schedule/incoming-calls/create'], ['class' => 'btn btn-success', 'target' => '_blank']) ?>
+    <?php endif; ?>
 </div>
 
 <div class="row">
@@ -114,7 +112,7 @@ RecorderAsset::register($this);
                             <div class="row doctor-name">
                                 <div class="col-lg-12">
                                     <h4><?= \frontend\models\Employe::findOne($doctorId)->fullName ?>
-                                        <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/recorder/'.Yii::$app->controller->action->id,]) ?>
+                                        <?= FreeTimeButton::widget(['doctor_id' => $doctorId, 'start_date' => $start_date, 'url' => '/schedule/recorder/' . Yii::$app->controller->action->id,]) ?>
                                     </h4>
                                 </div>
                             </div>
@@ -122,6 +120,63 @@ RecorderAsset::register($this);
                         <div class="row">
                             <?php foreach ($appointmentDayManager->appointmentsDays as $appointmentDay): ?>
                                 <div class="col-lg-12">
+                                    <?php if (!$appointmentDay->isHoliday): ?>
+                                        <?= Html::button('История назначений', [
+                                            'class' => 'btn btn-info btn-xs',
+                                            'data-toggle' => "modal",
+                                            'data-target' => "#modal-History-" . $appointmentDay->appointmentsDay->id]) ?>
+
+                                        <div class="modal fade"
+                                             id=<?= "modal-History-" . $appointmentDay->appointmentsDay->id ?> tabindex="-1"
+                                             role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close"><span
+                                                                    aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">История назначений</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="appointments">
+                                                            <?php foreach ($appointmentDay->appointmentDayHistory as $appoitment): ?>
+
+                                                                <div class="row <?= Appointment::getRowClass($appoitment) ?>">
+                                                                    <div class="col-lg-2">
+                                                                        <?php if ($appoitment->status === Appointment::STATUS_CANCEL): ?>
+                                                                            <span class="label label-danger">Запись отменена</span>
+                                                                        <?php endif; ?><?= UserInterface::getFormatedDate($appoitment->appointments_day->date) ?>
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <?= UserInterface::getFormattedTime($appoitment->NachNaz) ?>
+                                                                        -<?= UserInterface::getFormattedTime($appoitment->OkonchNaz) ?>
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+
+                                                                        <?= $appoitment->patient ? Html::a($appoitment->patient->fullName,['/patient/appointments','patient_id'=>$appoitment->patient->id],['target'=>'_blank']) : 'Не известно' ?>
+                                                                    </div>
+                                                                    <div class="col-lg-2">
+                                                                        <?= $appoitment->appointment_content ?>
+                                                                    </div>
+
+                                                                    <div class="col-lg-2">
+                                                                        <?= $appoitment->info ?>
+                                                                    </div>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default"
+                                                                data-dismiss="modal">Закрыть
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php endif; ?>
+
                                     <table class="table table-bordered">
                                         <?php if (!$appointmentDay->isHoliday): ?>
                                             <?php foreach ($appointmentDay->grid as $time => $appointment): ?>
@@ -168,8 +223,9 @@ RecorderAsset::register($this);
                                                                             ],
                                                                             [
                                                                                 'target' => '_blank',
-                                                                                'title' => 'Номер карты: '.$appointment->patient->id
-                                                                            ]) ?> <span class="label label-default"><?=$appointment->patient->id?></span><br>
+                                                                                'title' => 'Номер карты: ' . $appointment->patient->id
+                                                                            ]) ?> <span
+                                                                                class="label label-default"><?= $appointment->patient->id ?></span><br>
                                                                         <?= $appointment->appointment_content ?></small>
                                                                 </div>
                                                             </div>
@@ -209,10 +265,10 @@ RecorderAsset::register($this);
                                                                 <div class="notice-result"
                                                                      appointment_id="<?= $appointment->Id ?>">
                                                                 </div>
-                                                            <?php else:?>
-                                                            <br>
-                                                            <span class="label label-info">
-                                                                <?=$appointment->noticeResult->RezObzv?>
+                                                            <?php else: ?>
+                                                                <br>
+                                                                <span class="label label-info">
+                                                                <?= $appointment->noticeResult->RezObzv ?>
                                                             </span>
                                                             <?php endif; ?>
                                                         </td>

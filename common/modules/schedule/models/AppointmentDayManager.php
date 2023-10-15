@@ -8,6 +8,10 @@ use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
+/**
+ *
+ * @property-read   Appointment[] $appointmentDayHistory
+ */
 class AppointmentDayManager extends Model
 {
     const TIME_EMPTY = 'empty';
@@ -26,13 +30,14 @@ class AppointmentDayManager extends Model
     public $grid;
     public $isHoliday = true;
 
+
     public function __construct($config = [])
     {
         parent::__construct($config);
         if (BaseSchedules::DoctorHas($this->doctor_id, $this->date)) {
             $this->appointmentsDay = BaseSchedulesDays::getAppointmentsDayForDoctor($this->doctor_id, $this->date);
 
-            $this->isHoliday=false;
+            $this->isHoliday = false;
             $this->setGrid();
 
         } else {
@@ -67,5 +72,9 @@ class AppointmentDayManager extends Model
                 }
             }
         }
+    }
+    public function getAppointmentDayHistory(){
+        $appointments=Appointment::find()->where(['dayPR'=>$this->appointmentsDay->id])->all();
+        return $appointments;
     }
 }

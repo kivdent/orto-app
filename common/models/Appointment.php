@@ -20,6 +20,9 @@ use Yii;
  * @property string $OkonchPr
  * @property string $status
  * @property string $appointment_content
+ * @property string $created_at
+ * @property string $updated_at
+ * @property int $employee_id
  */
 class Appointment extends \yii\db\ActiveRecord
 {
@@ -37,9 +40,9 @@ class Appointment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Perv', 'PatID', 'dayPR', 'SoderzhNaz', 'RezObzv', 'Yavka'], 'integer'],
-            [['NachNaz', 'OkonchNaz', 'NachPr', 'OkonchPr'], 'safe'],
-            [['NachPr', 'OkonchPr','PatID'], 'required'],
+            [['Perv', 'PatID', 'dayPR', 'SoderzhNaz', 'RezObzv', 'Yavka', 'employee_id'], 'integer'],
+            [['NachNaz', 'OkonchNaz', 'NachPr', 'OkonchPr', 'created_at', 'updated_at'], 'safe'],
+            [['NachPr', 'OkonchPr'], 'required'],
             [['status', 'appointment_content'], 'string', 'max' => 255],
         ];
     }
@@ -63,6 +66,9 @@ class Appointment extends \yii\db\ActiveRecord
             'OkonchPr' => 'Okonch Pr',
             'status' => 'Status',
             'appointment_content' => 'Appointment Content',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'employee_id' => 'Employee ID',
         ];
     }
 }
