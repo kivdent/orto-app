@@ -6,13 +6,17 @@ namespace common\modules\schedule\models;
 use common\modules\clinic\models\ClinicSheudles;
 use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
+use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
 use yii\helpers\ArrayHelper;
-use common\modules\schedule\models\Appointment;
+
 
 /**
  * @property string $title
  ** @property Workplaces $workplace
+ * @property-read array $timeListAfterLastAppointment
+ * @property-read Appointment[] $activeAppointments
+ * @property-read array $timeListBeforeFirstAppointment
  ** @property Appointment[] $appointments
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
@@ -139,6 +143,13 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public function hasActiveAppointments()
     {
         return (bool)Appointment::find()
+            ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
+            ->all();
+    }
+
+    public function getActiveAppointments()
+    {
+        return Appointment::find()
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
             ->all();
     }

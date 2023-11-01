@@ -12,7 +12,10 @@
 
 use common\widgets\ButtonsWidget\ButtonsWidget;
 if ($js) $this->registerJs($js);
-if (isset($asset)) $this->registerAssetBundle($asset);
+foreach ($asset as $item){
+    $this->registerAssetBundle($item);
+}
+
 ?>
 <?php if ($style== ButtonsWidget::STYLE_GROUP):?>
 <div class="<?=$alignment?>" role="group">

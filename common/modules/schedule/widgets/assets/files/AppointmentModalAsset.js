@@ -240,14 +240,18 @@ $(document).ready(function () {
                 'Appointment': Appointment
             },
             success: function (response) {
-                //console.log(response);
+                console.log(response+'Пациент записан');
                 //render_doctor_grid($doctor_id, $start_date); //TODO ajax update
                 //alert('Пациент записан');
                 $('#appointment-modal').modal('hide');
-                location.reload();
+               location.reload();
+
             },
             error: function () {
-                alert('Ошибка запроса');
+                //console.log(response);
+                alert('Ошибка записи пациента');
+                $('#appointment-modal').modal('hide');
+                location.reload();
             }
         });
     }

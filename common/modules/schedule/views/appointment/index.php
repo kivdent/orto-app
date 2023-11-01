@@ -197,9 +197,11 @@ $additionalTextDoctorIds = Url::to([
                                                             'title' => 'Номер карты: ' . $row->patient->id
                                                         ]) ?><br><span class="smalltext"><?=$row->appointment_content?></span>
                                                     <br>
+
                                                     <?= AppointmentButtonsWidget::widget([
                                                         'appointmentId' => $row->Id,
                                                     ]) ?>
+
                                                 <?php endif; ?>
                                             </td>
                                         </tr>

@@ -13,7 +13,8 @@ class AppointmentButtonsWidget extends ButtonsWidget
 
     public function __construct($config = [])
     {
-        $this->asset='\common\modules\schedule\widgets\assets\AppointmentModalAsset';
+        $this->asset=['\common\modules\schedule\widgets\assets\AppointmentModalAsset','\common\modules\schedule\assets\AppointmentAsset'];
+
 //        $this->js="";
         parent::__construct($config);
         $appointment=Appointment::findOne($this->appointmentId);
@@ -21,27 +22,28 @@ class AppointmentButtonsWidget extends ButtonsWidget
             [//Отмена
                 'role_available' => $this->doctorAndRegistratorRoles,
                 'text' => Html::encode("<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>"),
-                'url' => [
-                    '#',
+                'url' => ['#',
                     //'appointmentId' => $appointment->Id,
                 ],
                 'options' => [
                     'class' => 'btn btn-xs btn-danger btn-remove-appointment',
-                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?'.$appointment->Id,],
+                    'data' => ['confirm' => 'Вы уверены что хотите отменить пациента?',],
                     'title' => 'Отменить',
                     'appointmentId' => $appointment->Id,
-                    'onclick'=>"$.ajax({
-            url: '/schedule/appointment/cancel-appointment',
-            type: 'POST',
-            data: {'appointment_id': $(this).attr('appointmentId')},
-            success: function (response) {
-                console.log(response);
-                location.reload();
-            },
-            error: function () {
-                alert('Ошибка запроса');
-            }
-        });",
+//                    'onclick'=>"$.ajax({
+//            url: '/schedule/appointment/cancel-appointment',
+//            type: 'POST',
+//            data: {'appointment_id': ".$appointment->Id."},
+//            success: function (response) {
+//                console.log(response);
+//                location.reload();
+//            },
+//            error: function () {
+//                console.log(response);
+//                alert('Ошибка запроса');
+//                location.reload();
+//            }
+//        });",
                 ]
             ],
             [

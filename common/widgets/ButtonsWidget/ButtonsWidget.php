@@ -57,7 +57,7 @@ class ButtonsWidget extends \yii\base\Widget
     public $label ='Действия';
 
     public $js;
-    public $asset;
+    public $asset=[];
 
     public function run()
     {

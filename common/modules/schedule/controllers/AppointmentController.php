@@ -10,6 +10,7 @@ use common\modules\schedule\models\AppointmentsDay;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
 use common\modules\userInterface\models\UserInterface;
+use Exception;
 use Yii;
 use common\modules\schedule\models\Appointment;
 use common\modules\schedule\models\AppointmentSearch;
@@ -309,18 +310,25 @@ class AppointmentController extends Controller
             $model->OkonchPr = '00:00:00';
 
 
+
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
 
                 $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor(Yii::$app->request->post('doctor_id'), strtotime(Yii::$app->request->post('date')));
 
+//                if ($model->status == Appointment::STATUS_ACTIVE && $model->hasCrossTime()) {
+//                    Yii::$app->session->setFlash('danger', 'Время занято');
+//                    return 'error';
+//                }
+
                 $transaction = Appointment::getDb()->beginTransaction();
                 try {
                     if ($appointment_day->isNewRecord) {
+
                         $appointment_day->save();
                     }
                     $model->dayPR = $appointment_day->id;
 
-                    $model->save();
+                    if (!$model->save()) throw new Exception('Ошибка записи');
 
                     $transaction->commit();
 
@@ -330,10 +338,8 @@ class AppointmentController extends Controller
 
                     $transaction->rollBack();
                     throw $e;
-                    return "error";
+                    return 'error';
                 }
-
-
             }
         }
         return "error";
@@ -353,10 +359,13 @@ class AppointmentController extends Controller
         if (Yii::$app->request->isAjax) {
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
             $appointment->status = ($appointment->status == Appointment::STATUS_ACTIVE) ? Appointment::STATUS_CANCEL : Appointment::STATUS_ACTIVE;
-            $appointment->save(false);
-            UserInterface::getVar($appointment);
-            Yii::$app->session->setFlash('success', 'Пациент отменён');
-            return 'success';
+            if($appointment->save()){
+                Yii::$app->session->setFlash('success', 'Пациент отменён');
+                return 'success';
+            }else{
+                return 'error';
+            }
+
         }
     }
     public function actionVue(){
