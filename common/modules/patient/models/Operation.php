@@ -54,7 +54,7 @@ class Operation extends \common\models\Operation
     {
         $price = null;
 
-        if ($this->pricelistItems !== null) {
+        if ($this->pricelistItems) {
             $price = array_sum(ArrayHelper::map($this->pricelistItems,'id','price'));
         }
         return $price;

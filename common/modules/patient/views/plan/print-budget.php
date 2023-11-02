@@ -91,7 +91,7 @@ PrintAsset::register($this);
                         <th scope="row"><?= Html::encode($i++) ?></th>
                         <td><?= Html::encode($planlItem->regionTitle) ?></td>
                         <td><?= Html::encode($planlItem->operationTitle) ?></td>
-                        <td><?= Html::encode($planlItem->price_actual) ?></td>
+                        <td><?= Html::encode($planlItem->price_actual)?></td>
 
                     </tr>
                 <?php endforeach; ?>

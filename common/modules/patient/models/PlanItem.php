@@ -71,6 +71,7 @@ class PlanItem extends \common\models\PlanItem
     public function getPrice_actual()
     {
         $price = 0;
+
         if ($this->setPrice_actual() !== null) {
             $price = $this->setPrice_actual();
         } elseif ($this->price_to !== null) {
@@ -86,5 +87,4 @@ class PlanItem extends \common\models\PlanItem
     {
         return $this->operation->actualPrice;
     }
-
 }
