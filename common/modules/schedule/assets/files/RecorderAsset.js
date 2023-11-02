@@ -10,30 +10,30 @@ $(document).ready(function () {
         $(notice_result).html(html);
     }
 
-    $('#doctor_id').on('change', function () {
-        if ($(this).val() == 'all') {
-            $('.doctor-grid').show();
-        } else {
-            $('.doctor-grid').hide();
-            $('#doctor-grid-id-' + $(this).val()).show();
-        }
-
-    });
-    $('#full_table').on('change', function () {
-        if ($('#full_table').val() == 'full') {
-            $('.appointment').show();
-            $('.empty').show();
-        }
-        if ($('#full_table').val() == 'empty') {
-            $('.appointment').hide();
-            $('.empty').show();
-        }
-        if ($('#full_table').val() == 'appointment') {
-            $('.empty').hide();
-            $('.appointment').show();
-        }
-    });
-    $('#full_table').trigger('change');
+    // $('#doctor_id').on('change', function () {
+    //     if ($(this).val() == 'all') {
+    //         $('.doctor-grid').show();
+    //     } else {
+    //         $('.doctor-grid').hide();
+    //         $('#doctor-grid-id-' + $(this).val()).show();
+    //     }
+    //
+    // });
+    // $('#full_table').on('change', function () {
+    //     if ($('#full_table').val() == 'full') {
+    //         $('.appointment').show();
+    //         $('.empty').show();
+    //     }
+    //     if ($('#full_table').val() == 'empty') {
+    //         $('.appointment').hide();
+    //         $('.empty').show();
+    //     }
+    //     if ($('#full_table').val() == 'appointment') {
+    //         $('.empty').hide();
+    //         $('.appointment').show();
+    //     }
+    // });
+    // $('#full_table').trigger('change');
 
     function setNoticeResult(notice, change,notice_result='none') {
         notice.siblings('.load').show();

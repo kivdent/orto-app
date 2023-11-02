@@ -33,23 +33,27 @@ RecorderAsset::register($this);
 <div class="row">
     <?php if ($options['doctor_chooser'] == RecorderController::ELEMENT_SHOW): ?>
         <div class="doctor_chooser col-lg-2">
-            <?= Html::dropDownList('doctor_id', '', AppointmentManager::getActiveDoctorsNameList(''),
-                [
-                    'id' => 'doctor_id',
-                    'class' => 'form-control',
-                ]
-            );
-            ?></div>
+<!--            --><?//= Html::dropDownList('doctor_id', '', AppointmentManager::getActiveDoctorsNameList(''),
+//                [
+//                    'id' => 'doctor_id',
+//                    'class' => 'form-control',
+//                ]
+//            );
+//            ?>
+            <?=\common\modules\schedule\widgets\DoctorChooserWidget::widget()?>
+        </div>
     <?php endif; ?>
     <?php if ($options['full_table_chooser'] == RecorderController::ELEMENT_SHOW): ?>
         <div class="full_table_chooser col-lg-3">
-            <?= Html::dropDownList('full_table', 'full', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
-                [
-                    'id' => 'full_table',
-                    'class' => 'form-control',
-                ]
-            );
-            ?></div>
+<!--            --><?//= Html::dropDownList('full_table', 'full', ['full' => 'Полное расписание', 'empty' => 'Свободные часы', 'appointment' => 'Назначенные',],
+//                [
+//                    'id' => 'full_table',
+//                    'class' => 'form-control',
+//                ]
+//            );
+//            ?>
+            <?=\common\modules\schedule\widgets\FullTableChooserWidget::widget()?>
+        </div>
     <?php endif; ?>
     <?php if ($options['day_chooser'] == RecorderController::ELEMENT_SHOW): ?>
         <div class="day_chooser col-lg-4">

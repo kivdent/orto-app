@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $appointmentManager AppointmentDayManager[] */
 /* @var $row Appointment */
-/* @var $doctor_id string */
+/* @var  $doctor_id string */
 /* @var $patient_id string */
 /* @var $duration integer */
 
@@ -46,6 +46,7 @@ $additionalTextDoctorIds = Url::to([
         //'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
         'start_date' => $start_date,
     ]) . '&doctor_ids=';
+
 ?>
 <div class="row">
     <div class="col-lg-12">
@@ -60,21 +61,25 @@ $additionalTextDoctorIds = Url::to([
 
 <div class="doctor-chooser row">
     <div class="col-lg-2">
-        <?= Html::dropDownList('doctor_id', $additionalTextDoctorIds . $doctor_id, AppointmentManager::getActiveDoctorsNameList($additionalTextDoctorIds),
-            [
-                'id' => 'doctor_id',
-                'class' => 'form-control',
-            ]
-        );
-        ?></div>
+<!--        --><?//= Html::dropDownList('doctor_id', $additionalTextDoctorIds . $doctor_id, AppointmentManager::getActiveDoctorsNameList($additionalTextDoctorIds),
+//            [
+//                'id' => 'doctor_id',
+//                'class' => 'form-control',
+//            ]
+//        );
+//        ?>
+        <?=\common\modules\schedule\widgets\DoctorChooserWidget::widget(['doctor_id'=>$doctor_id])?>
+    </div>
     <div class="col-lg-2">
-        <?= Html::dropDownList('full_table', $full_table, [1 => 'Полное расписание', 0 => 'Свободные часы'],
-            [
-                'id' => 'full_table',
-                'class' => 'form-control',
-            ]
-        );
-        ?></div>
+<!--        --><?//= Html::dropDownList('full_table', $full_table, [1 => 'Полное расписание', 0 => 'Свободные часы'],
+//            [
+//                'id' => 'full_table',
+//                'class' => 'form-control',
+//            ]
+//        );
+//        ?>
+        <?=\common\modules\schedule\widgets\FullTableChooserWidget::widget()?>
+    </div>
     <div class="col-lg-4">
         <div class="input-group">
             <span class="input-group-btn">
@@ -175,7 +180,7 @@ $additionalTextDoctorIds = Url::to([
                                 <?php else: ?>
 
                                     <?php foreach ($appointmentDay->grid as $time => $row): ?>
-                                        <tr <?= $row == AppointmentDayManager::TIME_EMPTY ? '' : 'class=appointment' ?>>
+                                        <tr <?= $row == AppointmentDayManager::TIME_EMPTY ? 'class=empty' : 'class=appointment' ?>>
                                             <td>
                                                 <?= date('H:i', $time) ?>
                                             </td>

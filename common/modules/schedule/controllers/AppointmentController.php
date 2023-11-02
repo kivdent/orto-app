@@ -68,6 +68,9 @@ class AppointmentController extends Controller
         }
 
 
+
+        $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
+
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
        // UserInterface::getVar($appointmentManager);
         return $this->render('index', [
