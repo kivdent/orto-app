@@ -267,7 +267,7 @@ class DailyReport extends Model
     {
         $this->setInvoicesType();
         $payments = Payment::find()
-            ->select('`oplata`.`*`')
+            ->select('oplata.*')
             ->where(['date' => $this->date])
             ->innerJoinWith(['invoice' => function ($query) {
                 $query->onCondition(Invoice::getDateExpression($this->date, '<>'));
