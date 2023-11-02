@@ -61,23 +61,9 @@ $additionalTextDoctorIds = Url::to([
 
 <div class="doctor-chooser row">
     <div class="col-lg-2">
-<!--        --><?//= Html::dropDownList('doctor_id', $additionalTextDoctorIds . $doctor_id, AppointmentManager::getActiveDoctorsNameList($additionalTextDoctorIds),
-//            [
-//                'id' => 'doctor_id',
-//                'class' => 'form-control',
-//            ]
-//        );
-//        ?>
         <?=\common\modules\schedule\widgets\DoctorChooserWidget::widget(['doctor_id'=>$doctor_id])?>
     </div>
     <div class="col-lg-2">
-<!--        --><?//= Html::dropDownList('full_table', $full_table, [1 => 'Полное расписание', 0 => 'Свободные часы'],
-//            [
-//                'id' => 'full_table',
-//                'class' => 'form-control',
-//            ]
-//        );
-//        ?>
         <?=\common\modules\schedule\widgets\FullTableChooserWidget::widget()?>
     </div>
     <div class="col-lg-4">
