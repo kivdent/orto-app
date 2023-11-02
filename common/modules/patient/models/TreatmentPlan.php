@@ -133,6 +133,7 @@ class TreatmentPlan extends CommonTreatmentPlan
         return $this->save(false);
     }
     public function getStatusTitle(){
+        if (!$this->status) $this->status=self::PLAN_STATUS_CREATED;
         return self::getStatusList()[$this->status];
     }
 }
