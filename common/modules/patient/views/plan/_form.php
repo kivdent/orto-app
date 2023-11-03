@@ -116,7 +116,7 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
 
                             <div class="row">
-                                <div class="price-block-interval" <?= $modelItem->price_actual ? 'hidden' : '' ?> >
+                                <div class="price-block-interval" <?= ($modelItem->operation->actualPrice) ? 'hidden' : '' ?> >
 
                                     <div class="col-sm-2 ">
 
@@ -139,7 +139,7 @@ $classification = 13;//9 id классификации МКБ-10
                                 </div>
 
 
-                                <div class="price-block-price-actual" <?= $modelItem->price_actual ? '' : 'hidden' ?>>
+                                <div class="price-block-price-actual" <?= ($modelItem->operation->actualPrice)? '' : 'hidden' ?>>
                                     <div class="col-sm-4">
                                         <label class="control-label" for="actualPrice">Стоимость</label>
                                         <?= Html::input('text', 'actualPrice',

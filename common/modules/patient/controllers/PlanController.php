@@ -44,7 +44,7 @@ class PlanController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'update', 'create','prices','print','print-budget'],
-                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse',],
+                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse','senior_recorder',],
                     ],
                     [
                         'allow' => true,
@@ -290,6 +290,7 @@ class PlanController extends Controller
                 return [
                     "price_from" => $operation->price_from,
                     "price_to" => $operation->price_to,
+
                     "actualPrice"=>$operation->actualPrice,
                     "error" => null
                 ];
