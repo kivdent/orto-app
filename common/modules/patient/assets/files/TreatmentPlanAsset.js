@@ -15,6 +15,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (res) {
+                    console.log(res)
                     if (res.empty === "true") {
                         $(el_from).val("");
                         $(el_to).val("");
@@ -26,7 +27,7 @@ $(document).ready(function () {
                         $(el_to).val(res.price_to);
                         $(price_actual).val(res.actualPrice)
 
-                        if (res.actualPrice===0){
+                        if (res.actualPrice===null || res.actualPrice===0){
                             price_block_interval.css("display", "block");
                             price_block_price_actual.css("display", "none");
                         }else {
