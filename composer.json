@@ -28,7 +28,9 @@
         "kartik-v/yii2-icons": "@dev",
         "kartik-v/yii2-widgets": "dev-master",
         "arhitector/yandex": "2.0",
-        "setasign/fpdf": "1.8",
+        "setasign/fpdf": "1.8.*",
+        "setasign/tfpdf": "1.31.*",
+        "setasign/fpdi": "^2.3",
         "phpoffice/phpword": "^1.0",
         "npm-asset/pinia": "^2.0",
         "npm-asset/vue": "^3.2"

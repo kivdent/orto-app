@@ -87,4 +87,14 @@ class PlanItem extends \common\models\PlanItem
     {
         return $this->operation->actualPrice;
     }
+
+    public function rules()
+    {
+        return [
+            [['plan_id', 'operation_id', 'region_id', 'price_from', 'price_to', 'duration_from', 'duration_to'], 'integer'],
+            [['operation_id', 'region_id'], 'required'],
+            [['comment'], 'string'],
+        ];
+    }
+
 }

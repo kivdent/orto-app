@@ -3,7 +3,11 @@
 namespace common\modules\documents\controllers;
 
 use common\components\Storage;
+use common\modules\patient\models\Patient;
+use FPDF;
 use PhpOffice\PhpWord\TemplateProcessor;
+use setasign\Fpdi\Tfpdf\Fpdi;
+use tFPDF;
 use Yii;
 use common\modules\documents\models\Notes;
 use common\modules\documents\models\NotesSearch;
@@ -187,4 +191,36 @@ class ManageController extends Controller
         $path = Yii::$app->components->getStoragePath(Storage::TYPE_DOCS);
         $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
     }
+
+    public function actionPrintPdf($patient_id){
+//        $pdf = new Fpdi();
+//
+//        $pdf->AddPage();
+//        $pdf->SetFont('times', 'B', 16);
+//        $pdf->Cell(40, 10,  'Тест');
+        // initiate FPDI
+        define('FPDF_FONTPATH',Yii::getAlias('@frontend').'/web/fonts/');
+        $pdf = new Fpdi();
+// add a page
+        $pdf->AddPage();
+// set the source file
+        $pdf->setSourceFile(Yii::getAlias('@frontend')."/web/templates/ids.pdf");
+// import page 1
+        $tplIdx = $pdf->importPage(1);
+// use the imported page and place it at point 10,10 with a width of 100 mm
+        $pdf->useImportedPage($tplIdx);
+
+// now write some text above the imported page
+//        $pdf->SetFont('Montserrat');
+
+        $pdf->AddFont('Montserrat-Regular','','montserrat/Montserrat-Regular.ttf',true);
+        $pdf->SetFont('Montserrat-Regular','',10);
+
+        $pdf->SetXY(13, 15);
+        $pdf->Write(0, Patient::findOne($patient_id)->fullName);
+
+        //$pdf->Output();
+        $pdf->Output("/report.pdf", "I");
+    }
+
 }

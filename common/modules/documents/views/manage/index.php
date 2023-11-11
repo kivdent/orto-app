@@ -23,6 +23,12 @@ $this->title = 'Документы';
                 'type' => $type,
             ], ['class' => 'btn btn-success']) ?>
         <?php endforeach; ?>
+        <a class="button">pdf</a>
+        <?= Html::a($typeName, [
+            'print-pdf',
+            'patient_id' => Yii::$app->userInterface->params['patient_id'],
+
+        ], ['class' => 'btn btn-success','target'=>'_blank']) ?>
 
     </h3>
     <?= GridView::widget([
