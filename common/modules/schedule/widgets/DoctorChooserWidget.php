@@ -3,7 +3,6 @@
 namespace common\modules\schedule\widgets;
 
 use common\modules\schedule\models\AppointmentManager;
-use common\modules\userInterface\models\UserInterface;
 
 class DoctorChooserWidget extends \yii\base\Widget
 {

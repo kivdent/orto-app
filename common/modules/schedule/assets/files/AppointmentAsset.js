@@ -30,13 +30,7 @@ $(document).ready(function () {
     $('#month-list').on('change',function () {
         document.location.href=$(this).val();
     })
-    $('#datePicker').on('change',function () {
-        let patient_id=$(this).attr('patient_id');
-        let doctor_ids=$(this).attr('doctor_ids');
-        let start_date=$(this).val();
-        let link='/schedule/appointment?start_date='+start_date+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id;
-        document.location.href=link;
-    })
+
     // $('#back').on('click',function () {
     //     document.location.href='/schedule/appointment?start_date='+$(this).attr('start_date');
     // })
