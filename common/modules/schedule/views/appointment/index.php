@@ -61,75 +61,57 @@ $additionalTextDoctorIds = Url::to([
 
 <div class="doctor-chooser row">
     <div class="col-lg-2">
-        <?= \common\modules\schedule\widgets\DoctorChooserWidget::widget(['doctor_id' => $doctor_id]) ?>
+        <?=\common\modules\schedule\widgets\DoctorChooserWidget::widget(['doctor_id'=>$doctor_id])?>
     </div>
     <div class="col-lg-2">
-        <?= \common\modules\schedule\widgets\FullTableChooserWidget::widget() ?>
+        <?=\common\modules\schedule\widgets\FullTableChooserWidget::widget()?>
     </div>
     <div class="col-lg-4">
-        <!--        <div class="input-group">-->
-        <!--            <span class="input-group-btn">-->
-        <!--       --><? //= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
-        //           [
-        //               '/schedule/appointment',
-        //               'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
-        //               'patient_id' => $patient_id,
-        //               'doctor_ids' => $doctor_id,
-        //           ],
-        //           [
-        //               'class' => 'btn btn-primary',
-        //               'id' => 'back',
-        //           ]) ?>
-        <!--            </span>-->
-        <!--            --><?php
-        //            //            Html::dropDownList('month-list',
-        //            //                $additionalTextStartDate,
-        //            //                AppointmentManager::getMonthList($start_date, $additionalTextStartDate),
-        //            //                [
-        //            //                    'id' => 'month-list',
-        //            //                    'class' => 'form-control',
-        //            //                    'patient_id' => $patient_id,
-        //            //                    'doctor_ids' => $doctor_id,
-        //            //                ]
-        //            //            );
-        //            ?>
-        <!--            --><? //=
-        //            DatePicker::widget([
-        //                'name' => 'datePicker',
-        //                'value' => $start_date,
-        //                //'type' => DatePicker::TYPE_BUTTON,
-        //                'pluginOptions' => [
-        //                    'autoclose' => true,
-        //                    'format' => 'dd.mm.yyyy'
-        //                ],
-        //                'removeButton' => false,
-        //                'options' => [
-        //                    'id' => 'datePicker',
-        //                    'class' => 'form-control',
-        //                    'patient_id' => $patient_id ? $patient_id : 'null',
-        //                    'doctor_ids' => $doctor_id,
-        //                    'start_date' => $start_date,
-        //                ]
-        //                //'buttonOptions' =>'btn btn-primary'
-        //            ])
-        //            ?>
-        <!--            <span class="input-group-btn">-->
-        <!--        --><? //= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
-        //            ['/schedule/appointment',
-        //                'start_date' => date('d.m.Y', strtotime($start_date . ' +' . $duration . ' days')),
-        //                'patient_id' => $patient_id,
-        //                'doctor_ids' => $doctor_id,
-        //            ]
-        //            , ['class' => 'btn btn-primary',
-        //                'id' => 'forward',]) ?>
-        <!--            </span>-->
-        <!--        </div>-->
-        <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
-            'start_date' => $start_date,
-            'patient_id' => $patient_id,
-            'doctor_id' => $doctor_id,
-            'duration' => $duration,
-        ]) ?>
+        <div class="input-group">
+            <span class="input-group-btn">
+       <?= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
+           [
+               '/schedule/appointment',
+               'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
+               'patient_id' => $patient_id,
+               'doctor_ids' => $doctor_id,
+           ],
+           [
+               'class' => 'btn btn-primary',
+               'id' => 'back',
+           ]) ?>
+            </span>
+            <?=
+            DatePicker::widget([
+                'name' => 'datePicker',
+                'value' => $start_date,
+                //'type' => DatePicker::TYPE_BUTTON,
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd.mm.yyyy'
+                ],
+                'removeButton' => false,
+                'options' => [
+                    'id' => 'datePicker',
+                    'class' => 'form-control',
+                    'patient_id' => $patient_id ? $patient_id : 'null',
+                    'doctor_ids' => $doctor_id,
+                    'start_date' => $start_date,
+                ]
+                //'buttonOptions' =>'btn btn-primary'
+            ])
+            ?>
+            <span class="input-group-btn">
+        <?= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
+            ['/schedule/appointment',
+                'start_date' => date('d.m.Y', strtotime($start_date . ' +' . $duration . ' days')),
+                'patient_id' => $patient_id,
+                'doctor_ids' => $doctor_id,
+            ]
+            , ['class' => 'btn btn-primary',
+                'id' => 'forward',]) ?>
+            </span>
+        </div>
     </div>
 </div>
 <div class="schedule-table">
@@ -140,7 +122,7 @@ $additionalTextDoctorIds = Url::to([
                 <div class="row doctor-name">
                     <div class="col-lg-12">
                         <h4><?= Employe::findOne($doctorId)->fullName ?>
-                            <?= FreeTimeButton::widget(['doctor_id' => $doctorId, 'start_date' => $start_date, 'url' => '/schedule/appointment']) ?>
+                            <?= FreeTimeButton::widget(['doctor_id' => $doctorId,'start_date' => $start_date,'url' => '/schedule/appointment']) ?>
                         </h4>
                     </div>
                 </div>
@@ -153,12 +135,12 @@ $additionalTextDoctorIds = Url::to([
                                     <td>
                                         <?= UserInterface::getFormatedDate($appointmentDay->date) ?><br>
                                         <?= UserInterface::getDayWeekNameByDate($appointmentDay->date) ?>
-                                        <?php $appointmentsDayAR = \common\modules\schedule\models\BaseSchedulesDays::getAppointmentsDayForDoctor($doctorId, strtotime(UserInterface::getFormatedDate($appointmentDay->date))) ?>
-                                        <?= $appointmentsDayAR->isNewRecord ?
+                                        <?php $appointmentsDayAR=\common\modules\schedule\models\BaseSchedulesDays::getAppointmentsDayForDoctor($doctorId,strtotime(UserInterface::getFormatedDate($appointmentDay->date)))?>
+                                        <?= $appointmentsDayAR->isNewRecord?
                                             Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                 ['/schedule/schedule/create', 'date' => strtotime(UserInterface::getFormatedDate($appointmentsDayAR->date)), 'doctor_id' => $appointmentsDayAR->doctor->id],
                                                 ['class' => 'btn btn-default btn-xs', 'role' => 'button'])
-                                            : Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                                            :Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                 ['/schedule/schedule/update', 'id' => $appointmentsDayAR->id],
                                                 ['class' => 'btn btn-danger btn-xs', 'role' => 'button']);
                                         ?>
@@ -192,8 +174,7 @@ $additionalTextDoctorIds = Url::to([
                                                         'patient_id' => $row->patient->id,],
                                                         [
                                                             'title' => 'Номер карты: ' . $row->patient->id
-                                                        ]) ?><br><span
-                                                            class="smalltext"><?= $row->appointment_content ?></span>
+                                                        ]) ?><br><span class="smalltext"><?=$row->appointment_content?></span>
                                                     <br>
 
                                                     <?= AppointmentButtonsWidget::widget([

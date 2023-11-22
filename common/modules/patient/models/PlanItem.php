@@ -96,4 +96,5 @@ class PlanItem extends \common\models\PlanItem
             [['comment'], 'string'],
         ];
     }
+
 }

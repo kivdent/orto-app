@@ -15,23 +15,25 @@ class Storage extends Component
 {
     const TYPE_PHOTO = 'photo';
     const TYPE_DOCS = 'docs';
+    const TYPE_DOCS_TEMPLATES = 'docs_templates';
     const TYPE_LOGO = 'logo';
     const TYPE_PRICELIST = 'pricelist';
     private $fileName;
 
     public function saveToYandexDisk($filename, $resourceName)
     {
-        $disk = new Disk( $this->getYandexDiskToken());
+        $disk = new Disk($this->getYandexDiskToken());
         $resource = $disk->getResource($resourceName);
-        $resource->upload($filename,true);
+        $resource->upload($filename, true);
         return true;
     }
+
     public function getPublicUrl($resourceName)
     {
-        $disk = new Disk( $this->getYandexDiskToken());
+        $disk = new Disk($this->getYandexDiskToken());
         $resource = $disk->getResource($resourceName);
         $resource->getPublicKey();
-        return $resource->getPublicKey()?$resource->getPublicKey():'';
+        return $resource->getPublicKey() ? $resource->getPublicKey() : '';
     }
 
     public function saveUploadedFile(UploadedFile $file, $path = '', $type)
@@ -47,7 +49,8 @@ class Storage extends Component
 
     protected function preparePath(UploadedFile $file, $path, $type)
     {
-        $this->fileName = $this->getFileName($file);
+
+        $this->fileName = $this->getFileName($file, $type);
 
 
         $path = $this->getStoragePath($type) . $path . $this->fileName;
@@ -60,10 +63,16 @@ class Storage extends Component
         }
     }
 
-    protected function getFilename(UploadedFile $file)
+    protected function getFilename(UploadedFile $file, $type)
     {
+        $name = '';
 
-        return $file->name;
+        if (in_array($type, $this->getTypesWithRandomNames())) {
+            $name = uniqid() . "." . $file->extension;
+        } else {
+            $name = $file->name;
+        }
+        return $name;
     }
 
     public function getStoragePath($type)
@@ -91,5 +100,12 @@ class Storage extends Component
     private function getYandexDiskToken()
     {
         return Settings::getYandexDiskTokenValue();
+    }
+
+    private function getTypesWithRandomNames()
+    {
+        return [
+            self::TYPE_DOCS_TEMPLATES
+        ];
     }
 }
