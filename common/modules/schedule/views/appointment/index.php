@@ -81,18 +81,6 @@ $additionalTextDoctorIds = Url::to([
                'id' => 'back',
            ]) ?>
             </span>
-            <?php
-            //            Html::dropDownList('month-list',
-            //                $additionalTextStartDate,
-            //                AppointmentManager::getMonthList($start_date, $additionalTextStartDate),
-            //                [
-            //                    'id' => 'month-list',
-            //                    'class' => 'form-control',
-            //                    'patient_id' => $patient_id,
-            //                    'doctor_ids' => $doctor_id,
-            //                ]
-            //            );
-            ?>
             <?=
             DatePicker::widget([
                 'name' => 'datePicker',

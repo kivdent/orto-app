@@ -33,7 +33,9 @@
         "setasign/fpdi": "^2.3",
         "phpoffice/phpword": "^1.0",
         "npm-asset/pinia": "^2.0",
-        "npm-asset/vue": "^3.2"
+        "npm-asset/vue": "^3.2",
+        "dompdf/dompdf": "^2.0",
+        "mpdf/mpdf": "^8.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

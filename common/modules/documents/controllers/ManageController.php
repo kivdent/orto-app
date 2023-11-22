@@ -3,9 +3,14 @@
 namespace common\modules\documents\controllers;
 
 use common\components\Storage;
+use common\modules\documents\models\DocumentTemplateWord;
 use common\modules\patient\models\Patient;
+use common\modules\userInterface\models\UserInterface;
 use FPDF;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Writer\PDF\MPDF;
 use setasign\Fpdi\Tfpdf\Fpdi;
 use tFPDF;
 use Yii;
@@ -182,7 +187,7 @@ class ManageController extends Controller
         $templateProcessor->setValue('num_dogovor', '4444');
         $templateProcessor->setValue('name', 'Иванов Иван Иванович');
         $path = $storage->getStorageUri(Storage::TYPE_DOCS);
-        $templateProcessor->saveAs('/var/www/orto/frontend/web'.$path .'dogovor.docx');
+        $templateProcessor->saveAs('/var/www/orto/frontend/web' . $path . 'dogovor.docx');
         return $this->redirect([$path . 'dogovor.docx']);
     }
 
@@ -192,19 +197,62 @@ class ManageController extends Controller
         $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
     }
 
-    public function actionPrintPdf($patient_id){
+    public function actionPrintWord($patient_id,$template_id)
+    {
+
+        //https://stackoverflow.com/questions/47905960/how-to-convert-word-document-into-pdf-using-phpword
+        ///var/www/html/orto/vendor/mpdf/mpdf# chmod 755 tmp разрешить запись ао временную директорию
+        ///
+        $var=get_defined_vars();
+        $var['employee_id']=UserInterface::getEmployeeId();
+        $var['current_date']=date('now');
+       DocumentTemplateWord::SaveTemplateStandardVars($var,$template_id);
+        return $this->redirect(['index','patient_id'=> Yii::$app->userInterface->params['patient_id']]);
+//
+        $storage = new Storage();
+
+        $path = $storage->getStoragePath(Storage::TYPE_DOCS);
+
+
+
+        $templateProcessor = new TemplateProcessor($path . 'dog_temp.docx');
+        $templateProcessor = DocumentTemplateWord::findOne($template_id)->templateProcessor;
+
+//        $templateProcessor->setValue('num_dogovor', '4444');
+
+
+        $templateProcessor->setValue('PatientName', Patient::findOne($patient_id)->fullName);
+
+        $path = $storage->getStorageUri(Storage::TYPE_DOCS);
+
+        $wordFileName = Yii::getAlias('@frontend') . '/web' . $path . 'temp.docx';
+        $templateProcessor->saveAs($wordFileName);
+
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+        Settings::setPdfRendererPath('.');
+
+        $document = IOFactory::load($wordFileName);
+        $pdfFileName = Yii::getAlias('@frontend') . '/web' . $path . 'document.pdf';
+        $document->save($pdfFileName, 'PDF');
+
+//        return $this->redirect(['index','patient_id'=>$patient_id]);
+        return $this->redirect([ $path . 'temp.docx']);
+    }
+
+    public function actionPrintPdf($patient_id)
+    {
 //        $pdf = new Fpdi();
 //
 //        $pdf->AddPage();
 //        $pdf->SetFont('times', 'B', 16);
 //        $pdf->Cell(40, 10,  'Тест');
         // initiate FPDI
-        define('FPDF_FONTPATH',Yii::getAlias('@frontend').'/web/fonts/');
+        define('FPDF_FONTPATH', Yii::getAlias('@frontend') . '/web/fonts/');
         $pdf = new Fpdi();
 // add a page
         $pdf->AddPage();
 // set the source file
-        $pdf->setSourceFile(Yii::getAlias('@frontend')."/web/templates/ids.pdf");
+        $pdf->setSourceFile(Yii::getAlias('@frontend') . "/web/templates/ids.pdf");
 // import page 1
         $tplIdx = $pdf->importPage(1);
 // use the imported page and place it at point 10,10 with a width of 100 mm
@@ -213,8 +261,8 @@ class ManageController extends Controller
 // now write some text above the imported page
 //        $pdf->SetFont('Montserrat');
 
-        $pdf->AddFont('Montserrat-Regular','','montserrat/Montserrat-Regular.ttf',true);
-        $pdf->SetFont('Montserrat-Regular','',10);
+        $pdf->AddFont('Montserrat-Regular', '', 'montserrat/Montserrat-Regular.ttf', true);
+        $pdf->SetFont('Montserrat-Regular', '', 10);
 
         $pdf->SetXY(13, 15);
         $pdf->Write(0, Patient::findOne($patient_id)->fullName);
