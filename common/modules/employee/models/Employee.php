@@ -21,7 +21,15 @@ use yii\helpers\ArrayHelper;
  * @property int $dolzh
  * @property int $address_id
  * @property int $status
+ * @property-read string[] $positionsList
+ * @property-read Positions $position
+ * @property-read string $addressString
+ * @property-read string[] $statusList
+ * @property-read Addresses $address
+ * @property-read string $full_name
  * @property string $fullName
+ * @property-read string $positionName
+
  */
 class Employee extends \yii\db\ActiveRecord
 {
@@ -144,6 +152,10 @@ class Employee extends \yii\db\ActiveRecord
     }
 
     public function getFullName()
+    {
+        return $this->surname . ' ' . $this->name . ' ' . $this->otch;
+    }
+    public function getFull_name()
     {
         return $this->surname . ' ' . $this->name . ' ' . $this->otch;
     }

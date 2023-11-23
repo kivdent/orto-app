@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model common\modules\documents\models\DocumentTemplateWord */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Document Template Words', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Шаблоны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
@@ -17,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Удалить элемент?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -37,9 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'file_name',
             'description:ntext',
             'variables',
-            'employee_id',
+            [
+                'attribute' => 'employee_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->employee->full_name;
+                },
+            ],
             'templateVariablesString'
-
         ],
     ]) ?>
 

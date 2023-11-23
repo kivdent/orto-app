@@ -3,6 +3,7 @@
 namespace common\modules\documents\models;
 
 use common\components\Storage;
+use common\modules\employee\models\Employee;
 use common\modules\userInterface\models\UserInterface;
 use Exception;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -13,6 +14,8 @@ use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
 
+
+
 /**
  *
  * @property-read string $docLink
@@ -20,13 +23,19 @@ use yii\web\UploadedFile;
  * @property-read TemplateProcessor $templateProcessor
  * @property-read array $templateVariables
  * @property-read string $templateVariablesString
+ * @property-read Employee $employee
  * @property-read string $filePath
  */
+
+
+
+
+
 class DocumentTemplateWord extends \common\models\DocumentTemplateWord
 {
 
     public $uploadedFile;
-    // public $templateVariables;
+
     const STORAGE_TYPE = Storage::TYPE_DOCS_TEMPLATES;
 
     public static function getPatFiles($patient_id)
@@ -115,7 +124,7 @@ class DocumentTemplateWord extends \common\models\DocumentTemplateWord
     public function __construct($config = [])
     {
         parent::__construct($config);
-        $this->employee_id = UserInterface::getEmployeeId();
+
 //        $this->setTemplateVariables();
 //        if (!$this->isNewRecord) {
 //            $this->setTemplateVariables();
@@ -126,7 +135,7 @@ class DocumentTemplateWord extends \common\models\DocumentTemplateWord
 
     public function beforeSave($insert)
     {
-
+        $this->employee_id = UserInterface::getEmployeeId();
         if (!parent::beforeSave($insert)) {
             return false;
         }
@@ -146,9 +155,10 @@ class DocumentTemplateWord extends \common\models\DocumentTemplateWord
             'updated_at' => 'Удалён',
             'file_name' => 'Файл',
             'description' => 'Описание',
-            'variables' => 'Перменные',
+            'variables' => 'Перменные пользователя',
             'employee_id' => 'Сотрудник',
             'uploadedFile' => 'Шаблон',
+            'templateVariablesString' => 'Перменные документа',
         ];
     }
 
@@ -224,9 +234,11 @@ class DocumentTemplateWord extends \common\models\DocumentTemplateWord
 
     public function getTemplateProcessor()
     {
-//        UserInterface::getVar($this->file_name);
-
         return new TemplateProcessor($this->docFile);
+    }
+
+    public function getEmployee(){
+        return $this->hasOne(Employee::class,['id'=>'employee_id']);
     }
 
 }

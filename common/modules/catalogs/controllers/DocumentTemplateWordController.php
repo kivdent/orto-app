@@ -37,12 +37,14 @@ class DocumentTemplateWordController extends Controller
     public function actionIndex()
     {
         $searchModel = new DocumentTemplateWordSearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
@@ -51,9 +53,10 @@ class DocumentTemplateWordController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
+
     public function actionView($id)
     {
-        $model=$this->findModel($id);
+        $model = $this->findModel($id);
         return $this->render('view', [
             'model' => $model,
         ]);

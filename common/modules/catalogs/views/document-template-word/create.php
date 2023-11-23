@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\documents\models\DocumentTemplateWord */
 
-$this->title = 'Новый шаблон докмента Word';
+$this->title = 'Новый шаблон документа Word';
 $this->params['breadcrumbs'][] = ['label' => 'Шаблоны докментов Words', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

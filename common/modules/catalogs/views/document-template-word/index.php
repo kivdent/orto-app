@@ -1,6 +1,7 @@
 <?php
 
 use common\modules\documents\models\TemplateVariables;
+use common\modules\employee\models\Employee;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -19,24 +20,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Новый шаблон докмента Word', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
     <div>
         <h3>Стандартные перменные</h3>
         <?php foreach (TemplateVariables::getStandartTemplateVariablesDescription() as $varName => $varDesc): ?>
             <p><?= $varDesc . ' - ${' . $varName . '}' ?></p>
         <?php endforeach; ?>
     </div>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'title',
+            [
+                'attribute' => 'employee_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->employee->full_name;
+                },
+                'filter'=> Employee::getList()
+            ],
             'description:ntext',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view}{update}{delete}{link}',
                 'buttons' => [
-
                     'link' => function ($url, $model) {
                         return Html::a(
                             '<span class="glyphicon glyphicon-screenshot"></span>',
@@ -45,6 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                 ],
+
             ],
         ],
     ]); ?>

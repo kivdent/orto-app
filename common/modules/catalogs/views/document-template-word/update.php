@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\modules\documents\models\DocumentTemplateWord */
 
-$this->title = 'Update Document Template Word: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Document Template Words', 'url' => ['index']];
+$this->title = 'Изменить шаблон: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Шаблоны', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="document-template-word-update">
 
