@@ -67,64 +67,7 @@ $additionalTextDoctorIds = Url::to([
         <?= \common\modules\schedule\widgets\FullTableChooserWidget::widget() ?>
     </div>
     <div class="col-lg-4">
-        <!--        <div class="input-group">-->
-        <!--            <span class="input-group-btn">-->
-        <!--       --><? //= Html::a('<span class="glyphicon glyphicon-triangle-left"></span>',
-        //           [
-        //               '/schedule/appointment',
-        //               'start_date' => date('d.m.Y', strtotime($start_date . ' -' . $duration . ' days')),
-        //               'patient_id' => $patient_id,
-        //               'doctor_ids' => $doctor_id,
-        //           ],
-        //           [
-        //               'class' => 'btn btn-primary',
-        //               'id' => 'back',
-        //           ]) ?>
-        <!--            </span>-->
-        <!--            --><?php
-        //            //            Html::dropDownList('month-list',
-        //            //                $additionalTextStartDate,
-        //            //                AppointmentManager::getMonthList($start_date, $additionalTextStartDate),
-        //            //                [
-        //            //                    'id' => 'month-list',
-        //            //                    'class' => 'form-control',
-        //            //                    'patient_id' => $patient_id,
-        //            //                    'doctor_ids' => $doctor_id,
-        //            //                ]
-        //            //            );
-        //            ?>
-        <!--            --><? //=
-        //            DatePicker::widget([
-        //                'name' => 'datePicker',
-        //                'value' => $start_date,
-        //                //'type' => DatePicker::TYPE_BUTTON,
-        //                'pluginOptions' => [
-        //                    'autoclose' => true,
-        //                    'format' => 'dd.mm.yyyy'
-        //                ],
-        //                'removeButton' => false,
-        //                'options' => [
-        //                    'id' => 'datePicker',
-        //                    'class' => 'form-control',
-        //                    'patient_id' => $patient_id ? $patient_id : 'null',
-        //                    'doctor_ids' => $doctor_id,
-        //                    'start_date' => $start_date,
-        //                ]
-        //                //'buttonOptions' =>'btn btn-primary'
-        //            ])
-        //            ?>
-        <!--            <span class="input-group-btn">-->
-        <!--        --><? //= Html::a(' <span class="glyphicon glyphicon-triangle-right"></span>',
-        //            ['/schedule/appointment',
-        //                'start_date' => date('d.m.Y', strtotime($start_date . ' +' . $duration . ' days')),
-        //                'patient_id' => $patient_id,
-        //                'doctor_ids' => $doctor_id,
-        //            ]
-        //            , ['class' => 'btn btn-primary',
-        //                'id' => 'forward',]) ?>
-        <!--            </span>-->
-        <!--        </div>-->
-        <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
+         <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
             'start_date' => $start_date,
             'patient_id' => $patient_id,
             'doctor_id' => $doctor_id,
