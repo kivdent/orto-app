@@ -17,6 +17,7 @@ use common\modules\userInterface\models\Requisites;
 use yii\base\Model;
 use common\interfaces\ClinicInterface;
 use common\models\Clinics;
+use yii\db\ActiveRecord;
 
 /**
  *
@@ -46,6 +47,9 @@ class Clinic extends Clinics //implements ClinicInterface
         return $clinics !== NULL ? $clinics : false;
     }
 
+    /**
+     * @return Clinic
+     */
     public static function getMain()
     {
         return self::find()->one();

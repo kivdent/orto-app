@@ -197,46 +197,17 @@ class ManageController extends Controller
         $templateProcessor = new TemplateProcessor($path . 'dogovor.docx');
     }
 
-    public function actionPrintWord($patient_id,$template_id)
+    public function actionPrintWord($patient_id, $template_id)
     {
 
         //https://stackoverflow.com/questions/47905960/how-to-convert-word-document-into-pdf-using-phpword
         ///var/www/html/orto/vendor/mpdf/mpdf# chmod 755 tmp разрешить запись ао временную директорию
-        ///
-        $var=get_defined_vars();
-        $var['employee_id']=UserInterface::getEmployeeId();
-        $var['current_date']=date('now');
-       DocumentTemplateWord::SaveTemplateStandardVars($var,$template_id);
-        return $this->redirect(['index','patient_id'=> Yii::$app->userInterface->params['patient_id']]);
-//
-        $storage = new Storage();
 
-        $path = $storage->getStoragePath(Storage::TYPE_DOCS);
+        $var = get_defined_vars();
 
+        DocumentTemplateWord::SaveTemplateStandardVars($var, $template_id);
+        return $this->redirect(['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']]);
 
-
-        $templateProcessor = new TemplateProcessor($path . 'dog_temp.docx');
-        $templateProcessor = DocumentTemplateWord::findOne($template_id)->templateProcessor;
-
-//        $templateProcessor->setValue('num_dogovor', '4444');
-
-
-        $templateProcessor->setValue('PatientName', Patient::findOne($patient_id)->fullName);
-
-        $path = $storage->getStorageUri(Storage::TYPE_DOCS);
-
-        $wordFileName = Yii::getAlias('@frontend') . '/web' . $path . 'temp.docx';
-        $templateProcessor->saveAs($wordFileName);
-
-        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
-        Settings::setPdfRendererPath('.');
-
-        $document = IOFactory::load($wordFileName);
-        $pdfFileName = Yii::getAlias('@frontend') . '/web' . $path . 'document.pdf';
-        $document->save($pdfFileName, 'PDF');
-
-//        return $this->redirect(['index','patient_id'=>$patient_id]);
-        return $this->redirect([ $path . 'temp.docx']);
     }
 
     public function actionPrintPdf($patient_id)
@@ -269,6 +240,35 @@ class ManageController extends Controller
 
         //$pdf->Output();
         $pdf->Output("/report.pdf", "I");
+
+        //Из ворд шаблона
+        $storage = new Storage();
+
+        $path = $storage->getStoragePath(Storage::TYPE_DOCS);
+
+
+        $templateProcessor = new TemplateProcessor($path . 'dog_temp.docx');
+        $templateProcessor = DocumentTemplateWord::findOne($template_id)->templateProcessor;
+
+//        $templateProcessor->setValue('num_dogovor', '4444');
+
+
+        $templateProcessor->setValue('PatientName', Patient::findOne($patient_id)->fullName);
+
+        $path = $storage->getStorageUri(Storage::TYPE_DOCS);
+
+        $wordFileName = Yii::getAlias('@frontend') . '/web' . $path . 'temp.docx';
+        $templateProcessor->saveAs($wordFileName);
+
+        Settings::setPdfRendererName(Settings::PDF_RENDERER_MPDF);
+        Settings::setPdfRendererPath('.');
+
+        $document = IOFactory::load($wordFileName);
+        $pdfFileName = Yii::getAlias('@frontend') . '/web' . $path . 'document.pdf';
+        $document->save($pdfFileName, 'PDF');
+
+//        return $this->redirect(['index','patient_id'=>$patient_id]);
+        return $this->redirect([$path . 'temp.docx']);
     }
 
 }

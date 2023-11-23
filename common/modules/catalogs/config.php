@@ -3,6 +3,7 @@
 /**
  * catalogs
  */
+
 return [
     'params' => [
         'menuItems' => [
@@ -14,7 +15,7 @@ return [
             ['label' => 'Направления', 'url' => '/catalogs/referral', 'roles' => ['admin',]],
             ['label' => 'Операции плана лечения', 'url' => '/catalogs/operation', 'roles' => ['admin',]],
             ['label' => 'Содержания назначения', 'url' => '/catalogs/appointment-content', 'roles' => ['admin','senior_recorder']],
-            ['label' => 'Шаблоны документов', 'url' => '/catalogs/document-template-word', 'roles' => ['admin','senior_recorder']],
+            ['label' => 'Шаблоны документов', 'url' => '/catalogs/document-template-word', 'roles' => ['admin','senior_recorder','recorder']],
             ['label' => 'Реквизиты фирм', 'url' => '/old_app/spr_firm.php', 'roles' => ['admin',]],
             ['label' => 'Договора', 'url' => '/old_app/spr_dogovora.php', 'roles' => ['admin',]],
             ['label' => 'Клише', 'url' => '/old_app/klishe.php', 'roles' => ['admin',]],

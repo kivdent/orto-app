@@ -25,7 +25,6 @@ $this->title = 'Документы';
             </div>
             <div class="row">
                 <div class="col-lg-12">
-
                     <?php foreach (DocumentTemplateWord::getPatFiles(Yii::$app->userInterface->params['patient_id']) as $patFileLink): ?>
                         <p><?= $patFileLink ?></p>
                     <?php endforeach ?>
