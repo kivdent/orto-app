@@ -22,10 +22,10 @@ class IncomingCalls extends \common\models\IncomingCalls
     const CALL_BACK_LATER = 'call back later';
 
 
-    const BY_RECOMMENDATION='1';
-    const NO_RECOMMENDATION='0';
+    const BY_RECOMMENDATION = '1';
+    const NO_RECOMMENDATION = '0';
 
-    const WITHOUT_DOCTOR="null";
+    const WITHOUT_DOCTOR = "null";
 
     public function behaviors()
     {
@@ -48,32 +48,32 @@ class IncomingCalls extends \common\models\IncomingCalls
     }
 
 
-
     public function getPrimaryPatientLabelList()
     {
         return [
-            self::PRIMARY_PATIENT=>'Первичный пациент',
-            self::REPEAT_PATIENT=>'Првторный пациент',
+            self::PRIMARY_PATIENT => 'Первичный пациент',
+            self::REPEAT_PATIENT => 'Првторный пациент',
         ];
 
     }
-  public function getCallResultLabelList()
+
+    public function getCallResultLabelList()
     {
         return [
-            self::REFUSAL=>'Отказ',
-            self::APPOINTED=>'Назначен',
-            self::CALL_BACK_LATER=>'Перезвонит позже',
+            self::REFUSAL => 'Отказ',
+            self::APPOINTED => 'Назначен',
+            self::CALL_BACK_LATER => 'Перезвонит позже',
         ];
     }
 
     public function getByRecommendationLabelList()
     {
         return [
-            self::BY_RECOMMENDATION=>'По рекоммендации',
-            self::NO_RECOMMENDATION=>'Без рекоммендации',
-
+            self::BY_RECOMMENDATION => 'По рекоммендации',
+            self::NO_RECOMMENDATION => 'Без рекоммендации',
         ];
     }
+
     public function attributeLabels()
     {
         return [
@@ -89,6 +89,7 @@ class IncomingCalls extends \common\models\IncomingCalls
             'rejection_reasons_id' => 'Причина отказа',
         ];
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -96,6 +97,7 @@ class IncomingCalls extends \common\models\IncomingCalls
     {
         return $this->hasOne(Employee::className(), ['id' => 'doctor_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -103,21 +105,27 @@ class IncomingCalls extends \common\models\IncomingCalls
     {
         return $this->hasOne(Employee::className(), ['id' => 'employee_id']);
     }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [[ 'primary_patient', 'call_result', 'rejection_reasons_id'], 'required'],
-            [[ 'employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id'], 'integer'],
-            [['created_at', 'updated_at','doctor_id',], 'safe'],
-            [['doctor_id','call_target'], 'string'],
+            [['primary_patient', 'call_result', 'rejection_reasons_id'], 'required'],
+            [['employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id'], 'integer'],
+            [['created_at', 'updated_at', 'doctor_id',], 'safe'],
+            [['doctor_id', 'call_target'], 'string'],
             [['doctor_id',], 'default', 'value' => NULL],
             [['call_result'], 'string', 'max' => 255],
             [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['doctor_id' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
             [['rejection_reasons_id'], 'exist', 'skipOnError' => true, 'targetClass' => RejectionReasons::className(), 'targetAttribute' => ['rejection_reasons_id' => 'id']],
         ];
+    }
+
+    public function getByRecommendation()
+    {
+        return $this->by_recommendation !== null ? $this->getByRecommendationLabelList()[$this->by_recommendation]:'Не указан';
     }
 }

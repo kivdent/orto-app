@@ -37,20 +37,30 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 ?>
 <?php $form = ActiveForm::begin(); ?>
 
-Пациент: <?= Patient::findOne($model->pat)->fullName ?><br>
-<?php if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN): ?>
-    <?= $form->field($model, 'sotr')->dropDownList(Employee::getDoctorsList()) ?>
-<?php else: ?>
-    Врач: <?= Employee::findOne($model->sotr)->fullName ?>
-<?php endif; ?>
+<div class="row">
+    <div class="col-lg-6">
+        <?= $form->field($model, 'sotr')->dropDownList(Employee::getDoctorsList()) ?>
+    </div>
+    <div class="col-lg-6">
+        <div hidden><?= $form->field($model, 'pat')->hiddenInput(['id' => 'patId']) ?></div>
+        <?= \common\modules\patient\widgets\PatientFindModalWidget::widget([
+            'newPatBtn' => false,
+            'patientIdTarget' => '#patId',
+        ]) ?>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-lg-3">
         <div class="scheme-orthodontics-form">
 
 
-            <div hidden><?= $form->field($model, 'date')->hiddenInput() ?></div>
+            <?= $form->field($model, 'date')->widget(\yii\jui\DatePicker::class([
+                'dateFormat' => 'yyyy-MM-dd',
+            ])) ?>
 
-            <?= $form->field($model, 'summ')->textInput(['class' => 'summ form-control', 'id' => 'summ', 'readonly' => 'readonly'])->label('Стоимость' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
+            <?= $form->field($model, 'summ')->textInput(['class' => 'summ form-control', 'id' => 'summ'])->label('Стоимость' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
                     'class' => 'btn btn-primary btn-xs',
                     'data-toggle' => "modal",
                     'data-target' => "#invoice_form",
@@ -66,7 +76,7 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 
 
 
-            <?= $form->field($model, 'summ_month')->textInput(['id' => 'summ_month', 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'summ_month')->textInput(['id' => 'summ_month']) ?>
 
 
             <div class="form-group">

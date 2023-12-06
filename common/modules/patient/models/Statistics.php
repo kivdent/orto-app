@@ -167,7 +167,7 @@ class Statistics extends Model
         return Invoice::find()
             ->where(['type' => $type])
             ->orderBy('created_at DESC')
-            ->andWhere(['patient_id'=>$this->patientId])
+            ->andWhere(['patient_id' => $this->patientId])
             ->one();
     }
 
@@ -187,22 +187,42 @@ class Statistics extends Model
     {
         return implode(ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in (' . $pricelistIds . ')')->all(), 'id'), ',');
     }
-    public function getYearStatistics(){
-        $yearStatistics=[];
-        $payments=Payment::getRealPaymentsForPatient($this->patientId);
-        foreach ($payments as $payment){
-            $year=date('Y',strtotime($payment->date));
-            $date=date('d.m.Y',strtotime($payment->date)).' ';
-           if(isset($yearStatistics[$year])){
-               $yearStatistics[$year]['total']+=$payment->vnes;
-               $yearStatistics[$year]['paymentDates'].=$date;
-           }else{
-               $yearStatistics[$year]['total']=$payment->vnes;
-               $yearStatistics[$year]['paymentDates']=$date;
-           }
-        }
 
+    public function getYearStatistics()
+    {
+        $yearStatistics = [];
+        $payments = Payment::getRealPaymentsForPatient($this->patientId);
+        foreach ($payments as $payment) {
+            $year = date('Y', strtotime($payment->date));
+            $date = date('d.m.Y', strtotime($payment->date)) . ' ';
+            if (isset($yearStatistics[$year])) {
+                $yearStatistics[$year]['total'] += $payment->vnes;
+                $yearStatistics[$year]['paymentDates'] .= $date;
+            } else {
+                $yearStatistics[$year]['total'] = $payment->vnes;
+                $yearStatistics[$year]['paymentDates'] = $date;
+            }
+        }
         return $yearStatistics;
     }
 
+    public function getYearInvoices()
+    {
+
+        $yearInvoices = [];
+
+        $payments = Payment::getRealPaymentsForPatient($this->patientId);
+        foreach ($payments as $payment) {
+            $year = date('Y', strtotime($payment->date));
+            $date = date('d.m.Y', strtotime($payment->date)) . ' ';
+            if (isset($yearInvoices[$year])) {
+                $yearInvoices[$year][]= $payment->invoice;
+
+            } else {
+
+                $yearInvoices[$year]=[$payment->invoice];
+            }
+        }
+        return $yearInvoices;
+    }
 }

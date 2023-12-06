@@ -18,7 +18,9 @@ $this->title = 'Схема оплат за ортодонтию';
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN): ?>
+    <?= Html::a('Создать схему','create',['class'=>'btn btn-success'])?>
+    <?php endif; ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -56,7 +58,7 @@ $this->title = 'Схема оплат за ортодонтию';
                 'format' => 'raw',
                 'attribute' => 'per_lech',
                 'content' => function ($data) {
-                    return $data->per_lech. (' мес.');
+                    return $data->per_lech . (' мес.');
                 }
             ],
             [
@@ -64,10 +66,10 @@ $this->title = 'Схема оплат за ортодонтию';
                 'attribute' => 'summ',
                 'label' => 'Сумма общая (сумма в месяц)',
                 'content' => function ($data) {
-                    return $data->summ.' ('.$data->summ_month.')';
+                    return $data->summ . ' (' . $data->summ_month . ')';
                 }
             ],
-           // 'summ_month',
+            // 'summ_month',
             [
                 'format' => 'raw',
                 'attribute' => 'paid',
@@ -84,8 +86,8 @@ $this->title = 'Схема оплат за ортодонтию';
             //'full',
             //'last_pay_month',
             ['class' => 'yii\grid\ActionColumn',
-                'template' => UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN?'{update} {delete}':'',
-                ],
+                'template' => UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN ? '{update} {delete}' : '',
+            ],
         ],
     ]); ?>
 </div>

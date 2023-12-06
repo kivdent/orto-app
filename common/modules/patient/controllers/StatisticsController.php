@@ -3,6 +3,7 @@
 namespace common\modules\patient\controllers;
 
 use common\modules\patient\models\Statistics;
+use common\modules\userInterface\models\UserInterface;
 
 class StatisticsController extends \yii\web\Controller
 {
@@ -20,6 +21,19 @@ class StatisticsController extends \yii\web\Controller
         $statistics=new Statistics($patient_id);
         return $this->render('index',[
             'statistics'=>$statistics
+        ]);
+    }
+    public function actionPrintAkt($patient_id,$year)
+    {
+
+        $this->layout = '@frontend/views/layouts/print';
+        $statistics=new Statistics($patient_id);
+        $invoices=$statistics->getYearInvoices()[$year];
+
+        return $this->render('print-akt',[
+            'patient_id'=>$patient_id,
+            'statistics'=>$statistics,
+            'invoices'=>$invoices
         ]);
     }
 

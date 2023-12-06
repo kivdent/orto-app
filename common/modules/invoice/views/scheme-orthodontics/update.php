@@ -4,6 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\modules\invoice\models\SchemeOrthodontics */
+/* @var $form string*/
 
 $this->title = 'Изменение схемы оплат за ортодонтию';
 
@@ -12,7 +13,7 @@ $this->title = 'Изменение схемы оплат за ортодонти
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?= $this->render($form, [
         'model' => $model,
     ]) ?>
 
