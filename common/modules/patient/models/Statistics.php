@@ -211,16 +211,16 @@ class Statistics extends Model
 
         $yearInvoices = [];
 
-        $payments = Payment::getRealPaymentsForPatient($this->patientId);
-        foreach ($payments as $payment) {
-            $year = date('Y', strtotime($payment->date));
-            $date = date('d.m.Y', strtotime($payment->date)) . ' ';
+        $invoices = Invoice::getPatientInvoices($this->patientId);
+        foreach ($invoices as $invoice) {
+            $year = date('Y', strtotime($invoice->date));
+            $date = date('d.m.Y', strtotime($invoice->date)) . ' ';
             if (isset($yearInvoices[$year])) {
-                $yearInvoices[$year][]= $payment->invoice;
+                $yearInvoices[$year][]= $invoice;
 
             } else {
 
-                $yearInvoices[$year]=[$payment->invoice];
+                $yearInvoices[$year]=[$invoice];
             }
         }
         return $yearInvoices;

@@ -58,6 +58,15 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN = 'technical_order_technician';
     const SEARCH_TYPE_DOCTOR_INVOICES = 'doctor_invoices';
 
+    public static function getPatientInvoices($patient_id)
+    {
+        return self::find()
+            ->where(['patient_id' => $patient_id])
+            ->andWhere('amount_payable=paid')
+            ->andWhere("type<>'" . Invoice::TYPE_TECHNICAL_ORDER . "'")
+            ->all();
+    }
+
 
     public function behaviors()
     {
