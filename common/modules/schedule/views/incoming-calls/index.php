@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
 //            ['class' => 'yii\grid\SerialColumn'],
-
 //            'id',
 //            'created_at',
             [
@@ -39,8 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return ($model->doctor_id == 0) ? NULL : $model->doctor->fullName;
                 }
             ],
-
 //            'updated_at',
+
             [
                 'attribute' => 'employee_id',
                 'format' => 'raw',
@@ -57,7 +56,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'call_target:ntext',
-
             [
                 'attribute' => 'call_result',
                 'format' => 'raw',
@@ -65,7 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getCallResultLabelList()[$model->call_result];
                 }
             ],
-
             [
                 'attribute' => 'by_recommendation',
                 'format' => 'raw',
@@ -74,8 +71,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getByRecommendation();
                 }
             ],
-
-
             [
                 'attribute' => 'rejection_reasons_id',
                 'format' => 'raw',
