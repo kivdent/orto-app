@@ -4,7 +4,9 @@ use common\modules\employee\models\Employee;
 use common\modules\invoice\widgets\form\InvoiceFormWidget;
 use common\modules\patient\models\Patient;
 use common\modules\userInterface\models\UserInterface;
+use kartik\date\DatePicker;
 use yii\helpers\Html;
+use yii\jui\DatePicker as DatePickerYii;
 use yii\widgets\ActiveForm;
 use common\modules\pricelists\models\Pricelist;
 
@@ -37,20 +39,33 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 ?>
 <?php $form = ActiveForm::begin(); ?>
 
-Пациент: <?= Patient::findOne($model->pat)->fullName ?><br>
-<?php if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN): ?>
-    <?= $form->field($model, 'sotr')->dropDownList(Employee::getDoctorsList()) ?>
-<?php else: ?>
-    Врач: <?= Employee::findOne($model->sotr)->fullName ?>
-<?php endif; ?>
+<div class="row">
+    <div class="col-lg-6">
+        <?= $form->field($model, 'sotr')->dropDownList(Employee::getDoctorsList()) ?>
+    </div>
+    <div class="col-lg-6">
+        <div hidden><?= $form->field($model, 'pat')->hiddenInput(['id' => 'patId']) ?></div>
+        <?= \common\modules\patient\widgets\PatientFindModalWidget::widget([
+            'newPatBtn' => false,
+            'patientIdTarget' => '#patId',
+        ]) ?>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-lg-3">
         <div class="scheme-orthodontics-form">
 
+            <?= $form->field($model, 'date')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Дата создания'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]);?>
 
-            <div hidden><?= $form->field($model, 'date')->hiddenInput() ?></div>
-
-            <?= $form->field($model, 'summ')->textInput(['class' => 'summ form-control', 'id' => 'summ', 'readonly' => 'readonly'])->label('Стоимость' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
+            <?= $form->field($model, 'summ')->textInput(['class' => 'summ form-control', 'id' => 'summ'])->label('Стоимость' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
                     'class' => 'btn btn-primary btn-xs',
                     'data-toggle' => "modal",
                     'data-target' => "#invoice_form",
@@ -66,7 +81,9 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 
 
 
-            <?= $form->field($model, 'summ_month')->textInput(['id' => 'summ_month', 'readonly' => 'readonly']) ?>
+            <?= $form->field($model, 'summ_month')->textInput(['id' => 'summ_month']) ?>
+
+            <?= $form->field($model, 'vnes')->textInput(['id' => 'vnes']) ?>
 
 
             <div class="form-group">

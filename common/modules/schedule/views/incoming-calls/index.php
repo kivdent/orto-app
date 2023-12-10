@@ -70,7 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'by_recommendation',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return $model->getByRecommendationLabelList()[$model->by_recommendation];
+                    //return $model->getByRecommendationLabelList()[$model->by_recommendation];
+                    return $model->getByRecommendation();
                 }
             ],
 
