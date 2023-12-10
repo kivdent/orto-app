@@ -4,7 +4,9 @@ use common\modules\employee\models\Employee;
 use common\modules\invoice\widgets\form\InvoiceFormWidget;
 use common\modules\patient\models\Patient;
 use common\modules\userInterface\models\UserInterface;
+use kartik\date\DatePicker;
 use yii\helpers\Html;
+use yii\jui\DatePicker as DatePickerYii;
 use yii\widgets\ActiveForm;
 use common\modules\pricelists\models\Pricelist;
 
@@ -55,10 +57,13 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
     <div class="col-lg-3">
         <div class="scheme-orthodontics-form">
 
-
-            <?= $form->field($model, 'date')->widget(\yii\jui\DatePicker::class([
-                'dateFormat' => 'yyyy-MM-dd',
-            ])) ?>
+            <?= $form->field($model, 'date')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Дата создания'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd'
+                ]
+            ]);?>
 
             <?= $form->field($model, 'summ')->textInput(['class' => 'summ form-control', 'id' => 'summ'])->label('Стоимость' . Html::button('<span class="glyphicon glyphicon-th" aria-hidden="true"></span>', [
                     'class' => 'btn btn-primary btn-xs',
@@ -78,9 +83,11 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 
             <?= $form->field($model, 'summ_month')->textInput(['id' => 'summ_month']) ?>
 
+            <?= $form->field($model, 'vnes')->textInput(['id' => 'vnes']) ?>
+
 
             <div class="form-group">
-                <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>

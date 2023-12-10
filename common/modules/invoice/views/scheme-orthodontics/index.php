@@ -17,10 +17,13 @@ $this->title = 'Схема оплат за ортодонтию';
 <div class="scheme-orthodontics-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
     <?php if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN): ?>
-    <?= Html::a('Создать схему','create',['class'=>'btn btn-success'])?>
+    <?= Html::a('Создать схему','/invoice/scheme-orthodontics/create',['class'=>'btn btn-success'])?>
     <?php endif; ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

@@ -77,7 +77,7 @@ class SchemeOrthodonticsController extends Controller
         $model->full = 0;
         $model->vnes = 0;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/']);
+            return $this->redirect(['/invoice/scheme-orthodontics/']);
         }
         $form = UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN ? '_form-admin' : '_form';
         return $this->render('create', [

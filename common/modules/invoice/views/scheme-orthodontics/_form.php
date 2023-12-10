@@ -70,7 +70,7 @@ $('#invoice_form').on('hidden.bs.modal', function (e) {
 
 
             <div class="form-group">
-                <?= Html::submitButton('Создать', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
