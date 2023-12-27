@@ -203,8 +203,7 @@ class DailyReportTechnicalOrder extends DailyReport
                         $employee_id = $invoice->technicalOrder->invoice->employee->id;
                     }
                     catch (Exception $e){
-                        echo "Ошибка заказ наряда от счёта №". $invoice->id;
-                        die();
+                        UserInterface::getVar($invoice);
                     }
                     break;
             }
