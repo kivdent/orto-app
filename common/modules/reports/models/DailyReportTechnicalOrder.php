@@ -14,6 +14,7 @@ use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\TechnicalOrder;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\userInterface\models\UserInterface;
+use Exception;
 use yii\base\Model;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
@@ -197,7 +198,12 @@ class DailyReportTechnicalOrder extends DailyReport
                     break;
                 default:
                //     if (!isset($invoice->technicalOrder)) UserInterface::getVar($invoice);
-                    $employee_id = $invoice->technicalOrder->invoice->employee->id;
+                    try {
+                        $employee_id = $invoice->technicalOrder->invoice->employee->id;
+                    }
+                    catch (Exception $e){
+                        echo "Ошибка заказ наряда №". $invoice->technicalOrder->id;
+                    }
                     break;
             }
 
