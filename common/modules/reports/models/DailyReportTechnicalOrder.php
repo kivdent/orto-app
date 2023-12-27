@@ -198,11 +198,13 @@ class DailyReportTechnicalOrder extends DailyReport
                     break;
                 default:
                //     if (!isset($invoice->technicalOrder)) UserInterface::getVar($invoice);
+                    $employee_id = $invoice->technicalOrder->invoice->employee->id;
                     try {
                         $employee_id = $invoice->technicalOrder->invoice->employee->id;
                     }
                     catch (Exception $e){
                         echo "Ошибка заказ наряда от счёта №". $invoice->id;
+                        die();
                     }
                     break;
             }
