@@ -5,14 +5,14 @@
 /* @var $doctor_id int */
 /* @var $patient_id int|null */
 /* @var $start_date string */
-
 /* @var $duration string */
+/* @var $base_link string*/
 
 use kartik\date\DatePicker;
 use yii\helpers\Html;
-
+$this->registerJs('let base_link="'.$base_link.'"');
 $this->registerJs(<<<JS
-
+        
         $('#doctor_id').on('change', function () {
              $('.time-appointment-chooser').attr('doctor_ids',$(this).val());
         });
@@ -22,7 +22,7 @@ $this->registerJs(<<<JS
             let doctor_ids=$(this).attr('doctor_ids');
             let start_date=$(this).val();
             let duration=Number($(this).attr('duration'));
-            let link='/schedule/appointment?start_date='+start_date+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
+            let link=base_link+'?start_date='+start_date+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
             document.location.href=link;
          });  
         
@@ -41,7 +41,7 @@ $this->registerJs(<<<JS
             
             let start_date_string=start_date.getDate()+'.'+(start_date.getMonth()+1)+'.'+start_date.getFullYear();
              
-            let link='/schedule/appointment?start_date='+start_date_string+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
+            let link=base_link+'?start_date='+start_date_string+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
          
             document.location.href=link;
          }); 
@@ -61,7 +61,7 @@ $this->registerJs(<<<JS
             
             let start_date_string=start_date.getDate()+'.'+(start_date.getMonth()+1)+'.'+start_date.getFullYear();
            
-            let link='/schedule/appointment?start_date='+start_date_string+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
+            let link=base_link+'?start_date='+start_date_string+'&doctor_ids='+doctor_ids+'&patient_id='+patient_id+'&duration='+duration;
          
            document.location.href=link;
          });

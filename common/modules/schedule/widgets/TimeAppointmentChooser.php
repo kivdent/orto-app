@@ -10,6 +10,7 @@ class TimeAppointmentChooser extends \yii\base\Widget
     public $patient_id = null;
     public $start_date;
     public $duration = AppointmentManager::DURATION_SIX_DAYS;
+    public $base_link  = '/schedule/appointment';
 
     public function __construct()
     {
@@ -22,7 +23,8 @@ class TimeAppointmentChooser extends \yii\base\Widget
             'doctor_id' => $this->doctor_id,
             'patient_id' => $this->patient_id,
             'start_date'=>$this->start_date,
-            'duration'=>$this->duration
+            'duration'=>$this->duration,
+            'base_link'=>$this->base_link
         ]);
     }
 }

@@ -50,9 +50,9 @@ class Appointment extends \common\models\Appointment
 
 
         if ($this->isNewRecord) {
-            $this->status=self::STATUS_ACTIVE;
+            $this->status = self::STATUS_ACTIVE;
             $this->employee_id = UserInterface::getEmployeeId();
-        }else{
+        } else {
             if (!$this->employee_id) $this->employee_id = UserInterface::getEmployeeId();
         }
 
@@ -200,11 +200,11 @@ class Appointment extends \common\models\Appointment
                         return true;
                     }
 
-                    if ($appointment_start_time==$start_time) return true;
-                    if ($start_time<$appointment_start_time&& $end_time>$appointment_start_time) return  true;
-                    if ($start_time<$appointment_end_time && $end_time>$appointment_end_time) return  true;
-                    if ($start_time>$appointment_start_time && $end_time<$appointment_end_time) return  true;
-                    if ($start_time<$appointment_start_time && $end_time>$appointment_end_time) return  true;
+                    if ($appointment_start_time == $start_time) return true;
+                    if ($start_time < $appointment_start_time && $end_time > $appointment_start_time) return true;
+                    if ($start_time < $appointment_end_time && $end_time > $appointment_end_time) return true;
+                    if ($start_time > $appointment_start_time && $end_time < $appointment_end_time) return true;
+                    if ($start_time < $appointment_start_time && $end_time > $appointment_end_time) return true;
 
                 }
             }
@@ -212,5 +212,23 @@ class Appointment extends \common\models\Appointment
 
 
         return false;
+    }
+
+    /**
+     * @return true|false
+     */
+    public function isInitialOnDate()
+    {
+
+        $initial = true;
+        $appointment = Appointment::find()
+            ->where(['PatID' => $this->PatID])
+            ->andWhere(['<>', 'NachPr', '00:00:00'])
+            ->andWhere(['<', 'daypr.date', $this->appointments_day->date])
+            ->leftJoin('daypr', 'daypr.id=nazn.dayPR')
+            ->orderBy('daypr.date DESC')
+            ->all();
+        if ($appointment !== null) $initial = false;
+        return $initial;
     }
 }

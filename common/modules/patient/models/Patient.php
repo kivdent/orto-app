@@ -47,6 +47,7 @@ use yii\helpers\Html;
  * @property Appointment $lastAppointment
  * @property int $totalInvoiceSumm
  * @property int $totalAppointments
+ * @property bool isInitial;
  */
 class Patient extends \yii\db\ActiveRecord
 {
@@ -61,6 +62,11 @@ class Patient extends \yii\db\ActiveRecord
     const STATUS_ARCHIVE_IN_CARD_INDEX = 'in_card_index';
     const STATUS_ARCHIVE_IN_THE_OFFICE = 'in_the_office';
     const STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE = 'requested_from_archive';
+
+    /**
+     * @var mixed|null
+     */
+
 
     public static function getListForWidget()
     {
@@ -279,4 +285,19 @@ class Patient extends \yii\db\ActiveRecord
             ->where(['patient_id' => $this->id])
             ->sum('paid');
     }
+
+    /**
+     * @return bool
+     */
+    public function getIsInitial(): bool
+    {
+        $initial = true;
+        $appointment = Appointment::find()
+            ->where(['PatID' => $this->id])
+            ->andWhere(['<>', 'NachPr', '00:00:00'])
+            ->all();
+        if ($appointment!==null)  $initial = false;
+        return $initial;
+    }
+
 }
