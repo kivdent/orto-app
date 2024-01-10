@@ -219,7 +219,6 @@ class Appointment extends \common\models\Appointment
      */
     public function isInitialOnDate()
     {
-
         $initial = true;
         $appointment = Appointment::find()
             ->where(['PatID' => $this->PatID])
@@ -228,7 +227,8 @@ class Appointment extends \common\models\Appointment
             ->leftJoin('daypr', 'daypr.id=nazn.dayPR')
             ->orderBy('daypr.date DESC')
             ->all();
-        if ($appointment !== null) $initial = false;
+        if (count($appointment) !== 0) $initial = false;
+
         return $initial;
     }
 }
