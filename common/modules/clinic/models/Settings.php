@@ -3,6 +3,7 @@
 namespace common\modules\clinic\models;
 
 use common\components\Storage;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 
 class Settings extends \common\models\Settings
@@ -46,5 +47,10 @@ class Settings extends \common\models\Settings
     public static function getSmsPassword()
     {
         return Yii::$app->params['sms_password'];
+    }
+
+    public static function getCardArchivePeriod()
+    {
+        return Yii::$app->params['card_archive_period'] ?? 5;
     }
 }

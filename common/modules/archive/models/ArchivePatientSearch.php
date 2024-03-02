@@ -2,6 +2,7 @@
 
 namespace common\modules\archive\models;
 
+use common\modules\clinic\models\Settings;
 use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
@@ -112,14 +113,16 @@ class ArchivePatientSearch extends Patient
     private function modifyQueryByType(ActiveQuery $query)
     {
         switch ($this->type) {
+
             case self::TYPE_OLD:
-                $date = (date('Y') - 5) . '-' . date('m') . '-1';
+                $date = (date('Y') - Settings::getCardArchivePeriod()) . '-' . date('m') . '-1';
                 $query->select('klinikpat.*, invoice.patient_id, max(invoice.created_at) as last_invoice_date')
                     ->from('invoice')
                     ->leftJoin('klinikpat', 'klinikpat.id=invoice.patient_id')
                     ->groupBy('patient_id')
                     ->having("max(invoice.created_at)<'" . $date . "'");
                 break;
+
             case self::TYPE_EMPTY:
                 $query->leftJoin('invoice', 'invoice.patient_id=klinikpat.id')
                     ->where('invoice.patient_id IS NULL');
