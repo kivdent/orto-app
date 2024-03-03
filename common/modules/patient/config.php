@@ -12,12 +12,12 @@ return [
             'requisites' => 'common\modules\userInterface\models\Requisites',
         ],
         'menuItems' => [
-            ['label' => 'Работа с пациентами', 'url' => '/patient', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse','senior_recorder','accountant' ]],
-            ['label' => 'Добавить нового пациента', 'url' => '/patient/manage/create','roles'=>['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse','senior_recorder', ]],
-//            ['label' => 'Работа с пациентами ортодонтия', 'url' => '/old_app/pat_card_orto.php', 'roles' => ['admin', 'orthodontist',]],
+            ['label' => 'Работа с пациентами', 'url' => '/patient', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', 'senior_recorder', 'accountant']],
+            ['label' => 'Добавить нового пациента', 'url' => '/patient/manage/create', 'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', 'senior_recorder',]],
+        //    ['label' => 'Дни рождения', 'url' => '/patient/birthday/', 'roles' => ['admin', 'recorder', 'senior_recorder',]],
         ],
         'moduleMenu' => [
-            'file'=>'@common/modules/patient/components/ModuleMenu.php',
-            ]
+            'file' => '@common/modules/patient/components/ModuleMenu.php',
+        ]
     ],
 ];

@@ -13,9 +13,11 @@ use yii\db\ActiveQuery;
  */
 class PatientSearch extends Patient
 {
+
     const TYPE_ALL = 'all';
     const TYPE_ORTHODONTICS = 'orthodontics';
     const TYPE_RECALL_RECORDER = 'recorder';
+    const TYPE_BIRTHDAY = 'birthday';
 
 
     public $prepaymentAmount;
@@ -74,7 +76,6 @@ class PatientSearch extends Patient
                     'label' => 'Имя',
                     'default' => SORT_ASC
                 ],
-
             ]
         ]);
 
@@ -115,16 +116,23 @@ class PatientSearch extends Patient
     private function modifyQueryByType(ActiveQuery $query)
     {
         switch ($this->type) {
+
             case self::TYPE_ORTHODONTICS:
                 $query->select('`klinikpat`.*,')
                     ->leftJoin('`orto_sh`', '`orto_sh`.`pat` = `klinikpat`.`id`')
                     ->where('`orto_sh`.`summ`>`orto_sh`.`vnes`');
                 break;
+
             case self::TYPE_RECALL_RECORDER:
-                $query->where("DATE_FORMAT(`klinikpat`.`dr`, '%m' )=".date('m'));
+                $query->where("DATE_FORMAT(`klinikpat`.`dr`, '%m' )=" . date('m'));
                 break;
+
+            case self::TYPE_BIRTHDAY:
+                $query->where("DATE_FORMAT(`klinikpat`.`dr`, '%m' )=" . date('m'));
+//                $query->andWhere("klinikpat.status<>'".Patient::STATUS_ARCHIVE_IN_ARCHIVE."'");
+                break;
+
         }
         return $query;
-
     }
 }

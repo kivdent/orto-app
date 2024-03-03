@@ -140,7 +140,8 @@ class Patient extends \yii\db\ActiveRecord
             'Prim' => 'Примечание',
             'fullName' => 'Имя',
             'orthodonticsPayPerMonth' => 'Оплата за месяц',
-            'status' => 'Статус карты'
+            'status' => 'Статус карты',
+            'address_id' => 'Адрес'
         ];
     }
 
@@ -275,8 +276,9 @@ class Patient extends \yii\db\ActiveRecord
     public function getTotalAppointments()
     {
         return Appointment::find()
+            ->select('PatID')
             ->where(['PatID' => $this->id])
-            ->count();
+            ->count('PatID');
     }
 
     public function getTotalInvoiceSumm()
