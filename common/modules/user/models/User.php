@@ -1,9 +1,10 @@
 <?php
 
-namespace common\models;
+namespace common\modules\user\models;
 
 use Yii;
-use backend\modules\employe\models\Employe;
+//use backend\modules\employe\models\Employe;
+use common\modules\employee\models\Employee;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -17,9 +18,12 @@ use yii\behaviors\TimestampBehavior;
  * @property string $email
  * @property int $status
  * @property int $created_at
- * @property int $updated_at 
+ * @property int $updated_at
+ * @property-read mixed $roles
+ * @property-read Employee $employe
+ * @property-write string $password
  * @property int $employe_id
- * 
+ *
  */
 class User extends \yii\db\ActiveRecord {
 
@@ -82,7 +86,7 @@ class User extends \yii\db\ActiveRecord {
     }
 
     public function getEmploye() {
-        return $this->hasOne(Employe::className(), ['id' => 'employe_id']);
+        return $this->hasOne(Employee::className(), ['id' => 'employe_id']);
     }
     public function getRoles() {
          return Yii::$app->authManager->getRolesByUser($this->id);
@@ -122,7 +126,7 @@ class User extends \yii\db\ActiveRecord {
     }
     /**
      * Find user by id
-     * @return common\models\User object
+     * @return User object
      */
     public static function getUserById($id) {
         $user=self::findOne($id);

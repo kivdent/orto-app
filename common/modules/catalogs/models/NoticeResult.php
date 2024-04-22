@@ -13,6 +13,7 @@ class NoticeResult extends \common\models\NoticeResult
     const NOTICE_RESULT_WILL_CALL_BACK = 3;
     const NOTICE_RESULT_VISIT_REFUSAL = 6;
     const NOTICE_RESULT_SMS_SENT = 7;
+    const NOTICE_RESULT_WHATSAPP_SENT = 8;
 
 
     public function attributeLabels()
@@ -34,6 +35,7 @@ class NoticeResult extends \common\models\NoticeResult
                 self::NOTICE_RESULT_WILL_CALL_BACK => 'Сам перезвонит',
                 self::NOTICE_RESULT_VISIT_REFUSAL => 'Отказ',
                 self::NOTICE_RESULT_SMS_SENT => 'Отправлено смс',
+                self::NOTICE_RESULT_WHATSAPP_SENT => 'WhatsApp',
             );
     }
 }

@@ -193,7 +193,14 @@ class RecorderController extends \yii\web\Controller
     {
         $html = Html::dropDownList('notice-result', $appointment->RezObzv, Appointment::GetNoticeList(),
             [
-                'class' => 'form-control notice-result-select'
+                'class' => 'form-control notice-result-select',
+                'appointmentId' => $appointment->Id,
+                'doctor_id' => $appointment->appointments_day->vrachID,
+                'date' => UserInterface::getFormatedDate($appointment->appointments_day->date),
+                'time' => substr($appointment->NachNaz, 0, -3),
+                'patient_id' => $appointment->PatID,
+                'OkonchNaz' => substr($appointment->OkonchNaz, 0, -3),
+                'appointment_content' => $appointment->appointment_content,
             ]);
         return $html;
     }

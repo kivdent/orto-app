@@ -10,6 +10,11 @@ class Settings extends \common\models\Settings
 {
     public $file;
 
+    public static function getWazzupApiKeyValue()
+    {
+        return Yii::$app->params['wazzup_api_key'];
+    }
+
     public function rules()
     {
         return [

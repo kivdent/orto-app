@@ -1,6 +1,6 @@
 <?php
 
-namespace common\modules\user\models;
+namespace backend\model;
 
 use Yii;
 use common\models\Employe;
@@ -122,7 +122,7 @@ class User extends \yii\db\ActiveRecord {
     }
     /**
      * Find user by id
-     * @return backend\models\User object
+     * @return User object
      */
     public static function getUserById($id) {
         $user=self::findOne($id);

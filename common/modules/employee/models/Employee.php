@@ -47,6 +47,7 @@ class Employee extends \yii\db\ActiveRecord
     const POSITION_THERAPIST = 1;//Dentist-therapist
     const POSITION_ORTHOPEDIST = 2;//Dentist-orthopedist
     const POSITION_ORTHODONTIST = 3;//Dentist-orthodontist
+    const POSITION_REGISTRATOR =4 ;
 
 //'1', 'Врач стоматолог-терапевт'
 //'2', 'Врач стоматолог-ортопед'
@@ -57,6 +58,7 @@ class Employee extends \yii\db\ActiveRecord
 //'7', 'Бухгалтер'
 //'8', 'Зубной техник'
 //'9', 'Гигиенист'
+   
 
 
     public static function tableName()

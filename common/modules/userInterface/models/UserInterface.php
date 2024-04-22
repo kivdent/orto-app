@@ -7,7 +7,7 @@
 
 namespace common\modules\userInterface\models;
 
-use frontend\models\User;
+use common\modules\user\models\User;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -330,5 +330,9 @@ class UserInterface
     {
         $user_id = $user_id == 'current' ? $user_id = Yii::$app->user->id : $user_id;
         return self::getRoleName($user_id) == $role_name;
+    }
+    public static function getCurrentUser(){
+        $user=\common\modules\user\models\User::findOne(Yii::$app->user->identity->getId());
+        return $user;
     }
 }

@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 /* @var $user common\models\User */
 $this->title = 'Пользователи';
 $this->params['breadcrumbs'][] = $this->title;
+\common\modules\user\assets\WazzupUserAsset::register($this);
 ?>
 <div class="user-index">
 
@@ -56,16 +57,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {update} {inactivate} {activate}',
+                'template' => '{wazzup-user}',
+                'header' => 'Wazzup',
                 'buttons' => [
-                    'inactivate' => function ($url, $model, $key) {
-                        return $model->status === User::STATUS_ACTIVE ? Html::a("<span class=\"glyphicon glyphicon-remove\"></span>", $url, $options = ['title'=>'Заблокировать', 'aria-label'=>'Заблокировать', 'data-pjax'=>'0']) : '';
+                    'wazzup-user' => function ($url, $model, $key) {
+                        $button = Html::button('-', [
+                            'user_id' => $model->id,
+                            'action' => 'delete',
+                            'class' => 'button',
+                        //    'onclick' => 'alert("1")'
+                        ]);
+                        return $button;
                     },
                     'activate' => function ($url, $model, $key) {
-                        return $model->status === User::STATUS_DELETED ? Html::a("<span class=\"glyphicon glyphicon-ok\"></span>", $url, $options = ['title'=>'Разблокировать', 'aria-label'=>'Разблокировать', 'data-pjax'=>'0']) : '';
+                        return $model->status === User::STATUS_DELETED ? Html::a("<span class=\"glyphicon glyphicon-ok\"></span>", $url, $options = ['title' => 'Разблокировать', 'aria-label' => 'Разблокировать', 'data-pjax' => '0']) : '';
                     },
                 ],
-            ]
+            ],
         ],
     ]);
     ?>

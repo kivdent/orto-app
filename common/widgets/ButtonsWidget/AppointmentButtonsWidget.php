@@ -13,11 +13,15 @@ class AppointmentButtonsWidget extends ButtonsWidget
 
     public function __construct($config = [])
     {
-        $this->asset=['\common\modules\schedule\widgets\assets\AppointmentModalAsset','\common\modules\schedule\assets\AppointmentAsset'];
+        $this->asset = [
+            '\common\modules\schedule\widgets\assets\AppointmentModalAsset',
+            '\common\modules\schedule\assets\AppointmentAsset',
+            '\common\modules\patient\assets\PatientCommunicationsCentre'
+        ];
 
 //        $this->js="";
         parent::__construct($config);
-        $appointment=Appointment::findOne($this->appointmentId);
+        $appointment = Appointment::findOne($this->appointmentId);
         $this->buttons = [
             [//Отмена
                 'role_available' => $this->doctorAndRegistratorRoles,
@@ -60,7 +64,7 @@ class AppointmentButtonsWidget extends ButtonsWidget
                     'target' => '_blank'
                 ]
             ],
-           [
+            [
                 //Изменить
                 'role_available' => $this->doctorAndRegistratorRoles,
                 'text' => Html::encode('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>'),
@@ -71,16 +75,16 @@ class AppointmentButtonsWidget extends ButtonsWidget
                     'appointmentId' => $appointment->Id,
                     'doctor_id' => $appointment->appointments_day->vrachID,
                     'date' => $appointment->appointments_day->date,
-                    'time' => substr($appointment->NachNaz,0,-3),
+                    'time' => substr($appointment->NachNaz, 0, -3),
                     'patient_id' => $appointment->PatID,
-                    'OkonchNaz' => substr($appointment->OkonchNaz,0,-3),
+                    'OkonchNaz' => substr($appointment->OkonchNaz, 0, -3),
                     'appointment_content' => $appointment->appointment_content,
 
                 ]
             ],
             [
                 //Изменить
-                'role_available' => [UserInterface::ROLE_RECORDER,UserInterface::ROLE_SENIOR_RECORDER],
+                'role_available' => [UserInterface::ROLE_RECORDER, UserInterface::ROLE_SENIOR_RECORDER],
                 'text' => Html::encode('<span class="glyphicon glyphicon-rub" aria-hidden="true"></span>'),
                 'url' => [
                     '/invoice/manage/create',
@@ -93,6 +97,43 @@ class AppointmentButtonsWidget extends ButtonsWidget
                     'data' => ['method' => 'post',],
                     'title' => 'Счёт за гигиену',
                     'target' => '_blank'
+                ]
+            ],
+            //
+            [
+                //Напомнить WA
+                'role_available' => [UserInterface::ROLE_RECORDER, UserInterface::ROLE_SENIOR_RECORDER],
+                'text' => Html::encode('WA'),
+                'url' => '',
+                'options' => [
+                    'class' => 'btn btn-xs btn-success btn-wa-notification',
+                    'title' => 'Напомнить через Whatsapp',
+                    'appointmentId' => $appointment->Id,
+                    'doctor_id' => $appointment->appointments_day->vrachID,
+                    'date' => UserInterface::getFormatedDate($appointment->appointments_day->date),
+                    'time' => substr($appointment->NachNaz, 0, -3),
+                    'patient_id' => $appointment->PatID,
+                    'OkonchNaz' => substr($appointment->OkonchNaz, 0, -3),
+                    'appointment_content' => $appointment->appointment_content,
+                ]
+            ],
+            //
+            [
+                //Напомнить смс
+                'role_available' => [UserInterface::ROLE_RECORDER, UserInterface::ROLE_SENIOR_RECORDER],
+                'text' => Html::encode('СМС'),
+                'url' => '',
+                'options' => [
+                    'class' => 'btn btn-xs btn-info btn-sms-notification',
+                    'title' => 'Напомнить через SMS',
+                    'appointmentId' => $appointment->Id,
+                    'doctor_id' => $appointment->appointments_day->vrachID,
+                    'date' => UserInterface::getFormatedDate($appointment->appointments_day->date),
+                    'time' => substr($appointment->NachNaz, 0, -3),
+                    'patient_id' => $appointment->PatID,
+                    'OkonchNaz' => substr($appointment->OkonchNaz, 0, -3),
+                    'appointment_content' => $appointment->appointment_content,
+
                 ]
             ],
             //

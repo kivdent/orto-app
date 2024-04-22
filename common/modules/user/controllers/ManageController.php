@@ -2,6 +2,7 @@
 
 namespace common\modules\user\controllers;
 
+use common\modules\employee\models\Employee;
 use Yii;
 use common\models\User;
 use yii\data\ActiveDataProvider;
@@ -16,12 +17,14 @@ use yii\filters\AccessControl;
 /**
  * ManageController implements the CRUD actions for User model.
  */
-class ManageController extends Controller {
+class ManageController extends Controller
+{
 
     /**
      * {@inheritdoc}
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -31,26 +34,27 @@ class ManageController extends Controller {
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                
+
                 'rules' => [
                     [
                         'allow' => true,
                         'actions' => [],
                         'roles' => ['admin'],
                     ],
-                  
+
                 ],
             ],
         ];
     }
 
     /**
-     * Updates password for User with $user->id=$id 
-     *  @return mixed
+     * Updates password for User with $user->id=$id
+     * @return mixed
      */
-    public function actionChangePassword($id) {
+    public function actionChangePassword($id)
+    {
         $model = $this->findModel($id);
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->save(true, ['password_hash'])) {
             Yii::$app->session->setFlash('success', 'Пароль изменён');
             return $this->redirect(['view', 'id' => $model->id]);
@@ -59,7 +63,7 @@ class ManageController extends Controller {
         }
 
         return $this->render('update', [
-                    'model' => $model,
+            'model' => $model,
         ]);
     }
 
@@ -67,13 +71,14 @@ class ManageController extends Controller {
      * Lists all User models.
      * @return mixed
      */
-    public function actionIndex() {
+    public function actionIndex()
+    {
         $dataProvider = new ActiveDataProvider([
             'query' => User::find(),
         ]);
 
         return $this->render('index', [
-                    'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -83,9 +88,10 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id) {
+    public function actionView($id)
+    {
         return $this->render('view', [
-                    'model' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -94,7 +100,8 @@ class ManageController extends Controller {
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate() {
+    public function actionCreate()
+    {
         $model = new CreateUserForm();
         $model->scenario = CreateUserForm::SCENARIO_CREATE;
         $roles = self::getRoles();
@@ -104,8 +111,8 @@ class ManageController extends Controller {
         }
 
         return $this->render('create', [
-                    'model' => $model,
-                    'roles' => $roles,
+            'model' => $model,
+            'roles' => $roles,
         ]);
     }
 
@@ -116,7 +123,8 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id) {
+    public function actionUpdate($id)
+    {
         $user = $this->findModel($id);
         $model = new CreateUserForm();
         $model->scenario = CreateUserForm::SCENARIO_UPDATE;
@@ -129,8 +137,8 @@ class ManageController extends Controller {
         }
 
         return $this->render('update', [
-                    'model' => $model,
-                    'roles' => $roles,
+            'model' => $model,
+            'roles' => $roles,
         ]);
     }
 
@@ -141,7 +149,8 @@ class ManageController extends Controller {
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id) {
+    public function actionDelete($id)
+    {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -154,7 +163,8 @@ class ManageController extends Controller {
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionInactivate($id) {
+    public function actionInactivate($id)
+    {
         $this->findModel($id)->inactivate();
 
         return $this->redirect(['index']);
@@ -167,7 +177,8 @@ class ManageController extends Controller {
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionActivate($id) {
+    public function actionActivate($id)
+    {
         $this->findModel($id)->activate();
 
         return $this->redirect(['index']);
@@ -180,7 +191,8 @@ class ManageController extends Controller {
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id) {
+    protected function findModel($id)
+    {
         if (($model = User::findOne($id)) !== null) {
             return $model;
         }
@@ -188,9 +200,27 @@ class ManageController extends Controller {
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
-    public static function getRoles() {
+    public static function getRoles()
+    {
 
         return ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description');
     }
 
+    public function actionWazzupUsers()
+    {
+        $employes = array_column(Employee::find()
+            ->where(['status' => Employee::STATUS_WORKED])
+            ->andWhere(['dolzh' => Employee::POSITION_REGISTRATOR])
+            ->asArray()
+            ->all(),'id');
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => User::find()->where(['IN','employe_id',$employes])
+        ]);
+
+        return $this->render('wazzup-users', [
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
 }

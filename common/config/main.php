@@ -107,10 +107,8 @@ return [
         'statistics' => [
             'class' => 'common\modules\statistics\Module',
         ],
-
         'api' => [
             'class' => 'common\modules\api\Module',
-
         ],
     ],
 ];
