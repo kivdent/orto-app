@@ -77,12 +77,32 @@ class ManageController extends \yii\web\Controller
                                         ' . InvoiceFormWidget::getEarlyPaymentTable($invoice->id) . '
                                     </div>    
                                 </div>
-                                '.InvoiceFormWidget::getTechnicalOrderInfo($invoice->id).'    
+                                ' . InvoiceFormWidget::getTechnicalOrderInfo($invoice->id) . '    
                             </div>
                             <div class="modal-body">
                                 ' . InvoiceFormWidget::getInvoiceTable($invoice->id) . '
-                            </div>
-                            <div class="modal-footer">
+                            </div>';
+
+            if ($invoice->type == Invoice::TYPE_TECHNICAL_ORDER and isset($invoice->technicalOrder->logs)) {
+                $html .= '
+                <div class="row">
+                <div class="col-lg-12">
+                <table class="table">';
+
+                foreach ($invoice->technicalOrder->logs as $log) {
+                    $html .= '<tr>';
+                    $html .= '<td>' . $log->created_at . '</td>';
+                    $html .= '<td>' . $log->employee->fullName . '</td>';
+                    $html .= '<td>' . $log->statusName . '</td>';
+
+                    $html .= '</tr>';
+                }
+                $html .= '</table>
+                </div>
+                </div>';
+            }
+            $html .= '
+                <div class="modal-footer">
                                 <a href="/invoice/manage/print?invoice_id=' . $invoice->id . '" class="btn btn-success" target="_blank">Печать</a>
                                  <a href="/invoice/manage/print-akt?invoice_id=' . $invoice->id . '" class="btn btn-success" target="_blank">Печать акта</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>                               
@@ -98,16 +118,16 @@ class ManageController extends \yii\web\Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             $invoice = Invoice::findOne(Yii::$app->request->post('invoice_id'));
-            $invoiceItems=[];
-            foreach ($invoice->invoiceItems as $invoiceItem){
-                $item['title']=$invoiceItem->prices->pricelistItems->title;
-                $item['id']=$invoiceItem->prices_id;
-                $item['price']=$invoiceItem->prices->price;
-                $item['quantity']=$invoiceItem->quantity;
-                $invoiceItems[]=$item;
+            $invoiceItems = [];
+            foreach ($invoice->invoiceItems as $invoiceItem) {
+                $item['title'] = $invoiceItem->prices->pricelistItems->title;
+                $item['id'] = $invoiceItem->prices_id;
+                $item['price'] = $invoiceItem->prices->price;
+                $item['quantity'] = $invoiceItem->quantity;
+                $invoiceItems[] = $item;
             }
 
-        return $invoiceItems;
+            return $invoiceItems;
         }
     }
 
@@ -152,6 +172,7 @@ class ManageController extends \yii\web\Controller
             return 'Запрос принят.';
         }
     }
+
     public function actionUpdateAjax()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -172,7 +193,7 @@ class ManageController extends \yii\web\Controller
             $transaction = InvoiceItems::getDb()->beginTransaction();
             try {
                 $invoice->save(false);
-                foreach ($invoice->invoiceItems as $invoiceItem){
+                foreach ($invoice->invoiceItems as $invoiceItem) {
                     $invoiceItem->delete();
                 }
                 foreach ($invoice_items as $invoice_item) {
@@ -212,14 +233,16 @@ class ManageController extends \yii\web\Controller
             'searchModel' => $searchModel
         ]);
     }
-    public function actionUpdate($invoice_id,$employee_choice=false){
-       $invoice= Invoice::findOne($invoice_id);
+
+    public function actionUpdate($invoice_id, $employee_choice = false)
+    {
+        $invoice = Invoice::findOne($invoice_id);
         return $this->render('update', [
             'patient_id' => $invoice->patient_id,
-            'appointment_id' =>$invoice->appointment_id,
+            'appointment_id' => $invoice->appointment_id,
             'invoice_type' => $invoice->type,
             'employee_choice' => $employee_choice,
-            'invoice_id'=>$invoice_id,
+            'invoice_id' => $invoice_id,
         ]);
     }
 
@@ -232,8 +255,7 @@ class ManageController extends \yii\web\Controller
             Yii::$app->session->setFlash('danger', 'По счету имеется оплата, поэтому удаление невозможно.');
         } elseif ($invoice->hasTachnicalOrder()) {
             Yii::$app->session->setFlash('danger', 'По счету имеется заказ-наряд, поэтому удаление невозможно.');
-        }
-        else {
+        } else {
             Yii::$app->session->setFlash('success', 'Счёт успешно удалён');
             $invoice->delete();
         }

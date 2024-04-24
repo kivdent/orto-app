@@ -10,7 +10,7 @@ use common\modules\pricelists\models\Pricelist;
 /* @var $employee_choice boolean*/
 /* @var $technical_order_id integer*/
 /* @var $invoice_id integer*/
-$this->title='Создание заказ-наряда';
+$this->title='Редактирование заказ-наряда';
 ?>
 
 <?= InvoiceFormWidget::widget([

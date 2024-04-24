@@ -1,5 +1,6 @@
 <?php
 
+use common\modules\invoice\models\TechnicalOrder;
 use common\modules\userInterface\models\UserInterface;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -13,7 +14,7 @@ use common\modules\invoice\models\Invoice;
 /* @var InvoiceSearch $searchModel */
 $this->title = 'Заказ-наряды';
 \common\modules\invoice\assets\InvoiceAsset::register($this);
-$columns=[
+$columns = [
 //        ['class' => 'yii\grid\SerialColumn'],
 
     [
@@ -44,15 +45,26 @@ $columns=[
         }
     ],
     [
-        'attribute' => 'completed',
+        'attribute' => 'status',
+        //'header' => 'Статус',
         'format' => 'raw',
-        'content' => function ($data) {
-            $string= ($data->amount_residual == 0) ? 'Сдан' : 'Не сдан';
-            return $string;
+        'filter' => TechnicalOrder::getStatusNameList(),
+        'content' => function (Invoice $invoice) {
 
-        },
-        'filter' => ['1'=>'Сдан','0'=>'Не сдан']
+            $string = TechnicalOrder::getStatusNameList()[$invoice->technicalOrder->completed];
+            return $string;
+        }
     ],
+//    [
+//        'attribute' => 'completed',
+//        'format' => 'raw',
+//        'content' => function ($data) {
+//            $string = ($data->amount_residual == 0) ? 'Сдан' : 'Не сдан';
+//            return $string;
+//
+//        },
+//        'filter' => ['1' => 'Сдан', '0' => 'Не сдан']
+//    ],
 
     [
         'class' => 'yii\grid\ActionColumn',
@@ -111,10 +123,12 @@ $columns=[
         ]
     ],
 ];
-if (UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN){
-    $columns[]=
-            [
+
+if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN || UserInterface::isUserRole(UserInterface::ROLE_ACCOUNTANT)) {
+    $columns[] =
+        [
             'format' => 'raw',
+            'header' => 'Техник',
             'attribute' => 'employeeFullName',
             'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
         ];

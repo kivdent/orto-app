@@ -30,6 +30,7 @@ class InvoiceSearch extends Invoice
     public $date;
     public $patient_card_id;
     public $completed;
+    public $status;
 
     public static function getEmployeeListWithInvoice()
     {
@@ -100,7 +101,7 @@ class InvoiceSearch extends Invoice
             [['doctor_id', 'patient_id', 'amount', 'amount_payable', 'paid', 'discount_id', 'appointment_id'], 'safe'],
             [['created_at', 'updated_at'], 'safe'],
             [['type'], 'safe'],
-            [['patientFullName', 'employeeFullName', 'doctorFullNameForTechnicalOrder', 'completed'], 'safe'],
+            [['patientFullName', 'employeeFullName', 'doctorFullNameForTechnicalOrder', 'completed','status'], 'safe'],
         ];
     }
 
@@ -125,7 +126,12 @@ class InvoiceSearch extends Invoice
                     'asc' => ['created_at' => SORT_ASC],
                     'desc' => ['created_at' => SORT_DESC],
                     'label' => 'Дата',
-                ]
+                ],
+                'status'=>[
+                    'asc' => ['technical_order.completed' => SORT_ASC],
+                    'desc' => ['technical_order.completed' => SORT_DESC],
+                    'label' => 'Статус',
+                ],
             ]
         ]);
 
@@ -144,10 +150,18 @@ class InvoiceSearch extends Invoice
             }]);
         }
         if (($this->completed==='0')or($this->completed==='1')) {
+
             $query->joinWith(['technicalOrder' => function ($q) {
                 $q->where(['technical_order.completed' => $this->completed]);
             }]);
         }
+
+        if (isset($this->status)) {
+            $query->joinWith(['technicalOrder' => function ($q) {
+                $q->where(['technical_order.completed' => $this->status]);
+            }]);
+        }
+
         if ($this->doctorFullNameForTechnicalOrder) {
             $query->joinWith(['doctorInvoiceForTechnicalOrder di' => function ($q) {
                 $q->where('di.doctor_id=' . $this->doctorFullNameForTechnicalOrder);

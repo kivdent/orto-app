@@ -189,7 +189,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                    window.location = '/';
+                    window.location = '/invoice/technical-order/index';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -219,13 +219,14 @@ $(document).ready(function () {
             })
             data['items'] = items;
             data['technical_order_id'] = $('#technical_order_id').val();
+
             console.log(data);
             $.ajax({
                 url: action,
                 type: 'POST',
                 data: data,
                 success: function (response) {
-                    window.location = '/';
+                   window.location = '/invoice/technical-order/index';
                 },
                 error: function () {
                     alert('Ошибка запроса');
@@ -235,8 +236,6 @@ $(document).ready(function () {
             alert('Выбирите хотя бы одну манипуляцию');
 
         }
-
-
     }
 
     $(".manipulation-item").click(function () {

@@ -105,7 +105,8 @@ class TechnicalOrderController extends \yii\web\Controller
 
     public function actionIndex($searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN)
     {
-        if (UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN){
+        if (UserInterface::getRoleNameCurrentUser()==UserInterface::ROLE_ADMIN
+        || UserInterface::isUserRole(UserInterface::ROLE_ACCOUNTANT)){
             $searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_ALL;
         }
         $searchModel = new InvoiceSearch(['searchType' => $searchType]);
@@ -185,6 +186,7 @@ class TechnicalOrderController extends \yii\web\Controller
             $technicalOrder->employee_id = Yii::$app->request->post('employee_id');
             $technicalOrder->comment = Yii::$app->request->post('comment');
             $technicalOrder->delivery_date = date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date')));
+            $technicalOrder->completed =  Yii::$app->request->post('status');
 
             $invoice_items = [];
 //            $invoice = new Invoice([
@@ -224,6 +226,7 @@ class TechnicalOrderController extends \yii\web\Controller
                 $transaction->rollBack();
                 throw $e;
             }
+
             return 'success';
         }
         return 'error';

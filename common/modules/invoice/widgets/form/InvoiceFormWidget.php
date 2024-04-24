@@ -174,6 +174,7 @@ class InvoiceFormWidget extends \yii\base\Widget
                 $html .= Html::input('hidden', 'invoice_type', $this->invoice_type, ['id' => 'invoice_type']);
 
                 $html .= $this->invoice_id == 'new' ? Html::input('hidden', 'invoice_id', Yii::$app->request->get('invoice_id'), ['id' => 'invoice_id', 'class' => 'required-property']) : '';
+                $html .= $this->invoice_id == 'new' ? '':'Статус:' .Html::dropDownList('status',Invoice::findOne($this->invoice_id)->technicalOrder->completed,TechnicalOrder::getStatusNameList(),['id' => 'status','class' => 'required-property']);
 
                 if ($this->employee_choice) {
                     $html .= 'Врач:' . Html::dropDownList('doctor_id', '', Employee::getNursesList(), ['id' => 'doctor_id']);
@@ -259,16 +260,14 @@ class InvoiceFormWidget extends \yii\base\Widget
         return $html;
     }
 
-    public
-    function getIdName()
+    public function getIdName()
     {
         $id = $this->id;
 
         return $id;
     }
 
-    public
-    static function getInvoiceTable($invoice_id, $print = false)
+    public static function getInvoiceTable($invoice_id, $print = false)
     {
         $invoice = Invoice::findOne($invoice_id);
         $html = '<table class="table table-bordered">';
@@ -310,8 +309,7 @@ class InvoiceFormWidget extends \yii\base\Widget
         return $html;
     }
 
-    public
-    static function getRows($invoice)
+    public static function getRows($invoice)
     {
         $html = '';
         switch ($invoice->type) {
