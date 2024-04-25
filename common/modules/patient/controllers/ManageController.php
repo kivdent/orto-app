@@ -40,8 +40,14 @@ class ManageController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'update', 'create'],
-                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', 'senior_recorder', 'accountant','radiologist',],
+                        'roles' => ['admin', 'therapist', 'orthopedist', 'surgeon', 'orthodontist', 'recorder', 'senior_nurse', 'senior_recorder', 'accountant','radiologist'],
                     ],
+                    [
+                        'allow' => true,
+                        'actions' => ['view', ],
+                        'roles' => [UserInterface::ROLE_TECHNICIAN],
+                    ],
+
                 ],
             ],
         ];
