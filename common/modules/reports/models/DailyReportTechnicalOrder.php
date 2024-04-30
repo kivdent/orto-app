@@ -12,6 +12,7 @@ use common\modules\cash\models\Payment;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\TechnicalOrder;
+use common\modules\invoice\models\TechnicalOrderLog;
 use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\userInterface\models\UserInterface;
 use Exception;
@@ -65,7 +66,7 @@ class DailyReportTechnicalOrder extends DailyReport
             'invoice_sum' => 'Сумма наряда',
             'invoice' => 'Счёт',
             'delivery_date' => 'Срок сдачи',
-            'completed' => 'Сдан',
+            'completed' => 'Статус',
             'technician' => 'Техник',
             'actions' => 'Действия',
         ];
@@ -86,16 +87,18 @@ class DailyReportTechnicalOrder extends DailyReport
             $row['invoice_sum'] .= $invoice->doctorInvoiceForTechnicalOrder->amount_residual != 0 ? ' Не оплачен' : ' Оплачен';
             $row['invoice'] = InvoiceModalWidget::widget(['invoice_id' => $invoice->doctorInvoiceForTechnicalOrder->id]);
             $row['delivery_date'] = UserInterface::getFormatedDate($invoice->technicalOrder->delivery_date);
-            $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
+//            $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
+            $row['completed'] = $invoice->technicalOrder->statusName;
 
             $row['technician'] = $invoice->employee->fullName;
 
-            if ($invoice->technicalOrder->completed) {
-                $row['actions'] = Html::button('Вернуть в работу', [
-                    'class' => 'btn btn-success btn-xs technical-order-complete',
-                    'id' => $invoice->technicalOrder->id,
-
-                ]);
+            if ($invoice->technicalOrder->completed == TechnicalOrder::STATUS_COMPLETED) {
+                $row['actions']='';
+//                $row['actions'] = Html::button('Вернуть в работу', [
+//                    'class' => 'btn btn-success btn-xs technical-order-complete',
+//                    'id' => $invoice->technicalOrder->id,
+//
+//                ]);
             } else {
                 $row['actions'] = Html::button('Сдать', [
                     'class' => 'btn btn-danger btn-xs technical-order-complete',
@@ -136,17 +139,18 @@ class DailyReportTechnicalOrder extends DailyReport
 
             $row['invoice_sum'] .= $invoice->doctorInvoiceForTechnicalOrder->amount_residual != 0 ? ' Не оплачен' : ' Оплачен';
             $row['delivery_date'] = UserInterface::getFormatedDate($invoice->technicalOrder->delivery_date);
-            $row['completed'] = $invoice->technicalOrder->completed ? 'Сдан' : 'Не сдан';
-            $row['completed'] .= $invoice->technicalOrder->completed ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
+            $row['completed'] = $invoice->technicalOrder->statusName;
+            $row['completed'] .= ($invoice->technicalOrder->completed == TechnicalOrder::STATUS_COMPLETED) ? ' ' . UserInterface::getFormatedDate($invoice->technicalOrder->completed_date) : '';
 
             $row['doctor'] = $invoice->doctorInvoiceForTechnicalOrder->employee->fullName;
 
-            if ($invoice->technicalOrder->completed) {
-                $row['actions'] = Html::button('Вернуть в работу', [
-                    'class' => 'btn btn-success btn-xs technical-order-complete-one',
-                    'id' => $invoice->technicalOrder->id,
-
-                ]);
+            if ($invoice->technicalOrder->completed == TechnicalOrder::STATUS_COMPLETED) {
+                $row['actions']='';
+//                $row['actions'] = Html::button('Вернуть в работу', [
+//                    'class' => 'btn btn-success btn-xs technical-order-complete-one',
+//                    'id' => $invoice->technicalOrder->id,
+//
+//                ]);
             } else {
                 $row['actions'] = Html::button('Сдать', [
                     'class' => 'btn btn-danger btn-xs technical-order-complete-one',
@@ -154,7 +158,7 @@ class DailyReportTechnicalOrder extends DailyReport
 
                 ]);
             }
-            $row['actions'] .=  $invoice->technicalOrder->completed ? ' ': Html::a(
+            $row['actions'] .= $invoice->technicalOrder->completed ? ' ' : Html::a(
                 '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                 ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
                 ['class' => 'btn btn-primary btn-xs',]);
@@ -197,12 +201,11 @@ class DailyReportTechnicalOrder extends DailyReport
                     $employee_id = $invoice->doctor_id;
                     break;
                 default:
-               //     if (!isset($invoice->technicalOrder)) UserInterface::getVar($invoice);
+                    //     if (!isset($invoice->technicalOrder)) UserInterface::getVar($invoice);
 
                     try {
                         $employee_id = $invoice->technicalOrder->invoice->employee->id;
-                    }
-                    catch (Exception $e){
+                    } catch (Exception $e) {
                         UserInterface::getVar($invoice);
                     }
                     break;

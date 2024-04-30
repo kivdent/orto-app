@@ -29,6 +29,7 @@ class DailyReport extends Model
 {
     const TYPE_OF_REPORT_TECHNICAL_ORDER = Invoice::TYPE_TECHNICAL_ORDER;
     const TYPE_OF_REPORT_TECHNICAL_COMPLETED = 'technical_order_completed';
+    const TYPE_OF_REPORT_TECHNICAL_COMPLETED_ACCOUNTANT = 'technical_order_completed_accountant';
     const TYPE_OF_REPORT_TECHNICAL_CURRENT = 'technical_order_current';
 
     public $employee;
@@ -196,7 +197,7 @@ class DailyReport extends Model
             );
             if ($invoice->paid == 0) {
                 $row['actions'] .= '<br>' . Html::a(
-                    '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
+                        '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                         ['/invoice/manage/update', 'invoice_id' => $invoice->id],
                         ['class' => 'btn btn-primary btn-xs',]
                     );
@@ -219,6 +220,7 @@ class DailyReport extends Model
     {
         return Payment::find()->where(['dnev' => $invoice_id, 'date' => $this->date])->all();
     }
+
     public static function getDailyReport($employee_id, $date, $report_type)
     {
         switch ($report_type) {
@@ -231,6 +233,9 @@ class DailyReport extends Model
             case DailyReport::TYPE_OF_REPORT_TECHNICAL_CURRENT:
                 $daily_report = DailyReportTechnicalOrderCurrent::getReportForDate($employee_id, $date, $report_type);
                 break;
+            case DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED_ACCOUNTANT:
+                $daily_report = DailyReportTechnicalOrderCompleted::getReportForDate($employee_id, $date, $report_type);
+                 break;
             default:
                 $daily_report = DailyReport::getReportForDate($employee_id, $date, $report_type);
                 break;

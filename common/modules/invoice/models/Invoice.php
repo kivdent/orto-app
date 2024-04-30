@@ -57,6 +57,7 @@ class Invoice extends \common\models\Invoice
     const SEARCH_TYPE_TECHNICAL_ORDER_ALL = 'technical_order_all';
     const SEARCH_TYPE_TECHNICAL_ORDER_TECHNICIAN = 'technical_order_technician';
     const SEARCH_TYPE_DOCTOR_INVOICES = 'doctor_invoices';
+    const SEARCH_TYPE_TECHNICAL_ORDER_DOCTOR = 'technical_order_doctor';
 
     public static function getPatientInvoices($patient_id)
     {

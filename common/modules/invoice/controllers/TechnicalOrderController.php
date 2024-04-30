@@ -46,17 +46,18 @@ class TechnicalOrderController extends \yii\web\Controller
             //  echo Yii::$app->request->post('technicalOrderId');
 
             foreach (TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'))->invoice->getTechnicalOrderInvoice() as $technicalOrder) {
-                $technicalOrder->completed = !$technicalOrder->completed;
-                if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
-                    $technicalOrder->completed_date = date('Y-m-d');
-                }
-                if ($technicalOrder->completed) {
-                    $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
-                } else {
-                    $technicalOrder->technicalOrderInvoice->paid = 0;
-                }
-                $technicalOrder->technicalOrderInvoice->save(false);
-                $technicalOrder->save(false);
+                $technicalOrder->changeStatus(TechnicalOrder::STATUS_COMPLETED);
+//                $technicalOrder->completed = !$technicalOrder->completed;
+//                if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+//                    $technicalOrder->completed_date = date('Y-m-d');
+//                }
+//                if ($technicalOrder->completed) {
+//                    $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+//                } else {
+//                    $technicalOrder->technicalOrderInvoice->paid = 0;
+//                }
+//                $technicalOrder->technicalOrderInvoice->save(false);
+//                $technicalOrder->save(false);
             }
 //        Yii::$app->response->format = Response::FORMAT_JSON;
 //        if (Yii::$app->request->isAjax) {
@@ -82,17 +83,18 @@ class TechnicalOrderController extends \yii\web\Controller
         if (Yii::$app->request->isAjax) {
 
             $technicalOrder=TechnicalOrder::findOne(Yii::$app->request->post('technicalOrderId'));
-            $technicalOrder->completed = !$technicalOrder->completed;
-            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
-                $technicalOrder->completed_date = date('Y-m-d');
-            }
-            if ($technicalOrder->completed) {
-                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
-            } else {
-                $technicalOrder->technicalOrderInvoice->paid = 0;
-            }
-            $technicalOrder->technicalOrderInvoice->save(false);
-            $technicalOrder->save(false);
+            $technicalOrder->changeStatus(TechnicalOrder::STATUS_COMPLETED);
+//            $technicalOrder->completed = !$technicalOrder->completed;
+//            if ($technicalOrder->completed and $technicalOrder->completed_date == NULL) {
+//                $technicalOrder->completed_date = date('Y-m-d');
+//            }
+//            if ($technicalOrder->completed) {
+//                $technicalOrder->technicalOrderInvoice->paid = $technicalOrder->technicalOrderInvoice->amount_payable;
+//            } else {
+//                $technicalOrder->technicalOrderInvoice->paid = 0;
+//            }
+//            $technicalOrder->technicalOrderInvoice->save(false);
+//            $technicalOrder->save(false);
 
         }
         return $technicalOrder->completed;
@@ -109,6 +111,11 @@ class TechnicalOrderController extends \yii\web\Controller
         || UserInterface::isUserRole(UserInterface::ROLE_ACCOUNTANT)){
             $searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_ALL;
         }
+        if (UserInterface::isUserRole(UserInterface::ROLE_ORTHODONTIST)
+        || UserInterface::isUserRole(UserInterface::ROLE_ORTHOPEDIST)){
+            $searchType= InvoiceSearch::SEARCH_TYPE_TECHNICAL_ORDER_DOCTOR;
+        }
+
         $searchModel = new InvoiceSearch(['searchType' => $searchType]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [//@common/modules/patient/views/technical-order/index
@@ -186,7 +193,8 @@ class TechnicalOrderController extends \yii\web\Controller
             $technicalOrder->employee_id = Yii::$app->request->post('employee_id');
             $technicalOrder->comment = Yii::$app->request->post('comment');
             $technicalOrder->delivery_date = date('Y-m-d', strtotime(Yii::$app->request->post('delivery_date')));
-            $technicalOrder->completed =  Yii::$app->request->post('status');
+            $technicalOrder->changeStatus(Yii::$app->request->post('status'));
+
 
             $invoice_items = [];
 //            $invoice = new Invoice([

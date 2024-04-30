@@ -81,6 +81,13 @@ class InvoiceSearch extends Invoice
                     ->andWhere(['invoice.doctor_id' => \Yii::$app->user->identity->employe_id])
                     ->orderBy('created_at DESC');
                 break;
+            case self::SEARCH_TYPE_TECHNICAL_ORDER_DOCTOR:
+                $query->where(['invoice.type' => Invoice::TYPE_TECHNICAL_ORDER])
+                    ->leftJoin('technical_order as to', 'invoice.id = to.technical_order_invoice_id')
+                    ->leftJoin('invoice as di', 'to.invoice_id = di.id')
+                    ->andWhere(['di.doctor_id' => \Yii::$app->user->identity->employe_id])
+                    ->orderBy('created_at DESC');
+                break;
             case self::SEARCH_TYPE_DOCTOR_INVOICES:
                 $query->where(['patient_id' => $this->patient_card_id])
                     ->andWhere(['<>', 'type', Invoice::TYPE_TECHNICAL_ORDER])
@@ -101,7 +108,7 @@ class InvoiceSearch extends Invoice
             [['doctor_id', 'patient_id', 'amount', 'amount_payable', 'paid', 'discount_id', 'appointment_id'], 'safe'],
             [['created_at', 'updated_at'], 'safe'],
             [['type'], 'safe'],
-            [['patientFullName', 'employeeFullName', 'doctorFullNameForTechnicalOrder', 'completed','status'], 'safe'],
+            [['patientFullName', 'employeeFullName', 'doctorFullNameForTechnicalOrder', 'completed', 'status'], 'safe'],
         ];
     }
 
@@ -127,7 +134,7 @@ class InvoiceSearch extends Invoice
                     'desc' => ['created_at' => SORT_DESC],
                     'label' => 'Дата',
                 ],
-                'status'=>[
+                'status' => [
                     'asc' => ['technical_order.completed' => SORT_ASC],
                     'desc' => ['technical_order.completed' => SORT_DESC],
                     'label' => 'Статус',
@@ -149,17 +156,19 @@ class InvoiceSearch extends Invoice
                 $q->where('sotr.id = ' . $this->employeeFullName);
             }]);
         }
-        if (($this->completed==='0')or($this->completed==='1')) {
+        if (($this->completed === '0') or ($this->completed === '1')) {
 
             $query->joinWith(['technicalOrder' => function ($q) {
                 $q->where(['technical_order.completed' => $this->completed]);
             }]);
         }
 
-        if (isset($this->status)) {
+        if (isset($this->status) && (!empty($this->status))) {
+
             $query->joinWith(['technicalOrder' => function ($q) {
                 $q->where(['technical_order.completed' => $this->status]);
             }]);
+
         }
 
         if ($this->doctorFullNameForTechnicalOrder) {

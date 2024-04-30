@@ -17,6 +17,7 @@ return [
             ['label' => 'Отчёт за день', 'url' => '/reports/financial/employee-daily', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Отчёт за период', 'url' => '/reports/financial/employee-period', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Заказ-наряды', 'url' => ['/reports/financial/employee-period','invoice_type'=>DailyReport::TYPE_OF_REPORT_TECHNICAL_ORDER], 'roles' => ['technician','therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
+            ['label' => 'Лаборатория', 'url' => ['/reports/financial/accountat-technical-order-period','invoice_type'=>DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED_ACCOUNTANT], 'roles' => [\common\modules\userInterface\models\UserInterface::ROLE_ACCOUNTANT]],
             ['label' => 'Заказ-наряды закрытые', 'url' => ['/reports/financial/employee-period','invoice_type'=> DailyReport::TYPE_OF_REPORT_TECHNICAL_COMPLETED], 'roles' => ['technician']],
             ['label' => 'Заказ-наряды в работе', 'url' => ['/reports/financial/employee-period','invoice_type'=> DailyReport::TYPE_OF_REPORT_TECHNICAL_CURRENT], 'roles' => ['technician']],
 //            ['label' => 'Отчёт за период оплаты', 'url' => '/reports/default/index', 'roles' => ['therapist', 'orthopedist', 'surgeon', 'orthodontist',]],

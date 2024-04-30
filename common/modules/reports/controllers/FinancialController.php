@@ -122,4 +122,56 @@ class FinancialController extends \yii\web\Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionAccountatTechnicalOrderPeriod($period_id = 'current', $employee_id = 'current', $employee_selectable = 'false',$invoice_type=Invoice::TYPE_TECHNICAL_ORDER)
+    {
+        if ($employee_id == 'current') {
+            $employee = Yii::$app->user->identity->employe;
+        } else {
+            $employee = Employee::findOne($employee_id);
+            if (!$employee) throw new NotFoundHttpException('Сотрудник не найден.');
+        }
+        $period_reports=[];
+        $employees=Employee::find()->where(['dolzh'=>Employee::POSITION_TECHNICIANS])->all();
+        foreach ($employees as $employeeForPeriod){
+            if ($period_id == 'current') {
+                $period_reports[]= PeriodReport::getCurrentPeriodReport($employeeForPeriod,$invoice_type);
+            } else {
+                $financial_period = FinancialPeriods::findOne($period_id);
+                if (!$financial_period) throw new NotFoundHttpException('Период не найден.');
+                $period_reports[] = PeriodReport::getPeriodReportForDate($employeeForPeriod, $financial_period,$invoice_type);
+            }
+        }
+
+
+        return $this->render('accountant_technical_order_period', [
+            'period_reports' => $period_reports,
+            'employee_selectable' => $employee_selectable
+        ]);
+    }
+    public function actionAccountatTechnicalOrderPeriodPrint($period_id = 'current', $employee_id = 'current', $employee_selectable = 'false',$invoice_type=Invoice::TYPE_TECHNICAL_ORDER)
+    {
+        if ($employee_id == 'current') {
+            $employee = Yii::$app->user->identity->employe;
+        } else {
+            $employee = Employee::findOne($employee_id);
+            if (!$employee) throw new NotFoundHttpException('Сотрудник не найден.');
+        }
+        $period_reports=[];
+        $employees=Employee::find()->where(['dolzh'=>Employee::POSITION_TECHNICIANS])->all();
+        foreach ($employees as $employeeForPeriod){
+            if ($period_id == 'current') {
+                $period_reports[]= PeriodReport::getCurrentPeriodReport($employeeForPeriod,$invoice_type);
+            } else {
+                $financial_period = FinancialPeriods::findOne($period_id);
+                if (!$financial_period) throw new NotFoundHttpException('Период не найден.');
+                $period_reports[] = PeriodReport::getPeriodReportForDate($employeeForPeriod, $financial_period,$invoice_type);
+            }
+        }
+
+
+        return $this->render('accountant_technical_order_period', [
+            'period_reports' => $period_reports,
+            'employee_selectable' => $employee_selectable
+        ]);
+    }
 }

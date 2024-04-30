@@ -48,6 +48,7 @@ class Employee extends \yii\db\ActiveRecord
     const POSITION_ORTHOPEDIST = 2;//Dentist-orthopedist
     const POSITION_ORTHODONTIST = 3;//Dentist-orthodontist
     const POSITION_REGISTRATOR =4 ;
+    const POSITION_ACCOUNTANT =7 ;
 
 //'1', 'Врач стоматолог-терапевт'
 //'2', 'Врач стоматолог-ортопед'
