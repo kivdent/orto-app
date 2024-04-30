@@ -84,8 +84,8 @@ class InvoiceSearch extends Invoice
             case self::SEARCH_TYPE_TECHNICAL_ORDER_DOCTOR:
                 $query->where(['invoice.type' => Invoice::TYPE_TECHNICAL_ORDER])
                     ->leftJoin('technical_order as to', 'invoice.id = to.technical_order_invoice_id')
-                    ->leftJoin('invoice as di', 'to.invoice_id = di.id')
-                    ->andWhere(['di.doctor_id' => \Yii::$app->user->identity->employe_id])
+                    ->leftJoin('invoice as doci', 'to.invoice_id = doci.id')
+                    ->andWhere(['doci.doctor_id' => \Yii::$app->user->identity->employe_id])
                     ->orderBy('created_at DESC');
                 break;
             case self::SEARCH_TYPE_DOCTOR_INVOICES:

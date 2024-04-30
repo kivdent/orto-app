@@ -25,11 +25,12 @@ $columns = [
         }
     ],
     'date',
-//        [
-//            'format' => 'raw',
-//            'attribute' => 'employeeFullName',
-//            'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
-//        ],
+        [
+            'format' => 'raw',
+            'header'=>'Техник',
+            'attribute' => 'employeeFullName',
+            'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
+        ],
     [
         'format' => 'raw',
         'attribute' => 'doctorFullNameForTechnicalOrder',

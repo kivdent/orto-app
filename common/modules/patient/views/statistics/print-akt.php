@@ -13,7 +13,19 @@ $i = 1;
 $summ = 0;
 $html = '';
 foreach ($invoices as $invoice) {
-    foreach ($invoice->invoiceItems as $invoiceItem) {
+    if ($invoice->type == \common\modules\invoice\models\Invoice::TYPE_ORTHODONTICS) {
+        $html .= '
+                        <tr>
+                            <td>' . $i . '</td>
+                          
+                            <td>Оплата за ортодонтическое лечение</td>
+                            <td>' . $invoice->amount_payable . ' р.</td>
+                            <td>1</td>
+                            <td>' . $invoice->amount_payable . ' р.</td>   
+                        </tr>';
+        $summ += $invoice->amount_payable;
+        $i++;
+    } else foreach ($invoice->invoiceItems as $invoiceItem) {
         $html .= '
                         <tr>
                             <td>' . $i . '</td>
