@@ -44,6 +44,19 @@ class TimeSheet extends \common\models\TimeSheet
 
         return $duration;
     }
+    public static function getCustomPeriodDuration($employee_id, $startDate, $endDate)
+    {
+        $duration = 0;
+
+        $tableSheets = self::getTableSheetsForCustomPeriod($employee_id, $startDate, $endDate);
+
+
+        foreach ($tableSheets as $tableSheet) {
+            $duration += $tableSheet->duration >= 0 ? $tableSheet->duration : 0;
+        }
+
+        return $duration;
+    }
 
     private static function getTableSheetsForPeriod($financial_period, $employee)
     {
@@ -52,6 +65,16 @@ class TimeSheet extends \common\models\TimeSheet
             ->where(['sotr' => $employee->id])
             ->andWhere(['>=', 'date', $financial_period->nach])
             ->andWhere(['<=', 'date', $financial_period->okonch])
+            ->all();
+        return $tableSheets;
+    }
+    private static function getTableSheetsForCustomPeriod($employee_id, $startDate, $endDate)
+    {
+
+        $tableSheets = self::find()
+            ->where(['sotr' => $employee_id])
+            ->andWhere(['>=', 'date', $startDate])
+            ->andWhere(['<=', 'date', $endDate])
             ->all();
         return $tableSheets;
     }

@@ -233,7 +233,7 @@ class ClinicStatistic extends \yii\base\Model
         return [];
     }
 
-    private function getEmployeesWithFinancialActions()
+    public function getEmployeesWithFinancialActions()
     {
         $payments = $this->getPaymentsForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);
         $invoices = $this->getInvoicesForTable([Invoice::TYPE_MANIPULATIONS, Invoice::TYPE_ORTHODONTICS]);

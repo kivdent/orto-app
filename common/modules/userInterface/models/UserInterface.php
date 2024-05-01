@@ -135,6 +135,11 @@ class UserInterface
         return Yii::$app->user->identity->employe->id;
     }
 
+    public static function getMonthNameFromDate($startDate)
+    {
+        return self::getMonthName(date('n',strtotime(self::getFormatedDate($startDate))));
+    }
+
     /**
      *
      * @param int $user_id
