@@ -158,7 +158,7 @@ class DailyReportTechnicalOrder extends DailyReport
 
                 ]);
             }
-            $row['actions'] .= $invoice->technicalOrder->completed ? ' ' : Html::a(
+            $row['actions'] .= $invoice->technicalOrder->completed==TechnicalOrder::STATUS_COMPLETED ? ' ' : Html::a(
                 '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                 ['/invoice/technical-order/update', 'technical_order_id' => $invoice->technicalOrder->id,],
                 ['class' => 'btn btn-primary btn-xs',]);
