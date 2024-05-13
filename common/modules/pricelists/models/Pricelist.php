@@ -393,6 +393,11 @@ class Pricelist extends \common\models\Pricelist
         return $fileName;
     }
 
+    public static function getXrayPriceListId()
+    {
+        return 5;//TODO Change to xray type
+    }
+
 
     public
     function attributeLabels()

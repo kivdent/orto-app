@@ -8,6 +8,7 @@ use common\modules\statistics\models\DoctorStatistics;
 
 ?>
 <?= FinancialPeriodChooseWidget::widget(['link' => '/statistics/doctors', 'var' => 'financialPeriodId',]) ?><br>
+
 <table class="table table-bordered table-condensed">
     <?php foreach ($doctorStatistics->financial as $doctorStatistic): ?>
         <!--    Заголовки таблицы-->
@@ -15,7 +16,7 @@ use common\modules\statistics\models\DoctorStatistics;
         <tr>
             <th rowspan="2">Врач</th>
             <?php foreach ($doctorStatistics->periods as $period): ?>
-                <th colspan="3"><?= $period['title'] ?></th>
+                <th colspan="4"><?= $period['title'] ?></th>
             <?php endforeach; ?>
 
         </tr>
@@ -24,6 +25,7 @@ use common\modules\statistics\models\DoctorStatistics;
             <?php foreach ($doctorStatistics->periods as $period): ?>
                 <th>Выручка</th>
                 <th>Часы</th>
+                <th>Секунды</th>
                 <th>В час</th>
             <?php endforeach; ?>
         </tr>
@@ -34,6 +36,7 @@ use common\modules\statistics\models\DoctorStatistics;
                 <?php foreach ($doctorStatistics->periods as $period): ?>
                     <td><?= $employeeStat[$period['id']]['revenue'] ?></td>
                     <td><?= $employeeStat[$period['id']]['hour'] ?></td>
+                    <td><?= $employeeStat[$period['id']]['seconds'] ?></td>
                     <td><?= $employeeStat[$period['id']]['revenue_per_hour'] ?></td>
                 <?php endforeach; ?>
             </tr>
