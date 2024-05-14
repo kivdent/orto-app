@@ -73,7 +73,17 @@ $this->params['breadcrumbs'][] = $this->title;
             //'crated_at',
             //'updated_at',
             //'employee_id',
+
             'note',
+            [
+                'attribute' => 'employee_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $html=$model->employee->fullName.' ';
+                    $html.=\common\modules\userInterface\models\UserInterface::getFormatedDate($model->created_at);
+                    return $html;
+                }
+            ],
             //'call_list_id',
             [
                 'class' => 'yii\grid\ActionColumn',
