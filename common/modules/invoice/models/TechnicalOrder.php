@@ -31,6 +31,7 @@ class TechnicalOrder extends \common\models\TechnicalOrder
     const STATUS_ACCEPTED_TO_ORTO_CLINIC = '8';
     const STATUS_TRANSFERRED_TO_TP_LAB = '10';
     const STATUS_COMPLETED = '1';
+    const STATUS_WARRANTY = '12';
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -120,7 +121,8 @@ class TechnicalOrder extends \common\models\TechnicalOrder
             self::STATUS_TRANSFERRED_TO_ORTO_CLINIC => 'Передан в клинику Орто-Премьер',
             self::STATUS_ACCEPTED_TO_ORTO_CLINIC => 'Принят в клинику Орто-Премьер',
             self::STATUS_TRANSFERRED_TO_TP_LAB => 'Передан в стороннею лабораторию',
-            self::STATUS_COMPLETED => 'Выполнен'
+            self::STATUS_COMPLETED => 'Выполнен',
+            self::STATUS_WARRANTY => 'По гарантии'
         ];
     }
 
