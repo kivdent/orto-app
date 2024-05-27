@@ -38,11 +38,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'patient_id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a(
-                        $model->patient->fullName,
-                        ['/patient/appointments', 'patient_id' => $model->patient_id],
-                        ['target' => '_blank']
-                    );
+                    if (isset($model->patient)) {
+                        $value = Html::a($model->patient->fullName,
+                            ['/patient/appointments', 'patient_id' => $model->patient_id],
+                            ['target' => '_blank']
+                        );
+                    } else {
+                        $value = 'Пациент с номером карты ' . $model->patient_id . ' не найден';
+                    }
+                    return $value;
                 }
             ],
             [
@@ -76,11 +80,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'note',
             [
-                'attribute' => 'employee_id',
+                'attribute' => 'created_at',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $html=$model->employee->fullName.' ';
-                    $html.=\common\modules\userInterface\models\UserInterface::getFormatedDate($model->created_at);
+                    $html = $model->employee->fullName . ' ';
+                    $html .= \common\modules\userInterface\models\UserInterface::getFormatedDate($model->created_at);
                     return $html;
                 }
             ],
