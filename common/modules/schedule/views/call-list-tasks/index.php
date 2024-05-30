@@ -61,8 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'result',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $html = $model->patient->MTel . " 
-                        
+                    $html = '';
+                    if (isset($model->patient)) {
+                        $html = $model->patient->MTel;
+                        $html .= " 
                         <div class=\"load\" hidden>
                                                                     <span class=\"glyphicon glyphicon-refresh\"
                                                                           aria-hidden=\"true\">
@@ -71,6 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 <div class=\"notice-result\"
                                                                      call-list-task_id=\"$model->id\">
                             </div>";
+                    }
+
                     return $html;
                 }
             ],

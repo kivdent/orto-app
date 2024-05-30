@@ -27,38 +27,43 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => \common\models\Settings::getLabel(),
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-default navbar-fixed-top',
-        ],
-    ]);
+    <div class="container-fluid">
+        <?php
+        NavBar::begin([
+            'brandLabel' => \common\models\Settings::getLabel(),
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar-default navbar-static-top',
+            ],
+            'innerContainerOptions'=>[ 'class' => 'container-fluid',]
+        ]);
 
-    if (Yii::$app->user->isGuest) {
+        if (Yii::$app->user->isGuest) {
 
-        $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Выход (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+            $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
+        } else {
+            $menuItems[] = '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Выход (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>';
+        }
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => $menuItems,
+        ]);
+        NavBar::end();
+        ?>
+    </div>
 
-    <div class="container">
+
+    <div class="container-fluid">
+        <!--Menu-->
+
         <div class="row">
-            <div class="col-lg-3">
-                <!--Menu-->
+            <div >
                 <?php
                 if (!Yii::$app->user->isGuest) {
                     echo Nav::widget([
@@ -86,7 +91,7 @@ AppAsset::register($this);
 </div>
 
 <footer class="footer">
-    <div class="container">
+    <div class="container-fluid">
         <p class="pull-left">&copy; <?= 'kivdent' ?> <?= date('Y') ?></p>
     </div>
 </footer>

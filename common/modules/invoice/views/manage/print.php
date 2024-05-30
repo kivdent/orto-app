@@ -13,7 +13,16 @@ use common\modules\invoice\widgets\form\InvoiceFormWidget;
     <?php else:?>
         Врач: <?=$invoice->getEmployeeFullName()?></br>
     <?php endif;?>
-
 Пациент: <?=$invoice->getPatientFullName()?>
 </p>
+<p>
+    <?php if ($invoice->type==\common\modules\invoice\models\Invoice::TYPE_TECHNICAL_ORDER && !empty($invoice->technicalOrder->comment)):?>
+        Комментарий: <?=$invoice->technicalOrder->comment?>
+    <?php endif;?>
+</p>
 <?= InvoiceFormWidget::getInvoiceTable($invoice->id)?>
+<p>
+    <?php if ($invoice->type==\common\modules\invoice\models\Invoice::TYPE_TECHNICAL_ORDER):?>
+       <img src="/images/teeth_for_torder.jpg" height="50%" width="50%">
+    <?php endif;?>
+</p>
