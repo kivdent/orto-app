@@ -125,15 +125,15 @@ $columns = [
     ],
 ];
 
-if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN || UserInterface::isUserRole(UserInterface::ROLE_ACCOUNTANT)) {
-    $columns[] =
-        [
-            'format' => 'raw',
-            'header' => 'Техник',
-            'attribute' => 'employeeFullName',
-            'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
-        ];
-}
+//if (UserInterface::getRoleNameCurrentUser() == UserInterface::ROLE_ADMIN || UserInterface::isUserRole(UserInterface::ROLE_ACCOUNTANT)) {
+//    $columns[] =
+//        [
+//            'format' => 'raw',
+//            'header' => 'Техник',
+//            'attribute' => 'employeeFullName',
+//            'filter' => InvoiceSearch::getEmployeeListWithInvoice(),
+//        ];
+//}
 ?>
 
     <h1><?= $this->title ?></h1>

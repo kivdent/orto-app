@@ -151,6 +151,7 @@ class InvoiceSearch extends Invoice
         $query->joinWith(['patient' => function ($q) {
             $q->where('klinikpat.surname LIKE "' . $this->patientFullName . '%"');
         }]);
+
         if ($this->employeeFullName) {
             $query->joinWith(['employee' => function ($q) {
                 $q->where('sotr.id = ' . $this->employeeFullName);
@@ -208,7 +209,7 @@ class InvoiceSearch extends Invoice
     {
         $labels = parent::attributeLabels();
         $labels['completed'] = 'Статус';
-        UserInterface::getVar($labels);
+       // UserInterface::getVar($labels);
         return $labels;
     }
 }

@@ -117,6 +117,7 @@ class TechnicalOrderController extends \yii\web\Controller
         }
 
         $searchModel = new InvoiceSearch(['searchType' => $searchType]);
+//       UserInterface::getVar($searchModel);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         return $this->render('index', [//@common/modules/patient/views/technical-order/index
             'dataProvider' => $dataProvider,
