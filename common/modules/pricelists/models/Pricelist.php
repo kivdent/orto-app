@@ -4,6 +4,8 @@
 namespace common\modules\pricelists\models;
 
 
+use common\models\Settings;
+use common\modules\clinic\models\Clinic;
 use common\modules\userInterface\models\UserInterface;
 use DOMDocument;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -58,7 +60,8 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->getHeaderFooter()
                     ->setOddHeader('&C' . $preysk_name);
                 $sheet->getHeaderFooter()
-                    ->setOddFooter('&L' . date('d.m.Y') . '&RДиректор ООО "Орто-Премьер" Черненко С.В.');
+                    ->setOddFooter('&L' . date('d.m.Y') . '&RДиректор '.Clinic::getClinicShortName().' '.Clinic::getDirectorName());
+
                 $sheet->setCellValue('A' . $a, $preysk_name);
 
                 $sheet->mergeCells('A' . $a . ':D' . $a);
@@ -135,12 +138,14 @@ class Pricelist extends \common\models\Pricelist
                 }
             }
         }
+        $diap = $coefficient ? 'A1:D' . $a : 'A1:C' . $a;
+        $sheet->getPageSetup()->setPrintArea($diap);
         $sheetIndex = $spreadsheet->getIndex(
             $spreadsheet->getSheetByName('Worksheet')
         );
         $spreadsheet->removeSheetByIndex($sheetIndex);
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'pricelist.xlsx';
+        $fileName = 'pricelist'.date('_d-m-Y').'.xlsx';
         $writer->save($fileName);
         return $fileName;
     }
@@ -277,17 +282,19 @@ class Pricelist extends \common\models\Pricelist
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
         $sheets = $spreadsheet->getAllSheets();
         foreach ($sheets as $sheet) {
-
             $cells = $sheet->getCellCollection();
             for ($row = 1; $row <= $cells->getHighestRow(); $row++) {
                 if ($cells->get('A' . $row) and is_numeric($cells->get('A' . $row)->getValue())) {
-
-                    $newPriceArray[] = [
-                        'id' => $cells->get('A' . $row)->getValue(),
-                        'price' => $cells->get('E' . $row)->getValue(),
-                        'coefficient' => $cells->get('F' . $row)->getValue(),
-                        'active' => $cells->get('H' . $row)->getValue(),
-                    ];
+                    try {
+                        $newPriceArray[] = [
+                            'id' => $cells->get('A' . $row)->getValue(),
+                            'price' => $cells->get('E' . $row)->getValue(),
+                            'coefficient' => $cells->get('F' . $row)->getValue(),
+                            'active' => $cells->get('H' . $row)->getValue(),
+                        ];
+                    }  catch (\Throwable $e){
+                        return 'Лист: '.$sheet->getTitle().' Строка: '.$row;
+                    }
                 }
             }
         }

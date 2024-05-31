@@ -14,6 +14,7 @@ namespace common\modules\clinic\models;
 
 use common\modules\userInterface\models\Addresses;
 use common\modules\userInterface\models\Requisites;
+use Yii;
 use yii\base\Model;
 use common\interfaces\ClinicInterface;
 use common\models\Clinics;
@@ -25,7 +26,7 @@ use yii\db\ActiveRecord;
  * @property-read \yii\db\ActiveQuery $address
  * @property-read Workplaces $workplaces
  * @property-read FinancialDivisions $financialDivisions
- * @property-read string $requisites
+ * @property-read Requisites $requisites
  */
 class Clinic extends Clinics //implements ClinicInterface
 {
@@ -53,6 +54,30 @@ class Clinic extends Clinics //implements ClinicInterface
     public static function getMain()
     {
         return self::find()->one();
+    }
+
+    public static function getClinicName()
+
+    {
+        $clinic = self::getClinicInstance();
+        $string = $clinic->requisites->full_name;
+        return $string;
+    }
+
+
+    /**
+     * @return string
+     */
+    public static function getDirectorName(): string
+    {
+        $name = isset(self::getClinicInstance()->director_name) ? self::getClinicInstance()->director_name : 'Корчемный Владимир Маркович';//TODO Брать из БД
+        return $name;
+    }
+
+    public static function getClinicShortName()
+    {
+        $name = isset(self::getClinicInstance()->short_name) ? self::getClinicInstance()->short_name : 'ООО "Орто-Премьер НГ"';//TODO Брать из БД
+        return $name;
     }
 
     /**
@@ -156,7 +181,10 @@ class Clinic extends Clinics //implements ClinicInterface
         return $string;
     }
 
-    public static function getClinicInstance()
+    /**
+     * @return Clinic
+     */
+    public static function getClinicInstance(): Clinic
     {
         return self::find()->all()[0];
     }
