@@ -4,6 +4,7 @@ namespace common\modules\statistics\controllers;
 
 use common\modules\reports\models\FinancialPeriods;
 use common\modules\statistics\models\DoctorStatistics;
+use common\modules\userInterface\models\UserInterface;
 use Yii;
 
 /**
@@ -22,7 +23,7 @@ class DoctorsController extends \yii\web\Controller
 //        $oldDb = Yii::$app->db;
 //        $db = Yii::$app->set('db', Yii::$app->second_db);
         //$post->save();
-      //  Yii::$app->set('db', $oldDb);
+        //  Yii::$app->set('db', $oldDb);
         return parent::beforeAction($action);
     }
 
@@ -39,10 +40,22 @@ class DoctorsController extends \yii\web\Controller
     public function actionIndex($financialPeriodId = null)
     {
 
-        $doctorStatistics=DoctorStatistics::getForFinancialPeriod($this->getFinancialPeriod());
-        return $this->render('index',[
-            'doctorStatistics'=>$doctorStatistics
+        $doctorStatistics = DoctorStatistics::getForFinancialPeriod($this->getFinancialPeriod());
+        return $this->render('index', [
+            'doctorStatistics' => $doctorStatistics
         ]);
+
+    }
+
+    public function actionDaily()
+    {
+        $financialPeriod = $this->getFinancialPeriod();
+
+        $doctorStatistics = DoctorStatistics::getDaily(UserInterface::getFormatedDate($financialPeriod->nach));
+        return $this->render('index', [
+            'doctorStatistics' => $doctorStatistics
+        ]);
+
     }
 
 }

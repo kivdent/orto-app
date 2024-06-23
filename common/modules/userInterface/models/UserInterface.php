@@ -140,6 +140,11 @@ class UserInterface
         return self::getMonthName(date('n',strtotime(self::getFormatedDate($startDate))));
     }
 
+    public static function getClinicsDbs()
+    {
+        return Yii::$app->params['clinics_db'];
+    }
+
     /**
      *
      * @param int $user_id

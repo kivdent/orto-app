@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
  * @property-read array $timeListAfterLastAppointment
  * @property-read Appointment[] $activeAppointments
  * @property-read array $timeListBeforeFirstAppointment
+ * @property-read int $durationSeconds
  ** @property Appointment[] $appointments
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
@@ -32,9 +33,19 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     }
 
     /**
+     * @return int
+     */
+    public function getDurationSeconds(): int
+    {
+        $seconds=strtotime(date('d.m.Y').' '.$this->Okonch)-strtotime(date('d.m.Y').' '.$this->Nach);
+        return $seconds;
+    }
+
+    /**
      * @return array
      */
-    public static function getTimeListForNextAppointment($doctor_id, $date, $start_time)
+    public
+    static function getTimeListForNextAppointment($doctor_id, $date, $start_time)
     {
         $list = [];
         $appointment_day = BaseSchedulesDays::getAppointmentsDayForDoctor($doctor_id, $date);
@@ -63,7 +74,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
      * @param $start_date //d.m.Y
      * @return int|null //timestamp
      */
-    public static function getDateWithFreeTime($doctor_id, $start_date)
+    public
+    static function getDateWithFreeTime($doctor_id, $start_date)
     {
         $daysCount = '360';
         $dateWithFreeTime = null;
@@ -88,7 +100,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         return $dateWithFreeTime;
     }
 
-    public function beforeSave($insert)
+    public
+    function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
             return false;
@@ -98,17 +111,20 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         return true;
     }
 
-    public function getWorkplace()
+    public
+    function getWorkplace()
     {
         return $this->hasOne(Workplaces::className(), ['id' => 'rabmestoID']);
     }
 
-    public function getTitle()
+    public
+    function getTitle()
     {
         return $this->vih == 0 ? 'Рабочий' : 'Выходной';
     }
 
-    public function attributeLabels()
+    public
+    function attributeLabels()
     {
         return [
             'id' => 'ID',
@@ -122,17 +138,20 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         ];
     }
 
-    public function getAppointments()
+    public
+    function getAppointments()
     {
         return $this->hasMany(Appointment::className(), ['dayPR' => 'id']);
     }
 
-    public function getDoctor()
+    public
+    function getDoctor()
     {
         return $this->hasOne(Employee::className(), ['id' => 'vrachID']);
     }
 
-    public function getAppointmentForTime($time)
+    public
+    function getAppointmentForTime($time)
     {
         return Appointment::find()
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
@@ -140,21 +159,24 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             ->one();
     }
 
-    public function hasActiveAppointments()
+    public
+    function hasActiveAppointments()
     {
         return (bool)Appointment::find()
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
             ->all();
     }
 
-    public function getActiveAppointments()
+    public
+    function getActiveAppointments()
     {
         return Appointment::find()
             ->where(['dayPR' => $this->id, 'status' => Appointment::STATUS_ACTIVE])
             ->all();
     }
 
-    public function getTimeListBeforeFirstAppointment()
+    public
+    function getTimeListBeforeFirstAppointment()
     {
         $list = [];
         $duration = $this->TimePat * 60;
@@ -170,7 +192,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
         return $list;
     }
 
-    public function getTimeListAfterLastAppointment()
+    public
+    function getTimeListAfterLastAppointment()
     {
         $list = [];
         $duration = $this->TimePat * 60;
@@ -190,10 +213,11 @@ class AppointmentsDay extends \common\models\AppointmentsDay
      * @return bool
      */
 
-    public function hasFreeTimes()
+    public
+    function hasFreeTimes()
     {
         $appointments = Appointment::getAppointmentsForTimeList($this);
-        $appointments =ArrayHelper::map(ArrayHelper::toArray($appointments), 'NachNaz', 'OkonchNaz');
+        $appointments = ArrayHelper::map(ArrayHelper::toArray($appointments), 'NachNaz', 'OkonchNaz');
 
         if (array_key_first($appointments) != $this->Nach) {
             return true;
