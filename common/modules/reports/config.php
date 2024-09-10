@@ -41,6 +41,7 @@ return [
             ], 'roles' => ['radiologist',]],
 
             ['label' => 'Отчёт за манипуляци', 'url' => '/reports/manipulation', 'roles' => ['admin',]],
+            ['label' => 'Пациенты без планов лечения', 'url' => '/reports/manipulation/treatment-plans', 'roles' => ['admin',]],
         ],
         //'moduleMenu' => []
     ],

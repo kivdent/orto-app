@@ -31,6 +31,7 @@ use yii\helpers\Html;
  * @property string $RTel+
  * @property string $MTel+
  * @property string $FLech+
+ * @property string $type+
  * @property int $Skidka+
  * @property string $Prim+
  * @property string $address_id +
@@ -47,6 +48,12 @@ use yii\helpers\Html;
  * @property Appointment $lastAppointment
  * @property int $totalInvoiceSumm
  * @property int $totalAppointments
+ * @property-read mixed $duplicate
+ * @property-read mixed $address
+ * @property-read string[] $sexList
+ * @property-read string $prepaymentAmount
+ * @property-read TreatmentPlan[] $treatmentPlans
+ * @property-read int $treatmentPlansCount
  * @property bool isInitial;
  */
 class Patient extends \yii\db\ActiveRecord
@@ -63,6 +70,8 @@ class Patient extends \yii\db\ActiveRecord
     const STATUS_ARCHIVE_IN_THE_OFFICE = 'in_the_office';
     const STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE = 'requested_from_archive';
 
+    const PATIENT_TYPE_PATIENT='patient';
+    const PATIENT_TYPE_SERVICE_RECORD='service_record';
     /**
      * @var mixed|null
      */
@@ -89,6 +98,13 @@ class Patient extends \yii\db\ActiveRecord
             self::STATUS_ARCHIVE_IN_THE_OFFICE => 'У врача',
             self::STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE => 'Запрошена из архива',];
     }
+    public static function getTypesNameList()
+    {
+        return [
+            self::PATIENT_TYPE_PATIENT=>'Пациент',
+            self::PATIENT_TYPE_SERVICE_RECORD=>'Служебная запись',
+            ];
+    }
 
     /**
      * {@inheritdoc}
@@ -108,6 +124,7 @@ class Patient extends \yii\db\ActiveRecord
             [['Skidka', 'address_id'], 'integer'],
             [['status'], 'string'],
             [['Prim'], 'string'],
+            [['type'], 'string'],
             [['surname'], 'string', 'max' => 20],
             [['name', 'otch', 'MestRab', 'prof', 'DTel', 'RTel', 'MTel', 'FLech'], 'string', 'max' => 15],
             [['sex'], 'string', 'max' => 5],
@@ -141,7 +158,8 @@ class Patient extends \yii\db\ActiveRecord
             'fullName' => 'Имя',
             'orthodonticsPayPerMonth' => 'Оплата за месяц',
             'status' => 'Статус карты',
-            'address_id' => 'Адрес'
+            'address_id' => 'Адрес',
+            'type'=>'Тип карты'
         ];
     }
 
@@ -298,8 +316,17 @@ class Patient extends \yii\db\ActiveRecord
             ->where(['PatID' => $this->id])
             ->andWhere(['<>', 'NachPr', '00:00:00'])
             ->all();
-        if ($appointment!==null)  $initial = false;
+        if ($appointment !== null) $initial = false;
         return $initial;
     }
 
+    public function getTreatmentPlans(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(TreatmentPlan::class, ['patient' => 'id']);
+    }
+
+    public function getTreatmentPlansCount(): int
+    {
+        return count($this->treatmentPlans);
+    }
 }

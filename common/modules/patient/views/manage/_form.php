@@ -30,6 +30,8 @@ use common\modules\userInterface\widgets\AddressFormWidget;
             </h4>
         </div>
         <div class="col-lg-4">
+            <?= $form->field($model, 'type')->dropDownList(Patient::getTypesNameList()) ?>
+
         </div>
     </div>
     <div class="row">

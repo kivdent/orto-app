@@ -1,5 +1,6 @@
 <?php
 
+use common\modules\reports\widgets\financialPeriodChooseWidget\FinancialPeriodChooseWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
@@ -7,8 +8,10 @@ use yii\widgets\Pjax;
 use common\modules\employee\models\Employee;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\modules\patient\models\PatientSearch */
+/* @var $searchModel common\modules\reports\models\PatientSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $patientWOTreatmentPlans int*/
+/* @var $patientsCount int */
 
 $this->title = 'Пациенты';
 ?>
@@ -17,11 +20,9 @@ $this->title = 'Пациенты';
     <h1><?= Html::encode($this->title) ?></h1>
     <?php //Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a('Новый пациент', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <?= FinancialPeriodChooseWidget::widget(['link' => '/reports/manipulation/treatment-plans','var' => 'financialPeriodId',])?><br>
+<p>Всего пациентов с оплатами: <?=$patientsCount?></p>
+<p>Всего пациентов без плана лечения: <?=$patientWOTreatmentPlans?></p>
     <?=
     GridView::widget([
         'dataProvider' => $dataProvider,
@@ -31,21 +32,19 @@ $this->title = 'Пациенты';
                 'attribute' => 'id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $text = Html::a($model->id . ' <span class="label label-default">' . $model->statusName . '</span>', ['update', 'patient_id' => $model->id], ['target' => '_blank']);
+                    $text = Html::a($model->id . ' <span class="label label-default">' . $model->statusName . '</span>', ['/patient/manage/update', 'patient_id' => $model->id], ['target' => '_blank']);
 
                     return $text;
                 },
 
             ],
-            'surname',
-            'name',
-            'otch',
+            'fullName',
+
             [
-                'attribute' => 'dr',
-                'format' => ['date', 'dd.MM.Y'],
+                'attribute'=>'treatmentPlansCount',
+                'label'=>'Количество планов лечения',
+                'filter'=>array("0"=>"0","1"=>"1","2"=>"2","3"=>"3","4"=>"4",),
             ],
-            'MTel',
-            'DTel',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update}',
@@ -58,6 +57,8 @@ $this->title = 'Пациенты';
                     },
                 ]
             ],
+
+
             [
                 'attribute' => 'Prim',
                 'format' => 'raw',
@@ -72,14 +73,7 @@ $this->title = 'Пациенты';
                     }
                     return $text;
                 }
-            ],[ 'attribute' => 'type',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $text = \common\modules\patient\models\Patient::getTypesNameList()[$model->type];
-
-                    return $text;
-                }]
-
+            ]
         ],
     ]);
     ?>

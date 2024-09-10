@@ -2,6 +2,7 @@
 
 namespace common\modules\statistics\models;
 
+use common\modules\patient\models\Patient;
 use common\modules\schedule\models\Appointment;
 use common\modules\schedule\models\AppointmentsDay;
 use yii\db\ActiveRecord;
@@ -11,8 +12,10 @@ use yii\helpers\ArrayHelper;
 /**
  *
  * @property-read Appointment[] $appointmentsMadeOnDate
+ * @property-read Appointment[] appointmentsOnDate
  * @property-read int $initialAppointment
  * @property-read int $countAppointment
+ * @property-read void $byEmployee
  * @property DateTime $date;
  */
 class AppointmentStatistics extends \yii\base\Model
@@ -45,6 +48,32 @@ class AppointmentStatistics extends \yii\base\Model
         return $appointmentStatistics;
     }
 
+    public static function getForMonth(DateTime $start_date, $duration)
+    {
+        $appointmentStatistics = [];
+        $date = \DateTimeImmutable::createFromMutable($start_date);
+        $end_date = \DateTimeImmutable::createFromMutable($start_date);
+        $end_date =$end_date->modify('+ ' . $duration . ' days');
+        for ($date; $date <= $end_date; $date=$date->modify('+ 1 day')) {
+            $appointmentStatistics[] = self::getForDate($date);
+        }
+        return $appointmentStatistics;
+    }
+
+
+
+    public  function getAppointmentsOnDate()
+    {
+        $appoinments=Appointment::find()
+            ->leftJoin('daypr', '`daypr`.`id` = `nazn`.`dayPR`')
+            ->where(['`daypr`.`date`'=>$this->date->format('Y-m-d'.' 00:00:00')])
+            ->andWhere(['nazn.status'=>Appointment::STATUS_ACTIVE])
+            ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
+            ->andWhere(['klinikpat.type'=>Patient::PATIENT_TYPE_PATIENT])
+            ->all();
+        return $appoinments;
+    }
+
     /**
      * @return Appointment[]
      */
@@ -60,6 +89,8 @@ class AppointmentStatistics extends \yii\base\Model
         $appoinments=Appointment::find()
             ->where(['>=','created_at',$this->date->format('Y-m-d'.' 00:00:00')])
             ->andWhere(['<=','created_at',$this->date->format('Y-m-d 23:59:59')])
+            ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
+            ->andWhere(['klinikpat.type'=>Patient::PATIENT_TYPE_PATIENT])
             ->all();
         return $appoinments;
     }
@@ -69,6 +100,12 @@ class AppointmentStatistics extends \yii\base\Model
     public function getInitialAppointment(){
         $count=0;
         foreach ($this->appointmentsMadeOnDate as $appointment){
+            if ($appointment->isInitialOnDate()) $count++;
+        }
+        return $count;
+    } public function getInitialAppointmentForDate(){
+        $count=0;
+        foreach ($this->appointmentsOnDate as $appointment){
             if ($appointment->isInitialOnDate()) $count++;
         }
         return $count;

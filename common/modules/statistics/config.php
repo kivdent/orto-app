@@ -15,7 +15,9 @@ return [
             ['label' => 'Врачи', 'url' => '/statistics/doctors','roles'=>['admin', 'accountant', 'director', ]],
             ['label' => 'Врачи ежедневно', 'url' => '/statistics/doctors/daily','roles'=>['admin', 'accountant', 'director', ]],
             ['label' => 'План выручки', 'url' => '/statistics/revenue-planing','roles'=>['admin', 'accountant', 'director', ]],
-            ['label' => 'Назначения', 'url' => '/statistics/appointment','roles'=>['admin', 'accountant', 'director', ]],
+            ['label' => 'Записи', 'url' => '/statistics/appointment','roles'=>['admin', 'accountant', 'director', ]],
+            ['label' => 'Записи в месяц', 'url' => '/statistics/appointment/months','roles'=>['admin', 'accountant', 'director', ]],
+            ['label' => 'Назначения в месяц', 'url' => '/statistics/appointment/appointments','roles'=>['admin', 'accountant', 'director', ]],
 
         ],
         //'moduleMenu' => []
