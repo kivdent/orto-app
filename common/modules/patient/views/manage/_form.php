@@ -30,7 +30,7 @@ use common\modules\userInterface\widgets\AddressFormWidget;
             </h4>
         </div>
         <div class="col-lg-4">
-            <?= $form->field($model, 'type')->dropDownList(Patient::getTypesNameList()) ?>
+            <?= $form->field($model, 'card_type')->dropDownList(Patient::getTypesNameList()) ?>
 
         </div>
     </div>
@@ -101,6 +101,7 @@ use common\modules\userInterface\widgets\AddressFormWidget;
         <div class="col-lg-4">
             <?= $form->field($model, 'Prim')->textarea(['rows' => 6]) ?>
         </div>
+
     </div>
 
     <div class="form-group">

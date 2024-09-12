@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 /**
  *
  * @property-read Appointment[] $appointmentsMadeOnDate
- * @property-read Appointment[] appointmentsOnDate
+ * @property-read Appointment[] $appointmentsOnDate
  * @property-read int $initialAppointment
  * @property-read int $countAppointment
  * @property-read void $byEmployee
@@ -21,12 +21,46 @@ use yii\helpers\ArrayHelper;
 class AppointmentStatistics extends \yii\base\Model
 
 {
+    const TYPE_ON_DATE = 'appointmentsOnDate';
+    const TYPE_MADE_ON_DATE = 'getAppointmentsMadeOnDate';
+
+    public $appointmentsOnDate;
+    public $appointmentsMadeOnDate;
+    public $countAppointment;
+
+    public $type = self::TYPE_MADE_ON_DATE;
+
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+
+        switch ($this->type) {
+            case self::TYPE_MADE_ON_DATE:
+                $this->appointmentsMadeOnDate = $this->getAppointmentsMadeOnDate();
+                foreach ($this->appointmentsMadeOnDate as $appointment) {
+                    $appointment->setInitialDateFlag();
+                }
+                $this->countAppointment=count($this->appointmentsMadeOnDate);
+                break;
+            case self::TYPE_ON_DATE:
+                $this->appointmentsOnDate = $this->getAppointmentsMadeOnDate();
+                foreach ($this->appointmentsOnDate as $appointment) {
+                    $appointment->setInitialDateFlag();
+                }
+                $this->countAppointment=count($this->appointmentsOnDate);
+                break;
+        }
+
+
+    }
+
     public $date;//DateTime
 
-    public static function getForDate(\DateTimeInterface $date)
+    public static function getForDate(\DateTimeInterface $date,$type)
     {
         return new self([
-            'date' => $date
+            'date' => $date,
+            'type'=>$type,
         ]);
     }
 
@@ -35,41 +69,41 @@ class AppointmentStatistics extends \yii\base\Model
      * @param int $duration
      * @return AppointmentStatistics[]|null
      */
-    public static function getForPeriod(\DateTime $start_date, int $duration = 1): array
+    public static function getForPeriod(\DateTime $start_date, int $duration = 1,$type=self::TYPE_MADE_ON_DATE): array
     {
         $appointmentStatistics = [];
         $date = \DateTimeImmutable::createFromMutable($start_date);
         $end_date = \DateTimeImmutable::createFromMutable($start_date);
-        $end_date =$end_date->modify('+ ' . $duration . ' days');
-        for ($date; $date <= $end_date; $date=$date->modify('+ 1 day')) {
+        $end_date = $end_date->modify('+ ' . $duration . ' days');
 
-            $appointmentStatistics[] = self::getForDate($date);
+        for ($date; $date <= $end_date; $date = $date->modify('+ 1 day')) {
+            $appointmentStatistics[] = self::getForDate($date,$type);
         }
+
         return $appointmentStatistics;
     }
 
-    public static function getForMonth(DateTime $start_date, $duration)
+    public static function getForMonth(DateTime $start_date, $duration,$type=self::TYPE_MADE_ON_DATE)
     {
         $appointmentStatistics = [];
         $date = \DateTimeImmutable::createFromMutable($start_date);
         $end_date = \DateTimeImmutable::createFromMutable($start_date);
-        $end_date =$end_date->modify('+ ' . $duration . ' days');
-        for ($date; $date <= $end_date; $date=$date->modify('+ 1 day')) {
-            $appointmentStatistics[] = self::getForDate($date);
+        $end_date = $end_date->modify('+ ' . $duration . ' days');
+        for ($date; $date <= $end_date; $date = $date->modify('+ 1 day')) {
+            $appointmentStatistics[] = self::getForDate($date,$type);
         }
         return $appointmentStatistics;
     }
 
 
-
-    public  function getAppointmentsOnDate()
+    public function getAppointmentsOnDate()
     {
-        $appoinments=Appointment::find()
+        $appoinments = Appointment::find()
             ->leftJoin('daypr', '`daypr`.`id` = `nazn`.`dayPR`')
-            ->where(['`daypr`.`date`'=>$this->date->format('Y-m-d'.' 00:00:00')])
-            ->andWhere(['nazn.status'=>Appointment::STATUS_ACTIVE])
+            ->where(['`daypr`.`date`' => $this->date->format('Y-m-d' . ' 00:00:00')])
+            ->andWhere(['nazn.status' => Appointment::STATUS_ACTIVE])
             ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
-            ->andWhere(['klinikpat.type'=>Patient::PATIENT_TYPE_PATIENT])
+            ->andWhere(['klinikpat.card_type' => Patient::PATIENT_TYPE_PATIENT])
             ->all();
         return $appoinments;
     }
@@ -86,31 +120,40 @@ class AppointmentStatistics extends \yii\base\Model
 //                $appoinments += Appointment::getAppointmentsForAppointmentDay($appointmentsDay);
 //            }
 //        }
-        $appoinments=Appointment::find()
-            ->where(['>=','created_at',$this->date->format('Y-m-d'.' 00:00:00')])
-            ->andWhere(['<=','created_at',$this->date->format('Y-m-d 23:59:59')])
+        $appoinments = Appointment::find()
+            ->where(['>=', 'created_at', $this->date->format('Y-m-d' . ' 00:00:00')])
+            ->andWhere(['<=', 'created_at', $this->date->format('Y-m-d 23:59:59')])
             ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
-            ->andWhere(['klinikpat.type'=>Patient::PATIENT_TYPE_PATIENT])
+            ->andWhere(['klinikpat.card_type' => Patient::PATIENT_TYPE_PATIENT])
             ->all();
         return $appoinments;
     }
-    public function getCountAppointment(){
+
+    public function getCountAppointment()
+    {
         return count($this->appointmentsMadeOnDate);
     }
-    public function getInitialAppointment(){
-        $count=0;
-        foreach ($this->appointmentsMadeOnDate as $appointment){
-            if ($appointment->isInitialOnDate()) $count++;
-        }
-        return $count;
-    } public function getInitialAppointmentForDate(){
-        $count=0;
-        foreach ($this->appointmentsOnDate as $appointment){
-            if ($appointment->isInitialOnDate()) $count++;
+
+    public function getInitialAppointment()
+    {
+        $count = 0;
+        foreach ($this->appointmentsMadeOnDate as $appointment) {
+            if ($appointment->initialDateFlag) $count++;
         }
         return $count;
     }
-    public function getByEmployee(){
+
+    public function getInitialAppointmentForDate()
+    {
+        $count = 0;
+        foreach ($this->appointmentsOnDate as $appointment) {
+            if ($appointment->initialDateFlag) $count++;
+        }
+        return $count;
+    }
+
+    public function getByEmployee()
+    {
 
     }
 }

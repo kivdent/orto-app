@@ -13,6 +13,7 @@ class m240909_084028_add_type_column_to_klinikpat_table extends Migration
     public function safeUp()
     {
         $this->addColumn('{{%klinikpat}}', 'type', $this->string()->defaultValue('patient'));
+
     }
 
     /**

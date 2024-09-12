@@ -76,6 +76,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->rejectionReasons->title;
                 }
             ],
+            [
+                'attribute' => 'specialization',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->getSpecializationLabelList()[$model->specialization];
+                }
+            ],
+            [
+                'attribute' => 'cost',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->getCostLabelList()[$model->cost];
+                }
+            ],
+            [
+                'attribute' => 'patient_id',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return \common\modules\patient\models\Patient::findOne($model->patient_id)->fullName;
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -17,7 +17,7 @@ class AppointmentController extends \yii\web\Controller
             $start_date = DateTime::createFromFormat('d.m.Y', $start_date);
         }
 
-        $appointmentStatistics = AppointmentStatistics::getForPeriod($start_date, $duration);
+        $appointmentStatistics = AppointmentStatistics::getForPeriod($start_date, $duration,AppointmentStatistics::TYPE_MADE_ON_DATE);
 
         return $this->render('index', [
             'appointmentStatistics' => $appointmentStatistics,
@@ -35,8 +35,10 @@ class AppointmentController extends \yii\web\Controller
         }
         $duration = $start_date->format('t');
 
+        //$duration = 1;
+
         $start_date = DateTime::createFromFormat('d.m.Y', $start_date->format('1.m.Y'));
-        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration);
+        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration,AppointmentStatistics::TYPE_MADE_ON_DATE);
         return $this->render('index', [
             'appointmentStatistics' => $appointmentStatistics,
             'start_date' => $start_date->format('d.m.Y'),
@@ -54,7 +56,7 @@ class AppointmentController extends \yii\web\Controller
         $duration = $start_date->format('t')-1;
 
         $start_date = DateTime::createFromFormat('d.m.Y', $start_date->format('1.m.Y'));
-        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration);
+        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration,AppointmentStatistics::TYPE_ON_DATE);
         return $this->render('appointments', [
             'appointmentStatistics' => $appointmentStatistics,
             'start_date' => $start_date->format('d.m.Y'),

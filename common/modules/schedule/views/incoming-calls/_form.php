@@ -3,6 +3,7 @@
 use common\modules\catalogs\models\CallTarget;
 use common\modules\catalogs\models\RejectionReasons;
 use common\modules\employee\models\Employee;
+use common\modules\patient\widgets\PatientFindModalWidget;
 use common\modules\schedule\models\IncomingCalls;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -22,11 +23,18 @@ $this->registerJs("
 
     <?php $form = ActiveForm::begin(); ?>
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <?= $form->field($model, 'doctor_id')->dropDownList([IncomingCalls::WITHOUT_DOCTOR=>'Нет']+Employee::getWorkedDoctorsList()) ?>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <?= $form->field($model, 'primary_patient')->dropDownList($model->getPrimaryPatientLabelList()) ?>
+    </div>
+    <div class="col-lg-4">
+        <div hidden><?= $form->field($model, 'patient_id')->hiddenInput() ?></div>
+        <?= PatientFindModalWidget::widget([
+                'patientIdTarget'=>'#incomingcalls-patient_id',
+            'newPatBtn'=>false
+        ])?>
     </div>
 </div>
 
@@ -40,15 +48,22 @@ $this->registerJs("
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <?= $form->field($model, 'call_result')->radioList($model->getCallResultLabelList(),['separator' => " <br> " ]) ?>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <?= $form->field($model, 'rejection_reasons_id')->radioList(RejectionReasons::getList(),['separator' => " <br> " ]) ?>
 
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <?= $form->field($model, 'by_recommendation')->radioList($model->getByRecommendationLabelList(),['separator' => " <br> " ]) ?>
+    </div>
+
+    <div class="col-lg-2">
+        <?= $form->field($model, 'specialization')->radioList($model->getSpecializationLabelList(),['separator' => " <br> " ]) ?>
+    </div>
+    <div class="col-lg-2">
+        <?= $form->field($model, 'cost')->radioList($model->getCostLabelList(),['separator' => " <br> " ]) ?>
     </div>
 </div>
 

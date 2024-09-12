@@ -31,7 +31,7 @@ use yii\helpers\Html;
  * @property string $RTel+
  * @property string $MTel+
  * @property string $FLech+
- * @property string $type+
+ * @property string $card_type+
  * @property int $Skidka+
  * @property string $Prim+
  * @property string $address_id +
@@ -124,7 +124,7 @@ class Patient extends \yii\db\ActiveRecord
             [['Skidka', 'address_id'], 'integer'],
             [['status'], 'string'],
             [['Prim'], 'string'],
-            [['type'], 'string'],
+            [['card_type'], 'string'],
             [['surname'], 'string', 'max' => 20],
             [['name', 'otch', 'MestRab', 'prof', 'DTel', 'RTel', 'MTel', 'FLech'], 'string', 'max' => 15],
             [['sex'], 'string', 'max' => 5],
@@ -159,7 +159,7 @@ class Patient extends \yii\db\ActiveRecord
             'orthodonticsPayPerMonth' => 'Оплата за месяц',
             'status' => 'Статус карты',
             'address_id' => 'Адрес',
-            'type'=>'Тип карты'
+            'card_type'=>'Тип карты'
         ];
     }
 

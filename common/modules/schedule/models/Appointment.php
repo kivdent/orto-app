@@ -32,6 +32,10 @@ class Appointment extends \common\models\Appointment
 
 
     public static $status_list = [self::SMS_SENT => 'Отправлено смс'];
+    /**
+     * @var bool|true
+     */
+    public $initialDateFlag;
 
     public function behaviors()
     {
@@ -230,5 +234,10 @@ class Appointment extends \common\models\Appointment
         if (count($appointment) !== 0) $initial = false;
 
         return $initial;
+    }
+
+    public function setInitialDateFlag()
+    {
+        $this->initialDateFlag = $this->isInitialOnDate();
     }
 }

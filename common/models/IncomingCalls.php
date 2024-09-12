@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use common\modules\employee\models\Employee;
 use Yii;
 
 /**
@@ -18,9 +17,11 @@ use Yii;
  * @property string $call_result
  * @property int $by_recommendation
  * @property int $rejection_reasons_id
+ * @property string $specialization
+ * @property string $cost
  *
- * @property Employee $doctor
- * @property Employee $employee
+ * @property Employe $doctor
+ * @property Employe $employee
  * @property RejectionReasons $rejectionReasons
  */
 class IncomingCalls extends \yii\db\ActiveRecord
@@ -39,13 +40,13 @@ class IncomingCalls extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [[ 'primary_patient', 'call_result', 'rejection_reasons_id'], 'required'],
-            [[ 'employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id'], 'integer'],
-            [['created_at', 'updated_at','doctor_id',], 'safe'],
-            [['doctor_id','call_target'], 'string'],
-            [['call_result'], 'string', 'max' => 255],
-            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['doctor_id' => 'id']],
-            [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
+            [['doctor_id', 'employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id'], 'integer'],
+            [['created_at', 'updated_at', 'employee_id', 'primary_patient', 'call_result', 'rejection_reasons_id'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['call_target'], 'string'],
+            [['call_result', 'specialization', 'cost'], 'string', 'max' => 255],
+            [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employe::className(), 'targetAttribute' => ['doctor_id' => 'id']],
+            [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employe::className(), 'targetAttribute' => ['employee_id' => 'id']],
             [['rejection_reasons_id'], 'exist', 'skipOnError' => true, 'targetClass' => RejectionReasons::className(), 'targetAttribute' => ['rejection_reasons_id' => 'id']],
         ];
     }
@@ -66,6 +67,8 @@ class IncomingCalls extends \yii\db\ActiveRecord
             'call_result' => 'Call Result',
             'by_recommendation' => 'By Recommendation',
             'rejection_reasons_id' => 'Rejection Reasons ID',
+            'specialization' => 'Specialization',
+            'cost' => 'Cost',
         ];
     }
 

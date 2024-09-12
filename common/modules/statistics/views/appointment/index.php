@@ -69,7 +69,7 @@ $this->title = "Статистика записей";
                                             <td>Первичный</td>
                                         </tr>
                                         <?php foreach ($appointmentStatistic->appointmentsMadeOnDate as $appointment): ?>
-                                            <?php if (!$appointment->isInitialOnDate()): ?>
+                                            <?php if (!$appointment->initialDateFlag): ?>
                                                 <tr>
                                                     <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                     <td><?= $appointment->appointments_day->doctor->fullName ?></td>
@@ -78,7 +78,7 @@ $this->title = "Статистика записей";
                                                         <br><?= $appointment->NachNaz ?>
                                                         -<?= $appointment->OkonchNaz ?></td>
                                                     <td><?= $appointment->appointment_content ?></td>
-                                                    <td><?= $appointment->isInitialOnDate() ? 'Первичный' : 'Повторный' ?></td>
+                                                    <td><?= $appointment->initialDateFlag ? 'Первичный' : 'Повторный' ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
@@ -117,7 +117,7 @@ $this->title = "Статистика записей";
                                         <td>Первичный</td>
                                     </tr>
                                     <?php foreach ($all_appoint as $appointment): ?>
-                                        <?php if (!$appointment->isInitialOnDate()): ?>
+                                        <?php if (!$appointment->initialDateFlag): ?>
                                             <tr>
                                                 <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                 <td><?= $appointment->appointments_day->doctor->fullName ?></td>
@@ -126,7 +126,7 @@ $this->title = "Статистика записей";
                                                     <br><?= $appointment->NachNaz ?>
                                                     -<?= $appointment->OkonchNaz ?></td>
                                                 <td><?= $appointment->appointment_content ?></td>
-                                                <td><?= $appointment->isInitialOnDate() ? 'Первичный' : 'Повторный' ?></td>
+                                                <td><?= $appointment->initialDateFlag ? 'Первичный' : 'Повторный' ?></td>
                                             </tr>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
@@ -164,7 +164,7 @@ $this->title = "Статистика записей";
                                             <td>Первичный</td>
                                         </tr>
                                         <?php foreach ($appointmentStatistic->appointmentsMadeOnDate as $appointment): ?>
-                                            <?php if ($appointment->isInitialOnDate()): ?>
+                                            <?php if ($appointment->initialDateFlag): ?>
                                                 <tr>
                                                     <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                     <td><?= $appointment->appointments_day->doctor->fullName ?></td>
@@ -173,7 +173,7 @@ $this->title = "Статистика записей";
                                                         <br><?= $appointment->NachNaz ?>
                                                         -<?= $appointment->OkonchNaz ?></td>
                                                     <td><?= $appointment->appointment_content ?></td>
-                                                    <td><?= $appointment->isInitialOnDate() ? 'Первичный' : 'Повторный' ?></td>
+                                                    <td><?= $appointment->initialDateFlag ? 'Первичный' : 'Повторный' ?></td>
                                                 </tr>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
@@ -208,7 +208,7 @@ $this->title = "Статистика записей";
                                         <td>Первичный</td>
                                     </tr>
                                     <?php foreach ($all_appoint as $appointment): ?>
-                                        <?php if ($appointment->isInitialOnDate()): ?>
+                                        <?php if ($appointment->initialDateFlag): ?>
                                             <tr>
                                                 <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                 <td><?= $appointment->appointments_day->doctor->fullName ?></td>
@@ -217,7 +217,7 @@ $this->title = "Статистика записей";
                                                     <br><?= $appointment->NachNaz ?>
                                                     -<?= $appointment->OkonchNaz ?></td>
                                                 <td><?= $appointment->appointment_content ?></td>
-                                                <td><?= $appointment->isInitialOnDate() ? 'Первичный' : 'Повторный' ?></td>
+                                                <td><?= $appointment->initialDateFlag ? 'Первичный' : 'Повторный' ?></td>
                                             </tr>
                                         <?php endif; ?>
                                     <?php endforeach; ?>

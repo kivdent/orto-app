@@ -20,12 +20,23 @@ class IncomingCalls extends \common\models\IncomingCalls
     const REFUSAL = 'refusal';
     const APPOINTED = 'appointed';
     const CALL_BACK_LATER = 'call back later';
-
+    const ADDED_TO_CALL_LIST = "added_to_call_list";
 
     const BY_RECOMMENDATION = '1';
     const NO_RECOMMENDATION = '0';
 
+    const SPECIALIZATION_BITE_CORRECTION='bite_correction';
+    const SPECIALIZATION_PROSTHETICS='prosthetics';
+    const SPECIALIZATION_THERAPY='therapy';
+    const SPECIALIZATION_SURGERY='surgery';
+    const SPECIALIZATION_IMPLANTOLOGY='implantology';
+    const SPECIALIZATION_JOINT_TREATMENT='joint_treatment';
+    const SPECIALIZATION_PERIODONTOLOGY='periodontology';
+
     const WITHOUT_DOCTOR = "null";
+
+    const COST_YES='yes';
+    const COST_NO='no';
 
     public function behaviors()
     {
@@ -63,6 +74,7 @@ class IncomingCalls extends \common\models\IncomingCalls
             self::REFUSAL => 'Отказ',
             self::APPOINTED => 'Назначен',
             self::CALL_BACK_LATER => 'Перезвонит позже',
+            self::ADDED_TO_CALL_LIST => 'Внесён в лист обзвона',
         ];
     }
 
@@ -71,6 +83,26 @@ class IncomingCalls extends \common\models\IncomingCalls
         return [
             self::BY_RECOMMENDATION => 'По рекоммендации',
             self::NO_RECOMMENDATION => 'Без рекоммендации',
+        ];
+    }
+
+    public function getSpecializationLabelList()
+    {
+        return [
+            self::SPECIALIZATION_BITE_CORRECTION=>'Исправление прикуса',
+            self::SPECIALIZATION_PROSTHETICS=>'Протезирование',
+            self::SPECIALIZATION_THERAPY=>'Терапия',
+            self::SPECIALIZATION_SURGERY=>'Хирургия',
+            self::SPECIALIZATION_IMPLANTOLOGY=>'Имплантология',
+            self::SPECIALIZATION_JOINT_TREATMENT=>'Лечение сустава',
+            self::SPECIALIZATION_PERIODONTOLOGY=>'Пародонтология',
+        ];
+    }
+ public function getCostLabelList()
+    {
+        return [
+            self::COST_YES=>'да',
+            self::COST_NO=>'нет',
         ];
     }
 
@@ -87,6 +119,9 @@ class IncomingCalls extends \common\models\IncomingCalls
             'call_result' => 'Результат звонка',
             'by_recommendation' => 'Рекоммендация',
             'rejection_reasons_id' => 'Причина отказа',
+            'specialization'=>'Специализация',
+            'cost'=>'Вопрос по стоимости',
+            'patient_id'=>'Пациент'
         ];
     }
 
@@ -113,11 +148,11 @@ class IncomingCalls extends \common\models\IncomingCalls
     {
         return [
             [['primary_patient', 'call_result', 'rejection_reasons_id'], 'required'],
-            [['employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id'], 'integer'],
+            [['employee_id', 'primary_patient', 'by_recommendation', 'rejection_reasons_id','patient_id'], 'integer'],
             [['created_at', 'updated_at', 'doctor_id',], 'safe'],
             [['doctor_id', 'call_target'], 'string'],
             [['doctor_id',], 'default', 'value' => NULL],
-            [['call_result'], 'string', 'max' => 255],
+            [['call_result', 'specialization', 'cost'], 'string', 'max' => 255],
             [['doctor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['doctor_id' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
             [['rejection_reasons_id'], 'exist', 'skipOnError' => true, 'targetClass' => RejectionReasons::className(), 'targetAttribute' => ['rejection_reasons_id' => 'id']],
