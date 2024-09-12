@@ -75,7 +75,7 @@ $this->title = 'Пациенты';
             ],[ 'attribute' => 'card_type',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $text = \common\modules\patient\models\Patient::getTypesNameList()[$model->type];
+                    $text = \common\modules\patient\models\Patient::getTypesNameList()[$model->card_type];
 
                     return $text;
                 }]
