@@ -80,21 +80,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'specialization',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return $model->getSpecializationLabelList()[$model->specialization];
+                    return isset($model->getSpecializationLabelList()[$model->specialization]) ? $model->getSpecializationLabelList()[$model->specialization] : 'Не задан';
                 }
             ],
             [
                 'attribute' => 'cost',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return $model->getCostLabelList()[$model->cost];
+
+                    return isset($model->getCostLabelList()[$model->cost]) ? $model->getCostLabelList()[$model->cost] : 'Не задан';
+
                 }
             ],
             [
                 'attribute' => 'patient_id',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return \common\modules\patient\models\Patient::findOne($model->patient_id)->fullName;
+
+                    return isset($model->patient_id) ? \common\modules\patient\models\Patient::findOne($model->patient_id)->fullName: 'Не задан';
                 }
             ],
             ['class' => 'yii\grid\ActionColumn'],
