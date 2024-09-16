@@ -31,11 +31,12 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     const SPECIALIZATION_PEDIATRICS = 'Pediatrics';
     const SPECIALIZATION_PERIODONTOLOGY = 'Periodontology';
     const SPECIALIZATION_COMMON = 'Common';
-
+    const SPECIALIZATION_XRAY = 'xray';
 
     const FIRST_SHIFT = '1';
     const SECOND_SHIFT = '2';
     const MEDIAN_TIME = '13:30:00';
+
 
     /**
      * @param $doctor_id
@@ -263,6 +264,7 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             self::SPECIALIZATION_SURGERY => 'Хирургия',
             self::SPECIALIZATION_PEDIATRICS => 'Детстсво',
             self::SPECIALIZATION_PERIODONTOLOGY => 'Пародонтология',
+            self::SPECIALIZATION_XRAY => 'Рентгенология',
             self::SPECIALIZATION_COMMON => 'Общий',
         ];
     }
