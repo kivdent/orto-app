@@ -108,7 +108,18 @@ class Employee extends \yii\db\ActiveRecord
             ->asArray()
             ->all(), 'id', 'full_name');
     }
-       /**
+
+    public static function getAllWorkedList()
+    {
+        return ArrayHelper::map(Employee::find()
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['status' => self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(), 'id', 'full_name');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function rules()

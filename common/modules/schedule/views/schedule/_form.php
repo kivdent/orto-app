@@ -22,7 +22,7 @@ use kartik\date\DatePicker;
     <div class="row">
         <div class="col-lg-4" >
                 <?= $form->field($model, 'vrachID')->widget(Select2::classname(), [
-                    'data' => Employee::getDoctorsList(),
+                    'data' => Employee::getAllWorkedList(),
                     'options' => ['placeholder' => 'Выберите врача'],
                     'pluginOptions' => [
                         'allowClear' => true
