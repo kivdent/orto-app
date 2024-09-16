@@ -65,6 +65,7 @@ $this->title = 'Редактор расписаний за ' . $scheduleManager-
                                                                 ['update', 'id' => $appointmentDay->id],
                                                                 ['class' => 'btn btn-default btn-xs', 'role' => 'button']) ?>
                                                     <?php endif; ?>
+                                                    <?= $appointmentDay->specialization_appointments_day; ?>
                                                     <?= $appointmentDay->doctor->fullName; ?>
                                                     <?= $appointmentDay->Nach ?>-
                                                     <?= $appointmentDay->Okonch ?>

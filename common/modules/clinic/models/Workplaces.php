@@ -24,6 +24,17 @@ class Workplaces extends \common\abstractClasses\ActiveRecordEntity
         return 'rabmesto';
     }
 
+    public static function getWorkplacesListWithShift()
+    {
+
+        $list=self::find()
+            ->asArray()
+            ->orderBy('nazv')
+            ->all();
+        $list=ArrayHelper::map($list,'id','nazv');
+        return $list;
+    }
+
     /**
      * {@inheritdoc}
      */

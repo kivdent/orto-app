@@ -8,6 +8,7 @@ use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
 use common\modules\schedule\models\Appointment;
 use common\modules\userInterface\models\UserInterface;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 
@@ -19,9 +20,28 @@ use yii\helpers\ArrayHelper;
  * @property-read array $timeListBeforeFirstAppointment
  * @property-read int $durationSeconds
  ** @property Appointment[] $appointments
+ * @property string $specializationAppointmentsDayLabel
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
 {
+    const SPECIALIZATION_THERAPY = 'Therapy';
+    const SPECIALIZATION_ORTHODONTICS = 'Orthodontics';
+    const SPECIALIZATION_ORTHOPEDICS = 'Orthopedics';
+    const SPECIALIZATION_SURGERY = 'Surgery';
+    const SPECIALIZATION_PEDIATRICS = 'Pediatrics';
+    const SPECIALIZATION_PERIODONTOLOGY = 'Periodontology';
+    const SPECIALIZATION_COMMON = 'Common';
+
+
+    const FIRST_SHIFT = '1';
+    const SECOND_SHIFT = '2';
+    const MEDIAN_TIME = '13:30:00';
+
+    /**
+     * @param $doctor_id
+     * @param $date
+     * @return AppointmentsDay
+     */
     public static function getAppointmentsDayForDoctor($doctor_id, $date)
     {
         return self::find()->where(['vrachID' => $doctor_id, 'date' => date('Y-m-d', $date)])->one();
@@ -37,7 +57,7 @@ class AppointmentsDay extends \common\models\AppointmentsDay
      */
     public function getDurationSeconds(): int
     {
-        $seconds=strtotime(date('d.m.Y').' '.$this->Okonch)-strtotime(date('d.m.Y').' '.$this->Nach);
+        $seconds = strtotime(date('d.m.Y') . ' ' . $this->Okonch) - strtotime(date('d.m.Y') . ' ' . $this->Nach);
         return $seconds;
     }
 
@@ -135,6 +155,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             'Okonch' => 'Окончание',
             'TimePat' => 'Время',
             'vrachID' => 'Врач',
+            'specialization_appointments_day'=>'Специализация',
+            'comment'=>'Примечание'
         ];
     }
 
@@ -230,5 +252,39 @@ class AppointmentsDay extends \common\models\AppointmentsDay
             }
         }
         return false;
+    }
+
+    public static function getSpezializationLabels()
+    {
+        return [
+            self::SPECIALIZATION_THERAPY => 'Терапия',
+            self::SPECIALIZATION_ORTHODONTICS => 'Ортодонтия',
+            self::SPECIALIZATION_ORTHOPEDICS => 'Ортопедия',
+            self::SPECIALIZATION_SURGERY => 'Хирургия',
+            self::SPECIALIZATION_PEDIATRICS => 'Детстсво',
+            self::SPECIALIZATION_PERIODONTOLOGY => 'Пародонтология',
+            self::SPECIALIZATION_COMMON => 'Общий',
+        ];
+    }
+
+    /**
+     * @param int $shift
+     * @return bool
+     */
+    public function isShift(int $shift): bool
+    {
+        $median = strtotime(date('d.m.Y', $this->date) . ' ' . self::MEDIAN_TIME);
+        $start_date = strtotime(date('d.m.Y', $this->date) . ' ' . $this->Nach);
+        $appointment_shift = ($start_date >= $median) ? self::SECOND_SHIFT : self::FIRST_SHIFT;
+
+        return $shift == $appointment_shift;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSpecializationAppointmentsDayLabel(): string
+    {
+        return isset($this->specialization_appointments_day) ? $this->getSpezializationLabels()[$this->specialization_appointments_day] : 'Не задано';
     }
 }

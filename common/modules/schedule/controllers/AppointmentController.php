@@ -68,11 +68,10 @@ class AppointmentController extends Controller
         }
 
 
-
         $doctor_ids = array_keys(BaseSchedules::getActiveDoctorsList());
 
         $appointmentManager = AppointmentManager::getAppointmentsDaysForDoctors($doctor_ids, $start_date, $duration);
-       // UserInterface::getVar($appointmentManager);
+        // UserInterface::getVar($appointmentManager);
         return $this->render('index', [
             'appointmentManager' => $appointmentManager,
             'doctor_id' => $doctor_id,
@@ -267,7 +266,25 @@ class AppointmentController extends Controller
         return $time_list;
     }
 
-    public function actionGetTimeListForAppointmentContent()
+    public function actionGetAppointmentDaySpecialization()
+    {
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $doctor_id = Yii::$app->request->post('doctor_id');
+
+            $date = strtotime(Yii::$app->request->post('date'));
+            $appointmentDay = AppointmentsDay::getAppointmentsDayForDoctor($doctor_id, $date);
+
+            return [
+                'specializationAppointmentsDayLabel' => $appointmentDay->specializationAppointmentsDayLabel,
+                'comment' => $appointmentDay->comment
+            ];
+        }
+    }
+
+    public
+    function actionGetTimeListForAppointmentContent()
     {
         $list = '';
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -284,7 +301,8 @@ class AppointmentController extends Controller
         return $list;
     }
 
-    public function actionUpdateAppointment()
+    public
+    function actionUpdateAppointment()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -298,7 +316,8 @@ class AppointmentController extends Controller
         }
     }
 
-    public function actionSetAppointment()
+    public
+    function actionSetAppointment()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -311,7 +330,6 @@ class AppointmentController extends Controller
             $model->Yavka = 0;
             $model->NachPr = '00:00:00';
             $model->OkonchPr = '00:00:00';
-
 
 
             if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -348,7 +366,8 @@ class AppointmentController extends Controller
         return "error";
     }
 
-    public function actionGetDoctorName()
+    public
+    function actionGetDoctorName()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
@@ -356,22 +375,26 @@ class AppointmentController extends Controller
         }
     }
 
-    public function actionCancelAppointment()
+    public
+    function actionCancelAppointment()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             $appointment = Appointment::findOne(Yii::$app->request->post('appointment_id'));
             $appointment->status = ($appointment->status == Appointment::STATUS_ACTIVE) ? Appointment::STATUS_CANCEL : Appointment::STATUS_ACTIVE;
-            if($appointment->save()){
+            if ($appointment->save()) {
                 Yii::$app->session->setFlash('success', 'Пациент отменён');
                 return 'success';
-            }else{
+            } else {
                 return 'error';
             }
 
         }
     }
-    public function actionVue(){
+
+    public
+    function actionVue()
+    {
         return $this->render('vue');
     }
 }

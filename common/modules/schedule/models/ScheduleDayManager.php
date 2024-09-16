@@ -10,8 +10,11 @@ use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 /**
- * @property  AppointmentsDay $appointmentDays
+ * @property  AppointmentsDay[] $appointmentDays
  * @property  BaseSchedulesDays $baseSchedulesDays
+ * @property-write mixed $appointmentDaysWithoutBaseSchedules
+ * @property-read void $appointmentDaysForTime
+ * @property-read array $appointmentDaysFromBaseSchedules
  * @property array $appointmentDaysArray
  */
 class ScheduleDayManager extends Model
@@ -42,7 +45,7 @@ class ScheduleDayManager extends Model
     {
         $appointmentDays = [];
         $appointmentDays = $this->getAppointmentDaysFromBaseSchedules();
-        $appointmentDays=$this->setAppointmentDaysWithoutBaseSchedules($appointmentDays);
+        $appointmentDays = $this->setAppointmentDaysWithoutBaseSchedules($appointmentDays);
         return $appointmentDays;
     }
 
@@ -56,8 +59,8 @@ class ScheduleDayManager extends Model
         ]);
         $appointmentDaysExistArray = ArrayHelper::map($appointmentDaysExistArray, 'id', 'id');
         foreach ($appointmentDays as $appointmentDay) {
-            if (!ArrayHelper::keyExists($appointmentDay -> id, $appointmentDaysExistArray)) {
-                $appointmentDaysFromBaseSchedules[]=$appointmentDay;
+            if (!ArrayHelper::keyExists($appointmentDay->id, $appointmentDaysExistArray)) {
+                $appointmentDaysFromBaseSchedules[] = $appointmentDay;
             }
         }
         return $appointmentDaysFromBaseSchedules;
@@ -92,6 +95,23 @@ class ScheduleDayManager extends Model
         foreach ($this->appointmentDays as $appointmentDay) {
             $this->addAppointmentDaysToTable($appointmentDay);
         }
+    }
+
+    /**
+     * @param int $workplaceId
+     * @param int $shift
+     * @return AppointmentsDay[]
+     */
+    public function getForShift(int $workplaceId, int $shift): array
+    {
+        $appointmentDays = [];
+        foreach ($this->appointmentDays as $appointmentDay) {
+            if ($appointmentDay->rabmestoID == $workplaceId and $appointmentDay->isShift($shift)) {
+                $appointmentDays []= $appointmentDay;
+//                $appointmentDays = array_merge($appointmentDays, $appointmentDay);
+            }
+        }
+        return $appointmentDays;
     }
 
 

@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use common\modules\employee\models\Employee;
 use Yii;
 
 /**
@@ -16,7 +15,8 @@ use Yii;
  * @property string $Okonch
  * @property int $TimePat
  * @property int $vrachID
- * @property Employee doctor
+ * @property string $specialization_appointments_day
+ * @property string $comment
  */
 class AppointmentsDay extends \yii\db\ActiveRecord
 {
@@ -36,6 +36,8 @@ class AppointmentsDay extends \yii\db\ActiveRecord
         return [
             [['date', 'Nach', 'Okonch'], 'safe'],
             [['vih', 'rabmestoID', 'TimePat', 'vrachID'], 'integer'],
+            [['comment'], 'string'],
+            [['specialization_appointments_day'], 'string', 'max' => 255],
         ];
     }
 
@@ -53,9 +55,8 @@ class AppointmentsDay extends \yii\db\ActiveRecord
             'Okonch' => 'Okonch',
             'TimePat' => 'Time Pat',
             'vrachID' => 'Vrach ID',
+            'specialization_appointments_day' => 'Specialization Appointments Day',
+            'comment' => 'Comment',
         ];
-    }
-    public function getDoctor(){
-        return $this->hasOne(Employee::className(),['id'=>'vrachID']);
     }
 }

@@ -2,6 +2,7 @@
 
 use common\modules\clinic\models\Workplaces;
 use common\modules\employee\models\Employee;
+use common\modules\schedule\models\AppointmentsDay;
 use common\modules\schedule\models\BaseSchedules;
 use common\modules\schedule\models\BaseSchedulesDays;
 use kartik\select2\Select2;
@@ -19,7 +20,7 @@ use kartik\date\DatePicker;
 <div class="appointments-day-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-lg-6" >
+        <div class="col-lg-4" >
                 <?= $form->field($model, 'vrachID')->widget(Select2::classname(), [
                     'data' => Employee::getDoctorsList(),
                     'options' => ['placeholder' => 'Выберите врача'],
@@ -40,6 +41,9 @@ use kartik\date\DatePicker;
                 ]
             ]); ?>
         </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'specialization_appointments_day')->dropDownList(AppointmentsDay::getSpezializationLabels()) ?>
+        </div>
     </div>
 
     <div class="row">
@@ -49,6 +53,10 @@ use kartik\date\DatePicker;
         <div class="col-lg-4">
             <?= $form->field($model, 'rabmestoID')->dropDownList(Workplaces::getWorkplacesList()) ?>
         </div>
+        <div class="col-lg-4">
+            <?= $form->field($model, 'comment')->textarea() ?>
+        </div>
+
     </div>
 
     <div class="row">

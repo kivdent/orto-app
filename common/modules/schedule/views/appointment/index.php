@@ -67,7 +67,7 @@ $additionalTextDoctorIds = Url::to([
         <?= \common\modules\schedule\widgets\FullTableChooserWidget::widget() ?>
     </div>
     <div class="col-lg-4">
-         <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
+        <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
             'start_date' => $start_date,
             'patient_id' => $patient_id,
             'doctor_id' => $doctor_id,
@@ -104,7 +104,11 @@ $additionalTextDoctorIds = Url::to([
                                             : Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                 ['/schedule/schedule/update', 'id' => $appointmentsDayAR->id],
                                                 ['class' => 'btn btn-danger btn-xs', 'role' => 'button']);
-                                        ?>
+                                        ?><br>
+                                        <strong>
+                                            <?= $appointmentsDayAR->specializationAppointmentsDayLabel ?><br>
+                                            <?= $appointmentsDayAR->comment ?>
+                                        </strong>
                                     </td>
                                 </tr>
                                 <?php if ($appointmentDay->isHoliday): ?>

@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
     const modal = "<!-- Modal -->\n" +
@@ -12,7 +13,9 @@ $(document).ready(function () {
         "            <div class=\"modal-body\">\n" +
         "                <div class=\"appointment-create\">\n" +
         "                    <h4 id=\"doctor-name\" doctor-id=''></h4>\n" +
-        "                    <h4 id=\"appointment-date\"></h4>\n" +
+        "                    <h4 id=\"appointment-date\"></h4>\n" + "                    " +
+        "                   <strong><h4 id=\"specializationAppointmentsDayLabel\"></h4>\n" +
+        "                    <h4 id=\"comment\"></h4></strong>\n" +
         "\n" +
         "<form id='appointment-form' class='validate' >" +
         "                    <div class=\"appointment-form\">\n" +
@@ -159,6 +162,26 @@ $(document).ready(function () {
 
     }
 
+    function init_appointment_day_specialization(doctor_id, date) {
+        $.ajax({
+            url: '/schedule/appointment/get-appointment-day-specialization',
+            type: 'POST',
+            data: {
+                'doctor_id': doctor_id,
+                'date': date
+            },
+            success: function (response) {
+
+                $('#specializationAppointmentsDayLabel').html(response.specializationAppointmentsDayLabel);
+                $('#comment').html(response.comment);
+
+            },
+            error: function () {
+                alert('Ошибка запроса');
+            }
+        });
+    }
+
 
     function init_okonchnaz(doctor_id, date, time,callback) {
 
@@ -212,10 +235,12 @@ $(document).ready(function () {
     }
 
     function init_modal(data,callback=null) {
+        init_appointment_day_specialization(data.doctor_id, data.date);
         init_date(data.date);
         init_doctor_id(data.doctor_id);
         init_patient_id(data.patient_id);
         init_okonchnaz(data.doctor_id, data.date, data.time,callback);
+
     }
 
     $('#appointment-content-list').on('change', function () {
