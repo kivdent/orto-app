@@ -273,8 +273,8 @@ class AppointmentsDay extends \common\models\AppointmentsDay
      */
     public function isShift(int $shift): bool
     {
-        $median = strtotime(date('d.m.Y', $this->date) . ' ' . self::MEDIAN_TIME);
-        $start_date = strtotime(date('d.m.Y', $this->date) . ' ' . $this->Nach);
+        $median = strtotime(date('d.m.Y') . ' ' . self::MEDIAN_TIME);
+        $start_date = strtotime(date('d.m.Y') . ' ' . $this->Nach);
         $appointment_shift = ($start_date >= $median) ? self::SECOND_SHIFT : self::FIRST_SHIFT;
 
         return $shift == $appointment_shift;
