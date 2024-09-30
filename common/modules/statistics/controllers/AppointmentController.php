@@ -74,7 +74,7 @@ class AppointmentController extends \yii\web\Controller
         $duration = $start_date->format('t')-1;
 
         $start_date = DateTime::createFromFormat('d.m.Y', $start_date->format('1.m.Y'));
-        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration);
+        $appointmentStatistics = AppointmentStatistics::getForMonth($start_date, $duration,AppointmentStatistics::TYPE_ON_DATE);
         return $this->render('appointments_stats', [
             'appointmentStatistics' => $appointmentStatistics,
             'start_date' => $start_date->format('d.m.Y'),

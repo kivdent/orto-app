@@ -4,6 +4,7 @@
 namespace common\modules\pricelists\models;
 
 use common\modules\invoice\models\Invoice;
+use common\modules\invoice\widgets\modalTable\InvoiceModalWidget;
 use common\modules\patient\models\Patient;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
@@ -26,7 +27,6 @@ use yii\helpers\ArrayHelper;
  * @property-read mixed $allPrices
  * @property-read mixed $lastUse
  * @property Prices[] $prices
-
  *
  */
 class PricelistItems extends \common\models\PricelistItems
@@ -40,16 +40,16 @@ class PricelistItems extends \common\models\PricelistItems
      */
     public static function getPatientsWith(array $ids)
     {
-        $pricesIds=[];
+        $pricesIds = [];
         foreach ($ids as $id) {
-            $pricesIds+=ArrayHelper::getColumn(PricelistItems::findOne($id)->prices,'id');
+            $pricesIds += ArrayHelper::getColumn(PricelistItems::findOne($id)->prices, 'id');
         };
 //        UserInterface::getVar($pricesIds);
         $patients = Patient::find()
             ->leftJoin('invoice', 'patient_id=klinikpat.id')
             ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
             ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
-            ->leftJoin('pricelist_items','prices.pricelist_items_id=pricelist_items.id')
+            ->leftJoin('pricelist_items', 'prices.pricelist_items_id=pricelist_items.id')
             ->where(['pricelist_items.id' => $ids])
             ->andWhere('invoice.created_at>=\'2018-01-01\'')
 //            ->where(['prices.id' =>  $pricesIds])
@@ -144,7 +144,7 @@ class PricelistItems extends \common\models\PricelistItems
 //            ->asArray()
 //            ->one();
         $lastUse = Invoice::find()
-            ->select('invoice.created_at')
+            ->select(['invoice.created_at', 'invoice.id',])
             ->leftJoin('invoice_items', 'invoice.id=invoice_items.invoice_id')
             ->leftJoin('prices', 'invoice_items.prices_id=prices.id')
             ->leftJoin('pricelist_items', 'prices.pricelist_items_id=pricelist_items.id')
@@ -152,7 +152,8 @@ class PricelistItems extends \common\models\PricelistItems
             ->orderBy('invoice.created_at DESC')
             ->asArray()
             ->one();
-        $lastUse = UserInterface::getFormatedDate($lastUse['created_at']);
+        //$lastUse = UserInterface::getFormatedDate($lastUse['created_at']);
+        $lastUse = empty($lastUse)?'Нет использовалось':InvoiceModalWidget::widget(['invoice_id' => $lastUse['id'],'text'=>UserInterface::getFormatedDate($lastUse['created_at'])]);
         //UserInterface::getVar($lastUse);
         return $lastUse;
     }
@@ -175,6 +176,6 @@ class PricelistItems extends \common\models\PricelistItems
 
     function getPrices()
     {
-        return $this->hasMany(Prices::class,['pricelist_items_id' => 'id']);
+        return $this->hasMany(Prices::class, ['pricelist_items_id' => 'id']);
     }
 }

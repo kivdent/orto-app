@@ -54,7 +54,9 @@ use yii\helpers\Html;
  * @property-read string $prepaymentAmount
  * @property-read TreatmentPlan[] $treatmentPlans
  * @property-read int $treatmentPlansCount
+ * @property-read int $totalRealAppointments
  * @property bool isInitial;
+ * @property int $countDoctors
  */
 class Patient extends \yii\db\ActiveRecord
 {
@@ -70,8 +72,9 @@ class Patient extends \yii\db\ActiveRecord
     const STATUS_ARCHIVE_IN_THE_OFFICE = 'in_the_office';
     const STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE = 'requested_from_archive';
 
-    const PATIENT_TYPE_PATIENT='patient';
-    const PATIENT_TYPE_SERVICE_RECORD='service_record';
+    const PATIENT_TYPE_PATIENT = 'patient';
+    const PATIENT_TYPE_SERVICE_RECORD = 'service_record';
+
     /**
      * @var mixed|null
      */
@@ -98,12 +101,13 @@ class Patient extends \yii\db\ActiveRecord
             self::STATUS_ARCHIVE_IN_THE_OFFICE => 'У врача',
             self::STATUS_ARCHIVE_REQUESTED_FROM_ARCHIVE => 'Запрошена из архива',];
     }
+
     public static function getTypesNameList()
     {
         return [
-            self::PATIENT_TYPE_PATIENT=>'Пациент',
-            self::PATIENT_TYPE_SERVICE_RECORD=>'Служебная запись',
-            ];
+            self::PATIENT_TYPE_PATIENT => 'Пациент',
+            self::PATIENT_TYPE_SERVICE_RECORD => 'Служебная запись',
+        ];
     }
 
     /**
@@ -159,7 +163,7 @@ class Patient extends \yii\db\ActiveRecord
             'orthodonticsPayPerMonth' => 'Оплата за месяц',
             'status' => 'Статус карты',
             'address_id' => 'Адрес',
-            'card_type'=>'Тип карты'
+            'card_type' => 'Тип карты'
         ];
     }
 
@@ -299,6 +303,22 @@ class Patient extends \yii\db\ActiveRecord
             ->count('PatID');
     }
 
+    /**
+     * @return int
+     */
+    public function getTotalRealAppointments()
+    {
+        return Appointment::find()
+            ->select('PatID')
+            ->leftJoin('daypr',['daypr.id'=>'nazn.dayPR'])
+            ->where([
+                    'PatID' => $this->id,
+                    'status' => Appointment::STATUS_ACTIVE,
+                ])
+            ->andWhere(['>','daypr.date',date('Y-m-d')])
+            ->count('PatID');
+    }
+
     public function getTotalInvoiceSumm()
     {
         return Invoice::find()
@@ -328,5 +348,18 @@ class Patient extends \yii\db\ActiveRecord
     public function getTreatmentPlansCount(): int
     {
         return count($this->treatmentPlans);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCountDoctors(): int
+    {
+        return Invoice::find()
+            ->select('doctor_id')
+            ->where(['patient_id' => $this->id])
+            ->andWhere(['in', 'type', [Invoice::TYPE_ORTHODONTICS, Invoice::TYPE_MANIPULATIONS]])
+            ->groupBy('doctor_id')
+            ->count('doctor_id');
     }
 }

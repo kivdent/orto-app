@@ -16,7 +16,7 @@ $count_init = 0;
 $all_appoint = [];
 $init_app = [];
 
-$this->title = "Статистика записей";
+$this->title = "Статистика записей пациентов";
 ?>
 <h1><?= $this->title ?></h1>
 <div class="row">
@@ -165,6 +165,7 @@ $this->title = "Статистика записей";
                                         </tr>
                                         <?php foreach ($appointmentStatistic->appointmentsOnDate as $appointment): ?>
                                             <?php if ($appointment->initialDateFlag): ?>
+                                                <?php $init_app[]=$appointment?>
                                                 <tr>
                                                     <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                     <td><?= $appointment->appointments_day->doctor->fullName ?></td>
@@ -184,11 +185,10 @@ $this->title = "Статистика записей";
 
                     </td>
                     <?php $count_init += $appointmentStatistic->initialAppointmentForDate?>
-                    <?php $init_app=array_merge($init_app,$appointmentStatistic->appointmentsOnDate)?>
+
                 <?php endforeach; ?>
 
                 <td>
-
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
                             data-target="#count_init">
                         <?= $count_init ?>
@@ -206,19 +206,26 @@ $this->title = "Статистика записей";
                                         <td>Сотрудник</td>
                                         <td>Время назначения</td>
                                         <td>Содержание назначения</td>
-                                        <td>Первичный</td>
+                                        <td>Специальность врача</td>
+                                        <td>Явка/Отмена/Перенос</td>
+                                        <td>План лечения</td>
+                                        <td>Количество спецов</td>
                                     </tr>
                                     <?php foreach ($init_app as $appointment): ?>
                                         <?php if ($appointment->initialDateFlag): ?>
                                             <tr>
-                                                <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
+                                                <td><?= $i.' '.Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                 <td><?= $appointment->appointments_day->doctor->fullName ?></td>
                                                 <td><?= $appointment->employee->fullName ?></td>
                                                 <td><?= $appointment->appointments_day->date ?>
                                                     <br><?= $appointment->NachNaz ?>
                                                     -<?= $appointment->OkonchNaz ?></td>
                                                 <td><?= $appointment->appointment_content ?></td>
-                                                <td><?= $appointment->initialDateFlag ? 'Первичный' : 'Повторный' ?></td>
+
+                                                <td><?=$appointment->employeePositionName?></td>
+                                                <td><?= $appointment->appointmentResultLabel?></td>
+                                                <td><?=$appointment->patientTreamentPlansCount?></td>
+                                                <td><?=$appointment->countDoctors?></td>
                                             </tr>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
@@ -227,7 +234,6 @@ $this->title = "Статистика записей";
                         </div>
                     </div>
                 </td>
-
             </tr>
         </table>
     </div>

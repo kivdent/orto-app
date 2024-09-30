@@ -21,6 +21,8 @@ use yii\helpers\ArrayHelper;
  * @property-read int $durationSeconds
  ** @property Appointment[] $appointments
  * @property string $specializationAppointmentsDayLabel
+ * @property-read Employee $doctor
+ * @property int $unixDate
  */
 class AppointmentsDay extends \common\models\AppointmentsDay
 {
@@ -288,5 +290,13 @@ class AppointmentsDay extends \common\models\AppointmentsDay
     public function getSpecializationAppointmentsDayLabel(): string
     {
         return isset($this->specialization_appointments_day) ? $this->getSpezializationLabels()[$this->specialization_appointments_day] : 'Не задано';
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnixDate(): int
+    {
+        return strtotime($this->date);
     }
 }

@@ -39,13 +39,15 @@ class AppointmentStatistics extends \yii\base\Model
                 $this->appointmentsMadeOnDate = $this->getAppointmentsMadeOnDate();
                 foreach ($this->appointmentsMadeOnDate as $appointment) {
                     $appointment->setInitialDateFlag();
+                    $appointment->setStatisticsParams();
                 }
                 $this->countAppointment=count($this->appointmentsMadeOnDate);
                 break;
             case self::TYPE_ON_DATE:
-                $this->appointmentsOnDate = $this->getAppointmentsMadeOnDate();
+                $this->appointmentsOnDate = $this->getAppointmentsOnDate();
                 foreach ($this->appointmentsOnDate as $appointment) {
                     $appointment->setInitialDateFlag();
+                    $appointment->setStatisticsParams();
                 }
                 $this->countAppointment=count($this->appointmentsOnDate);
                 break;
@@ -100,10 +102,12 @@ class AppointmentStatistics extends \yii\base\Model
     {
         $appoinments = Appointment::find()
             ->leftJoin('daypr', '`daypr`.`id` = `nazn`.`dayPR`')
-            ->where(['`daypr`.`date`' => $this->date->format('Y-m-d' . ' 00:00:00')])
+            ->where(['`daypr`.`date`' => $this->date->format('Y-m-d')])
             ->andWhere(['nazn.status' => Appointment::STATUS_ACTIVE])
             ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
             ->andWhere(['klinikpat.card_type' => Patient::PATIENT_TYPE_PATIENT])
+            ->with('patient')
+            ->with('employee')
             ->all();
         return $appoinments;
     }
@@ -125,6 +129,8 @@ class AppointmentStatistics extends \yii\base\Model
             ->andWhere(['<=', 'created_at', $this->date->format('Y-m-d 23:59:59')])
             ->leftJoin('klinikpat', '`klinikpat`.`id` = `nazn`.`PatId`')
             ->andWhere(['klinikpat.card_type' => Patient::PATIENT_TYPE_PATIENT])
+            ->with('patient')
+            ->with('employee')
             ->all();
         return $appoinments;
     }

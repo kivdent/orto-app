@@ -18,6 +18,8 @@ use yii\db\Expression;
  * @property-read Employee $employee
  * @property-read string $employeeName
  * @property-read string $info
+ * @property-read string[] $appointmentResultLabels
+ * @property-read string $appointmentResultLabel
  * @property  NoticeResult $noticeResult
  */
 class Appointment extends \common\models\Appointment
@@ -29,6 +31,13 @@ class Appointment extends \common\models\Appointment
 
     const PRESENCE_STATUS_APPEARED = 1;
     const PRESENCE_STATUS_NOT_APPEARED = 0;
+    const APPOINTMENT_RESULT_VISIT = 'visit';
+    const APPOINTMENT_RESULT_NOT_VISIT = 'not_visit';
+    const APPOINTMENT_RESULT_REASSIGNMENT = 'reassignment';
+
+    public $result;
+    public $patientTtreatmentPlansIds;
+    public $patientDoctorsIds;
 
 
     public static $status_list = [self::SMS_SENT => 'Отправлено смс'];
@@ -36,6 +45,19 @@ class Appointment extends \common\models\Appointment
      * @var bool|true
      */
     public $initialDateFlag;
+    public $appointment_result;
+    /**
+     * @var string
+     */
+    public $employeePositionName;
+    /**
+     * @var int
+     */
+    public $patientTreamentPlansCount;
+    /**
+     * @var int
+     */
+    public $countDoctors;
 
     public function behaviors()
     {
@@ -239,5 +261,60 @@ class Appointment extends \common\models\Appointment
     public function setInitialDateFlag()
     {
         $this->initialDateFlag = $this->isInitialOnDate();
+    }
+
+    public function setStatisticsParams()
+    {
+//        if (strtotime($this->unixDate) <= date('U') and $this->Yavka == 1 and $this->NachPr != '00:00:00') {
+//            $this->appointment_result = self::APPOINTMENT_RESULT_VISIT;
+//        } elseif (strtotime($this->unixDate) <= date('U') and ($this->Yavka == 0 or ($this->Yavka == 1 and $this->NachPr == '00:00:00'))) {
+//            $this->appointment_result = self::APPOINTMENT_RESULT_NOT_VISIT;
+//        }
+        //Статус назначения
+        if ($this->unixDate <= date('U')) {
+            if ($this->status == self::STATUS_ACTIVE and $this->NachPr != '00:00:00'){
+                $this->appointment_result = self::APPOINTMENT_RESULT_VISIT;
+            } elseif ($this->patient->totalRealAppointments>=1){
+                $this->appointment_result = self::APPOINTMENT_RESULT_REASSIGNMENT;
+            }else{
+                $this->appointment_result = self::APPOINTMENT_RESULT_NOT_VISIT;
+            }
+        }
+        //Специальность врача
+        $this->employeePositionName=$this->appointments_day->doctor->positionName;
+        //Количесвто планов лечения
+        $this->patientTreamentPlansCount=$this->patient->treatmentPlansCount;
+        //Количесво докторов с выписаннами оплатами
+        $this->countDoctors=$this->patient->countDoctors;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAppointmentResultLabels(): array
+    {
+        return [
+            self::APPOINTMENT_RESULT_VISIT => 'Явка',
+            self::APPOINTMENT_RESULT_NOT_VISIT => 'Не явка',
+            self::APPOINTMENT_RESULT_REASSIGNMENT => 'Переназначен',
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getAppointmentResultLabel(): string
+    {
+        return isset($this->appointment_result) ? $this->getAppointmentResultLabels()[$this->appointment_result] : 'Не известно';
+    }
+
+    /**
+     * @return int
+     */
+
+    public function getUnixDate(): int
+    {
+
+        return strtotime(date('d.m.Y',$this->appointments_day->unixDate).' '.$this->NachNaz);
     }
 }
