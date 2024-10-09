@@ -5,12 +5,15 @@ namespace common\modules\patient\models;
 use common\modules\cash\models\Prepayment;
 use common\modules\catalogs\models\Agreement;
 use common\modules\discounts\models\DiscountCard;
+use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 use common\modules\invoice\models\SchemeOrthodontics;
 use common\modules\schedule\models\Appointment;
+use common\modules\statistics\models\PatientStatistics;
 use common\modules\userInterface\models\UserInterface;
 use Yii;
 use common\modules\userInterface\models\Addresses;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -310,12 +313,12 @@ class Patient extends \yii\db\ActiveRecord
     {
         return Appointment::find()
             ->select('PatID')
-            ->leftJoin('daypr',['daypr.id'=>'nazn.dayPR'])
+            ->leftJoin('daypr', ['daypr.id' => 'nazn.dayPR'])
             ->where([
-                    'PatID' => $this->id,
-                    'status' => Appointment::STATUS_ACTIVE,
-                ])
-            ->andWhere(['>','daypr.date',date('Y-m-d')])
+                'PatID' => $this->id,
+                'status' => Appointment::STATUS_ACTIVE,
+            ])
+            ->andWhere(['>', 'daypr.date', date('Y-m-d')])
             ->count('PatID');
     }
 
@@ -361,5 +364,77 @@ class Patient extends \yii\db\ActiveRecord
             ->andWhere(['in', 'type', [Invoice::TYPE_ORTHODONTICS, Invoice::TYPE_MANIPULATIONS]])
             ->groupBy('doctor_id')
             ->count('doctor_id');
+    }
+
+    /**
+     * @param string $IDS
+     * @return Invoice
+     */
+    public function lastDateManipulationInvoice(string $IDS)
+    {
+        $invoice = Invoice::find()
+            ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
+            ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
+            ->where([
+                'prices.pricelist_items_id' => PatientStatistics::getPriceListItemsIds()[$IDS],
+                'invoice.patient_id' => $this->id
+            ])
+            ->orderBy('invoice.created_at DESC')
+            ->one();
+        return $invoice;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrthodonticsFirstDateForPatient()
+    {
+        $IDS = PatientStatistics::getPriceListItemsIds()[PatientStatistics::ORTHODONTICS_IDS];
+        $date = $this->getManipulationFirstDate($IDS)->created_at;
+
+        return $date;
+    }
+
+    /**
+     * @param array $IDS
+     * @return Invoice
+     */
+    public function getManipulationFirstDate(array $IDS)
+    {
+
+        $invoice = Invoice::find()
+            ->select(['invoice.patient_id', 'min(invoice.created_at) as created_at'])
+            ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
+            ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
+            ->leftJoin('pricelist_items', 'pricelist_items.id=prices.pricelist_items_id')
+            ->where(['pricelist_items.id' => $IDS, 'invoice.patient_id' => $this->id])
+            ->groupBy('invoice.patient_id')
+            ->one();
+        return $invoice;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstOrthodonticsConsultation(): string
+    {
+
+        $IDS = PatientStatistics::getConsultationPricelisitemsIds();
+        $invoice = Invoice::find()
+            ->select(['invoice.patient_id', 'min(invoice.created_at) as created_at'])
+            ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
+            ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
+            ->leftJoin('pricelist_items', 'pricelist_items.id=prices.pricelist_items_id')
+            ->where(
+                [
+                    'pricelist_items.id' => $IDS,
+                    'invoice.patient_id' => $this->id,
+                    'invoice.doctor_id' => array_keys(Employee::getOrthodontsList())
+                ])
+            ->groupBy('invoice.patient_id')
+            ->one();
+        $date = !is_null($invoice->created_at) ? $invoice->created_at : 'Не проводилась';
+
+        return $date;
     }
 }

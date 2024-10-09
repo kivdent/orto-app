@@ -119,6 +119,24 @@ class Employee extends \yii\db\ActiveRecord
             ->all(), 'id', 'full_name');
     }
 
+    public static function getEmployeeListBySpecialization(array $specialisationList){
+        return ArrayHelper::map(Employee::find()
+            ->select(["id", "CONCAT(surname, ' ', name, ' ',otch) AS full_name"])
+            ->where(['dolzh' => $specialisationList, 'status' => self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->asArray()
+            ->all(), 'id', 'full_name');
+    }
+    public static function getOrthodontsList()
+    {
+        return self::getEmployeeListBySpecialization([self::POSITION_ORTHODONTIST]);
+    }
+
+    public static function getTherapistList()
+    {
+        return self::getEmployeeListBySpecialization([self::POSITION_THERAPIST]);
+    }
+
     /**
      * {@inheritdoc}
      */

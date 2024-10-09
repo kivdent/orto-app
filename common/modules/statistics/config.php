@@ -18,6 +18,8 @@ return [
             ['label' => 'Записи', 'url' => '/statistics/appointment','roles'=>['admin', 'accountant', 'director', ]],
             ['label' => 'Записи в месяц', 'url' => '/statistics/appointment/months','roles'=>['admin', 'accountant', 'director', ]],
             ['label' => 'Назначения в месяц', 'url' => '/statistics/appointment/appointments','roles'=>['admin', 'accountant', 'director', ]],
+            ['label' => 'Пациенты с эндо прошедшие ортопедию', 'url' => '/statistics/patient/redirect','roles'=>['admin', 'director', ]],
+            ['label' => 'Tерапевты на ортодонтию', 'url' => '/statistics/patient/therapy-to-orthodontics','roles'=>['admin', 'director', ]],
 
         ],
         //'moduleMenu' => []
