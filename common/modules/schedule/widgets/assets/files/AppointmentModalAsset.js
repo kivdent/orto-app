@@ -309,13 +309,19 @@ $(document).ready(function () {
     $("#submit").on('click', function () {
         if (($("#patient_id").val() == '') || ($("#patient_id").val() == null)) {
             alert('Выбирите пациента');
-        } else {
+        } else if (($("#appointment-appointment_content").val() == '') || ($("#appointment-appointment_content").val() == null || ($("#appointment-appointment_content").val().length) < 4)){
+            alert('Введите содержание назначения');
+        }
+        else {
             if ($("#appointmentId").length) {
                 update_appointment($("#appointmentId").val());
             } else {
                 create_appointment();
             }
         }
+
+
+
     })
 
     $('.btn-appointment-modal-create').on('click', function () {

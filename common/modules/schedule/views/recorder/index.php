@@ -111,8 +111,10 @@ RecorderAsset::register($this);
                         <?php endif; ?>
                         <div class="row">
                             <?php foreach ($appointmentDayManager->appointmentsDays as $appointmentDay): ?>
+
                                 <div class="col-lg-12">
                                     <?php if (!$appointmentDay->isHoliday): ?>
+                                        <h4><?= $appointmentDay->appointmentsDay->specializationAppointmentsDayLabel ?></h4>
                                         <?= Html::button('История назначений', [
                                             'class' => 'btn btn-info btn-xs',
                                             'data-toggle' => "modal",

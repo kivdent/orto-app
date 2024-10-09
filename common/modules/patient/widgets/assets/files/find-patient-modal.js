@@ -148,6 +148,7 @@ $(document).ready(function () {
         );
         $("#new_patient_form").submit();
     });
+
     let patient_name_target = $('#find_btn').attr('patient_name_target');
     let patient_id_target = $('#find_btn').attr('patient_id_target');
 
