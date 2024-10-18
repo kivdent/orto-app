@@ -20,6 +20,8 @@ use yii\db\Expression;
  * @property-read string $info
  * @property-read string[] $appointmentResultLabels
  * @property-read string $appointmentResultLabel
+ * @property-read int $unixDate
+ * @property-read string $date
  * @property  NoticeResult $noticeResult
  */
 class Appointment extends \common\models\Appointment
@@ -58,6 +60,8 @@ class Appointment extends \common\models\Appointment
      * @var int
      */
     public $countDoctors;
+
+
 
     public function behaviors()
     {
@@ -272,20 +276,20 @@ class Appointment extends \common\models\Appointment
 //        }
         //Статус назначения
         if ($this->unixDate <= date('U')) {
-            if ($this->status == self::STATUS_ACTIVE and $this->NachPr != '00:00:00'){
+            if ($this->status == self::STATUS_ACTIVE and $this->NachPr != '00:00:00') {
                 $this->appointment_result = self::APPOINTMENT_RESULT_VISIT;
-            } elseif ($this->patient->totalRealAppointments>=1){
+            } elseif ($this->patient->totalRealAppointments >= 1) {
                 $this->appointment_result = self::APPOINTMENT_RESULT_REASSIGNMENT;
-            }else{
+            } else {
                 $this->appointment_result = self::APPOINTMENT_RESULT_NOT_VISIT;
             }
         }
         //Специальность врача
-        $this->employeePositionName=$this->appointments_day->doctor->positionName;
+        $this->employeePositionName = $this->appointments_day->doctor->positionName;
         //Количесвто планов лечения
-        $this->patientTreamentPlansCount=$this->patient->treatmentPlansCount;
+        $this->patientTreamentPlansCount = $this->patient->treatmentPlansCount;
         //Количесво докторов с выписаннами оплатами
-        $this->countDoctors=$this->patient->countDoctors;
+        $this->countDoctors = $this->patient->countDoctors;
     }
 
     /**
@@ -315,6 +319,26 @@ class Appointment extends \common\models\Appointment
     public function getUnixDate(): int
     {
 
-        return strtotime(date('d.m.Y',$this->appointments_day->unixDate).' '.$this->NachNaz);
+        return strtotime($this->date . ' ' . $this->NachNaz);
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getDurationSeconds()
+    {
+        $start = strtotime($this->date . ' ' . $this->NachPr);
+        $end = strtotime($this->date . ' ' . $this->OkonchPr);
+
+        $durationSeconds = $end - $start;
+        return $durationSeconds;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return date('d.m.Y', $this->appointments_day->unixDate);
     }
 }

@@ -20,6 +20,7 @@ return [
             ['label' => 'Назначения в месяц', 'url' => '/statistics/appointment/appointments','roles'=>['admin', 'accountant', 'director','senior_recorder','recorder' ]],
             ['label' => 'Пациенты с эндо прошедшие ортопедию', 'url' => '/statistics/patient/redirect','roles'=>['admin', 'director', ]],
             ['label' => 'Tерапевты на ортодонтию', 'url' => '/statistics/patient/therapy-to-orthodontics','roles'=>['admin', 'director', ]],
+            ['label' => 'Анализ по кальдину', 'url' => '/statistics/kaldin/report','roles'=>['admin', 'director', ]],
 
         ],
         //'moduleMenu' => []

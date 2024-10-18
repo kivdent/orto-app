@@ -269,4 +269,16 @@ class Employee extends \yii\db\ActiveRecord
     {
         return self::findOne($id)->getFullName();
     }
+
+    /**
+     * @return Employee[]
+     */
+    public static function getWorkedDoctors(): array
+    {
+        return Employee::find()
+            ->where(['dolzh' => [self::POSITION_THERAPIST, self::POSITION_ORTHOPEDIST, self::POSITION_ORTHODONTIST], 'status' => self::STATUS_WORKED])
+            ->andWhere(['status'=>self::STATUS_WORKED])
+            ->orderBy('surname')
+            ->all();
+    }
 }
