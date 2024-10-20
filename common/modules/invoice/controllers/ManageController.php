@@ -117,6 +117,7 @@ class ManageController extends \yii\web\Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
+
             $invoice = Invoice::findOne(Yii::$app->request->post('invoice_id'));
             $invoiceItems = [];
             foreach ($invoice->invoiceItems as $invoiceItem) {

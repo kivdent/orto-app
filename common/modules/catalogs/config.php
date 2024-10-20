@@ -24,6 +24,7 @@ return [
             ['label' => 'Должности', 'url' => '/old_app/spr_dolzh.php', 'roles' => ['admin',]],
             ['label' => 'Причины отказа от приёма', 'url' => '/catalogs/rejection-reasons', 'roles' => ['admin','senior_recorder']],
             ['label' => 'Цели звонка', 'url' => '/catalogs/call-target', 'roles' => ['admin','senior_recorder']],
+            ['label' => 'Законченные диагнозы', 'url' => '/catalogs/completed-diagnoses', 'roles' => ['admin',]],
 
         ],
        // 'moduleMenu' => '@common/modules/clinic/components/moduleMenu.php',
