@@ -22,6 +22,8 @@ use yii\db\Expression;
  * @property-read string $appointmentResultLabel
  * @property-read int $unixDate
  * @property-read string $date
+ * @property-read int $appointmentDurationSeconds
+ * @property-read null|mixed $durationSeconds
  * @property  NoticeResult $noticeResult
  */
 class Appointment extends \common\models\Appointment
@@ -329,6 +331,19 @@ class Appointment extends \common\models\Appointment
     {
         $start = strtotime($this->date . ' ' . $this->NachPr);
         $end = strtotime($this->date . ' ' . $this->OkonchPr);
+
+        $durationSeconds = $end - $start;
+        return $durationSeconds;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAppointmentDurationSeconds(): int
+    {
+
+        $start = strtotime($this->date . ' ' . $this->NachNaz);
+        $end = strtotime($this->date . ' ' . $this->OkonchNaz);
 
         $durationSeconds = $end - $start;
         return $durationSeconds;

@@ -2,6 +2,7 @@
 
 namespace common\modules\statistics\models;
 
+use common\modules\catalogs\models\CompletedDiagnoses;
 use common\modules\employee\models\Employee;
 use common\modules\invoice\models\Invoice;
 use common\modules\patient\models\Patient;
@@ -11,6 +12,7 @@ use common\modules\schedule\models\AppointmentsDay;
 use common\modules\userInterface\models\UserInterface;
 use yii\base\Model;
 use yii\db\ActiveQuery;
+use yii\helpers\ArrayHelper;
 
 /**
  *
@@ -28,9 +30,17 @@ use yii\db\ActiveQuery;
  * @property-read float $loadByTime
  * @property-read float $workingHoursWithPatients
  * @property-read int $appointmentsCount
+ * @property-read \yii\db\ActiveQuery $invoicesQuery
+ * @property-read int $invoicesSummary
+ * @property-read mixed $pricelistItemsQuery
+ * @property-read null|float $volume
+ * @property-read float $completeness
+ * @property-read float $appointmentsHoursWithPatients
+ * @property-read null|float $loadByAppointmentTime
  * @property int $casesCount
  */
 class KaldinReport extends Model
+
 {
 
     /**
@@ -46,10 +56,7 @@ class KaldinReport extends Model
      * @var Patient[]
      */
     public $patients;
-    /**
-     * @var PricelistItems[]
-     */
-    public $pricelistItems=[];
+    public $pricelistItems = [];
     public $startDate;
     public $period;
     public $workingHours;
@@ -58,7 +65,10 @@ class KaldinReport extends Model
      * @var Invoice
      */
     private $invoices;
-
+    /**
+     * @var mixed
+     */
+    public $completedDiagnoses = [];
 
     public function __construct($config = [])
     {
@@ -69,6 +79,8 @@ class KaldinReport extends Model
         $this->setAppointments();
         $this->setPatients();
         $this->setPriceListItems();
+        $this->setCompletedDiagnoses();
+
     }
 
     private function setWorkingHours()
@@ -265,7 +277,7 @@ class KaldinReport extends Model
      */
     public function getLoadStatus(): string
     {
-        return $this->loadByVisit > 80 ? 'Перегруз' : 'Недогруз';
+        return $this->loadByAppointmentTime > 80 ? 'Перегруз' : 'Недогруз';
     }
 
     /**
@@ -279,6 +291,23 @@ class KaldinReport extends Model
         }
         $duration = round($duration / 3600, 2);
         return $duration;
+    }
+
+    /**
+     * @return float
+     */
+    public function getAppointmentsHoursWithPatients(): float
+    {
+
+        foreach ($this->appointments as $appointment) {
+
+            $duration += $appointment->appointmentDurationSeconds;
+
+        }
+
+        $duration = round($duration / 3600, 2);
+        return $duration;
+
     }
 
     /**
@@ -313,19 +342,32 @@ class KaldinReport extends Model
         /** @var Invoice $invoice */
         foreach ($this->invoices as $invoice) {
             /** @var PricelistItems $invoiceItem */
-            foreach ($invoice->invoiceItems as $invoiceItem){
-                $id=$invoiceItem->prices->pricelistItems->id;
-                if (isset($this->pricelistItems[$id])){
-                    $this->pricelistItems[$id]['count']+=$invoiceItem->quantity;
-                }else{
-                    $this->pricelistItems[$id]['count']=$invoiceItem->quantity;
-                    $this->pricelistItems[$id]['title']=$invoiceItem->prices->pricelistItems->title;
+            foreach ($invoice->invoiceItems as $invoiceItem) {
+                $id = $invoiceItem->prices->pricelistItems->id;
+                if (isset($this->pricelistItems[$id])) {
+                    $this->pricelistItems[$id]['count'] += $invoiceItem->quantity;
+                } else {
+                    $this->pricelistItems[$id]['count'] = $invoiceItem->quantity;
+                    $this->pricelistItems[$id]['title'] = $invoiceItem->prices->pricelistItems->title;
                 }
             }
         }
     }
 
-    private function getPricelistItemsQuery()
+
+    /**
+     * @return float|null
+     */
+    public function getLoadByAppointmentTime(): ?float
+    {
+        return  $this->workingHours ? round($this->appointmentsHoursWithPatients / $this->workingHours * 100, 2) : null;
+
+    }
+
+    /**
+     * @return PricelistItems
+     */
+    private function getPricelistItemsQuery(): ActiveQuery
     {
 
         $startDate = date('Y-m-1', strtotime($this->startDate));
@@ -336,5 +378,38 @@ class KaldinReport extends Model
             ->where("invoice.doctor_id =" . $this->doctor->id)
             ->andWhere('invoice.created_at<="' . $endDate . '"')
             ->andWhere('invoice.created_at>="' . $startDate . '"');
+    }
+
+
+    public function setCompletedDiagnoses(): void
+    {
+        $completedDiagnoses = CompletedDiagnoses::find()->all();
+        $this->completedDiagnoses['summary'] = 0;
+        /** @var CompletedDiagnoses $completedDiagnosis */
+        $pricelistItemsIds = array_keys($this->pricelistItems);
+        foreach ($completedDiagnoses as $completedDiagnosis) {
+
+            $this->completedDiagnoses[$completedDiagnosis->id]['title'] = $completedDiagnosis->title;
+            $this->completedDiagnoses[$completedDiagnosis->id]['count'] = 0;
+
+            $pricelistItemsIdsForCompletedDiagnoses = ArrayHelper::getColumn($completedDiagnosis->completedDiagnosesForManipulations, 'pricelist_items_id');
+
+            foreach ($this->pricelistItems as $key => $pricelistItem) {
+                if (in_array($key, $pricelistItemsIdsForCompletedDiagnoses)) {
+                    $this->completedDiagnoses[$completedDiagnosis->id]['count'] += $pricelistItem['count'];
+                    $this->completedDiagnoses['summary'] += $pricelistItem['count'];
+                }
+            }
+        }
+    }
+
+
+    /**
+     * @return float|null
+     */
+    public function getCompleteness(): ?float
+    {
+        $completeness = $this->patientsCount ? round($this->completedDiagnoses['summary'] / $this->patientsCount, 2) : null;
+        return $completeness;
     }
 }

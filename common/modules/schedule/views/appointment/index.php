@@ -66,6 +66,9 @@ $additionalTextDoctorIds = Url::to([
     <div class="col-lg-2">
         <?= \common\modules\schedule\widgets\FullTableChooserWidget::widget() ?>
     </div>
+    <div class="col-lg-2">
+        <?= \common\modules\schedule\widgets\SpecializationAppointmentsDayChooserWidget::widget() ?>
+    </div>
     <div class="col-lg-4">
         <?= \common\modules\schedule\widgets\TimeAppointmentChooser::widget([
             'start_date' => $start_date,
@@ -89,14 +92,15 @@ $additionalTextDoctorIds = Url::to([
                 </div>
                 <div class="row">
                     <?php foreach ($appointmentDayManager->appointmentsDays as $appointmentDay): ?>
+                        <?php $appointmentsDayAR = \common\modules\schedule\models\BaseSchedulesDays::getAppointmentsDayForDoctor($doctorId, strtotime(UserInterface::getFormatedDate($appointmentDay->date))) ?>
                         <div class="col-lg-2">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered appointment-day <?= $appointmentsDayAR->specialization_appointments_day ?>">
                                 <tr>
                                     <td>&nbsp;</td>
                                     <td>
                                         <?= UserInterface::getFormatedDate($appointmentDay->date) ?><br>
                                         <?= UserInterface::getDayWeekNameByDate($appointmentDay->date) ?>
-                                        <?php $appointmentsDayAR = \common\modules\schedule\models\BaseSchedulesDays::getAppointmentsDayForDoctor($doctorId, strtotime(UserInterface::getFormatedDate($appointmentDay->date))) ?>
+
                                         <?= $appointmentsDayAR->isNewRecord ?
                                             Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>',
                                                 ['/schedule/schedule/create', 'date' => strtotime(UserInterface::getFormatedDate($appointmentsDayAR->date)), 'doctor_id' => $appointmentsDayAR->doctor->id],
@@ -106,6 +110,7 @@ $additionalTextDoctorIds = Url::to([
                                                 ['class' => 'btn btn-danger btn-xs', 'role' => 'button']);
                                         ?><br>
                                         <strong>
+                                            <?= $appointmentsDayAR->workplace->nazv ?> <br>
                                             <?= $appointmentsDayAR->specializationAppointmentsDayLabel ?><br>
                                             <?= $appointmentsDayAR->comment ?>
                                         </strong>

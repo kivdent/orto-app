@@ -25,6 +25,7 @@ return [
             ['label' => 'Причины отказа от приёма', 'url' => '/catalogs/rejection-reasons', 'roles' => ['admin','senior_recorder']],
             ['label' => 'Цели звонка', 'url' => '/catalogs/call-target', 'roles' => ['admin','senior_recorder']],
             ['label' => 'Законченные диагнозы', 'url' => '/catalogs/completed-diagnoses', 'roles' => ['admin',]],
+            ['label' => 'Ставки для потенциала', 'url' => '/catalogs/potential-for-rate', 'roles' => ['admin',]],
 
         ],
        // 'moduleMenu' => '@common/modules/clinic/components/moduleMenu.php',
