@@ -49,7 +49,7 @@ $(document).ready(function () {
 
         }
     )
-    $('.price_from').on('keyup', function () {
+    $('#treatment-plan-body').on('keyup', '.price_from',function () {
             var price_from_value=this.value;
             var price_to = $(this).parents('.price-block-interval').find('.price_to');
             var price_to_value=Math.ceil((price_from_value*1.15) / 10) * 10;

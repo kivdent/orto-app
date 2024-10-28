@@ -101,7 +101,7 @@ $classification = 13;//9 id классификации МКБ-10
                                                 'value'=>\common\modules\patient\models\Operation::FROM_COMMENT,
                                                 'options' => [
                                                     'placeholder' => 'Выберете рекомендацию ...',
-                                                    'class' => 'operation_id',
+                                                    'class' => 'operation operation_id',
                                                 ],
                                                 'pluginOptions' => [
                                                     'allowClear' => true
