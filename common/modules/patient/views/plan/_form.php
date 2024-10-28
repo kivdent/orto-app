@@ -72,7 +72,7 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body operation-block">
                             <?php
                             // necessary for update action.
                             if (!$modelItem->isNewRecord) {
@@ -101,7 +101,7 @@ $classification = 13;//9 id классификации МКБ-10
                                                 'value'=>\common\modules\patient\models\Operation::FROM_COMMENT,
                                                 'options' => [
                                                     'placeholder' => 'Выберете рекомендацию ...',
-                                                    'class' => 'operation',
+                                                    'class' => 'operation_id',
                                                 ],
                                                 'pluginOptions' => [
                                                     'allowClear' => true
@@ -116,7 +116,8 @@ $classification = 13;//9 id классификации МКБ-10
                             </div>
 
                             <div class="row">
-                                <div class="price-block-interval" <?= ($modelItem->operation->actualPrice) ? 'hidden' : '' ?> >
+
+                                <div class="price-block-interval" >
 
                                     <div class="col-sm-2 ">
 
@@ -126,20 +127,24 @@ $classification = 13;//9 id классификации МКБ-10
                                                 'class' => 'btn btn-primary btn-xs',
                                                 'data-toggle' => "modal",
                                                 'data-target' => "#invoice_form",
+                                                'data-type' => "plan_item",
                                                 'data-recipient' => "find",
                                                 'data-recipient-item-class' => ".price_from",
+                                                'data-operation-id' => 'null',
                                             ]));
                                         ?>
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <?= $form->field($modelItem, "[{$i}]price_to")->textInput();
+                                        <?= $form->field($modelItem, "[{$i}]price_to")->textInput([
+                                            'class' => 'form-control price_to',
+                                        ]);
                                         ?>
                                     </div>
                                 </div>
 
 
-                                <div class="price-block-price-actual" <?= ($modelItem->operation->actualPrice)? '' : 'hidden' ?>>
+                                <div class="price-block-price-actual" hidden >
                                     <div class="col-sm-4">
                                         <label class="control-label" for="actualPrice">Стоимость</label>
                                         <?= Html::input('text', 'actualPrice',

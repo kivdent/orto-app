@@ -57,7 +57,7 @@ $i = 1;
                 <th scope="col">#</th>
                 <th scope="col">Область</th>
                 <th scope="col">Рекомендация</th>
-                <th scope="col">Стоимость</th>
+                <th scope="col">Примерная стоимость</th>
                 <th scope="col">Примерный срок</th>
                 <th scope="col">Комментарий</th>
             </tr>
@@ -68,8 +68,8 @@ $i = 1;
                     <th scope="row"><?= Html::encode($i++) ?></th>
                     <td><?= Html::encode($planlItem->regionTitle) ?></td>
                     <td><?= Html::encode($planlItem->operationTitle) ?></td>
-                    <td><?= $planlItem->price_actual===0? Html::encode($planlItem->price_from) .'-'. Html::encode($planlItem->price_to) : Html::encode($planlItem->price_actual) ?></td>
-                    <td><?= Html::encode($planlItem->duration_from) ?>-<?= Html::encode($planlItem->duration_to) ?></td>
+                    <td><?= Html::encode($planlItem->price_from) .'-'. Html::encode($planlItem->price_to) ?></td>
+                    <td><?= Html::encode($planlItem->duration_from)?Html::encode($planlItem->duration_from).' - '.Html::encode($planlItem->duration_to):'' ?></td>
                     <td><?= Html::encode($planlItem->commentText) ?></td>
                 </tr>
             <?php endforeach; ?>

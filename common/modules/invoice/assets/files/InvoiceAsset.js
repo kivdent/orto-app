@@ -304,10 +304,36 @@ $(document).ready(function () {
             if (button.data('recipient') === 'find') {
                 var recipient_class = button.data('recipient-item-class');
                 recipient = '#' + button.parent().nextAll(recipient_class).first().attr('id');
+
             } else {
                 recipient = button.data('recipient') // Extract info from data-* attributes
             }
+            if (button.data('type') === 'plan_item') {
+                var operation_id = button.parents('.operation-block').find('.operation_id').val();
+                console.log(operation_id);
+                $('#invoice-table-body').empty();
+                count_invoice_items = 0;
+                invoice_sum = 0;
+                $("#summary").text('0 руб');
+                if (operation_id != '') {
+                    const data_request = {
+                        'operation_id': operation_id
+                    };
+                    const url = '/api/operation-pricelist-items-compliance';
 
+                    fetch(url + '?' + new URLSearchParams(data_request))
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((data) => {
+                            operation_compliances = data;
+                            // console.log(operation_compliances)
+                            render_invoice(operation_compliances);
+                        }).then(
+
+                    );
+                }
+            }
             if (button.data('type') === 'operation') {
                 $('#invoice-table-body').empty();
                 count_invoice_items = 0;
@@ -368,6 +394,7 @@ $(document).ready(function () {
 
             var recipient = $(modal.find('.calling_element')).val();
             $(recipient).val(invoice_sum);
+            $(recipient).trigger('keyup');
             modal.modal('hide')
         });
 

@@ -72,6 +72,7 @@ PrintAsset::register($this);
                     <th scope="col">#</th>
                     <th scope="col">Область</th>
                     <th scope="col">Рекомендация</th>
+                    <th scope="col">Примерная стоимость</th>
                     <th scope="col">Примерный срок</th>
                     <th scope="col">Комментарий</th>
                 </tr>
@@ -91,6 +92,7 @@ PrintAsset::register($this);
                         <th scope="row"><?= Html::encode($i++) ?></th>
                         <td><?= Html::encode($planlItem->regionTitle) ?></td>
                         <td><?= Html::encode($planlItem->operationTitle) ?></td>
+                        <td><?= Html::encode($planlItem->price_from) .'-'. Html::encode($planlItem->price_to) ?></td>
                         <td><?= Html::encode($planlItem->duration_from) ?>-<?= Html::encode($planlItem->duration_to) ?></td>
                         <td><?= Html::encode($planlItem->commentText) ?></td>
                     </tr>

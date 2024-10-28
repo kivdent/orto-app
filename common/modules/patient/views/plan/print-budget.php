@@ -59,7 +59,6 @@ PrintAsset::register($this);
     <div class="raw ">
         <div class="col-xs-12">
             <?= Yii::$app->formatter->format(Html::encode($model->comments), 'ntext') ?>
-
         </div>
     </div>
 
@@ -92,7 +91,6 @@ PrintAsset::register($this);
                         <td><?= Html::encode($planlItem->regionTitle) ?></td>
                         <td><?= Html::encode($planlItem->operationTitle) ?></td>
                         <td><?= Html::encode($planlItem->price_actual)?></td>
-
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
