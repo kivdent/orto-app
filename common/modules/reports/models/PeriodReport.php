@@ -89,8 +89,9 @@ class PeriodReport extends Model
             'patient' => 'Пациент',
             'invoice_item' => 'Манипуляция',
             'item_price' => 'Цена',
-            'item_quantity' => 'Цена',
+            'item_quantity' => 'Количество',
             'item_total' => 'Стоимость',
+            'priceList' => 'Прейскурант',
 
         ];
 
@@ -109,6 +110,7 @@ class PeriodReport extends Model
                     $row['item_price'] = $invoiceItem->prices->price;
                     $row['item_quantity'] = $invoiceItem->quantity;
                     $row['item_total'] = $invoiceItem->quantity * $invoiceItem->prices->price;
+                    $row['priceList'] = $invoiceItem->prices->pricelistItems->pricelist->title;
                     $print['table'][] = $row;
                 }
             }

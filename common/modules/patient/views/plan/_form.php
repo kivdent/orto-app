@@ -166,9 +166,7 @@ $classification = 13;//9 id классификации МКБ-10
                                     <?= $form->field($modelItem, "[{$i}]duration_to")->textInput();
                                     ?>
                                 </div>
-
                             </div> <!-- .row -->
-
                         </div>
                     </div>
                 <?php endforeach; ?>

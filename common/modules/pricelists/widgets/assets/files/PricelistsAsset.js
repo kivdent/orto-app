@@ -104,7 +104,7 @@ $(document).ready(function () {
     })
 
     $('#upload-draft').on('fileuploaded', function (event, data, previewId, index, fileId) {
-        //console.log(data.response);
+        console.log(data.response);
         setNewPricesFromFile(data.response);
         $('#upload-draft-modal').modal('hide');
     });

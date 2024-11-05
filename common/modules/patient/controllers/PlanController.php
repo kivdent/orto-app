@@ -286,6 +286,17 @@ class PlanController extends Controller
         if (Yii::$app->request->isAjax) {
             $id = Yii::$app->request->post('id');
             $operation = Operation::findOne($id);
+            if (isset($operation->actualPrice))
+            {
+                $operation->price_from=$operation->actualPrice;
+                $operation->price_to=round($operation->actualPrice*1.15,-1);
+                return [
+                    "price_from" => $operation->price_from,
+                    "price_to" => $operation->price_to,
+                    "actualPrice"=>$operation->actualPrice,
+                    "error" => null
+                ];
+            }
             if (isset($operation->price_from) ? true : false) {
                 if (isset($operation->actualPrice))
                 {

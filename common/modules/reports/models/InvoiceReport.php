@@ -137,6 +137,10 @@ class InvoiceReport extends Model
                     $row['coef_price_list'] .= "<div class='col-lg-6'>" . $report->summaryByPricelist[$pricelist_id]['price_list'] . "</div>";
                     $row['coef_price_list'] .= "<div class='col-lg-6'>" . $sum . "</div>";
                     $row['coef_price_list'] .= "</div>";
+
+//                    $row['price_list_name'] = $report->summaryByPricelist[$pricelist_id]['price_list'];
+//                    $row['coef_price_list'] = $sum;
+
                 }
                 $row['last_date'] = '';
                 foreach ($invoice->payments as $payment) {
@@ -147,7 +151,7 @@ class InvoiceReport extends Model
                     $row['last_date'] .= "<div class='col-lg-4'>" . PaymentType::getList()[$payment->VidOpl] . "</div>";
                     $row['last_date'] .= "</div>";
                 }
-
+                $row['last_date'] = '';
                 $report->summary += $invoice->salarySum;
                 $report->table[] = $row;
             }

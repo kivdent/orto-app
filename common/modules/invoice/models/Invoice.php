@@ -259,9 +259,11 @@ class Invoice extends \common\models\Invoice
 
     public function getSalarySum()
     {
+
         $sum = 0;
         $uet = FinancialPeriods::getUETForDate($this->created_at);
         $sum += $this->coefficientSummary * $uet;
+        if ($this->type==self::TYPE_ORTHODONTICS) $sum+=$this->paid;
         return $sum;
     }
 

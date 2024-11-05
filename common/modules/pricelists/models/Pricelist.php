@@ -293,7 +293,7 @@ class Pricelist extends \common\models\Pricelist
                             'active' => $cells->get('H' . $row)->getValue(),
                         ];
                     }  catch (\Throwable $e){
-                        return 'Лист: '.$sheet->getTitle().' Строка: '.$row.$cells->get('F' . $row)->getValue();
+                        return $e.'Лист: '.$sheet->getTitle().' Строка: '.$row.$cells->get('F' . $row)->getValue();
                     }
                 }
             }
