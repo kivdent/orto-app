@@ -36,7 +36,7 @@ class Storage extends Component
         return $resource->getPublicKey() ? $resource->getPublicKey() : '';
     }
 
-    public function saveUploadedFile(UploadedFile $file, $path = '', $type)
+    public function saveUploadedFile(UploadedFile $file, $path, $type)
     {
         $path = $this->preparePath($file, $path, $type);
 

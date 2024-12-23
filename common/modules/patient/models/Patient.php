@@ -390,8 +390,7 @@ class Patient extends \yii\db\ActiveRecord
     public function getOrthodonticsFirstDateForPatient()
     {
         $IDS = PatientStatistics::getPriceListItemsIds()[PatientStatistics::ORTHODONTICS_IDS];
-        $date = $this->getManipulationFirstDate($IDS)->created_at;
-
+        $date = $this->getManipulationFirstDate($IDS)->created_at ?? 'Нет';
         return $date;
     }
 
@@ -433,7 +432,7 @@ class Patient extends \yii\db\ActiveRecord
                 ])
             ->groupBy('invoice.patient_id')
             ->one();
-        $date = !is_null($invoice->created_at) ? $invoice->created_at : 'Не проводилась';
+        $date = $invoice->created_at ?? 'Не проводилась';
 
         return $date;
     }

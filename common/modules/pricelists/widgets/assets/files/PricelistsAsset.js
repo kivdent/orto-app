@@ -93,9 +93,9 @@ $(document).ready(function () {
             type: 'POST',
             data: data,
             success: function (response) {
-                //console.log(response.url);
-                //alert('Успешно');
-                window.location = response.url;
+                // console.log(response.url);
+                // alert('Успешно');
+               window.location = response.url;
             },
             error: function () {
                 alert('Ошибка запроса');

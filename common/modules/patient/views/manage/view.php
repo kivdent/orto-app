@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 $this->context->layout = '@frontend/views/layouts/light.php';
 /* @var $this yii\web\View */
@@ -8,7 +9,7 @@ $this->context->layout = '@frontend/views/layouts/light.php';
 
 $this->title = $model->fullName;
 
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="patient-view">
 

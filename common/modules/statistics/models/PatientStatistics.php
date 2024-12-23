@@ -114,11 +114,11 @@ class PatientStatistics extends Model
      */
     public function getEndoCases(): array
     {
-
+        
         $invoices = Invoice::find()
             ->leftJoin('invoice_items', 'invoice_items.invoice_id=invoice.id')
             ->leftJoin('prices', 'prices.id=invoice_items.prices_id')
-            ->where(['prices.pricelist_items_id' => $this->getPriceListItemsIdsFromDB()[self::ENDO_IDS]])
+            ->where(['prices.pricelist_items_id' => $this->getPriceListItemsIdsFromDB([],[],self::getPriceListItemsIds()[self::ENDO_IDS])])
             ->all();
         return $invoices;
     }

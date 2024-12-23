@@ -38,7 +38,7 @@ $i = 1;
             <div class="row">
                 <div class="col-lg-6">
                     <h4>Врач: <?= $model->getAuthorName() ?></h4>
-                    <h4>Диагноз: <?= Html::encode($model->diagnosis['Nazv']) ?></h4>
+                    <h4>Диагноз: <?= Html::encode($model->getDiagnosisTitle()) ?></h4>
                     <h4>Примерная стоимость: <?= $model->getPrice() ?></h4>
                 </div>
                 <div class="col-lg-6">

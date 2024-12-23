@@ -285,7 +285,7 @@ class KaldinReport extends Model
      */
     public function getWorkingHoursWithPatients(): float
     {
-
+        $duration =0;
         foreach ($this->appointments as $appointment) {
             $duration += $appointment->durationSeconds;
         }
@@ -298,7 +298,7 @@ class KaldinReport extends Model
      */
     public function getAppointmentsHoursWithPatients(): float
     {
-
+        $duration =0;
         foreach ($this->appointments as $appointment) {
 
             $duration += $appointment->appointmentDurationSeconds;

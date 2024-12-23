@@ -95,7 +95,7 @@ class Statistics extends Model
             ->leftJoin('pricelist_items', '`pricelist_items`.`id`=`prices`.`pricelist_items_id`')
             ->where('`pricelist_items`.`id` in (' . $manipulations . ')')
             ->all();
-        return implode(ArrayHelper::getColumn($prices, 'id'), ',');
+        return implode(',',ArrayHelper::getColumn($prices, 'id') );
     }
 
     private function getInvoicesByPricelistItems($pricelistItems)
@@ -186,7 +186,7 @@ class Statistics extends Model
 
     private function getPriceListItemsFromPriceLists($pricelistIds)
     {
-        return implode(ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in (' . $pricelistIds . ')')->all(), 'id'), ',');
+        return implode(',',ArrayHelper::getColumn(PricelistItems::find()->where('`pricelist_id` in (' . $pricelistIds . ')')->all(), 'id'));
     }
 
     public function getYearStatistics()

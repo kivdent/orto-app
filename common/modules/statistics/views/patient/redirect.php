@@ -25,7 +25,7 @@ $this->title='Пациенты с эндо прошедшие ортопедию
                 </a>
             </td>
             <td><?=$endoCaseInvoice->date?></td>
-            <td><?=$endoCaseInvoice->patient->lastDateManipulationInvoice(PatientStatistics::ORTHOPEDIC_CROWN_IDS)->created_at?></td>
+            <td><?=$endoCaseInvoice->patient->lastDateManipulationInvoice(PatientStatistics::ORTHOPEDIC_CROWN_IDS)?->created_at?></td>
         </tr>
     <?php endforeach;?>
 

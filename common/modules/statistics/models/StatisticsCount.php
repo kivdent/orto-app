@@ -370,8 +370,8 @@ class StatisticsCount extends Model
         $periods['avg'] = [
             'id' => 'avg',
             'title' => 'Среднее',
-            'startDate' => '',
-            'endDate' => '',
+            'startDate' => FinancialPeriods::getPeriodForCurrentDate()->nach,
+            'endDate' => FinancialPeriods::getPeriodForCurrentDate()->okonch,
         ];
         return $periods;
     }

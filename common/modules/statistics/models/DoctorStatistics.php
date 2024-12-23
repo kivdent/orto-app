@@ -81,6 +81,7 @@ class DoctorStatistics extends \yii\base\Model
                 $seconds_total = [];
 
                 foreach ($this->periods as $period) {
+                    if ($period['id']== 'avg') continue;
                     $revenue = $this->getRevenueDoctorForPeriod($employee_id, $period['startDate'], $period['endDate']);
                     $revenue_total[] = $revenue;
 
@@ -135,22 +136,23 @@ class DoctorStatistics extends \yii\base\Model
     {
         switch ($periodType) {
             case self::TYPE_PERIOD_FINANCIAL:
-                $periods = FinancialPeriods::find()->orderBy('id DESC')->limit($periodsBefore)->all();
-                foreach ($periods as $period) {
-                    array_unshift($this->periods,
-                        [
-                            'id' => $period->id,
-                            'title' => UserInterface::getMonthNameFromDate($period->nach),
-                            'startDate' => $period->nach,
-                            'endDate' => $period->okonch,
-                        ]);
-                }
-                $this->periods['avg'] = [
-                    'id' => 'avg',
-                    'title' => 'Среднее',
-                    'startDate' => '',
-                    'endDate' => '',
-                ];
+//                $periods = FinancialPeriods::find()->orderBy('id DESC')->limit($periodsBefore)->all();
+//                foreach ($periods as $period) {
+//                    array_unshift($this->periods,
+//                        [
+//                            'id' => $period->id,
+//                            'title' => UserInterface::getMonthNameFromDate($period->nach),
+//                            'startDate' => $period->nach,
+//                            'endDate' => $period->okonch,
+//                        ]);
+//                }
+//                $this->periods['avg'] = [
+//                    'id' => 'avg',
+//                    'title' => 'Среднее',
+//                    'startDate' => FinancialPeriods::getPeriodForCurrentDate()->nach,
+//                    'endDate' => FinancialPeriods::getPeriodForCurrentDate()->okonch,
+//                ];
+                $this->periods=StatisticsCount::getPeriods();
                 break;
 
             case self::TYPE_PERIOD_DAILY:

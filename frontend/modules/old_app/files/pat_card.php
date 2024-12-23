@@ -805,7 +805,7 @@ switch ($_GET['action']) {
                                 $row = mysqli_fetch_array($result);
                                 echo "<option value='" . $row['nazv'] . " \n'>" . $row['nazv'] . "</option>";
                             }
-                            ECHO " </select>";
+                            echo " </select>";
                             /* echo "<script type=\"text/javascript\">
                   $('#add_work_list').dblclick(function(){
 
@@ -1191,7 +1191,7 @@ switch ($_GET['action']) {
                                 $row = mysqli_fetch_array($result);
                                 echo "<option value='" . $row['nazv'] . " \n'>" . $row['nazv'] . "</option>";
                             }
-                            ECHO " </select>";
+                            echo " </select>";
                             echo "<script type=\"text/javascript\">
                  $('#add_work_list').dblclick(function(){
 
@@ -1477,6 +1477,8 @@ function MM_jumpMenu2(targ,selObj,restore){
             $query = "SELECT `igv`.`izn`, `igv`.`izk`, `igv`.`summ`, `psr`.`s1`, `psr`.`s2`, `psr`.`s3`, `psr`.`s4`, `psr`.`s5`, `psr`.`s6`, `kontr_osm`.`osm`, `kontr_osm`.`short`, `kontr_osm`.`work` FROM `kontr_osm` LEFT JOIN `igv` ON `igv`.`id` = `kontr_osm`.`igv` LEFT JOIN `psr` ON `psr`.`id` = `kontr_osm`.`psr` WHERE (`kontr_osm`.`id` = " . $ko . ")";
             //echo $query."<br>";
             $result = sql_query($query, 'orto', 0);
+            //нАЧАЛО
+            if ($result){
             $count = mysqli_num_rows($result);
             $row = mysqli_fetch_array($result);
             $igv = $row['summ'];
@@ -1617,9 +1619,9 @@ ORDER BY `sostzubosm`.`NZuba` ASC
             echo "<div align='left'><br><br>Планируемая работа во время осмотра<br><textarea name='work' id='work' rows='10' cols='77' >" . $work . "</textarea>";
 
         }
-        //include("footer2.php");
-        ////exit;
-
+    //include("footer2.php");
+    ////exit;Конец
+}
         break;
 
 
