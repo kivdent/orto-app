@@ -180,7 +180,7 @@ class Employee extends \yii\db\ActiveRecord
 
     public function getPositionName()
     {
-        return $this->position->getName();
+        return $this->position?->getName();
     }
 
     public function getFullName()

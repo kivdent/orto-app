@@ -74,8 +74,8 @@ class ScheduleController extends Controller
             $date = strtotime('now');
         }
         $disabled = $doctor_id == 'all' ? false : true;
-        $doctor_id = Yii::$app->request->post('AppointmentsDay')['vrachID'] ? Yii::$app->request->post('AppointmentsDay')['vrachID'] : $doctor_id;
-        $date = Yii::$app->request->post('AppointmentsDay')['date'] ? strtotime(Yii::$app->request->post('AppointmentsDay')['date']) : $date;
+        $doctor_id = isset(Yii::$app->request->post('AppointmentsDay')['vrachID']) ? Yii::$app->request->post('AppointmentsDay')['vrachID'] : $doctor_id;
+        $date = isset(Yii::$app->request->post('AppointmentsDay')['date']) ? strtotime(Yii::$app->request->post('AppointmentsDay')['date']) : $date;
 
         if ($doctor_id == 'all') {
             $model = new AppointmentsDay([

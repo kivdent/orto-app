@@ -42,7 +42,7 @@ class InvoiceFormWidget extends \yii\base\Widget
     {
         $invoice = Invoice::findOne($id);
         $html = "";
-        if ($invoice->payments) {
+        if ($invoice?->payments) {
             $html .= '<table class="table">';
             $html .= '<caption>Оплаты по счёту</caption>';
             foreach ($invoice->payments as $early_payment) {

@@ -38,7 +38,7 @@ $this->title = 'Сотрудники';
                 'format' => 'raw',
                 'value' => function($searchModel) {
                     
-                    return $searchModel->position['name'];
+                    return $searchModel->positionName;
                 }
             ],
         //'dtel',
