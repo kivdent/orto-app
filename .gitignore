@@ -48,3 +48,4 @@ phpunit.phar
 /pma/
 /frontend/web/images/patient/
 /common/modules/documents/templates/
+/vendor_2/
