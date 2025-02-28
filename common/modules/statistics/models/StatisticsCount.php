@@ -284,7 +284,7 @@ class StatisticsCount extends Model
         $spreadsheet->removeSheetByIndex($sheetIndex);
         $writer = new Xlsx($spreadsheet);
         $fileName = 'pricelist.xlsx';
-        $writer->save($fileName);
+        $writer->save('php://output');
         return $fileName;
     }
 
