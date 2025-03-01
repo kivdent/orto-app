@@ -2,8 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use kartik\widgets\TimePicker;
-
+//use kartik\widgets\TimePicker;
+use kartik\time\TimePicker;
 /* @var $this yii\web\View */
 /* @var $model common\modules\schedule\models\TimeSheet */
 /* @var $form yii\widgets\ActiveForm */

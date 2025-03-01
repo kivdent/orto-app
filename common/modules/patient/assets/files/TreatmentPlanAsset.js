@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $('#treatment-plan-body').on('change', '.operation', function () {
             var data = "id=" + this.value;
             var elemets_id = this.id.split("-");
@@ -49,14 +50,56 @@ $(document).ready(function () {
 
         }
     )
-    $('#treatment-plan-body').on('keyup', '.price_from',function () {
-            var price_from_value=this.value;
-            var price_to = $(this).parents('.price-block-interval').find('.price_to');
-            var price_to_value=Math.ceil((price_from_value*1.15) / 10) * 10;
-            price_to.val(price_to_value);
+    $('#treatment-plan-body').on('keyup', '.price_from', function () {
+        var price_from_value = this.value;
+        var price_to = $(this).parents('.price-block-interval').find('.price_to');
+        var price_to_value = Math.ceil((price_from_value * 1.15) / 10) * 10;
+        price_to.val(price_to_value);
     });
 
     function setPrices() {
         alert('Error!');
     }
+
+
+    // // "kartik-v/yii2-widget-select2"
+    // var $hasSelect2 = $(widgetOptionsRoot.widgetItem).find('[data-krajee-select2]');
+    //
+    // if ($hasSelect2.length > 0) {
+    //     $hasSelect2.each(function() {
+    //         var id = $(this).attr('id');
+    //         var configSelect2 = eval($(this).attr('data-krajee-select2'));
+    //
+    //         if ($(this).data('select2')) {
+    //             $(this).select2('destroy');
+    //         }
+    //
+    //         var configDepdrop = $(this).data('depdrop');
+    //         if (configDepdrop) {
+    //             configDepdrop = $.extend(true, {}, configDepdrop);
+    //             $(this).removeData().off();
+    //             $(this).unbind();
+    //             _restoreKrajeeDepdrop($(this));
+    //         }
+    //
+    //         // $.when($('#' + id).select2(configSelect2)).done(initSelect2Loading(id, '.select2-container--krajee'));
+    //         $.when($('#' + id).select2(configSelect2)).done(initS2Loading(id, '.select2-container--krajee'));
+    //         var kvClose = 'kv_close_' + id.replace(/\-/g, '_');
+    //
+    //         // $('#' + id).on('select2:opening', function(ev) {
+    //         //     initSelect2DropStyle(id, kvClose, ev);
+    //         // });
+    //
+    //         $('#' + id).on('select2:unselect', function() {
+    //             window[kvClose] = true;
+    //         });
+    //
+    //         if (configDepdrop) {
+    //             var loadingText = (configDepdrop.loadingText) ? configDepdrop.loadingText : 'Loading ...';
+    //             initDepdropS2(id, loadingText);
+    //         }
+    //     });
+    // }
+
+
 });

@@ -214,7 +214,7 @@ $this->title = "Статистика записей пациентов";
                                     <?php foreach ($init_app as $appointment): ?>
                                         <?php if ($appointment->initialDateFlag): ?>
                                             <tr>
-                                                <td><?= $i.' '.Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
+                                                <td><?= Html::a($appointment->patient->fullName, ['/patient/manage/update', 'patient_id' => $appointment->patient->id], ['target' => '_blanc']) ?></td>
                                                 <td><?= $appointment->appointments_day->doctor->fullName ?></td>
                                                 <td><?= $appointment->employee->fullName ?></td>
                                                 <td><?= $appointment->appointments_day->date ?>

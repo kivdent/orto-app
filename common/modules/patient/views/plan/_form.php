@@ -6,7 +6,7 @@ use common\modules\pricelists\models\Pricelist;
 
 //use wbraganca\dynamicform\DynamicFormWidget заменён на kidzen\dynamicform\DynamicFormWidget, для совместимости с kartik\select2\Select2;
 use kartik\select2\Select2;
-use kidzen\dynamicform\DynamicFormWidget;
+use wbraganca\dynamicform\DynamicFormWidget;
 use common\modules\patient\assets\TreatmentPlanAsset;
 use common\modules\catalogs\widgets\DiagnosisInputWidget;
 use common\modules\invoice\widgets\form\InvoiceFormWidget;

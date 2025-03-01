@@ -85,7 +85,7 @@ class PlanItem extends \common\models\PlanItem
 
     private function setPrice_actual()
     {
-        return $this->operation->actualPrice;
+        return $this?->operation?->actualPrice;
     }
 
     public function rules()
