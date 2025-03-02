@@ -1474,8 +1474,12 @@ function MM_jumpMenu2(targ,selObj,restore){
             }
             //кпу
 
-            $query = "SELECT `igv`.`izn`, `igv`.`izk`, `igv`.`summ`, `psr`.`s1`, `psr`.`s2`, `psr`.`s3`, `psr`.`s4`, `psr`.`s5`, `psr`.`s6`, `kontr_osm`.`osm`, `kontr_osm`.`short`, `kontr_osm`.`work` FROM `kontr_osm` LEFT JOIN `igv` ON `igv`.`id` = `kontr_osm`.`igv` LEFT JOIN `psr` ON `psr`.`id` = `kontr_osm`.`psr` WHERE (`kontr_osm`.`id` = " . $ko . ")";
+            if (isset($ko) and $ko>0)
+            {
+                $query = "SELECT `igv`.`izn`, `igv`.`izk`, `igv`.`summ`, `psr`.`s1`, `psr`.`s2`, `psr`.`s3`, `psr`.`s4`, `psr`.`s5`, `psr`.`s6`, `kontr_osm`.`osm`, `kontr_osm`.`short`, `kontr_osm`.`work` FROM `kontr_osm` LEFT JOIN `igv` ON `igv`.`id` = `kontr_osm`.`igv` LEFT JOIN `psr` ON `psr`.`id` = `kontr_osm`.`psr` WHERE (`kontr_osm`.`id` = " . $ko . ")";
+
             //echo $query."<br>";
+            //\common\modules\userInterface\models\UserInterface::getVar($query);
             $result = sql_query($query, 'orto', 0);
             //нАЧАЛО
             if ($result){
@@ -1491,7 +1495,7 @@ function MM_jumpMenu2(targ,selObj,restore){
                 else  $s[$i] = floor($row[($i + 2)] / 2) . "*";
             }
             $osm = $row['osm'];
-
+            }
 
             //Показывать при коротком осмотре
             if (!($short_ko)) {

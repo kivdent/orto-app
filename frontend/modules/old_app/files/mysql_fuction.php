@@ -1,10 +1,17 @@
     <?php
+
+    use common\modules\userInterface\models\UserInterface;
     use Yii;
 
     function sql_query($query,$bd='orto',$echo_query='false')
 {
     $dbname = explode("=", Yii::$app->getDb()->dsn);
-   // \common\modules\userInterface\models\UserInterface::getVar($dbname);
+
+    $username=Yii::$app->getDb()->username;
+    $password=Yii::$app->getDb()->password;
+
+    //UserInterface::getVar($query);
+    $host=explode(";", $dbname[1])[0];
     $dbname = $dbname[2];
 
     //выбираем базу
@@ -15,7 +22,7 @@
         //$charset="utf8";
     break;
     case "orto"://соединение с основной базой программы
-        $link = mysqli_connect("database" , "orto", "445223", "$dbname");
+        $link = mysqli_connect("$host" , "$username", "$password", "$dbname");
         //$charset="cp1251";
         $charset="utf8";
     break;
@@ -41,6 +48,7 @@ if ($result = mysqli_query($link, "SET character_set_results = '".$charset."', c
 {
  //echo "cp1251";   
 }
+
 if ($result = mysqli_query($link, $query)) 
 {
     $last_id=mysqli_insert_id($link);//возвращает номер последненго вставленного элемента
