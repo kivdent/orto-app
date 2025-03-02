@@ -26,7 +26,8 @@
         "kartik-v/yii2-icons": "^1.4@dev",
         "arhitector/yandex": "^1.2",
         "phpoffice/phpword": "dev-master",
-        "wbraganca/yii2-dynamicform": "^2.0"
+        "wbraganca/yii2-dynamicform": "^2.0",
+        "kartik-v/yii2-widget-fileinput": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

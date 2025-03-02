@@ -300,6 +300,8 @@ class UserInterface
     {
         $hours = intdiv($time, 3600);
         $minutes = intdiv($time % 3600, 60);
+//        $hours = floor($time/3600);
+//        $minutes = floor(($time % 3600)/ 60);
         $minutes = $minutes < 10 ? "0" . $minutes : $minutes;
         return $hours . ":" . $minutes;
     }

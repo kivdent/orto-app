@@ -2,8 +2,9 @@
 
 use yii\helpers\Html;
 use common\modules\pricelists\widgets\PriceListsWidget;
-use kartik\widgets\FileInput;
+//use kartik\widgets\FileInput;
 use yii\bootstrap\Modal;
+use kartik\file\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
