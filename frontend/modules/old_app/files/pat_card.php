@@ -1370,7 +1370,7 @@ VALUES ";
                     $query = "UPDATE `disp_card` SET `vrach`='" . $_GET['vrach'] . "' WHERE `id`=" . $_GET['dc'];
                     echo $query . "<br>";
                     $result = sql_query($query, 'orto', 0);
-                    $row = mysqli_fetch_array($result);
+                    //$row = mysqli_fetch_array($result);
                     ret("pat_card.php?id=" . $_GET['id'] . "&action=disp");
                     //include("footer2.php");
                     //exit;
