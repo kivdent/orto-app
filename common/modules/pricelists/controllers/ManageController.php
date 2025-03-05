@@ -190,7 +190,7 @@ class ManageController extends Controller
                 }catch (Exception $e) {
                     echo 'Caught exception: ',  $e->getMessage(), "\n";
                     UserInterface::getVar($newPricesArray,false);
-                    UserInterface::getVar($value,false);
+                    UserInterface::getVar($value);
                 }
 
             }
