@@ -179,18 +179,22 @@ class ManageController extends Controller
 
     public function actionSaveDraft()
     {
-
+        Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->request->isAjax) {
             $newPricesArray = [];
             foreach (Yii::$app->request->post('newPricesArray') as $value) {
+//                $newPricesArray[$value['id']]['price'] = $value['price'];
+//                $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
+//                $newPricesArray[$value['id']]['active'] = $value['active'];
                 try {
                     $newPricesArray[$value['id']]['price'] = $value['price'];
                     $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
                     $newPricesArray[$value['id']]['active'] = $value['active'];
-                }catch (Exception $e) {
-                    echo 'Caught exception: ',  $e->getMessage(), "\n";
+                }
+                catch (Exception $e) {
+                    echo 'Caught exception: ', $e->getMessage(), "\n";
                     echo phpinfo();
-                    UserInterface::getVar($newPricesArray,false);
+                    UserInterface::getVar($newPricesArray, false);
                     UserInterface::getVar($value);
                 }
 
@@ -286,7 +290,9 @@ class ManageController extends Controller
         Yii::$app->session->setFlash('success', 'Соответствие обновлено');
         return $this->redirect('/pricelists/manage/compliance-technical-order');
     }
-    public function actionDeleteCompliance(){
+
+    public function actionDeleteCompliance()
+    {
         PricelistItemCompliances::findOne(Yii::$app->request->get('id'))->delete();
         return $this->redirect('/pricelists/manage/compliance-technical-order');
 

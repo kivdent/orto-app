@@ -95,7 +95,7 @@ $(document).ready(function () {
             success: function (response) {
                 // console.log(response.url);
                 // alert('Успешно');
-               //window.location = response.url;
+               window.location = response.url;
             },
             error: function () {
                 alert('Ошибка запроса');
