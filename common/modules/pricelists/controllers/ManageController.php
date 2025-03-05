@@ -189,6 +189,7 @@ class ManageController extends Controller
                     $newPricesArray[$value['id']]['active'] = $value['active'];
                 }catch (Exception $e) {
                     echo 'Caught exception: ',  $e->getMessage(), "\n";
+                    echo phpinfo();
                     UserInterface::getVar($newPricesArray,false);
                     UserInterface::getVar($value);
                 }
