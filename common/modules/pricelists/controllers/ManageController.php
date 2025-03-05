@@ -7,6 +7,7 @@ use common\modules\pricelists\models\PricelistItemCompliances;
 use common\modules\pricelists\models\PricelistItems;
 use common\modules\pricelists\models\Prices;
 use common\modules\userInterface\models\UserInterface;
+use Exception;
 use Yii;
 use common\modules\pricelists\models\Pricelist;
 use yii\data\ActiveDataProvider;
@@ -182,10 +183,16 @@ class ManageController extends Controller
         if (Yii::$app->request->isAjax) {
             $newPricesArray = [];
             foreach (Yii::$app->request->post('newPricesArray') as $value) {
-                UserInterface::getVar($value);
-                $newPricesArray[$value['id']]['price'] = $value['price'];
-                $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
-                $newPricesArray[$value['id']]['active'] = $value['active'];
+                try {
+                    $newPricesArray[$value['id']]['price'] = $value['price'];
+                    $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
+                    $newPricesArray[$value['id']]['active'] = $value['active'];
+                }catch (Exception $e) {
+                    echo 'Caught exception: ',  $e->getMessage(), "\n";
+                    echo  $newPricesArray[$value['id']];
+                    echo $value;
+                }
+
             }
         }
 
