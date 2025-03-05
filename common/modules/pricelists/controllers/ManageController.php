@@ -178,7 +178,7 @@ class ManageController extends Controller
 
     public function actionSaveDraft()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+        UserInterface::getVar(Yii::$app->request->post('newPricesArray'));
         if (Yii::$app->request->isAjax) {
             $newPricesArray = [];
             foreach (Yii::$app->request->post('newPricesArray') as $value) {
@@ -187,6 +187,7 @@ class ManageController extends Controller
                 $newPricesArray[$value['id']]['active'] = $value['active'];
             }
         }
+
         return ['url' => '/' . Pricelist::getBatchEditingXls($newPricesArray)];
     }
 
