@@ -182,7 +182,7 @@ class ManageController extends Controller
         if (Yii::$app->request->isAjax) {
             $newPricesArray = [];
             foreach (Yii::$app->request->post('newPricesArray') as $value) {
-                UserInterface::getVar(Yii::$app->request->post($value));
+                UserInterface::getVar($value);
                 $newPricesArray[$value['id']]['price'] = $value['price'];
                 $newPricesArray[$value['id']]['coefficient'] = $value['coefficient'];
                 $newPricesArray[$value['id']]['active'] = $value['active'];
