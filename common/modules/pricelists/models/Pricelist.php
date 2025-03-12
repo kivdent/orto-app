@@ -45,7 +45,9 @@ class Pricelist extends \common\models\Pricelist
             } else {
                 $sheet_name = $preysk_name;
             }
-
+            if ($spreadsheet->sheetNameExists($sheet_name)) {
+                $sheet_name = mb_substr($preysk_name, 0,28).rand(1,99);
+            }
             $a = 1;
 
             if ($pricelist->activeCategoryes) {

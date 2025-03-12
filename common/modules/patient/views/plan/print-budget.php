@@ -52,7 +52,7 @@ PrintAsset::register($this);
         </div>
         <div class="col-xs-6">
             Врач: <?= $model->getAuthorName() ?><br>
-            Диагноз: <?= Html::encode($model->diagnosis['Nazv']) ?>
+            Диагноз: <?= Html::encode($model->diagnosis?->Nazv) ?>
         </div>
     </div>
 
