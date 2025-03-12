@@ -38,7 +38,7 @@ class Pricelist extends \common\models\Pricelist
 
         $spreadsheet = new Spreadsheet();
 
-        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE])->all() as $pricelist) {
+        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE,'type'=>[Pricelist::TYPE_MANIPULATIONS,Pricelist::TYPE_MATERIALS,Pricelist::TYPE_HYGIENE_PRODUCTS]])->all() as $pricelist) {
             $preysk_name = $pricelist->title;
             if (mb_strlen($preysk_name) > 31) {
                 $sheet_name = mb_substr($preysk_name, 0, 30);
@@ -166,7 +166,9 @@ class Pricelist extends \common\models\Pricelist
             } else {
                 $sheet_name = $preysk_name;
             }
-
+            if ($spreadsheet->sheetNameExists($sheet_name)) {
+                $sheet_name = mb_substr($preysk_name, 0,28).rand(1,99);
+            }
             $a = 1;
 
             if ($pricelist->activeCategoryes) {
