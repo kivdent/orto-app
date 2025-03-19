@@ -59,6 +59,9 @@ if ($type == PriceListsWidget::TYPE_COMPLIANCE) {
                                 <p>
                                 <h5><span class="label label-default">
                                     Тип прейскуранта: <?= $priceList->type ? $priceList->typeList[$priceList->type] : 'Не определён' ?>
+                                </span>
+                                    <span class="label label-default">
+                                    Специализация прейскуранта: <?= $priceList->specialization ? $priceList->getSpecializationList()[$priceList->specialization] : 'Не определён' ?>
                                 </span></h5>
                                 <?= Html::a('Изменить', ['update', 'id' => $priceList->id], ['class' => 'btn btn-primary btn-xs']) ?>
                                 <?= Html::a($priceList->active ? 'Деактивировать' : 'Активировать',

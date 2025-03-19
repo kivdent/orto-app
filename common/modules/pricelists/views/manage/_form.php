@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="col-lg-3">
         <?= $form->field($model, 'type')->dropDownList($model->getTypeList()) ?>
+    </div>   <div class="col-lg-3">
+        <?= $form->field($model, 'specialization')->dropDownList($model->getSpecializationList()) ?>
     </div>
 
 </div>

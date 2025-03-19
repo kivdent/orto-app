@@ -25,7 +25,7 @@ return [
             ['label' => 'Табель', 'url' => '/schedule/time-sheet', 'roles' => ['accountant', 'director','admin', 'radiologist','recorder','senior_recorder',]],
 //            ['label' => 'Учёт снимков', 'url' => '/old_app/rentgen.php?type=today', 'roles' => ['radiologist', 'therapist', 'orthopedist', 'surgeon', 'orthodontist',]],
             ['label' => 'Учёт звонков', 'url' => '/schedule/incoming-calls', 'roles' => ['admin','senior_recorder','recorder']],
-            ['label' => 'VUE', 'url' => '/schedule/appointment/vue', 'roles' => ['admin',]],
+           // ['label' => 'VUE', 'url' => '/schedule/appointment/vue', 'roles' => ['admin',]],
         ],
         // 'moduleMenu' => '@common/modules/clinic/components/moduleMenu.php',
     ],

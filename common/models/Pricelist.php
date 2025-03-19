@@ -8,14 +8,15 @@ use Yii;
  * This is the model class for table "pricelist".
  *
  * @property int $id
- * @property string $title
- * @property int $active
- * @property string $type
- *
- * @property PricelistItems[] $pricelistItems
+ * @property string|null $title
+ * @property int|null $active
+ * @property string|null $type
+ * @property string|null $specialization
  */
 class Pricelist extends \yii\db\ActiveRecord
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -30,9 +31,9 @@ class Pricelist extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['title', 'active', 'type', 'specialization'], 'default', 'value' => null],
             [['active'], 'integer'],
-            [['title', 'type'], 'string', 'max' => 255],
-            [['title', 'type'], 'required'],
+            [['title', 'type', 'specialization'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,14 +47,8 @@ class Pricelist extends \yii\db\ActiveRecord
             'title' => 'Title',
             'active' => 'Active',
             'type' => 'Type',
+            'specialization' => 'Specialization',
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPricelistItems()
-    {
-        return $this->hasMany(PricelistItems::className(), ['pricelist_id' => 'id']);
-    }
 }

@@ -6,6 +6,7 @@ namespace common\modules\pricelists\models;
 
 use common\models\Settings;
 use common\modules\clinic\models\Clinic;
+use common\modules\schedule\models\AppointmentsDay;
 use common\modules\userInterface\models\UserInterface;
 use DOMDocument;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -38,7 +39,7 @@ class Pricelist extends \common\models\Pricelist
 
         $spreadsheet = new Spreadsheet();
 
-        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE,'type'=>[Pricelist::TYPE_MANIPULATIONS,Pricelist::TYPE_MATERIALS,Pricelist::TYPE_HYGIENE_PRODUCTS]])->all() as $pricelist) {
+        foreach (Pricelist::find()->where(['active' => Pricelist::STATUS_ACTIVE, 'type' => [Pricelist::TYPE_MANIPULATIONS, Pricelist::TYPE_MATERIALS, Pricelist::TYPE_HYGIENE_PRODUCTS]])->all() as $pricelist) {
             $preysk_name = $pricelist->title;
             if (mb_strlen($preysk_name) > 31) {
                 $sheet_name = mb_substr($preysk_name, 0, 30);
@@ -46,7 +47,7 @@ class Pricelist extends \common\models\Pricelist
                 $sheet_name = $preysk_name;
             }
             if ($spreadsheet->sheetNameExists($sheet_name)) {
-                $sheet_name = mb_substr($preysk_name, 0,28).rand(1,99);
+                $sheet_name = mb_substr($preysk_name, 0, 28) . rand(1, 99);
             }
             $a = 1;
 
@@ -62,7 +63,7 @@ class Pricelist extends \common\models\Pricelist
                 $sheet->getHeaderFooter()
                     ->setOddHeader('&C' . $preysk_name);
                 $sheet->getHeaderFooter()
-                    ->setOddFooter('&L' . date('d.m.Y') . '&RДиректор '.Clinic::getClinicShortName().' '.Clinic::getDirectorName());
+                    ->setOddFooter('&L' . date('d.m.Y') . '&RДиректор ' . Clinic::getClinicShortName() . ' ' . Clinic::getDirectorName());
 
                 $sheet->setCellValue('A' . $a, $preysk_name);
 
@@ -147,7 +148,7 @@ class Pricelist extends \common\models\Pricelist
         );
         $spreadsheet->removeSheetByIndex($sheetIndex);
         $writer = new Xlsx($spreadsheet);
-        $fileName = 'pricelist'.date('_d-m-Y').'.xlsx';
+        $fileName = 'pricelist' . date('_d-m-Y') . '.xlsx';
         $writer->save($fileName);
         return $fileName;
     }
@@ -167,7 +168,7 @@ class Pricelist extends \common\models\Pricelist
                 $sheet_name = $preysk_name;
             }
             if ($spreadsheet->sheetNameExists($sheet_name)) {
-                $sheet_name = mb_substr($preysk_name, 0,28).rand(1,99);
+                $sheet_name = mb_substr($preysk_name, 0, 28) . rand(1, 99);
             }
             $a = 1;
 
@@ -296,8 +297,8 @@ class Pricelist extends \common\models\Pricelist
                             'coefficient' => $cells->get('F' . $row)->getValue(),
                             'active' => $cells->get('H' . $row)->getValue(),
                         ];
-                    }  catch (\Throwable $e){
-                        return $e.'Лист: '.$sheet->getTitle().' Строка: '.$row.$cells->get('F' . $row)->getValue();
+                    } catch (\Throwable $e) {
+                        return $e . 'Лист: ' . $sheet->getTitle() . ' Строка: ' . $row . $cells->get('F' . $row)->getValue();
                     }
                 }
             }
@@ -418,6 +419,7 @@ class Pricelist extends \common\models\Pricelist
             'title' => 'Название',
             'active' => 'Активен',
             'type' => 'Тип',
+            'specialization' => 'Специализация',
         ];
     }
 
@@ -513,5 +515,10 @@ class Pricelist extends \common\models\Pricelist
     static function getListArray()
     {
         return ArrayHelper::map(self::getList(), 'id', 'title');
+    }
+
+    public function getSpecializationList()
+    {
+        return AppointmentsDay::getSpezializationLabels();
     }
 }
