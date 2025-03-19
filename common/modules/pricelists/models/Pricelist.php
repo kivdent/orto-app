@@ -39,6 +39,7 @@ class Pricelist extends \common\models\Pricelist
     const SPECIALIZATION_HYGIENIC = 'Hygienic';
     const SPECIALIZATION_SELF_LABORATORY = 'Self laboratory';
     const SPECIALIZATION_OTHER_LABORATORY = 'Other laboratory';
+    const SPECIALIZATION_SELF_PRICELIST = 'Self pricelist';
 
     public static function saveToYandexDisk()
     {
@@ -545,6 +546,7 @@ class Pricelist extends \common\models\Pricelist
             self::SPECIALIZATION_HYGIENIC => 'Гигиенические средства',
             self::SPECIALIZATION_SELF_LABORATORY => 'Своя лаборатория',
             self::SPECIALIZATION_OTHER_LABORATORY => 'Другие лаборатории',
+            self::SPECIALIZATION_SELF_PRICELIST => 'Внутренний прейскурант',
         ];
     }
 }
