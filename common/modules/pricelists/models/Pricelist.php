@@ -27,6 +27,19 @@ class Pricelist extends \common\models\Pricelist
     const TYPE_HYGIENE_PRODUCTS = 'hygiene_products';
     const TYPE_TECHNICAL_ORDER = 'technical_order';
 
+    const SPECIALIZATION_THERAPY = 'Therapy';
+    const SPECIALIZATION_ORTHODONTICS = 'Orthodontics';
+    const SPECIALIZATION_ORTHOPEDICS = 'Orthopedics';
+    const SPECIALIZATION_SURGERY = 'Surgery';
+    const SPECIALIZATION_PEDIATRICS = 'Pediatrics';
+    const SPECIALIZATION_PERIODONTOLOGY = 'Periodontology';
+    const SPECIALIZATION_COMMON = 'Common';
+    const SPECIALIZATION_XRAY = 'xray';
+    const SPECIALIZATION_MATERIALS = 'Materials';
+    const SPECIALIZATION_HYGIENIC = 'Hygienic';
+    const SPECIALIZATION_SELF_LABORATORY = 'Self laboratory';
+    const SPECIALIZATION_OTHER_LABORATORY = 'Other laboratory';
+
     public static function saveToYandexDisk()
     {
         $filename = self::getXlsxPriceList(false);
@@ -519,6 +532,15 @@ class Pricelist extends \common\models\Pricelist
 
     public function getSpecializationList()
     {
-        return AppointmentsDay::getSpezializationLabels();
+        return [
+            self::SPECIALIZATION_THERAPY => 'Терапия',
+            self::SPECIALIZATION_ORTHODONTICS => 'Ортодонтия',
+            self::SPECIALIZATION_ORTHOPEDICS => 'Ортопедия',
+            self::SPECIALIZATION_SURGERY => 'Хирургия',
+            self::SPECIALIZATION_PEDIATRICS => 'Детстсво',
+            self::SPECIALIZATION_PERIODONTOLOGY => 'Пародонтология',
+            self::SPECIALIZATION_XRAY => 'Рентгенология',
+            self::SPECIALIZATION_COMMON => 'Общий',
+        ];
     }
 }
