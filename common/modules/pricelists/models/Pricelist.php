@@ -541,6 +541,10 @@ class Pricelist extends \common\models\Pricelist
             self::SPECIALIZATION_PERIODONTOLOGY => 'Пародонтология',
             self::SPECIALIZATION_XRAY => 'Рентгенология',
             self::SPECIALIZATION_COMMON => 'Общий',
+            self::SPECIALIZATION_MATERIALS => 'Материалы',
+            self::SPECIALIZATION_HYGIENIC => 'Гигиенические средства',
+            self::SPECIALIZATION_SELF_LABORATORY => 'Своя лаборатория',
+            self::SPECIALIZATION_OTHER_LABORATORY => 'Другие лаборатории',
         ];
     }
 }
