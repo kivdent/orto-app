@@ -3,6 +3,7 @@
 namespace common\modules\documents\controllers;
 
 use common\components\Storage;
+use common\modules\documents\models\Documents;
 use common\modules\documents\models\DocumentTemplateWord;
 use common\modules\patient\models\Patient;
 use common\modules\userInterface\models\UserInterface;
@@ -49,7 +50,6 @@ class ManageController extends Controller
         $this->layout = '@frontend/views/layouts/light';
         if (Yii::$app->request->get('patient_id') !== null) {
             Yii::$app->userInterface->params['patient_id'] = Yii::$app->request->get('patient_id');
-
         }
         return true; // or false to not run the action
     }
@@ -271,4 +271,24 @@ class ManageController extends Controller
         return $this->redirect([$path . 'temp.docx']);
     }
 
+    public function actionSign($hash)
+    {
+        $document = new Documents(
+            [
+                'hash' => $hash,
+                'employee_id' => UserInterface::getEmployeeId(),
+                'signed' => true
+            ]);
+        $document->save(false);
+
+        return $this->redirect(['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']]);
+    }
+
+    public function actionUnsign($document_id)
+    {
+        $document = Documents::findOne($document_id);
+        $document->delete();
+
+        return $this->redirect(['index', 'patient_id' => Yii::$app->userInterface->params['patient_id']]);
+    }
 }

@@ -45,7 +45,23 @@ class DocumentTemplateWord extends \common\models\DocumentTemplateWord
             foreach (FileHelper::findFiles(Yii::getAlias('@frontend') . '/web' . self::getDocPath($patient_id)) as $filePath) {
                 $fileName = explode('/', $filePath);
                 $fileName = end($fileName);
-                $links [] = Html::a($fileName, self::getDocPath($patient_id) . $fileName, ['target' => '_blank']);
+                $hash=md5(self::getDocPath($patient_id) . $fileName);
+                $document=Documents::findOne(['hash' => $hash]);
+                if ( $document!== null){
+                    $button=Html::a('Снять подпись',[
+                        'unsign',
+                        'document_id'=>$document->id,'patient_id'=>$patient_id],
+                        ['class'=>'btn btn-success btn-xs']
+                    );
+                }else{
+                    $button=Html::a(
+                        'Подпсать',
+                        ['sign','hash'=>$hash,'patient_id'=>$patient_id],
+                        ['class'=>'btn btn-danger btn-xs']
+                    );
+                }
+
+                $links [] = Html::a(' '.$fileName, self::getDocPath($patient_id) . $fileName, ['target' => '_blank']).$button;
             }
         } catch (Exception $e) {
             $links[]='Документов нет';
