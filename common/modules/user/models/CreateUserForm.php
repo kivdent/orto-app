@@ -90,7 +90,8 @@ class CreateUserForm extends Model {
     }
     public function attributeLabels()
     {
-        $labels= User::attributeLabels();
+        $user=new User();
+        $labels= $user->attributeLabels();
         $labels['password']='Пароль';
         $labels['roles']='Роль пользователя';
         return $labels;
