@@ -292,7 +292,7 @@ $(document).ready(async function () {
         el = e.target;
 
         let text = 'Здравствуйте, напоминаем, что вы назначены на приём ' + el.getAttribute('date') + ' в ' + el.getAttribute('time') +
-            ' в стоматологическую клинику Орто-Премьер, по адресу Запорожская 69А';//TODO создать метод по созданию сообщения
+            ' в стоматологическую клинику Орто-Премьер, по адресу '+el.getAttribute('clinic_address');//TODO создать метод по созданию сообщения
 
         //let channel_id = getChannelId();
         let phone;

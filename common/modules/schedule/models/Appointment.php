@@ -4,6 +4,7 @@
 namespace common\modules\schedule\models;
 
 use common\modules\catalogs\models\NoticeResult;
+use common\modules\clinic\models\Clinic;
 use common\modules\employee\models\Employee;
 use common\modules\patient\models\Patient;
 use common\modules\userInterface\models\UserInterface;
@@ -355,5 +356,10 @@ class Appointment extends \common\models\Appointment
     public function getDate(): string
     {
         return date('d.m.Y', $this->appointments_day->unixDate);
+    }
+
+    public function getClinicAddress()
+    {
+        return Clinic::getAddressStringForSms();
     }
 }
