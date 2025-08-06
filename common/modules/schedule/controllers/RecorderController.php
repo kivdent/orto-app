@@ -201,6 +201,7 @@ class RecorderController extends \yii\web\Controller
                 'patient_id' => $appointment->PatID,
                 'OkonchNaz' => substr($appointment->OkonchNaz, 0, -3),
                 'appointment_content' => $appointment->appointment_content,
+                'clinic_address'=>$appointment->getClinicAddress(),
             ]);
         return $html;
     }

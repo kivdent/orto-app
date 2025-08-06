@@ -296,7 +296,7 @@ $(document).ready(async function () {
 
         //let channel_id = getChannelId();
         let phone;
-
+console.log(text);
         getChat(el.getAttribute('patient_id')).then(function (result) {
             phone = result.id
         }).then(function () {
