@@ -354,7 +354,7 @@ class Invoice extends \common\models\Invoice
     public function hasTechnicalItemsCompliance()
     {
         foreach ($this->invoiceItems as $invoiceItem) {
-            if ($invoiceItem->prices->pricelistItems->hasTechnicalItemCompliance()) {
+            if ($invoiceItem->prices?->pricelistItems->hasTechnicalItemCompliance()) {
                 return true;
             }
         }
